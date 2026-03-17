@@ -76,8 +76,17 @@ paper/src/*.out
 paper/src/*.toc
 paper/src/*.synctex.gz
 paper/src/*.bak*
-archive/paper-workfiles/paper/build_submission/
+# Archive (legacy/internal — not for public release)
+archive/
+
+# Legacy mirror (shadows canonical PlatEMO classes)
+src/matlab/ivf_spea2/
+
+# Non-research files
+data/docs/
+conferences_2026.csv
+memetic_computing_submission_guidelines_summary.txt
+
 *.bak
 *.bak*
 Claude.md
-conferences_2026.csv
