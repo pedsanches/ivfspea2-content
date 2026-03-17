@@ -1,7 +1,0 @@
-timestamp,stream,expected_folders,ready_folders,progress_pct,status,details
-2026-02-19 09:16:00,engineering,9,0,0.00,RUNNING,log=logs/engineering_20260219_085814.log; current_phase=IVFSPEA2_RWMOP9_single_algo_in_progress
-2026-02-19 09:16:00,sensitivity_multiclass,360,12,3.33,RUNNING,log=logs/sensitivity_20260219_085847.log; current_problem=DTLZ2_M2_combo_13_of_90
-2026-02-19 09:16:00,modern_baselines,102,1,0.98,RUNNING,log=logs/modern_baselines_20260219_091455.log; resumed_after_fix=run_modern_baselines_scope_bug
-2026-02-19 10:05:00,engineering,9,0,0.00,RUNNING,log=logs/engineering_20260219_085814.log; tail_indicates_active_progress=RWMOP9_87pct
-2026-02-19 10:05:00,sensitivity_multiclass,360,12,3.33,RUNNING,log=logs/sensitivity_20260219_085847.log; tail_indicates_active_progress=DTLZ2_M2_combo_active
-2026-02-19 10:05:00,modern_baselines,102,1,0.98,RESTARTED,old_log=logs/modern_baselines_20260219_091455.log; new_log=logs/modern_baselines_20260219_1005_restart.log; reason=interrupted_by_user
