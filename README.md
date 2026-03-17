@@ -1,5 +1,7 @@
 # IVF-SPEA2
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19071254.svg)](https://doi.org/10.5281/zenodo.19071254)
+
 Repository for the IVF/SPEA2 manuscript, code, and reproducibility artifacts.
 
 ## Reviewer Guide
@@ -12,7 +14,7 @@ Repository for the IVF/SPEA2 manuscript, code, and reproducibility artifacts.
 - Human-readable evidence index: `results/SUBMISSION_EVIDENCE_MAP.md`
 - Machine-readable release inventory: `results/submission_release_manifest.csv`
 - Citation metadata: `CITATION.cff`
-- Historical and procedural materials: `archive/`
+- DOI: [10.5281/zenodo.19071254](https://doi.org/10.5281/zenodo.19071254)
 
 ## Canonical Implementation
 
@@ -20,9 +22,6 @@ Repository for the IVF/SPEA2 manuscript, code, and reproducibility artifacts.
 - Canonical class: `IVFSPEA2V2`
 - Canonical MATLAB path:
   - `src/matlab/lib/PlatEMO/Algorithms/Multi-objective optimization/IVF-SPEA2-V2/`
-- Legacy mirror retained only for history:
-  - `src/matlab/ivf_spea2/`
-
 For canonical reruns, add only PlatEMO to the MATLAB path and verify:
 
 ```matlab

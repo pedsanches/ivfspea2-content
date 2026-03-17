@@ -14,10 +14,10 @@ authors:
   - family-names: "Camilo-Junior"
     given-names: "Celso G."
 abstract: "Code, processed data, manuscript sources, and reproducibility artifacts for the IVF/SPEA2 study."
-repository-code: "https://github.com/pedsanches/IVF-SPEA2"
-url: "https://github.com/pedsanches/IVF-SPEA2/releases/tag/submission-snapshot-2026-03"
-version: "submission-snapshot-2026-03"
-date-released: 2026-03-10
+doi: "10.5281/zenodo.19071254"
+repository-code: "https://github.com/pedsanches/ivfspea2-content"
+version: "1.0.0"
+date-released: 2026-03-17
 keywords:
   - multi-objective optimization
   - memetic computing
