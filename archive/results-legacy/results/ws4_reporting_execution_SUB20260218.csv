@@ -1,0 +1,7 @@
+script,status,exit_code,elapsed_sec,log
+src/python/analysis/computational_overhead.py,OK,0,0.31,logs/ws4/computational_overhead.log
+src/python/analysis/compute_iqr_tables.py,OK,0,0.45,logs/ws4/compute_iqr_tables.log
+src/python/analysis/script.py,OK,0,10.95,logs/ws4/script.log
+src/python/analysis/teste.py,FAIL,1,10.46,logs/ws4/teste.log
+src/python/analysis/sensitivity_analysis.py,OK,0,6.66,logs/ws4/sensitivity_analysis.log
+src/python/analysis/plot_sensitivity.py,OK,0,0.6,logs/ws4/plot_sensitivity.log

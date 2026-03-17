@@ -1,0 +1,7 @@
+display_order,case_id,display_label,problem,m,d,role,seed_base,run_selection,cycle_selection,bad_run_min_igd,notes
+1,positive_wfg7_m2,WFG7 (M=2),WFG7,2,12,positive,61000,closest_median,min_median_delta,,Out-of-sample positive case with Holm support — bi-objective for clear 2D visualisation.
+2,negative_wfg2_m2,WFG2 (M=2),WFG2,2,12,negative,62000,closest_median,max_median_delta,,Known disconnected-front weakness — bi-objective for clear 2D visualisation.
+3,bimodal_dtlz4_m2,DTLZ4 (M=2),DTLZ4,2,12,bimodal,63000,q1_q3,minmax_median_delta,0.1,Bimodal case — bi-objective for clear 2D visualisation.
+4,positive_wfg3_m3,WFG3 (M=3),WFG3,3,12,positive,51000,closest_median,min_median_delta,,Strong positive case — tri-objective for 3D visualisation.
+5,negative_wfg2_m3,WFG2 (M=3),WFG2,3,12,negative,52000,closest_median,max_median_delta,,Known disconnected-front weakness — tri-objective for 3D visualisation.
+6,bimodal_dtlz4_m3,DTLZ4 (M=3),DTLZ4,3,12,bimodal,53000,q1_q3,minmax_median_delta,0.1,Bimodal case — tri-objective for 3D visualisation.

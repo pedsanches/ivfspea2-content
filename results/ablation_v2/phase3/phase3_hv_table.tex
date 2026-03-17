@@ -1,0 +1,65 @@
+\begin{table*}[t]
+\caption{Phase 3 full-suite HV comparison (median(IQR), 60 runs). Superscripts compare IVF/SPEA2-v2 (P2\_C05) against each baseline using Mann-Whitney tests with Holm-Bonferroni correction ($\alpha=0.05$): $+$ better, $-$ worse, $\approx$ tie.}
+\label{tab:ablation_v2_phase3_hv}
+\centering\tiny
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrr}
+\toprule
+Instance & IVF/SPEA2-v2 (P2\_C05) & IVF/SPEA2-v1 & SPEA2 \\
+\midrule
+ZDT1(M=2) & \textbf{7.20(0.00)e-1} & 7.20(0.00)e-1$^{\approx}$ & 7.20(0.00)e-1$^{+}$ \\
+ZDT2(M=2) & 4.45(0.00)e-1 & \textbf{4.45(0.00)e-1$^{\approx}$} & 4.45(0.00)e-1$^{+}$ \\
+ZDT3(M=2) & \textbf{6.00(0.00)e-1} & 6.00(0.00)e-1$^{\approx}$ & 6.00(0.00)e-1$^{\approx}$ \\
+ZDT4(M=2) & \textbf{7.20(0.00)e-1} & 7.20(0.00)e-1$^{\approx}$ & 7.20(0.00)e-1$^{\approx}$ \\
+ZDT6(M=2) & 3.89(0.00)e-1 & \textbf{3.89(0.00)e-1$^{\approx}$} & 3.89(0.00)e-1$^{+}$ \\
+DTLZ1(M=2) & \textbf{5.82(0.00)e-1} & 5.82(0.00)e-1$^{\approx}$ & 5.82(0.00)e-1$^{\approx}$ \\
+DTLZ2(M=2) & 3.47(0.00)e-1 & \textbf{3.47(0.00)e-1$^{\approx}$} & 3.47(0.00)e-1$^{+}$ \\
+DTLZ3(M=2) & 3.46(0.02)e-1 & \textbf{3.47(0.01)e-1$^{\approx}$} & 3.46(0.01)e-1$^{\approx}$ \\
+DTLZ4(M=2) & \textbf{3.47(0.00)e-1} & 3.47(2.57)e-1$^{\approx}$ & 3.47(0.00)e-1$^{+}$ \\
+DTLZ5(M=2) & 3.47(0.00)e-1 & \textbf{3.47(0.00)e-1$^{\approx}$} & 3.47(0.00)e-1$^{+}$ \\
+DTLZ6(M=2) & 3.48(0.00)e-1 & \textbf{3.48(0.00)e-1$^{\approx}$} & 3.48(0.00)e-1$^{+}$ \\
+DTLZ7(M=2) & \textbf{2.43(0.00)e-1} & 2.43(0.00)e-1$^{\approx}$ & 2.43(0.00)e-1$^{\approx}$ \\
+WFG1(M=2) & 6.91(0.02)e-1 & \textbf{6.97(0.00)e-1$^{-}$} & 6.85(0.06)e-1$^{+}$ \\
+WFG2(M=2) & 6.33(0.01)e-1 & 6.33(0.01)e-1$^{\approx}$ & \textbf{6.33(0.00)e-1$^{-}$} \\
+WFG3(M=2) & 5.82(0.01)e-1 & 5.82(0.01)e-1$^{\approx}$ & \textbf{5.82(0.00)e-1$^{\approx}$} \\
+WFG4(M=2) & \textbf{3.47(0.00)e-1} & 3.47(0.00)e-1$^{\approx}$ & 3.47(0.00)e-1$^{+}$ \\
+WFG5(M=2) & 3.14(0.00)e-1 & \textbf{3.14(0.00)e-1$^{\approx}$} & 3.13(0.00)e-1$^{+}$ \\
+WFG6(M=2) & \textbf{3.08(0.19)e-1} & 3.02(0.21)e-1$^{\approx}$ & 3.06(0.16)e-1$^{\approx}$ \\
+WFG7(M=2) & 3.47(0.00)e-1 & \textbf{3.47(0.00)e-1$^{\approx}$} & 3.46(0.00)e-1$^{+}$ \\
+WFG8(M=2) & \textbf{2.90(0.01)e-1} & 2.90(0.01)e-1$^{\approx}$ & 2.90(0.01)e-1$^{\approx}$ \\
+WFG9(M=2) & \textbf{3.43(0.02)e-1} & 3.43(0.03)e-1$^{\approx}$ & 3.43(0.01)e-1$^{\approx}$ \\
+MaF1(M=2) & \textbf{5.82(0.00)e-1} & 5.82(0.00)e-1$^{\approx}$ & 5.82(0.00)e-1$^{+}$ \\
+MaF2(M=2) & \textbf{2.07(0.00)e-1} & 2.07(0.00)e-1$^{\approx}$ & 2.07(0.00)e-1$^{+}$ \\
+MaF3(M=2) & 7.19(0.02)e-1 & 7.19(0.02)e-1$^{\approx}$ & \textbf{7.19(0.01)e-1$^{\approx}$} \\
+MaF4(M=2) & \textbf{8.19(0.01)e-1} & 8.19(0.01)e-1$^{\approx}$ & 8.19(0.00)e-1$^{\approx}$ \\
+MaF5(M=2) & \textbf{3.47(2.56)e-1} & 3.47(2.56)e-1$^{\approx}$ & 3.47(0.00)e-1$^{\approx}$ \\
+MaF6(M=2) & \textbf{3.48(0.00)e-1} & 3.48(0.00)e-1$^{\approx}$ & 3.48(0.00)e-1$^{\approx}$ \\
+MaF7(M=2) & \textbf{2.43(0.00)e-1} & 2.43(0.00)e-1$^{\approx}$ & 2.43(0.00)e-1$^{\approx}$ \\
+DTLZ1(M=3) & \textbf{8.43(0.00)e-1} & 8.43(0.00)e-1$^{\approx}$ & 8.42(0.00)e-1$^{+}$ \\
+DTLZ2(M=3) & \textbf{5.57(0.01)e-1} & 5.57(0.02)e-1$^{\approx}$ & 5.55(0.01)e-1$^{+}$ \\
+DTLZ3(M=3) & \textbf{5.61(0.02)e-1} & 5.60(0.02)e-1$^{\approx}$ & 5.58(0.03)e-1$^{+}$ \\
+DTLZ4(M=3) & 5.55(2.09)e-1 & \textbf{5.56(2.10)e-1$^{\approx}$} & 5.53(2.07)e-1$^{+}$ \\
+DTLZ5(M=3) & \textbf{2.00(0.00)e-1} & 2.00(0.00)e-1$^{\approx}$ & 2.00(0.00)e-1$^{+}$ \\
+DTLZ6(M=3) & 2.00(0.00)e-1 & \textbf{2.00(0.00)e-1$^{\approx}$} & 2.00(0.00)e-1$^{\approx}$ \\
+DTLZ7(M=3) & \textbf{2.77(0.01)e-1} & 2.77(0.02)e-1$^{\approx}$ & 2.77(0.01)e-1$^{+}$ \\
+WFG1(M=3) & 9.47(0.01)e-1 & \textbf{9.47(0.01)e-1$^{\approx}$} & 9.44(0.02)e-1$^{+}$ \\
+WFG2(M=3) & 9.30(0.02)e-1 & 9.30(0.02)e-1$^{\approx}$ & \textbf{9.30(0.02)e-1$^{-}$} \\
+WFG3(M=3) & 3.93(0.04)e-1 & \textbf{3.94(0.04)e-1$^{\approx}$} & 3.89(0.03)e-1$^{+}$ \\
+WFG4(M=3) & \textbf{5.48(0.03)e-1} & 5.48(0.03)e-1$^{\approx}$ & 5.43(0.03)e-1$^{+}$ \\
+WFG5(M=3) & \textbf{5.16(0.02)e-1} & 5.15(0.02)e-1$^{\approx}$ & 5.14(0.02)e-1$^{+}$ \\
+WFG6(M=3) & \textbf{5.01(0.21)e-1} & 4.96(0.23)e-1$^{\approx}$ & 4.99(0.16)e-1$^{\approx}$ \\
+WFG7(M=3) & 5.47(0.03)e-1 & \textbf{5.47(0.03)e-1$^{\approx}$} & 5.43(0.04)e-1$^{+}$ \\
+WFG8(M=3) & 4.61(0.03)e-1 & \textbf{4.62(0.03)e-1$^{\approx}$} & 4.59(0.04)e-1$^{+}$ \\
+WFG9(M=3) & \textbf{5.22(0.07)e-1} & 5.21(0.08)e-1$^{\approx}$ & 5.14(0.06)e-1$^{+}$ \\
+MaF1(M=3) & \textbf{2.20(0.01)e-1} & 2.19(0.01)e-1$^{\approx}$ & 2.18(0.01)e-1$^{+}$ \\
+MaF2(M=3) & \textbf{2.40(0.02)e-1} & 2.39(0.02)e-1$^{\approx}$ & 2.39(0.02)e-1$^{\approx}$ \\
+MaF3(M=3) & 9.63(0.01)e-1 & \textbf{9.63(0.01)e-1$^{\approx}$} & 9.62(0.01)e-1$^{\approx}$ \\
+MaF4(M=3) & \textbf{5.32(0.02)e-1} & 5.31(0.04)e-1$^{\approx}$ & 5.30(0.03)e-1$^{+}$ \\
+MaF5(M=3) & 5.54(2.10)e-1 & \textbf{5.55(2.10)e-1$^{\approx}$} & 5.54(2.08)e-1$^{\approx}$ \\
+MaF6(M=3) & \textbf{2.00(0.00)e-1} & 2.00(0.00)e-1$^{\approx}$ & 2.00(0.00)e-1$^{\approx}$ \\
+MaF7(M=3) & 2.77(0.01)e-1 & \textbf{2.77(0.01)e-1$^{\approx}$} & 2.77(0.01)e-1$^{\approx}$ \\
+\midrule
+$+ / \approx / -$ & --- & 0/50/1 & 28/21/2 \\
+\bottomrule
+\end{tabular}
+\end{table*}

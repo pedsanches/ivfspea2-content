@@ -1,0 +1,41 @@
+{
+  "alpha": 0.05,
+  "n_instances": 51,
+  "winner": "IVFSPEA2_P2_C05",
+  "baselines": [
+    "IVFSPEA2",
+    "SPEA2"
+  ],
+  "IGD": {
+    "IVFSPEA2": {
+      "wins": 0,
+      "ties": 50,
+      "losses": 1,
+      "significant": 1,
+      "median_delta_pct_mean": 3.0232592552421718
+    },
+    "SPEA2": {
+      "wins": 25,
+      "ties": 25,
+      "losses": 1,
+      "significant": 26,
+      "median_delta_pct_mean": 1.5995637124112652
+    }
+  },
+  "HV": {
+    "IVFSPEA2": {
+      "wins": 0,
+      "ties": 50,
+      "losses": 1,
+      "significant": 1,
+      "median_delta_pct_mean": 0.048757497340242394
+    },
+    "SPEA2": {
+      "wins": 28,
+      "ties": 21,
+      "losses": 2,
+      "significant": 30,
+      "median_delta_pct_mean": 0.1902982509560788
+    }
+  }
+}

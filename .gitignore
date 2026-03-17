@@ -1,0 +1,66 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+ENV/
+
+# MATLAB
+*.asv
+*.m~
+*.mlx~
+*.autosave
+*.mat
+*.mex*
+slprj/
+codegen/
+
+# Data (large / generated / external)
+data/raw/
+data/temp/
+data/external/
+
+# Derived results and logs (large trace CSVs exceed GitHub 100 MB limit)
+results/ivf_trace/trace_child_records.csv
+results/ivf_trace/trace_cycle_summary.csv
+results/figures/
+results/metrics/
+logs/
+experiments/logs/
+src/matlab/lib/PlatEMO/Data/
+
+# LaTeX build artifacts (keep sources under paper/)
+paper/build/
+paper/src/build/
+paper/src/indent.log
+paper/src/*.aux
+paper/src/*.bbl
+paper/src/*.blg
+paper/src/*.brf
+paper/src/*.fls
+paper/src/*.fdb_latexmk
+paper/src/*.log
+paper/src/*.out
+paper/src/*.toc
+paper/src/*.synctex.gz
+paper/src/*.bak*
+*.bak
+*.bak*

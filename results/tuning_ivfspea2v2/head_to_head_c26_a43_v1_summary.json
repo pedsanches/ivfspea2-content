@@ -1,0 +1,140 @@
+{
+  "generated_at": "2026-02-28 09:03:33",
+  "alpha": 0.05,
+  "problems": [
+    "ZDT1_M2",
+    "ZDT6_M2",
+    "DTLZ1_M3",
+    "DTLZ2_M3",
+    "DTLZ4_M3",
+    "DTLZ7_M3",
+    "WFG2_M3",
+    "WFG4_M2",
+    "WFG5_M3",
+    "WFG9_M2",
+    "MaF1_M3",
+    "MaF5_M3"
+  ],
+  "coverage": {
+    "A43": {
+      "problems": 12,
+      "min_runs_per_problem": 30,
+      "max_runs_per_problem": 30
+    },
+    "C26": {
+      "problems": 12,
+      "min_runs_per_problem": 30,
+      "max_runs_per_problem": 30
+    },
+    "IVFSPEA2v1": {
+      "problems": 12,
+      "min_runs_per_problem": 60,
+      "max_runs_per_problem": 60
+    }
+  },
+  "pairs": [
+    [
+      "C26",
+      "A43"
+    ],
+    [
+      "C26",
+      "IVFSPEA2v1"
+    ],
+    [
+      "A43",
+      "IVFSPEA2v1"
+    ]
+  ],
+  "igd": [
+    {
+      "pair": "C26_vs_A43",
+      "metric": "IGD",
+      "alpha": 0.05,
+      "wins": 0,
+      "ties": 12,
+      "losses": 0,
+      "wins_raw": 5,
+      "ties_raw": 0,
+      "losses_raw": 7,
+      "mean_delta_pct": -0.16997525513426479,
+      "median_delta_pct": -0.05759323810374098
+    },
+    {
+      "pair": "C26_vs_IVFSPEA2v1",
+      "metric": "IGD",
+      "alpha": 0.05,
+      "wins": 4,
+      "ties": 8,
+      "losses": 0,
+      "wins_raw": 8,
+      "ties_raw": 0,
+      "losses_raw": 4,
+      "mean_delta_pct": 14.341097164054824,
+      "median_delta_pct": 0.4634342756539772
+    },
+    {
+      "pair": "A43_vs_IVFSPEA2v1",
+      "metric": "IGD",
+      "alpha": 0.05,
+      "wins": 4,
+      "ties": 8,
+      "losses": 0,
+      "wins_raw": 9,
+      "ties_raw": 0,
+      "losses_raw": 3,
+      "mean_delta_pct": 14.501942804755442,
+      "median_delta_pct": 0.3884043586453274
+    }
+  ],
+  "hv": [
+    {
+      "pair": "C26_vs_A43",
+      "metric": "HV",
+      "alpha": 0.05,
+      "wins": 1,
+      "ties": 11,
+      "losses": 0,
+      "wins_raw": 7,
+      "ties_raw": 0,
+      "losses_raw": 5,
+      "mean_delta_pct": -0.02113970753181127,
+      "median_delta_pct": 0.0014597088389396852
+    },
+    {
+      "pair": "C26_vs_IVFSPEA2v1",
+      "metric": "HV",
+      "alpha": 0.05,
+      "wins": 4,
+      "ties": 7,
+      "losses": 1,
+      "wins_raw": 7,
+      "ties_raw": 0,
+      "losses_raw": 5,
+      "mean_delta_pct": 0.043462181229952525,
+      "median_delta_pct": 0.0035066726063708187
+    },
+    {
+      "pair": "A43_vs_IVFSPEA2v1",
+      "metric": "HV",
+      "alpha": 0.05,
+      "wins": 3,
+      "ties": 8,
+      "losses": 1,
+      "wins_raw": 8,
+      "ties_raw": 0,
+      "losses_raw": 4,
+      "mean_delta_pct": 0.06461470409636627,
+      "median_delta_pct": 0.026207647144537684
+    }
+  ],
+  "inputs": {
+    "tuning_csv": "/home/pedro/desenvolvimento/ivfspea2/results/tuning_ivfspea2v2/tuning_runs.csv",
+    "baseline_csv": "/home/pedro/desenvolvimento/ivfspea2/data/processed/todas_metricas_consolidado.csv",
+    "phase_a": "A",
+    "config_a": "A43",
+    "phase_b": "C",
+    "config_b": "C26",
+    "baseline_algorithm": "IVFSPEA2"
+  }
+}

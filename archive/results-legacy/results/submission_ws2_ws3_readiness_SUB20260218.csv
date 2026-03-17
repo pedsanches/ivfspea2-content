@@ -1,0 +1,5 @@
+Workstream,Check,Expected,Observed,Pass,Artifact
+WS2,matrix_all_ok,52 rows with Status=OK,rows=52; counts={'OK': 52},PASS,results/ivfspea2_submission_matrix_status_SUB20260218.csv
+WS2,manifest_complete_no_missing_runs,"52 rows, all OK, empty MissingRuns",rows=52; counts={'OK': 52}; non_empty_missing_runs=0,PASS,results/ivfspea2_submission_manifest_SUB20260218.csv
+WS3,rwmop9_outputs_exist,IGD/HV CSV + table TEX exist,rwmop9_igd_results.csv:OK; rwmop9_hv_results.csv:OK; rwmop9_table.tex:OK,PASS,results/rwmop9_igd_results.csv | results/rwmop9_hv_results.csv | results/rwmop9_table.tex
+WS3,rwmop9_outputs_fresh_today,mtime date == 2026-02-19,rwmop9_igd_results.csv:2026-02-19 08:00:02; rwmop9_hv_results.csv:2026-02-19 08:00:02; rwmop9_table.tex:2026-02-19 08:00:02,PASS,results/rwmop9_igd_results.csv | results/rwmop9_hv_results.csv | results/rwmop9_table.tex

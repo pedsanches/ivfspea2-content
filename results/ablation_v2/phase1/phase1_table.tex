@@ -1,0 +1,27 @@
+\begin{table*}[t]
+\caption{Phase 1 Screening: median IGD (IQR) over 30 runs. Symbols: $+$ = variant significantly better than baseline, $-$ = significantly worse, $\approx$ = no significant difference (Wilcoxon, $\alpha=0.05$). Best median per instance in \textbf{bold}.}
+\label{tab:ablation_v2_phase1}
+\centering\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Instance & B (v1 baseline) & V1 (dissim.) & V2 (collective) & V3 ($\eta_c=10$) & V4 (adaptive) & V5 (mutation) \\
+\midrule
+ZDT1(M=2) & 4.03(5.00)e-2 & 3.92(0.07)e-3$^{+}$ & 3.91(0.07)e-3$^{+}$ & 3.93(0.10)e-3$^{+}$ & \textbf{3.90(0.05)e-3}$^{+}$ & 3.94(0.07)e-3$^{+}$ \\
+ZDT6(M=2) & 3.07(0.03)e-3 & \textbf{3.06(0.03)e-3}$^{\approx}$ & 3.08(0.03)e-3$^{\approx}$ & 3.07(0.02)e-3$^{\approx}$ & 3.08(0.03)e-3$^{\approx}$ & 3.07(0.03)e-3$^{\approx}$ \\
+WFG4(M=2) & 1.28(0.02)e-2 & 1.27(0.02)e-2$^{+}$ & \textbf{1.27(0.02)e-2}$^{+}$ & 1.28(0.03)e-2$^{\approx}$ & 1.27(0.02)e-2$^{+}$ & 1.29(0.03)e-2$^{\approx}$ \\
+WFG9(M=2) & 1.70(0.34)e-2 & 1.57(0.20)e-2$^{\approx}$ & 1.61(0.25)e-2$^{\approx}$ & 1.59(0.16)e-2$^{\approx}$ & 1.59(0.11)e-2$^{\approx}$ & \textbf{1.53(0.23)e-2}$^{+}$ \\
+DTLZ1(M=3) & \textbf{2.01(0.02)e-2} & 2.02(0.02)e-2$^{\approx}$ & 2.02(0.02)e-2$^{-}$ & 2.01(0.01)e-2$^{\approx}$ & 2.01(0.02)e-2$^{\approx}$ & 2.01(0.02)e-2$^{\approx}$ \\
+DTLZ2(M=3) & 5.38(0.05)e-2 & 5.38(0.07)e-2$^{\approx}$ & 5.38(0.06)e-2$^{\approx}$ & \textbf{5.37(0.06)e-2}$^{\approx}$ & 5.39(0.07)e-2$^{\approx}$ & 5.39(0.05)e-2$^{\approx}$ \\
+DTLZ4(M=3) & 5.47(48.66)e-2 & 5.48(48.67)e-2$^{\approx}$ & 5.46(48.69)e-2$^{\approx}$ & 5.46(48.67)e-2$^{\approx}$ & \textbf{5.40(0.13)e-2}$^{+}$ & 5.47(48.68)e-2$^{\approx}$ \\
+DTLZ7(M=3) & 6.05(0.17)e-2 & 6.04(0.10)e-2$^{\approx}$ & 6.05(0.22)e-2$^{\approx}$ & \textbf{5.94(0.15)e-2}$^{+}$ & 5.97(0.16)e-2$^{+}$ & 6.05(0.14)e-2$^{\approx}$ \\
+WFG2(M=3) & 1.74(0.07)e-1 & 1.77(0.08)e-1$^{\approx}$ & \textbf{1.73(0.05)e-1}$^{\approx}$ & 1.74(0.06)e-1$^{\approx}$ & 1.74(0.11)e-1$^{\approx}$ & 1.73(0.08)e-1$^{\approx}$ \\
+WFG5(M=3) & 2.22(0.03)e-1 & \textbf{2.21(0.03)e-1}$^{\approx}$ & 2.21(0.02)e-1$^{\approx}$ & 2.22(0.02)e-1$^{\approx}$ & 2.22(0.02)e-1$^{\approx}$ & 2.21(0.02)e-1$^{\approx}$ \\
+MaF1(M=3) & \textbf{4.12(0.05)e-2} & 4.13(0.04)e-2$^{\approx}$ & 4.14(0.05)e-2$^{\approx}$ & 4.13(0.05)e-2$^{\approx}$ & 4.14(0.06)e-2$^{\approx}$ & 4.16(0.05)e-2$^{-}$ \\
+MaF5(M=3) & 2.46(12.49)e-1 & 2.47(12.48)e-1$^{\approx}$ & 2.48(12.47)e-1$^{\approx}$ & 8.71(17.78)e-1$^{\approx}$ & \textbf{2.45(0.05)e-1}$^{\approx}$ & 2.46(17.78)e-1$^{\approx}$ \\
+\midrule
+$+/\approx/-$ & --- & 2/10/0 & 2/9/1 & 2/10/0 & 4/8/0 & 2/9/1 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}

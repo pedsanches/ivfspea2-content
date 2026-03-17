@@ -1,0 +1,678 @@
+%% BioMed_Central_Bib_Style_v1.01
+
+\begin{thebibliography}{41}
+% BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
+\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
+\ifx \binits  \undefined \def \binits#1{#1}\fi
+\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi
+\ifx \batitle  \undefined \def \batitle#1{#1}\fi
+\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi
+\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi
+\ifx \byear  \undefined \def \byear#1{#1}\fi
+\ifx \bissue  \undefined \def \bissue#1{#1}\fi
+\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi
+\ifx \blpage  \undefined \def \blpage #1{#1}\fi
+\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi
+\ifx \doiurl  \undefined \def \doiurl#1{\url{https://doi.org/#1}}\fi
+\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi
+\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi
+\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi
+\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi
+\ifx \beditor  \undefined \def \beditor#1{#1}\fi
+\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi
+\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi
+\ifx \bedition  \undefined \def \bedition#1{#1}\fi
+\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi
+\ifx \blocation  \undefined \def \blocation#1{#1}\fi
+\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi
+\ifx \bsnm \undefined \def \bsnm#1{#1}\fi
+\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi
+\ifx \bparticle \undefined \def \bparticle#1{#1}\fi
+\ifx \barticle \undefined \def \barticle#1{#1}\fi
+\bibcommenthead
+\ifx \bconfdate \undefined \def \bconfdate #1{#1}\fi
+\ifx \botherref \undefined \def \botherref #1{#1}\fi
+\ifx \url \undefined \def \url#1{\textsf{#1}}\fi
+\ifx \bchapter \undefined \def \bchapter#1{#1}\fi
+\ifx \bbook \undefined \def \bbook#1{#1}\fi
+\ifx \bcomment \undefined \def \bcomment#1{#1}\fi
+\ifx \oauthor \undefined \def \oauthor#1{#1}\fi
+\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1}\fi
+\ifx \endbibitem  \undefined \def \endbibitem {}\fi
+\ifx \bconflocation  \undefined \def \bconflocation#1{#1}\fi
+\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}}\fi
+\csname PreBibitemsHook\endcsname
+
+%%% 1
+\bibitem[\protect\citeauthoryear{Blum et~al.}{2011}]{blum2011hybrid}
+\begin{barticle}
+\bauthor{\bsnm{Blum}, \binits{C.}},
+\bauthor{\bsnm{Puchinger}, \binits{J.}},
+\bauthor{\bsnm{Raidl}, \binits{G.R.}},
+\bauthor{\bsnm{Roli}, \binits{A.}}:
+\batitle{Hybrid metaheuristics in combinatorial optimization: A survey}.
+\bjtitle{Applied soft computing}
+\bvolume{11}(\bissue{6}),
+\bfpage{4135}--\blpage{4151}
+(\byear{2011})
+\end{barticle}
+\endbibitem
+
+%%% 2
+\bibitem[\protect\citeauthoryear{Bosman and Thierens}{2003}]{bosman2003balance}
+\begin{barticle}
+\bauthor{\bsnm{Bosman}, \binits{P.A.}},
+\bauthor{\bsnm{Thierens}, \binits{D.}}:
+\batitle{The balance between proximity and diversity in multiobjective
+  evolutionary algorithms}.
+\bjtitle{IEEE transactions on evolutionary computation}
+\bvolume{7}(\bissue{2}),
+\bfpage{174}--\blpage{188}
+(\byear{2003})
+\end{barticle}
+\endbibitem
+
+%%% 3
+\bibitem[\protect\citeauthoryear{Camilo-Junior and
+  Yamanaka}{2011}]{camilo-junior2011}
+\begin{bchapter}
+\bauthor{\bsnm{Camilo-Junior}, \binits{C.G.}},
+\bauthor{\bsnm{Yamanaka}, \binits{K.}}:
+\bctitle{In vitro fertilization genetic algorithm}.
+In: \bbtitle{Evolutionary Algorithms},
+pp. \bfpage{1}--\blpage{14}
+(\byear{2011}).
+\bcomment{InTech}
+\end{bchapter}
+\endbibitem
+
+%%% 4
+\bibitem[\protect\citeauthoryear{Cheng et~al.}{2017}]{cheng2017benchmark}
+\begin{barticle}
+\bauthor{\bsnm{Cheng}, \binits{R.}},
+\bauthor{\bsnm{Li}, \binits{M.}},
+\bauthor{\bsnm{Tian}, \binits{Y.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}},
+\bauthor{\bsnm{Yang}, \binits{S.}},
+\bauthor{\bsnm{Jin}, \binits{Y.}},
+\bauthor{\bsnm{Yao}, \binits{X.}}:
+\batitle{A benchmark test suite for evolutionary many-objective optimization}.
+\bjtitle{Complex \& Intelligent Systems}
+\bvolume{3}(\bissue{1}),
+\bfpage{67}--\blpage{81}
+(\byear{2017})
+\end{barticle}
+\endbibitem
+
+%%% 5
+\bibitem[\protect\citeauthoryear{Cremene et~al.}{2016}]{Cremene2016}
+\begin{barticle}
+\bauthor{\bsnm{Cremene}, \binits{M.}},
+\bauthor{\bsnm{Suciu}, \binits{M.}},
+\bauthor{\bsnm{Pallez}, \binits{D.}},
+\bauthor{\bsnm{Dumitrescu}, \binits{D.}}:
+\batitle{Comparative analysis of multi-objective evolutionary algorithms for
+  qos-aware web service composition}.
+\bjtitle{Applied Soft Computing}
+\bvolume{39},
+\bfpage{124}--\blpage{139}
+(\byear{2016})
+\end{barticle}
+\endbibitem
+
+%%% 6
+\bibitem[\protect\citeauthoryear{Das and Dennis}{1998}]{das1998normal}
+\begin{barticle}
+\bauthor{\bsnm{Das}, \binits{I.}},
+\bauthor{\bsnm{Dennis}, \binits{J.E.}}:
+\batitle{Normal-boundary intersection: A new method for generating the {Pareto}
+  surface in nonlinear multicriteria optimization problems}.
+\bjtitle{SIAM Journal on Optimization}
+\bvolume{8}(\bissue{3}),
+\bfpage{631}--\blpage{657}
+(\byear{1998})
+\end{barticle}
+\endbibitem
+
+%%% 7
+\bibitem[\protect\citeauthoryear{Derrac et~al.}{2011}]{derrac2011practical}
+\begin{barticle}
+\bauthor{\bsnm{Derrac}, \binits{J.}},
+\bauthor{\bsnm{Garc{\'i}a}, \binits{S.}},
+\bauthor{\bsnm{Molina}, \binits{D.}},
+\bauthor{\bsnm{Herrera}, \binits{F.}}:
+\batitle{A practical tutorial on the use of nonparametric statistical tests as
+  a methodology for comparing evolutionary and swarm intelligence algorithms}.
+\bjtitle{Swarm and Evolutionary Computation}
+\bvolume{1}(\bissue{1}),
+\bfpage{3}--\blpage{18}
+(\byear{2011})
+\end{barticle}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Deb and Jain}{2014}]{deb2014nsga3}
+\begin{barticle}
+\bauthor{\bsnm{Deb}, \binits{K.}},
+\bauthor{\bsnm{Jain}, \binits{H.}}:
+\batitle{An evolutionary many-objective optimization algorithm using
+  reference-point-based nondominated sorting approach, part i: Solving problems
+  with box constraints}.
+\bjtitle{IEEE Transactions on Evolutionary Computation}
+\bvolume{18}(\bissue{4}),
+\bfpage{577}--\blpage{601}
+(\byear{2014})
+\end{barticle}
+\endbibitem
+
+%%% 9
+\bibitem[\protect\citeauthoryear{Deb et~al.}{2002}]{deb2002fast}
+\begin{barticle}
+\bauthor{\bsnm{Deb}, \binits{K.}},
+\bauthor{\bsnm{Pratap}, \binits{A.}},
+\bauthor{\bsnm{Agarwal}, \binits{S.}},
+\bauthor{\bsnm{Meyarivan}, \binits{T.}}:
+\batitle{A fast and elitist multiobjective genetic algorithm: {NSGA-II}}.
+\bjtitle{IEEE transactions on evolutionary computation}
+\bvolume{6}(\bissue{2}),
+\bfpage{182}--\blpage{197}
+(\byear{2002})
+\end{barticle}
+\endbibitem
+
+%%% 10
+\bibitem[\protect\citeauthoryear{Deb et~al.}{2005}]{deb2005scalable}
+\begin{bchapter}
+\bauthor{\bsnm{Deb}, \binits{K.}},
+\bauthor{\bsnm{Thiele}, \binits{L.}},
+\bauthor{\bsnm{Laumanns}, \binits{M.}},
+\bauthor{\bsnm{Zitzler}, \binits{E.}}:
+\bctitle{Scalable test problems for evolutionary multiobjective optimization}.
+In: \bbtitle{Evolutionary Multiobjective Optimization: Theoretical Advances and
+  Applications},
+pp. \bfpage{105}--\blpage{145}.
+\bpublisher{Springer},
+\blocation{London}
+(\byear{2005}).
+\doiurl{10.1007/1-84628-137-7_6}
+\end{bchapter}
+\endbibitem
+
+%%% 11
+\bibitem[\protect\citeauthoryear{Eftimov and
+  Koro\v{s}ec}{2025}]{eftimov2025adaptive}
+\begin{bchapter}
+\bauthor{\bsnm{Eftimov}, \binits{T.}},
+\bauthor{\bsnm{Koro\v{s}ec}, \binits{P.}}:
+\bctitle{Adaptive estimation of the number of algorithm runs in stochastic
+  optimization}.
+In: \bbtitle{Proceedings of the Genetic and Evolutionary Computation
+  Conference}.
+\bsertitle{GECCO '25},
+pp. \bfpage{719}--\blpage{727}.
+\bpublisher{Association for Computing Machinery},
+\blocation{New York, NY, USA}
+(\byear{2025}).
+\doiurl{10.1145/3712256.3726327} .
+\burl{https://doi.org/10.1145/3712256.3726327}
+\end{bchapter}
+\endbibitem
+
+%%% 12
+\bibitem[\protect\citeauthoryear{Gadhvi et~al.}{2016}]{gadhvi2016suspension}
+\begin{barticle}
+\bauthor{\bsnm{Gadhvi}, \binits{B.}},
+\bauthor{\bsnm{Savsani}, \binits{V.}},
+\bauthor{\bsnm{Patel}, \binits{V.}}:
+\batitle{Multi-objective optimization of vehicle passive suspension system
+  using {NSGA-II}, {SPEA2} and {PESA-II}}.
+\bjtitle{Procedia Technology}
+\bvolume{23},
+\bfpage{361}--\blpage{368}
+(\byear{2016})
+\end{barticle}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{Huband et~al.}{2006}]{huband2006review}
+\begin{barticle}
+\bauthor{\bsnm{Huband}, \binits{S.}},
+\bauthor{\bsnm{Hingston}, \binits{P.}},
+\bauthor{\bsnm{Barone}, \binits{L.}},
+\bauthor{\bsnm{While}, \binits{L.}}:
+\batitle{A review of multiobjective test problems and a scalable test problem
+  toolkit}.
+\bjtitle{IEEE Transactions on Evolutionary Computation}
+\bvolume{10}(\bissue{5}),
+\bfpage{477}--\blpage{506}
+(\byear{2006})
+\end{barticle}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{Holm}{1979}]{holm1979simple}
+\begin{barticle}
+\bauthor{\bsnm{Holm}, \binits{S.}}:
+\batitle{A simple sequentially rejective multiple test procedure}.
+\bjtitle{Scandinavian Journal of Statistics}
+\bvolume{6}(\bissue{2}),
+\bfpage{65}--\blpage{70}
+(\byear{1979})
+\end{barticle}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Ishibuchi and
+  Murata}{2002}]{ishibuchi1998multi}
+\begin{barticle}
+\bauthor{\bsnm{Ishibuchi}, \binits{H.}},
+\bauthor{\bsnm{Murata}, \binits{T.}}:
+\batitle{A multi-objective genetic local search algorithm and its application
+  to flowshop scheduling}.
+\bjtitle{IEEE transactions on systems, man, and cybernetics, part C
+  (applications and reviews)}
+\bvolume{28}(\bissue{3}),
+\bfpage{392}--\blpage{403}
+(\byear{2002})
+\end{barticle}
+\endbibitem
+
+%%% 16
+\bibitem[\protect\citeauthoryear{Ishibuchi
+  et~al.}{2008}]{ishibuchi2008evolutionary}
+\begin{bchapter}
+\bauthor{\bsnm{Ishibuchi}, \binits{H.}},
+\bauthor{\bsnm{Tsukamoto}, \binits{N.}},
+\bauthor{\bsnm{Nojima}, \binits{Y.}}:
+\bctitle{Evolutionary many-objective optimization: A short review}.
+In: \bbtitle{2008 IEEE Congress on Evolutionary Computation (CEC)},
+pp. \bfpage{2419}--\blpage{2426}
+(\byear{2008}).
+\bcomment{IEEE}
+\end{bchapter}
+\endbibitem
+
+%%% 17
+\bibitem[\protect\citeauthoryear{Jiao et~al.}{2022}]{jiao2023multiform}
+\begin{barticle}
+\bauthor{\bsnm{Jiao}, \binits{R.}},
+\bauthor{\bsnm{Xue}, \binits{B.}},
+\bauthor{\bsnm{Zhang}, \binits{M.}}:
+\batitle{A multiform optimization framework for constrained multiobjective
+  optimization}.
+\bjtitle{IEEE Transactions on Cybernetics}
+\bvolume{53}(\bissue{8}),
+\bfpage{5165}--\blpage{5177}
+(\byear{2022})
+\end{barticle}
+\endbibitem
+
+%%% 18
+\bibitem[\protect\citeauthoryear{Knowles and Corne}{2000}]{knowles2000memetic}
+\begin{bchapter}
+\bauthor{\bsnm{Knowles}, \binits{J.D.}},
+\bauthor{\bsnm{Corne}, \binits{D.W.}}:
+\bctitle{M-paes: A memetic algorithm for multiobjective optimization}.
+In: \bbtitle{Proceedings of the 2000 Congress on Evolutionary Computation.
+  CEC00 (Cat. No. 00TH8512)},
+vol. \bseriesno{1},
+pp. \bfpage{325}--\blpage{332}
+(\byear{2000}).
+\bcomment{IEEE}
+\end{bchapter}
+\endbibitem
+
+%%% 19
+\bibitem[\protect\citeauthoryear{Knowles and
+  Corne}{2003}]{knowles2003properties}
+\begin{barticle}
+\bauthor{\bsnm{Knowles}, \binits{J.}},
+\bauthor{\bsnm{Corne}, \binits{D.}}:
+\batitle{Properties of an adaptive archiving algorithm for storing nondominated
+  vectors}.
+\bjtitle{IEEE Transactions on Evolutionary Computation}
+\bvolume{7}(\bissue{2}),
+\bfpage{100}--\blpage{116}
+(\byear{2003})
+\end{barticle}
+\endbibitem
+
+%%% 20
+\bibitem[\protect\citeauthoryear{Kumar et~al.}{2021}]{kumar2021benchmark}
+\begin{barticle}
+\bauthor{\bsnm{Kumar}, \binits{A.}},
+\bauthor{\bsnm{Wu}, \binits{G.}},
+\bauthor{\bsnm{Ali}, \binits{M.Z.}},
+\bauthor{\bsnm{Mallipeddi}, \binits{R.}},
+\bauthor{\bsnm{Suganthan}, \binits{P.N.}},
+\bauthor{\bsnm{Das}, \binits{S.}}:
+\batitle{A benchmark-suite of real-world constrained multi-objective
+  optimization problems and some baseline results}.
+\bjtitle{Swarm and Evolutionary Computation}
+\bvolume{67},
+\bfpage{100961}
+(\byear{2021})
+\end{barticle}
+\endbibitem
+
+%%% 21
+\bibitem[\protect\citeauthoryear{Lopez-Ibanez et~al.}{2005}]{Lopez2005}
+\begin{bchapter}
+\bauthor{\bsnm{Lopez-Ibanez}, \binits{M.}},
+\bauthor{\bsnm{Prasad}, \binits{T.D.}},
+\bauthor{\bsnm{Paechter}, \binits{B.}}:
+\bctitle{Multi-objective optimisation of the pump scheduling problem using
+  {SPEA2}}.
+In: \bbtitle{2005 IEEE Congress on Evolutionary Computation},
+vol. \bseriesno{1},
+pp. \bfpage{435}--\blpage{442}
+(\byear{2005}).
+\bcomment{IEEE}
+\end{bchapter}
+\endbibitem
+
+%%% 22
+\bibitem[\protect\citeauthoryear{Li et~al.}{2015}]{li2015many}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{B.}},
+\bauthor{\bsnm{Li}, \binits{J.}},
+\bauthor{\bsnm{Tang}, \binits{K.}},
+\bauthor{\bsnm{Yao}, \binits{X.}}:
+\batitle{Many-objective evolutionary algorithms: A survey}.
+\bjtitle{ACM Computing Surveys (CSUR)}
+\bvolume{48}(\bissue{1}),
+\bfpage{1}--\blpage{35}
+(\byear{2015})
+\end{barticle}
+\endbibitem
+
+%%% 23
+\bibitem[\protect\citeauthoryear{Lu et~al.}{2025}]{Lu2025}
+\begin{barticle}
+\bauthor{\bsnm{Lu}, \binits{Y.}},
+\bauthor{\bsnm{Wang}, \binits{S.}},
+\bauthor{\bsnm{Chen}, \binits{Y.}},
+\bauthor{\bsnm{Zhang}, \binits{H.}},
+\bauthor{\bsnm{Zhang}, \binits{Y.}}:
+\batitle{Ensemble mating strategy in evolutionary algorithms for multiobjective
+  optimization}.
+\bjtitle{Memetic Computing}
+\bvolume{17}(\bissue{2}),
+\bfpage{28}
+(\byear{2025})
+\doiurl{10.1007/s12293-025-00458-2}
+\end{barticle}
+\endbibitem
+
+%%% 24
+\bibitem[\protect\citeauthoryear{Li et~al.}{2013}]{li2014shift}
+\begin{barticle}
+\bauthor{\bsnm{Li}, \binits{M.}},
+\bauthor{\bsnm{Yang}, \binits{S.}},
+\bauthor{\bsnm{Liu}, \binits{X.}}:
+\batitle{Shift-based density estimation for pareto-based algorithms in
+  many-objective optimization}.
+\bjtitle{IEEE Transactions on Evolutionary Computation}
+\bvolume{18}(\bissue{3}),
+\bfpage{348}--\blpage{365}
+(\byear{2013})
+\end{barticle}
+\endbibitem
+
+%%% 25
+\bibitem[\protect\citeauthoryear{Panichella}{2022}]{panichella2022agemoeaii}
+\begin{bchapter}
+\bauthor{\bsnm{Panichella}, \binits{A.}}:
+\bctitle{An improved pareto front modeling algorithm for large-scale
+  many-objective optimization}.
+In: \bbtitle{Proceedings of the Genetic and Evolutionary Computation
+  Conference},
+pp. \bfpage{565}--\blpage{573}
+(\byear{2022}).
+\doiurl{10.1145/3512290.3528732}
+\end{bchapter}
+\endbibitem
+
+%%% 26
+\bibitem[\protect\citeauthoryear{Sampaio and Camilo}{2017}]{sampaio2017ivf}
+\begin{bchapter}
+\bauthor{\bsnm{Sampaio}, \binits{S.M.}},
+\bauthor{\bsnm{Camilo}, \binits{C.G.}}:
+\bctitle{{IVF}/{NSGAII}: In vitro fertilization method coupled to {NSGAII}}.
+In: \bbtitle{2017 IEEE Latin American Conference on Computational Intelligence
+  (LA-CCI)},
+pp. \bfpage{1}--\blpage{6}
+(\byear{2017}).
+\doiurl{10.1109/LA-CCI.2017.8285710}
+\end{bchapter}
+\endbibitem
+
+%%% 27
+\bibitem[\protect\citeauthoryear{Sampaio and
+  Camilo-Junior}{2019}]{sampaio2019ivf}
+\begin{bchapter}
+\bauthor{\bsnm{Sampaio}, \binits{S.M.}},
+\bauthor{\bsnm{Camilo-Junior}, \binits{C.G.}}:
+\bctitle{{IVF}/gde3-in vitro fertilization method coupled to gde3}.
+In: \bbtitle{2019 IEEE Congress on Evolutionary Computation (CEC)},
+pp. \bfpage{2066}--\blpage{2073}
+(\byear{2019}).
+\bcomment{IEEE}
+\end{bchapter}
+\endbibitem
+
+%%% 28
+\bibitem[\protect\citeauthoryear{Sampaio et~al.}{2023}]{Sampaio2024}
+\begin{bchapter}
+\bauthor{\bsnm{Sampaio}, \binits{S.M.}},
+\bauthor{\bsnm{Dantas}, \binits{A.}},
+\bauthor{\bsnm{Camilo-Junior}, \binits{C.G.}}:
+\bctitle{{IVF}/{NSGA-III} - in vitro fertilization method coupled to
+  {NSGA-III}}.
+In: \bbtitle{2023 IEEE Congress on Evolutionary Computation (CEC)},
+pp. \bfpage{1}--\blpage{8}
+(\byear{2023}).
+\doiurl{10.1109/CEC53210.2023.10254062}
+\end{bchapter}
+\endbibitem
+
+%%% 29
+\bibitem[\protect\citeauthoryear{Talbi}{2002}]{talbi2002taxonomy}
+\begin{barticle}
+\bauthor{\bsnm{Talbi}, \binits{E.-G.}}:
+\batitle{A taxonomy of hybrid metaheuristics}.
+\bjtitle{Journal of heuristics}
+\bvolume{8}(\bissue{5}),
+\bfpage{541}--\blpage{564}
+(\byear{2002})
+\end{barticle}
+\endbibitem
+
+%%% 30
+\bibitem[\protect\citeauthoryear{Tian et~al.}{2018}]{tian2018armoea}
+\begin{barticle}
+\bauthor{\bsnm{Tian}, \binits{Y.}},
+\bauthor{\bsnm{Cheng}, \binits{R.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}},
+\bauthor{\bsnm{Cheng}, \binits{F.}},
+\bauthor{\bsnm{Jin}, \binits{Y.}}:
+\batitle{An indicator-based multiobjective evolutionary algorithm with
+  reference point adaptation for better versatility}.
+\bjtitle{IEEE Transactions on Evolutionary Computation}
+\bvolume{22}(\bissue{4}),
+\bfpage{609}--\blpage{622}
+(\byear{2018})
+\doiurl{10.1109/TEVC.2017.2749619}
+\end{barticle}
+\endbibitem
+
+%%% 31
+\bibitem[\protect\citeauthoryear{Tian et~al.}{2017}]{platemo}
+\begin{barticle}
+\bauthor{\bsnm{Tian}, \binits{Y.}},
+\bauthor{\bsnm{Cheng}, \binits{R.}},
+\bauthor{\bsnm{Zhang}, \binits{X.}},
+\bauthor{\bsnm{Jin}, \binits{Y.}}:
+\batitle{Platemo: A matlab platform for evolutionary multi-objective
+  optimization [educational forum]}.
+\bjtitle{IEEE Computational Intelligence Magazine}
+\bvolume{12}(\bissue{4}),
+\bfpage{73}--\blpage{87}
+(\byear{2017})
+\end{barticle}
+\endbibitem
+
+%%% 32
+\bibitem[\protect\citeauthoryear{Vargha and Delaney}{2000}]{vargha2000critique}
+\begin{barticle}
+\bauthor{\bsnm{Vargha}, \binits{A.}},
+\bauthor{\bsnm{Delaney}, \binits{H.D.}}:
+\batitle{A critique and improvement of the {CL} common language effect size
+  statistics of {McGraw} and {Wong}}.
+\bjtitle{Journal of Educational and Behavioral Statistics}
+\bvolume{25}(\bissue{2}),
+\bfpage{101}--\blpage{132}
+(\byear{2000})
+\end{barticle}
+\endbibitem
+
+%%% 33
+\bibitem[\protect\citeauthoryear{Wang and Du}{2024}]{WangDu2024SPEA2}
+\begin{bchapter}
+\bauthor{\bsnm{Wang}, \binits{H.}},
+\bauthor{\bsnm{Du}, \binits{Y.}}:
+\bctitle{An adaptive mutation strategy improved {SPEA2} algorithm for
+  multi-objective web service composition}.
+In: \bbtitle{Proceedings of the 2024 3rd International Symposium on Robotics,
+  Artificial Intelligence and Information Engineering},
+pp. \bfpage{15}--\blpage{20}
+(\byear{2024}).
+\doiurl{10.1145/3689299.3689302} .
+\burl{https://doi.org/10.1145/3689299.3689302}
+\end{bchapter}
+\endbibitem
+
+%%% 34
+\bibitem[\protect\citeauthoryear{Wilcoxon}{1945}]{wilcoxon1945}
+\begin{barticle}
+\bauthor{\bsnm{Wilcoxon}, \binits{F.}}:
+\batitle{Individual comparisons by ranking methods}.
+\bjtitle{Biometrics Bulletin}
+\bvolume{1}(\bissue{6}),
+\bfpage{80}--\blpage{83}
+(\byear{1945})
+\end{barticle}
+\endbibitem
+
+%%% 35
+\bibitem[\protect\citeauthoryear{Zitzler et~al.}{2000}]{zitzler2000comparison}
+\begin{barticle}
+\bauthor{\bsnm{Zitzler}, \binits{E.}},
+\bauthor{\bsnm{Deb}, \binits{K.}},
+\bauthor{\bsnm{Thiele}, \binits{L.}}:
+\batitle{Comparison of multiobjective evolutionary algorithms: Empirical
+  results}.
+\bjtitle{Evolutionary computation}
+\bvolume{8}(\bissue{2}),
+\bfpage{173}--\blpage{195}
+(\byear{2000})
+\end{barticle}
+\endbibitem
+
+%%% 36
+\bibitem[\protect\citeauthoryear{Zhang and Li}{2007}]{zhang2007moead}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{Q.}},
+\bauthor{\bsnm{Li}, \binits{H.}}:
+\batitle{{MOEA/D}: A multiobjective evolutionary algorithm based on
+  decomposition}.
+\bjtitle{IEEE Transactions on Evolutionary Computation}
+\bvolume{11}(\bissue{6}),
+\bfpage{712}--\blpage{731}
+(\byear{2007})
+\end{barticle}
+\endbibitem
+
+%%% 37
+\bibitem[\protect\citeauthoryear{Zhang et~al.}{2024}]{ZhangLiGong2024DRLMA}
+\begin{barticle}
+\bauthor{\bsnm{Zhang}, \binits{F.}},
+\bauthor{\bsnm{Li}, \binits{R.}},
+\bauthor{\bsnm{Gong}, \binits{W.}}:
+\batitle{Deep reinforcement learning-based memetic algorithm for energy-aware
+  flexible job shop scheduling with multi-agv}.
+\bjtitle{Computers \& Industrial Engineering}
+\bvolume{189},
+\bfpage{109917}
+(\byear{2024})
+\doiurl{10.1016/j.cie.2024.109917}
+\end{barticle}
+\endbibitem
+
+%%% 38
+\bibitem[\protect\citeauthoryear{Zitzler et~al.}{2001}]{zitzler2001spea2}
+\begin{botherref}
+\oauthor{\bsnm{Zitzler}, \binits{E.}},
+\oauthor{\bsnm{Laumanns}, \binits{M.}},
+\oauthor{\bsnm{Thiele}, \binits{L.}}:
+{SPEA2}: Improving the strength pareto evolutionary algorithm.
+TIK report
+\textbf{103}
+(2001)
+\end{botherref}
+\endbibitem
+
+%%% 39
+\bibitem[\protect\citeauthoryear{Zhou et~al.}{2011}]{zhou2011multiobjective}
+\begin{barticle}
+\bauthor{\bsnm{Zhou}, \binits{A.}},
+\bauthor{\bsnm{Qu}, \binits{B.-Y.}},
+\bauthor{\bsnm{Li}, \binits{H.}},
+\bauthor{\bsnm{Zhao}, \binits{S.-Z.}},
+\bauthor{\bsnm{Suganthan}, \binits{P.N.}},
+\bauthor{\bsnm{Zhang}, \binits{Q.}}:
+\batitle{Multiobjective evolutionary algorithms: A survey of the state of the
+  art}.
+\bjtitle{Swarm and evolutionary computation}
+\bvolume{1}(\bissue{1}),
+\bfpage{32}--\blpage{49}
+(\byear{2011})
+\end{barticle}
+\endbibitem
+
+%%% 40
+\bibitem[\protect\citeauthoryear{Zambrano
+  et~al.}{2026}]{zambrano2026ivfspea2repo}
+\begin{botherref}
+\oauthor{\bsnm{Zambrano}, \binits{P.S.}},
+\oauthor{\bsnm{Souza}, \binits{E.F.d.}},
+\oauthor{\bsnm{Dantas}, \binits{A.}},
+\oauthor{\bsnm{Sampaio}, \binits{S.M.}},
+\oauthor{\bsnm{Camilo-Junior}, \binits{C.G.}}:
+{IVF-SPEA2}.
+GitHub repository.
+Submission snapshot 2026-03
+(2026).
+\url{https://github.com/pedsanches/IVF-SPEA2}
+Accessed 2026-03-10
+\end{botherref}
+\endbibitem
+
+%%% 41
+\bibitem[\protect\citeauthoryear{Zitzler et~al.}{2003}]{zitzler2004performance}
+\begin{barticle}
+\bauthor{\bsnm{Zitzler}, \binits{E.}},
+\bauthor{\bsnm{Thiele}, \binits{L.}},
+\bauthor{\bsnm{Laumanns}, \binits{M.}},
+\bauthor{\bsnm{Fonseca}, \binits{C.M.}},
+\bauthor{\bsnm{{da Fonseca}}, \binits{V.G.}}:
+\batitle{Performance assessment of multiobjective optimizers: An analysis and
+  review}.
+\bjtitle{IEEE Transactions on Evolutionary Computation}
+\bvolume{7}(\bissue{2}),
+\bfpage{117}--\blpage{132}
+(\byear{2003})
+\end{barticle}
+\endbibitem
+
+\end{thebibliography}

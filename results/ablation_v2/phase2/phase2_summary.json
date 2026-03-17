@@ -1,0 +1,181 @@
+{
+  "friedman": {
+    "chi2": 14.544117647058783,
+    "p_value": 0.48472542674670716,
+    "significant": false
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "config_id": "P2_C05",
+      "label": "1100 (H1+H2)",
+      "avg_rank": 6.083333333333333
+    },
+    {
+      "rank": 2,
+      "config_id": "P2_C10",
+      "label": "0011 (H3+H4)",
+      "avg_rank": 6.166666666666667
+    },
+    {
+      "rank": 3,
+      "config_id": "P2_C09",
+      "label": "0101 (H2+H4)",
+      "avg_rank": 7.333333333333333
+    },
+    {
+      "rank": 4,
+      "config_id": "P2_C08",
+      "label": "0110 (H2+H3)",
+      "avg_rank": 7.916666666666667
+    },
+    {
+      "rank": 5,
+      "config_id": "P2_C06",
+      "label": "1010 (H1+H3)",
+      "avg_rank": 8.0
+    },
+    {
+      "rank": 6,
+      "config_id": "P2_C12",
+      "label": "1101 (H1+H2+H4)",
+      "avg_rank": 8.083333333333334
+    },
+    {
+      "rank": 7,
+      "config_id": "P2_C03",
+      "label": "0010 (H3)",
+      "avg_rank": 8.25
+    },
+    {
+      "rank": 8,
+      "config_id": "P2_C00",
+      "label": "0000 (baseline)",
+      "avg_rank": 8.416666666666666
+    },
+    {
+      "rank": 9,
+      "config_id": "P2_C07",
+      "label": "1001 (H1+H4)",
+      "avg_rank": 8.5
+    },
+    {
+      "rank": 10,
+      "config_id": "P2_C15",
+      "label": "1111 (all)",
+      "avg_rank": 8.583333333333334
+    },
+    {
+      "rank": 11,
+      "config_id": "P2_C13",
+      "label": "1011 (H1+H3+H4)",
+      "avg_rank": 8.916666666666666
+    },
+    {
+      "rank": 12,
+      "config_id": "P2_C14",
+      "label": "0111 (H2+H3+H4)",
+      "avg_rank": 9.0
+    },
+    {
+      "rank": 13,
+      "config_id": "P2_C04",
+      "label": "0001 (H4)",
+      "avg_rank": 9.333333333333334
+    },
+    {
+      "rank": 14,
+      "config_id": "P2_C01",
+      "label": "1000 (H1)",
+      "avg_rank": 9.583333333333334
+    },
+    {
+      "rank": 15,
+      "config_id": "P2_C02",
+      "label": "0100 (H2)",
+      "avg_rank": 10.833333333333334
+    },
+    {
+      "rank": 16,
+      "config_id": "P2_C11",
+      "label": "1110 (H1+H2+H3)",
+      "avg_rank": 11.0
+    }
+  ],
+  "factor_effects": {
+    "H1 (dissim.)": {
+      "mean_rank_on": 8.594,
+      "mean_rank_off": 8.406,
+      "effect": -0.188
+    },
+    "H2 (collective)": {
+      "mean_rank_on": 8.604,
+      "mean_rank_off": 8.396,
+      "effect": -0.208
+    },
+    "H3 (eta10)": {
+      "mean_rank_on": 8.479,
+      "mean_rank_off": 8.521,
+      "effect": 0.042
+    },
+    "H4 (adaptive)": {
+      "mean_rank_on": 8.24,
+      "mean_rank_off": 8.76,
+      "effect": 0.521
+    }
+  },
+  "interactions": {
+    "H1 (dissim.) x H2 (collective)": {
+      "effect_fi": -0.708,
+      "effect_fj": -0.729,
+      "effect_both": -0.396,
+      "interaction": 1.042,
+      "type": "synergy"
+    },
+    "H1 (dissim.) x H3 (eta10)": {
+      "effect_fi": 0.917,
+      "effect_fj": 1.146,
+      "effect_both": -0.146,
+      "interaction": -2.208,
+      "type": "antagonism"
+    },
+    "H1 (dissim.) x H4 (adaptive)": {
+      "effect_fi": 0.187,
+      "effect_fj": 0.896,
+      "effect_both": 0.333,
+      "interaction": -0.75,
+      "type": "antagonism"
+    },
+    "H2 (collective) x H3 (eta10)": {
+      "effect_fi": 0.875,
+      "effect_fj": 1.125,
+      "effect_both": -0.167,
+      "interaction": -2.167,
+      "type": "antagonism"
+    },
+    "H2 (collective) x H4 (adaptive)": {
+      "effect_fi": -0.396,
+      "effect_fj": 0.333,
+      "effect_both": 0.312,
+      "interaction": 0.375,
+      "type": "additive"
+    },
+    "H3 (eta10) x H4 (adaptive)": {
+      "effect_fi": -0.062,
+      "effect_fj": 0.417,
+      "effect_both": 0.563,
+      "interaction": 0.208,
+      "type": "additive"
+    }
+  },
+  "significant_pairs": 0,
+  "winner": {
+    "config_id": "P2_C05",
+    "label": "1100 (H1+H2)",
+    "H1": 1,
+    "H2": 1,
+    "H3": 0,
+    "H4": 0,
+    "avg_rank": 6.083333333333333
+  }
+}

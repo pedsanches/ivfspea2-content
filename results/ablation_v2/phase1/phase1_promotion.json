@@ -1,0 +1,602 @@
+{
+  "H1": {
+    "config": "IVFSPEA2_V1_DISSIM",
+    "display": "V1 (dissim.)",
+    "wins": 2,
+    "ties": 10,
+    "losses": 0,
+    "median_improvements": 6,
+    "promoted": true,
+    "reason": "Criterion A: 2 win(s), 0 losses",
+    "details": [
+      {
+        "instance": "ZDT1(M=2)",
+        "description": "Convex continuous",
+        "indicator": "+",
+        "p_value": 0.0,
+        "base_median": 0.04030368,
+        "var_median": 0.00392267,
+        "improvement_pct": 90.27
+      },
+      {
+        "instance": "ZDT6(M=2)",
+        "description": "Concave non-uniform",
+        "indicator": "=",
+        "p_value": 0.297272,
+        "base_median": 0.0030731,
+        "var_median": 0.00306335,
+        "improvement_pct": 0.32
+      },
+      {
+        "instance": "WFG4(M=2)",
+        "description": "Concave multimodal",
+        "indicator": "+",
+        "p_value": 0.033874,
+        "base_median": 0.01280141,
+        "var_median": 0.01273451,
+        "improvement_pct": 0.52
+      },
+      {
+        "instance": "WFG9(M=2)",
+        "description": "Concave non-separable",
+        "indicator": "=",
+        "p_value": 0.053685,
+        "base_median": 0.01699732,
+        "var_median": 0.01568382,
+        "improvement_pct": 7.73
+      },
+      {
+        "instance": "DTLZ1(M=3)",
+        "description": "Linear",
+        "indicator": "=",
+        "p_value": 0.05012,
+        "base_median": 0.02005313,
+        "var_median": 0.02017835,
+        "improvement_pct": -0.62
+      },
+      {
+        "instance": "DTLZ2(M=3)",
+        "description": "Spherical regular",
+        "indicator": "=",
+        "p_value": 0.795846,
+        "base_median": 0.05375897,
+        "var_median": 0.05376386,
+        "improvement_pct": -0.01
+      },
+      {
+        "instance": "DTLZ4(M=3)",
+        "description": "Spherical biased \u2605",
+        "indicator": "=",
+        "p_value": 0.982307,
+        "base_median": 0.05468796,
+        "var_median": 0.05478881,
+        "improvement_pct": -0.18
+      },
+      {
+        "instance": "DTLZ7(M=3)",
+        "description": "Disconnected",
+        "indicator": "=",
+        "p_value": 0.53951,
+        "base_median": 0.06049867,
+        "var_median": 0.06041718,
+        "improvement_pct": 0.13
+      },
+      {
+        "instance": "WFG2(M=3)",
+        "description": "Disconnected non-sep. \u2605",
+        "indicator": "=",
+        "p_value": 0.074827,
+        "base_median": 0.17424274,
+        "var_median": 0.17663647,
+        "improvement_pct": -1.37
+      },
+      {
+        "instance": "WFG5(M=3)",
+        "description": "Concave degenerate",
+        "indicator": "=",
+        "p_value": 0.102326,
+        "base_median": 0.22169808,
+        "var_median": 0.22093951,
+        "improvement_pct": 0.34
+      },
+      {
+        "instance": "MaF1(M=3)",
+        "description": "Linear inverted",
+        "indicator": "=",
+        "p_value": 0.325527,
+        "base_median": 0.04121649,
+        "var_median": 0.04133678,
+        "improvement_pct": -0.29
+      },
+      {
+        "instance": "MaF5(M=3)",
+        "description": "Convex-inverted \u2605",
+        "indicator": "=",
+        "p_value": 0.559231,
+        "base_median": 0.24587244,
+        "var_median": 0.2472971,
+        "improvement_pct": -0.58
+      }
+    ]
+  },
+  "H2": {
+    "config": "IVFSPEA2_V2_COLLECTIVE",
+    "display": "V2 (collective)",
+    "wins": 2,
+    "ties": 9,
+    "losses": 1,
+    "median_improvements": 7,
+    "promoted": true,
+    "reason": "Criterion B: median better in 7/12 instances",
+    "details": [
+      {
+        "instance": "ZDT1(M=2)",
+        "description": "Convex continuous",
+        "indicator": "+",
+        "p_value": 0.0,
+        "base_median": 0.04030368,
+        "var_median": 0.00390658,
+        "improvement_pct": 90.31
+      },
+      {
+        "instance": "ZDT6(M=2)",
+        "description": "Concave non-uniform",
+        "indicator": "=",
+        "p_value": 0.270705,
+        "base_median": 0.0030731,
+        "var_median": 0.00308163,
+        "improvement_pct": -0.28
+      },
+      {
+        "instance": "WFG4(M=2)",
+        "description": "Concave multimodal",
+        "indicator": "+",
+        "p_value": 0.005322,
+        "base_median": 0.01280141,
+        "var_median": 0.01268614,
+        "improvement_pct": 0.9
+      },
+      {
+        "instance": "WFG9(M=2)",
+        "description": "Concave non-separable",
+        "indicator": "=",
+        "p_value": 0.673495,
+        "base_median": 0.01699732,
+        "var_median": 0.01611327,
+        "improvement_pct": 5.2
+      },
+      {
+        "instance": "DTLZ1(M=3)",
+        "description": "Linear",
+        "indicator": "-",
+        "p_value": 0.036439,
+        "base_median": 0.02005313,
+        "var_median": 0.02015428,
+        "improvement_pct": -0.5
+      },
+      {
+        "instance": "DTLZ2(M=3)",
+        "description": "Spherical regular",
+        "indicator": "=",
+        "p_value": 0.761828,
+        "base_median": 0.05375897,
+        "var_median": 0.05375397,
+        "improvement_pct": 0.01
+      },
+      {
+        "instance": "DTLZ4(M=3)",
+        "description": "Spherical biased \u2605",
+        "indicator": "=",
+        "p_value": 0.818746,
+        "base_median": 0.05468796,
+        "var_median": 0.0546311,
+        "improvement_pct": 0.1
+      },
+      {
+        "instance": "DTLZ7(M=3)",
+        "description": "Disconnected",
+        "indicator": "=",
+        "p_value": 0.911709,
+        "base_median": 0.06049867,
+        "var_median": 0.06050799,
+        "improvement_pct": -0.02
+      },
+      {
+        "instance": "WFG2(M=3)",
+        "description": "Disconnected non-sep. \u2605",
+        "indicator": "=",
+        "p_value": 0.211561,
+        "base_median": 0.17424274,
+        "var_median": 0.17308801,
+        "improvement_pct": 0.66
+      },
+      {
+        "instance": "WFG5(M=3)",
+        "description": "Concave degenerate",
+        "indicator": "=",
+        "p_value": 0.589451,
+        "base_median": 0.22169808,
+        "var_median": 0.2212407,
+        "improvement_pct": 0.21
+      },
+      {
+        "instance": "MaF1(M=3)",
+        "description": "Linear inverted",
+        "indicator": "=",
+        "p_value": 0.325527,
+        "base_median": 0.04121649,
+        "var_median": 0.04137853,
+        "improvement_pct": -0.39
+      },
+      {
+        "instance": "MaF5(M=3)",
+        "description": "Convex-inverted \u2605",
+        "indicator": "=",
+        "p_value": 0.420386,
+        "base_median": 0.24587244,
+        "var_median": 0.24783192,
+        "improvement_pct": -0.8
+      }
+    ]
+  },
+  "H3": {
+    "config": "IVFSPEA2_V3_ETA10",
+    "display": "V3 ($\\eta_c=10$)",
+    "wins": 2,
+    "ties": 10,
+    "losses": 0,
+    "median_improvements": 8,
+    "promoted": true,
+    "reason": "Criterion A: 2 win(s), 0 losses; Criterion B: median better in 8/12 instances",
+    "details": [
+      {
+        "instance": "ZDT1(M=2)",
+        "description": "Convex continuous",
+        "indicator": "+",
+        "p_value": 0.0,
+        "base_median": 0.04030368,
+        "var_median": 0.00393472,
+        "improvement_pct": 90.24
+      },
+      {
+        "instance": "ZDT6(M=2)",
+        "description": "Concave non-uniform",
+        "indicator": "=",
+        "p_value": 0.795846,
+        "base_median": 0.0030731,
+        "var_median": 0.00307224,
+        "improvement_pct": 0.03
+      },
+      {
+        "instance": "WFG4(M=2)",
+        "description": "Concave multimodal",
+        "indicator": "=",
+        "p_value": 0.217017,
+        "base_median": 0.01280141,
+        "var_median": 0.01278101,
+        "improvement_pct": 0.16
+      },
+      {
+        "instance": "WFG9(M=2)",
+        "description": "Concave non-separable",
+        "indicator": "=",
+        "p_value": 0.067869,
+        "base_median": 0.01699732,
+        "var_median": 0.01587809,
+        "improvement_pct": 6.58
+      },
+      {
+        "instance": "DTLZ1(M=3)",
+        "description": "Linear",
+        "indicator": "=",
+        "p_value": 0.195791,
+        "base_median": 0.02005313,
+        "var_median": 0.02009541,
+        "improvement_pct": -0.21
+      },
+      {
+        "instance": "DTLZ2(M=3)",
+        "description": "Spherical regular",
+        "indicator": "=",
+        "p_value": 1.0,
+        "base_median": 0.05375897,
+        "var_median": 0.0536911,
+        "improvement_pct": 0.13
+      },
+      {
+        "instance": "DTLZ4(M=3)",
+        "description": "Spherical biased \u2605",
+        "indicator": "=",
+        "p_value": 0.946956,
+        "base_median": 0.05468796,
+        "var_median": 0.0545898,
+        "improvement_pct": 0.18
+      },
+      {
+        "instance": "DTLZ7(M=3)",
+        "description": "Disconnected",
+        "indicator": "+",
+        "p_value": 0.001114,
+        "base_median": 0.06049867,
+        "var_median": 0.05936734,
+        "improvement_pct": 1.87
+      },
+      {
+        "instance": "WFG2(M=3)",
+        "description": "Disconnected non-sep. \u2605",
+        "indicator": "=",
+        "p_value": 0.420386,
+        "base_median": 0.17424274,
+        "var_median": 0.173592,
+        "improvement_pct": 0.37
+      },
+      {
+        "instance": "WFG5(M=3)",
+        "description": "Concave degenerate",
+        "indicator": "=",
+        "p_value": 0.53951,
+        "base_median": 0.22169808,
+        "var_median": 0.22211525,
+        "improvement_pct": -0.19
+      },
+      {
+        "instance": "MaF1(M=3)",
+        "description": "Linear inverted",
+        "indicator": "=",
+        "p_value": 0.371077,
+        "base_median": 0.04121649,
+        "var_median": 0.04128734,
+        "improvement_pct": -0.17
+      },
+      {
+        "instance": "MaF5(M=3)",
+        "description": "Convex-inverted \u2605",
+        "indicator": "=",
+        "p_value": 0.304177,
+        "base_median": 0.24587244,
+        "var_median": 0.87147986,
+        "improvement_pct": -254.44
+      }
+    ]
+  },
+  "H4": {
+    "config": "IVFSPEA2_V4_ADAPTIVE",
+    "display": "V4 (adaptive)",
+    "wins": 4,
+    "ties": 8,
+    "losses": 0,
+    "median_improvements": 7,
+    "promoted": true,
+    "reason": "Criterion A: 4 win(s), 0 losses; Criterion B: median better in 7/12 instances",
+    "details": [
+      {
+        "instance": "ZDT1(M=2)",
+        "description": "Convex continuous",
+        "indicator": "+",
+        "p_value": 0.0,
+        "base_median": 0.04030368,
+        "var_median": 0.00390229,
+        "improvement_pct": 90.32
+      },
+      {
+        "instance": "ZDT6(M=2)",
+        "description": "Concave non-uniform",
+        "indicator": "=",
+        "p_value": 0.482517,
+        "base_median": 0.0030731,
+        "var_median": 0.00307576,
+        "improvement_pct": -0.09
+      },
+      {
+        "instance": "WFG4(M=2)",
+        "description": "Concave multimodal",
+        "indicator": "+",
+        "p_value": 0.043584,
+        "base_median": 0.01280141,
+        "var_median": 0.01271026,
+        "improvement_pct": 0.71
+      },
+      {
+        "instance": "WFG9(M=2)",
+        "description": "Concave non-separable",
+        "indicator": "=",
+        "p_value": 0.063533,
+        "base_median": 0.01699732,
+        "var_median": 0.01585375,
+        "improvement_pct": 6.73
+      },
+      {
+        "instance": "DTLZ1(M=3)",
+        "description": "Linear",
+        "indicator": "=",
+        "p_value": 0.10869,
+        "base_median": 0.02005313,
+        "var_median": 0.02013267,
+        "improvement_pct": -0.4
+      },
+      {
+        "instance": "DTLZ2(M=3)",
+        "description": "Spherical regular",
+        "indicator": "=",
+        "p_value": 0.395267,
+        "base_median": 0.05375897,
+        "var_median": 0.05386121,
+        "improvement_pct": -0.19
+      },
+      {
+        "instance": "DTLZ4(M=3)",
+        "description": "Spherical biased \u2605",
+        "indicator": "+",
+        "p_value": 0.023243,
+        "base_median": 0.05468796,
+        "var_median": 0.05400201,
+        "improvement_pct": 1.25
+      },
+      {
+        "instance": "DTLZ7(M=3)",
+        "description": "Disconnected",
+        "indicator": "+",
+        "p_value": 0.031466,
+        "base_median": 0.06049867,
+        "var_median": 0.05966488,
+        "improvement_pct": 1.38
+      },
+      {
+        "instance": "WFG2(M=3)",
+        "description": "Disconnected non-sep. \u2605",
+        "indicator": "=",
+        "p_value": 0.510598,
+        "base_median": 0.17424274,
+        "var_median": 0.17441924,
+        "improvement_pct": -0.1
+      },
+      {
+        "instance": "WFG5(M=3)",
+        "description": "Concave degenerate",
+        "indicator": "=",
+        "p_value": 0.841801,
+        "base_median": 0.22169808,
+        "var_median": 0.22153684,
+        "improvement_pct": 0.07
+      },
+      {
+        "instance": "MaF1(M=3)",
+        "description": "Linear inverted",
+        "indicator": "=",
+        "p_value": 0.185767,
+        "base_median": 0.04121649,
+        "var_median": 0.04144115,
+        "improvement_pct": -0.55
+      },
+      {
+        "instance": "MaF5(M=3)",
+        "description": "Convex-inverted \u2605",
+        "indicator": "=",
+        "p_value": 0.520145,
+        "base_median": 0.24587244,
+        "var_median": 0.24483339,
+        "improvement_pct": 0.42
+      }
+    ]
+  },
+  "H5": {
+    "config": "IVFSPEA2_V5_MUTATION",
+    "display": "V5 (mutation)",
+    "wins": 2,
+    "ties": 9,
+    "losses": 1,
+    "median_improvements": 6,
+    "promoted": false,
+    "reason": "NOT promoted: 2W/9T/1L, median better in 6/12",
+    "details": [
+      {
+        "instance": "ZDT1(M=2)",
+        "description": "Convex continuous",
+        "indicator": "+",
+        "p_value": 0.0,
+        "base_median": 0.04030368,
+        "var_median": 0.00393587,
+        "improvement_pct": 90.23
+      },
+      {
+        "instance": "ZDT6(M=2)",
+        "description": "Concave non-uniform",
+        "indicator": "=",
+        "p_value": 0.717189,
+        "base_median": 0.0030731,
+        "var_median": 0.00306876,
+        "improvement_pct": 0.14
+      },
+      {
+        "instance": "WFG4(M=2)",
+        "description": "Concave multimodal",
+        "indicator": "=",
+        "p_value": 0.325527,
+        "base_median": 0.01280141,
+        "var_median": 0.01286694,
+        "improvement_pct": -0.51
+      },
+      {
+        "instance": "WFG9(M=2)",
+        "description": "Concave non-separable",
+        "indicator": "+",
+        "p_value": 0.010315,
+        "base_median": 0.01699732,
+        "var_median": 0.0153236,
+        "improvement_pct": 9.85
+      },
+      {
+        "instance": "DTLZ1(M=3)",
+        "description": "Linear",
+        "indicator": "=",
+        "p_value": 0.051877,
+        "base_median": 0.02005313,
+        "var_median": 0.0201467,
+        "improvement_pct": -0.47
+      },
+      {
+        "instance": "DTLZ2(M=3)",
+        "description": "Spherical regular",
+        "indicator": "=",
+        "p_value": 0.411911,
+        "base_median": 0.05375897,
+        "var_median": 0.05392023,
+        "improvement_pct": -0.3
+      },
+      {
+        "instance": "DTLZ4(M=3)",
+        "description": "Spherical biased \u2605",
+        "indicator": "=",
+        "p_value": 0.935192,
+        "base_median": 0.05468796,
+        "var_median": 0.05471166,
+        "improvement_pct": -0.04
+      },
+      {
+        "instance": "DTLZ7(M=3)",
+        "description": "Disconnected",
+        "indicator": "=",
+        "p_value": 0.53951,
+        "base_median": 0.06049867,
+        "var_median": 0.06047588,
+        "improvement_pct": 0.04
+      },
+      {
+        "instance": "WFG2(M=3)",
+        "description": "Disconnected non-sep. \u2605",
+        "indicator": "=",
+        "p_value": 0.363222,
+        "base_median": 0.17424274,
+        "var_median": 0.17340987,
+        "improvement_pct": 0.48
+      },
+      {
+        "instance": "WFG5(M=3)",
+        "description": "Concave degenerate",
+        "indicator": "=",
+        "p_value": 0.935192,
+        "base_median": 0.22169808,
+        "var_median": 0.22140136,
+        "improvement_pct": 0.13
+      },
+      {
+        "instance": "MaF1(M=3)",
+        "description": "Linear inverted",
+        "indicator": "-",
+        "p_value": 0.009883,
+        "base_median": 0.04121649,
+        "var_median": 0.04156251,
+        "improvement_pct": -0.84
+      },
+      {
+        "instance": "MaF5(M=3)",
+        "description": "Convex-inverted \u2605",
+        "indicator": "=",
+        "p_value": 0.728265,
+        "base_median": 0.24587244,
+        "var_median": 0.24612964,
+        "improvement_pct": -0.1
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+Phase,ConfigID,ProblemTag,Folder,FolderExists,ExpectedRuns,FoundRuns,MissingRuns,ExtraRuns,PrefixMismatch,MetricChecked,MetricMissing,Status
+B,B04,ZDT1_M2,/home/pedro/desenvolvimento/ivfspea2/data/tuning_ivfspea2v2/phaseB/IVFSPEA2V2_B04_ZDT1_M2,True,1,1,0,0,0,1,0,OK
+B,B04,WFG4_M2,/home/pedro/desenvolvimento/ivfspea2/data/tuning_ivfspea2v2/phaseB/IVFSPEA2V2_B04_WFG4_M2,True,1,1,0,0,0,1,0,OK
+B,B04,DTLZ7_M3,/home/pedro/desenvolvimento/ivfspea2/data/tuning_ivfspea2v2/phaseB/IVFSPEA2V2_B04_DTLZ7_M3,True,1,1,0,0,0,1,0,OK
+B,B04,WFG2_M3,/home/pedro/desenvolvimento/ivfspea2/data/tuning_ivfspea2v2/phaseB/IVFSPEA2V2_B04_WFG2_M3,True,1,1,0,0,0,1,0,OK
+B,B04,MaF5_M3,/home/pedro/desenvolvimento/ivfspea2/data/tuning_ivfspea2v2/phaseB/IVFSPEA2V2_B04_MaF5_M3,True,1,1,0,0,0,1,0,OK

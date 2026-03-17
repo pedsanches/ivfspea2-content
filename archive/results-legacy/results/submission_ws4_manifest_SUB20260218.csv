@@ -1,0 +1,25 @@
+Scope,Artifact,Producer,PrimaryInput,CanonicalRule,Consumer,FreezeStatus,LastValidatedAt
+GATE,results/submission_ws2_ws3_readiness_SUB20260218.csv,WS2+WS3 checks,results/ivfspea2_submission_matrix_status_SUB20260218.csv|results/ivfspea2_submission_manifest_SUB20260218.csv|results/rwmop9_*,PASS required before WS4,pipeline,READY,2026-02-19
+CORE_SUBMISSION,results/ivfspea2_submission_matrix_status_SUB20260218.csv,experiments/validate_ivfspea2_submission_matrix.m,src/matlab/lib/PlatEMO/Data/IVFSPEA2,run-id 2001..2100 only,QA/report,READY,2026-02-19
+CORE_SUBMISSION,results/ivfspea2_submission_manifest_SUB20260218.csv,experiments/run_ivfspea2_all_benchmarks_submission.m (+reconciled),src/matlab/lib/PlatEMO/Data/IVFSPEA2,run-id 2001..2100 only,QA/report,READY,2026-02-19
+CORE_SUBMISSION,results/rwmop9_igd_results.csv,experiments/process_rwmop9.m,src/matlab/lib/PlatEMO/Data/*_RWMOP9_*.mat,robust empirical-PF process,results+paper,FROZEN,2026-02-19
+CORE_SUBMISSION,results/rwmop9_hv_results.csv,experiments/process_rwmop9.m,src/matlab/lib/PlatEMO/Data/*_RWMOP9_*.mat,robust empirical-PF process,results+paper,FROZEN,2026-02-19
+CORE_SUBMISSION,results/rwmop9_table.tex,experiments/process_rwmop9.m,results/rwmop9_igd_results.csv|results/rwmop9_hv_results.csv,robust empirical-PF process,paper text sync,FROZEN,2026-02-19
+REPORTING,results/runtime_overhead.csv,src/python/analysis/computational_overhead.py,data/processed/metrica_runtime.csv,provenance must be verified,paper table,GENERATED,2026-02-19
+REPORTING,results/runtime_overhead_table.tex,src/python/analysis/computational_overhead.py,results/runtime_overhead.csv,provenance must be verified,paper table,GENERATED,2026-02-19
+REPORTING,results/igd_dispersion_M2.csv,src/python/analysis/compute_iqr_tables.py,data/processed/todas_metricas_consolidado.csv,provenance must be verified,supplementary/PQC,GENERATED,2026-02-19
+REPORTING,results/igd_dispersion_M3.csv,src/python/analysis/compute_iqr_tables.py,data/processed/todas_metricas_consolidado.csv,provenance must be verified,supplementary/PQC,GENERATED,2026-02-19
+REPORTING,results/figures/boxplot_igd_M2_all_problems.pdf,src/python/analysis/script.py,data/processed/igd_values_per_run.csv,provenance must be verified,paper/figures/results_m2.pdf,GENERATED,2026-02-19
+REPORTING,results/figures/boxplot_igd_M3_all_problems.pdf,src/python/analysis/script.py,data/processed/igd_values_per_run.csv,provenance must be verified,paper/figures/results_m3.pdf,GENERATED,2026-02-19
+REPORTING,results/figures/heatmap_comparacao.png,src/python/analysis/teste.py,src/matlab/lib/PlatEMO/Data/*,must avoid legacy leakage,paper/figures/heatmap_comparacao.png,GENERATED,2026-02-19
+REPORTING,results/sensitivity_analysis_igd.csv,src/python/analysis/sensitivity_analysis.py,data/raw/Experimentos_Platemo/*,must avoid legacy leakage,paper sensitivity figure,GENERATED,2026-02-19
+REPORTING,results/figures/sensitivity_heatmap_dtlz1.pdf,src/python/analysis/plot_sensitivity.py,results/sensitivity_analysis_igd.csv,must avoid legacy leakage,paper/figures/sensitivity_heatmap_dtlz1.pdf,GENERATED,2026-02-19
+OPTION_C_EXTENDED,results/ablation/,src/python/analysis/analyze_ablation.py,data/ablation/*,full package required by Option C,archive/supplement,FROZEN,2026-02-21
+OPTION_C_EXTENDED,results/engineering/,src/python/analysis/analyze_engineering.py,data/engineering/*,full package required by Option C,archive/supplement,FROZEN,2026-02-21
+OPTION_C_EXTENDED,results/sensitivity_multiclass/,src/python/analysis/analyze_sensitivity_multiclass.py,data/sensitivity_multiclass/*,full package required by Option C,archive/supplement,FROZEN,2026-02-21
+OPTION_C_EXTENDED,results/tables/igd_per_instance_M2.tex,src/python/analysis/generate_per_instance_tables.py,data/processed/todas_metricas_consolidado.csv|data/modern_baselines|data/engineering,full package required by Option C,archive/supplement,FROZEN,2026-02-21
+OPTION_C_EXTENDED,results/tables/igd_per_instance_M3.tex,src/python/analysis/generate_per_instance_tables.py,data/processed/todas_metricas_consolidado.csv|data/modern_baselines|data/engineering,full package required by Option C,archive/supplement,FROZEN,2026-02-21
+PAPER_FREEZE,paper/figures/results_m2.pdf,manual freeze copy,results/figures/boxplot_igd_M2_all_problems.pdf,manifest row must be updated,paper/src/sn-article.tex,FROZEN,2026-02-19
+PAPER_FREEZE,paper/figures/results_m3.pdf,manual freeze copy,results/figures/boxplot_igd_M3_all_problems.pdf,manifest row must be updated,paper/src/sn-article.tex,FROZEN,2026-02-19
+PAPER_FREEZE,paper/figures/heatmap_comparacao.png,manual freeze copy,results/figures/heatmap_comparacao.png,manifest row must be updated,paper/src/sn-article.tex,FROZEN,2026-02-19
+PAPER_FREEZE,paper/figures/sensitivity_heatmap_dtlz1.pdf,manual freeze copy,results/figures/sensitivity_heatmap_dtlz1.pdf,manifest row must be updated,paper/src/sn-article.tex,FROZEN,2026-02-19

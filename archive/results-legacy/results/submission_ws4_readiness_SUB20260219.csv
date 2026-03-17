@@ -1,0 +1,13 @@
+Check,Status,Details
+reporting_scripts_all_ok,WARN,fails=1
+exists::results/runtime_overhead_table.tex,PASS,
+exists::results/igd_dispersion_M2.csv,PASS,
+exists::results/igd_dispersion_M3.csv,PASS,
+exists::results/figures/boxplot_igd_M2_all_problems.pdf,PASS,
+exists::results/figures/boxplot_igd_M3_all_problems.pdf,PASS,
+exists::results/figures/heatmap_comparacao.png,PASS,
+exists::results/figures/sensitivity_heatmap_dtlz1.pdf,PASS,
+exists::paper/figures/results_m2.pdf,PASS,
+exists::paper/figures/results_m3.pdf,PASS,
+exists::paper/figures/heatmap_comparacao.png,PASS,
+exists::paper/figures/sensitivity_heatmap_dtlz1.pdf,PASS,

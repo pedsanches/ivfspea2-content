@@ -1,0 +1,20 @@
+\begin{table}[t]
+\caption{RWMOP9 (Four Bar Plane Truss): median IGD (IQR) over 100 runs. Symbols: $+$ = IVF/SPEA2 significantly better, $-$ = significantly worse, $\approx$ = no significant difference (Wilcoxon, $\alpha=0.05$). Best median in \textbf{bold}.}
+\label{tab:engineering}
+\centering\scriptsize
+\begin{tabular}{lr@{\hskip 4pt}r}
+\toprule
+Algorithm & Median IGD (IQR) & $n$ \\
+\midrule
+IVF/SPEA2 & \textbf{3.72(0.00)e-2} & 112 \\
+SPEA2 & 3.72(0.00)e-2$^{-}$ & 100 \\
+MFO-SPEA2 & 3.72(0.00)e-2$^{-}$ & 100 \\
+SPEA2+SDE & 1.16(0.78)e+2$^{+}$ & 100 \\
+NSGA-II & 3.72(0.00)e-2$^{-}$ & 100 \\
+NSGA-III & 3.74(0.02)e-2$^{+}$ & 100 \\
+MOEA/D & 1.65(0.00)e+3$^{+}$ & 100 \\
+AGE-II & 3.72(0.00)e-2$^{\approx}$ & 100 \\
+AR-MOEA & 1.19(2.44)e+0$^{+}$ & 100 \\
+\botrule
+\end{tabular}
+\end{table}

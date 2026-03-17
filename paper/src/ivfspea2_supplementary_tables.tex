@@ -1,0 +1,62 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{pdflscape}
+
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\renewcommand{\arraystretch}{0.98}
+\providecommand{\botrule}{\bottomrule}
+
+\title{Online Resource 1: Exploratory and Supportive Material for IVF/SPEA2}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+This online resource collects the exploratory average-rank figure, representative engineering-front plots, and supportive ablation material referenced in the manuscript. The per-instance synthetic IGD and HV tables are now reported in Appendix~A of the main manuscript. All supplementary items follow the same cohort definitions, filtering rules, and sign conventions described in the paper.
+
+\clearpage
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.92\textwidth]{../figures/friedman_avg_rank_igd.pdf}
+	\caption{Exploratory Friedman-style average ranks based on per-instance median IGD. These ranks provide contextual navigation only and are not used for confirmatory claims in the main manuscript.}
+\end{figure}
+
+\clearpage
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.86\textwidth]{../figures/engineering_fronts_rwmop9_rwmop8.pdf}
+	\caption{Representative engineering fronts from the median-IGD run of each algorithm. Panel (a) shows the largely overlapping support on RWMOP9 ($M=2$), whereas panel (b) highlights the narrower low-$f_2$ concentration of NSGA-III and AR-MOEA relative to IVF/SPEA2 and SPEA2 on RWMOP8 ($M=3$).}
+\end{figure}
+
+\clearpage
+{\scriptsize
+	\input{../../results/ablation_v2/phase1/phase1_table.tex}}
+
+\clearpage
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.62\textwidth]{../../results/ablation_v2/phase2/phase2_interactions.pdf}
+	\caption{Descriptive two-factor interaction map from the Phase 2 ablation. The H1$\times$H2 cell is the strongest positive interaction, but the associated omnibus Friedman test is non-significant and the panel is therefore supportive rather than confirmatory.}
+\end{figure}
+
+\clearpage
+{\small
+	\input{../../results/ablation_v2/phase2/phase2_ranking_table.tex}}
+
+\clearpage
+{\tiny
+	\input{../../results/ablation_v2/phase3/phase3_igd_table.tex}}
+
+\clearpage
+{\tiny
+	\input{../../results/ablation_v2/phase3/phase3_hv_table.tex}}
+
+\end{document}

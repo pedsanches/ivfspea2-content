@@ -1,0 +1,27 @@
+\begin{table}[t]
+\caption{Phase 2 Friedman ranking across 12 benchmark instances (descriptive only; the omnibus test does not reject equal rankings: $\chi^2 = 14.54$, $p = 0.485$). Rankings are used to prioritize combinations for Phase~3, not as confirmatory evidence.}
+\label{tab:ablation_v2_phase2_ranking}
+\centering\small
+\begin{tabular}{clccccr}
+\toprule
+Rank & Config & H1 & H2 & H3 & H4 & Avg.\ Rank \\
+\midrule
+1 & 1100 (H1+H2) & \checkmark & \checkmark &  &  & \textbf{6.08} \\
+2 & 0011 (H3+H4) &  &  & \checkmark & \checkmark & 6.17 \\
+3 & 0101 (H2+H4) &  & \checkmark &  & \checkmark & 7.33 \\
+4 & 0110 (H2+H3) &  & \checkmark & \checkmark &  & 7.92 \\
+5 & 1010 (H1+H3) & \checkmark &  & \checkmark &  & 8.00 \\
+6 & 1101 (H1+H2+H4) & \checkmark & \checkmark &  & \checkmark & 8.08 \\
+7 & 0010 (H3) &  &  & \checkmark &  & 8.25 \\
+8 & 0000 (baseline) &  &  &  &  & 8.42 \\
+9 & 1001 (H1+H4) & \checkmark &  &  & \checkmark & 8.50 \\
+10 & 1111 (all) & \checkmark & \checkmark & \checkmark & \checkmark & 8.58 \\
+11 & 1011 (H1+H3+H4) & \checkmark &  & \checkmark & \checkmark & 8.92 \\
+12 & 0111 (H2+H3+H4) &  & \checkmark & \checkmark & \checkmark & 9.00 \\
+13 & 0001 (H4) &  &  &  & \checkmark & 9.33 \\
+14 & 1000 (H1) & \checkmark &  &  &  & 9.58 \\
+15 & 0100 (H2) &  & \checkmark &  &  & 10.83 \\
+16 & 1110 (H1+H2+H3) & \checkmark & \checkmark & \checkmark &  & 11.00 \\
+\bottomrule
+\end{tabular}
+\end{table}

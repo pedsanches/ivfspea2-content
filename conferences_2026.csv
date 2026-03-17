@@ -1,0 +1,24 @@
+Conferência,Deadline Submissão,Data Evento,Local,Escopo,Formato,Fit com IVF/SPEA2,Status Deadline,Tier,Ângulo de Submissão,URL
+GECCO 2026 (Full Paper),2026-01-26,2026-07-13 a 2026-07-17,"San José, Costa Rica",Computação evolutiva,Full paper (8 pág ACM),Excelente,Passou,1 - Core,Algoritmo evolutivo multi-objetivo,http://gecco-2026.sigevo.org/
+CEC/WCCI 2026,2026-01-31,2026-06-21 a 2026-06-26,"Maastricht, Holanda",Inteligência computacional,Full paper (8 pág IEEE),Excelente,Passou,1 - Core,Algoritmo evolutivo multi-objetivo,https://attend.ieee.org/wcci-2026/
+IJCNN 2026,2026-01-31,2026-06-21 a 2026-06-26,"Maastricht, Holanda",Redes neurais + CI,Full paper (8 pág IEEE),Médio,Passou,2 - Ampla com track,Bio-inspired optimization,https://attend.ieee.org/wcci-2026/
+MIC 2026,2026-02-27,2026-06-08 a 2026-06-11,"Ischia, Itália",Metaheurísticas,Full paper (15 pág LNCS),Excelente,Passou,1 - Core,Operador memético para MOEA,https://www.mic2026.unina.it/
+FLINS-ISKE 2026,2026-03-15,2026 (data TBA),"Sydney, Austrália",Decision making / Knowledge eng.,Full paper (6-8 pág),Médio,Passou (recente),2 - Ampla com track,"Intelligent operator selection para decision support",https://2026.flins.cc/
+ICAISC 2026,2025-11-15,2026-06-14 a 2026-06-18,"Zakopane, Polônia",AI e Soft Computing,Full paper (LNCS),Bom,Passou,1 - Core,Soft computing / evolutionary optimization,https://icaisc.eu/
+ANTS 2026 (Main Track),2025-11-10,2026-06-08 a 2026-06-10,"Darmstadt, Alemanha",Swarm Intelligence,Full paper (7-11 pág LNCS),Bom,Passou,1 - Core,Bio-inspired operator design,https://ants2026.org/
+GECCO 2026 (Workshops),2026-03-27,2026-07-13 a 2026-07-17,"San José, Costa Rica",Computação evolutiva,Workshop paper,Bom,Aberto,1 - Core,Estudo experimental / análise,http://gecco-2026.sigevo.org/
+PPSN 2026,2026-03-28,2026-08-29 a 2026-09-02,"Trento, Itália",Computação evolutiva,Full paper (LNCS),Excelente,Aberto,1 - Core,Algoritmo evolutivo + análise mecanística,https://ppsn2026.disi.unitn.it/
+ANTS 2026 (Late Breaking),2026-03-30,2026-06-08 a 2026-06-10,"Darmstadt, Alemanha",Swarm Intelligence,Short paper (LNCS),Bom,Aberto,1 - Core,Bio-inspired operator / resultado preliminar,https://ants2026.org/
+IEEE CIBCB 2026,2026-03-31,2026-08-31 a 2026-09-02,"Atenas, Grécia",Bioinformática + CI,Full paper (IEEE),Baixo,Aberto,3 - Stretch,Otimização multi-objetivo aplicada,https://attend.ieee.org/wcci-2026/
+DIS 2026,2026-04-05,2026-05-31 a 2026-06-04,República Tcheca,Dinâmica de sistemas de informação,Full paper,Médio,Aberto,2 - Ampla com track,Dinâmica de convergência evolutiva,TBA
+GECCO 2026 (LBAs),2026-04 a 2026-05 (TBA),2026-07-13 a 2026-07-17,"San José, Costa Rica",Computação evolutiva,Late-breaking abstract (2 pág),Excelente,Aberto (TBA),1 - Core,Resultado preliminar / insight,http://gecco-2026.sigevo.org/
+IEEE CASE 2026,2026-04 (TBA),2026-08-17 a 2026-08-21,"Shenyang, China",Automação e engenharia,Full paper (IEEE),Médio,Aberto (TBA),2 - Ampla com track,Engineering optimization com RWMOP,https://2026.ieeecase.org/
+ICCL 2026,2026-04-30,2026 (TBA),"Hamburgo, Alemanha",Logística + OR + AI,Full paper,Médio,Aberto,2 - Ampla com track,Multi-objective optimization methodology,https://www.iccl2026.uni-hamburg.de/
+IntelliSys 2026,2026-05 (TBA),2026 (TBA),TBA,AI genérico,Full paper,Médio,Aberto (TBA),2 - Ampla com track,Intelligent optimization,https://saiconference.com/IntelliSys/
+ANNSIM 2026,2026-04 a 2026-05 (TBA),2026,"Orlando, EUA",Modelagem e simulação,Full paper,Médio,Aberto (TBA),4 - Fora da caixa,Simulação de operadores evolutivos,https://annsim.org/
+BRACIS 2026,2026-06 a 2026-07 (TBA),2026-09 a 2026-10 (TBA),Brasil (TBA),AI / Intelligent Systems,Full paper (Springer),Bom,Futuro,3 - Regional,Algoritmo evolutivo multi-objetivo,https://bracis.sbc.org.br/2026/
+MICAI 2026,2026-06 (TBA),2026-10 a 2026-11 (TBA),México (TBA),AI,Full paper (Springer),Bom,Futuro,3 - Regional,Computational intelligence,https://micai.org/
+ENIAC 2026,2026-07 a 2026-08 (TBA),2026-09 a 2026-10 (TBA),Brasil (TBA),AI e CI (português),Full paper,Bom,Futuro,3 - Regional,Algoritmo evolutivo (em português),https://sol.sbc.org.br/index.php/eniac/
+IEEE SoutheastCon 2026,2026-04 (TBA),2026,EUA,Engenharia genérica,Full paper (IEEE),Baixo-Médio,Futuro (TBA),4 - Fora da caixa,Paper aplicado de engenharia,https://ieeesoutheastcon.org/
+EMO 2027,2026-10 a 2026-11 (TBA),2027-04-06 a 2027-04-08,"Exeter, UK",Multi-objetivo (core),Full paper (Springer),Excelente,Futuro,1 - Core,Multi-objective evolutionary optimization,https://www.emo2027.org/
+LION 2026 (Poster),Passou (poster still open?),2026-06-15 a 2026-06-19,"Milão, Itália",Learning + Optimization,Poster/abstract,Bom,Verificar,2 - Ampla com track,Learning-based optimization,https://lion20.org/

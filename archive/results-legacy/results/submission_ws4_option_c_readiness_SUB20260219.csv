@@ -1,0 +1,5 @@
+Check,Status,Details
+ablation_outputs_exist,PASS,results/ablation
+engineering_data_available,FAIL,data/engineering missing
+sensitivity_multiclass_data_available,FAIL,data/sensitivity_multiclass missing
+per_instance_tables_generated,PASS,generated without modern_baselines/engineering extensions

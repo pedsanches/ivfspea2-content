@@ -1,0 +1,5 @@
+script,status,exit_code,elapsed_sec,log
+src/python/analysis/analyze_ablation.py,OK,0,0.93,logs/ws4/analyze_ablation.log
+src/python/analysis/analyze_engineering.py,OK,0,0.55,logs/ws4/analyze_engineering.log
+src/python/analysis/analyze_sensitivity_multiclass.py,OK,0,0.33,logs/ws4/analyze_sensitivity_multiclass.log
+src/python/analysis/generate_per_instance_tables.py,OK,0,0.63,logs/ws4/generate_per_instance_tables.log

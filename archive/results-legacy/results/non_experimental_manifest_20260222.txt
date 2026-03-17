@@ -1,0 +1,49 @@
+# Non-experimental artifact manifest (2026-02-22)
+
+This manifest lists artifacts generated without running new optimization experiments.
+Generation scripts are deterministic over existing archived files.
+
+## Regeneration commands
+
+1) Rebuild ablation from local archived `.mat` files:
+   matlab -batch "run('scripts/rebuild_ablation_from_local_data.m')"
+
+2) Compute M2 IGD-HV cross-check (IVF/SPEA2 vs SPEA2):
+   matlab -batch "run('scripts/hv_m2_crosscheck.m')"
+
+3) Integrate modern baselines into main synthetic benchmark from archived runs:
+   matlab -batch "run('scripts/integrate_modern_baselines_main.m')"
+
+4) Build runtime competitiveness summary vs modern baselines:
+   matlab -batch "run('scripts/build_runtime_modern_summary.m')"
+
+5) Regenerate main synthetic boxplots with modern baselines:
+   matlab -batch "run('scripts/regenerate_main_boxplots_with_modern.m')"
+
+6) Build detailed M2/M3 IGD tables with modern baselines and best-per-problem highlighting:
+   matlab -batch "run('scripts/build_detailed_tables_with_modern.m')"
+
+## SHA-256 checksums
+
+499080689cf728ca6b19dd918ee7ed07d4ace260947a9dfe910edf4ebfee1615  results/ablation/ablation_filtered_runs.csv
+d31d2f8e2d73d564807cf10054242bfef352f12e384e55b7cca59ff37b8563c1  results/ablation/ablation_raw_igd.csv
+a48f34583eff15c6f78b560ac2fc56e2c79b083e156b1b445e607a1c842ab764  results/ablation/ablation_summary.csv
+e3ec092bb1fdfa14b4f103e525466dbc3e965568d23dba2908d07947ac25c52b  results/ablation/ablation_table.tex
+79e8cab3e1bf49a2d129441459e01bf1150ebe74677ce24f7a96b431bdc77694  results/tables/hv_igd_crosscheck_m2_ivf_vs_spea2.csv
+c38e2b19f7f3177c5c4fdf5bb6a8f7a12d6c6e709a6521ba7b201c67372bc8bb  data/processed/todas_metricas_consolidado_with_modern.csv
+8b35b6ce3021ec9767e795ce4db49ece3d7bc3b8da0eab309b11c860b6f954c0  results/tables/pairwise_vs_spea2_with_modern.csv
+8b25658e4b0ed39b4d2759056a6365d5bca44d7bc35e0e79acc7ed125c036ff6  results/tables/pairwise_ivf_vs_modern.csv
+19dd3931fbc6ab09da8cc5d87f18cac48fa4c6dd0c18ff69af7dd370de99e0a1  results/tables/modern_baselines_coverage.csv
+c06bc3f2a87508557a3eca8cc017959247c6f09827aee88684c75023e6791d9a  results/tables/runtime_modern_summary.csv
+ebcdbb1e5e828f647bd1fa9bed52efd65f8f6a2133731b295c29997434572981  results/figures/boxplot_igd_M2_all_problems_with_modern.pdf
+3f826beb98f0811367219fc22ba831135161dd3f6684b4e080a3505541f5ecfa  results/figures/boxplot_igd_M3_all_problems_with_modern.pdf
+125ac88f18fd993649ad1a99292efcba13911d409529173b63e926711f31aecd  paper/figures/results_m2.pdf
+a612f463d39af99a7e37b94bdabf8b79e742bcf400f3b26280ea09156e133cb4  paper/figures/results_m3.pdf
+2abb0bb8b592408b44229691027d3a9f9679f9e5a65483457b43fa28bea6101b  results/tables/igd_m2_detailed_with_modern_table.tex
+e3413abf40cb7770e20f8b11fd5d61d62cee03271a012e2aa54e79004a6282a9  results/tables/igd_m3_detailed_with_modern_table.tex
+23f8c12976c5cdbba959d0eff5f6124628b09184166c9ffc466981c8730f9f9c  scripts/rebuild_ablation_from_local_data.m
+6bf65c1ddc0c56b84615d715083199624f9c5c7c875c4a07fd1931337da3106c  scripts/hv_m2_crosscheck.m
+b895b570a1b01c52ddb965ca76f9b85dd01accc2bf9cd8997eaca0cc45a5453f  scripts/integrate_modern_baselines_main.m
+6696356df10527b9ebe6bc406ad3573335fe4d5590efdb9ccc5f63b1cf03aa25  scripts/build_runtime_modern_summary.m
+eb4c070026e2985f359b743ac6702f025a3dd5b2bcd5541a9a84884309455dcb  scripts/regenerate_main_boxplots_with_modern.m
+c2e9402b954bb50fd5c034702a2ad853df791d01aee08670b03b5f8ac72d7406  scripts/build_detailed_tables_with_modern.m

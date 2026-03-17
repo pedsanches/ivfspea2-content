@@ -1,0 +1,5 @@
+Algorithm,M,NumProblems,MinRunsPerProblem,MaxRunsPerProblem,MedianRunsPerProblem
+AGEMOEAII,M2,28,60,60,60
+AGEMOEAII,M3,23,60,60,60
+ARMOEA,M2,28,60,60,60
+ARMOEA,M3,23,60,60,60

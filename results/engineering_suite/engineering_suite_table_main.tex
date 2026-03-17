@@ -1,0 +1,14 @@
+\begin{table*}[t]
+\centering\scriptsize
+\caption{Engineering suite (MAIN): robust metrics with common-run matching. IGD is recomputed against empirical PF per problem. Symbols in vs-IVF columns: $+$ IVF/SPEA2 better, $-$ worse, $=$ no significant difference (Wilcoxon, $\alpha=0.05$).}
+\label{tab:engineering_suite_main}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrcccc}
+\toprule
+Problem & Algorithm & $n$ & IGD$_{PF}$ median (IQR) & vs IVF (IGD) & HV median (IQR) & vs IVF (HV) \\n\midrule
+RWMOP9 & IVF/SPEA2 & 60 & \\textbf{4.1919e+00 (1.778e-01)} & --- & 4.0950e-01 (1.761e-04) & --- \\nRWMOP9 & SPEA2 & 60 & 4.2417e+00 (1.400e-01) & + & 4.0946e-01 (2.030e-04) & + \\nRWMOP9 & MFO/SPEA2 & 60 & 4.2398e+00 (1.481e-01) & + & 4.0943e-01 (2.110e-04) & + \\nRWMOP9 & SPEA2+SDE & 60 & 8.7699e+00 (5.110e+00) & + & 4.0790e-01 (1.598e-03) & + \\nRWMOP9 & NSGA-II & 60 & 5.2878e+00 (3.297e-01) & + & 4.0907e-01 (2.113e-04) & + \\nRWMOP9 & NSGA-III & 60 & 5.3114e+00 (1.938e-01) & + & 4.0997e-01 (1.652e-04) & - \\nRWMOP9 & MOEA/D & 60 & 7.0069e+02 (1.000e-02) & + & 5.3061e-02 (6.813e-05) & + \\nRWMOP9 & AGE-MOEA-II & 60 & 4.3465e+00 (1.595e-01) & + & 4.1006e-01 (4.041e-05) & - \\nRWMOP9 & AR-MOEA & 60 & 4.8493e+00 (2.567e-02) & + & \\textbf{4.1032e-01 (1.938e-05)} & - \\n\midrule
+RWMOP21 & IVF/SPEA2 & 60 & 1.7189e-02 (6.162e-04) & --- & 3.1757e-02 (1.176e-06) & --- \\nRWMOP21 & SPEA2 & 60 & 1.7236e-02 (7.285e-04) & = & 3.1757e-02 (1.312e-06) & = \\nRWMOP21 & MFO/SPEA2 & 60 & 1.7277e-02 (6.593e-04) & = & 3.1757e-02 (1.196e-06) & = \\nRWMOP21 & SPEA2+SDE & 60 & 8.8267e-02 (6.374e-02) & + & 3.1646e-02 (5.816e-05) & + \\nRWMOP21 & NSGA-II & 60 & 2.1889e-02 (2.239e-03) & + & 3.1752e-02 (1.913e-06) & + \\nRWMOP21 & NSGA-III & 60 & 1.6229e-02 (2.723e-04) & - & 3.1765e-02 (3.834e-07) & - \\nRWMOP21 & MOEA/D & 60 & 2.8909e+00 (4.399e-03) & + & 2.9320e-02 (3.560e-06) & + \\nRWMOP21 & AGE-MOEA-II & 60 & \\textbf{1.3824e-02 (8.594e-04)} & - & 3.1762e-02 (2.970e-07) & - \\nRWMOP21 & AR-MOEA & 60 & 1.6101e-02 (6.559e-05) & - & \\textbf{3.1765e-02 (1.789e-07)} & - \\n\midrule
+RWMOP8 & IVF/SPEA2 & 60 & 1.3743e+00 (5.536e-01) & --- & 2.3479e-02 (7.180e-04) & --- \\nRWMOP8 & SPEA2 & 60 & 1.4460e+00 (4.017e-01) & = & 2.3406e-02 (6.317e-04) & = \\nRWMOP8 & MFO/SPEA2 & 60 & \\textbf{2.7952e-01 (1.152e-02)} & - & 2.6055e-02 (8.373e-05) & - \\nRWMOP8 & SPEA2+SDE & 60 & 1.6722e+01 (1.172e+00) & + & 1.8790e-02 (2.279e-03) & + \\nRWMOP8 & NSGA-II & 60 & 3.4296e-01 (2.142e-02) & - & 2.5916e-02 (1.071e-04) & - \\nRWMOP8 & NSGA-III & 60 & 5.6083e-01 (1.404e-01) & - & 2.5559e-02 (1.958e-04) & - \\nRWMOP8 & MOEA/D & 60 & --- & N/A & --- & N/A \\nRWMOP8 & AGE-MOEA-II & 60 & 4.6920e-01 (1.447e-01) & - & 2.5877e-02 (1.472e-04) & - \\nRWMOP8 & AR-MOEA & 60 & 3.5277e-01 (6.810e-03) & - & \\textbf{2.6176e-02 (2.532e-05)} & - \\n\botrule
+\end{tabular}
+}
+\end{table*}
