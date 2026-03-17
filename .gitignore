@@ -46,9 +46,23 @@ results/metrics/
 logs/
 experiments/logs/
 src/matlab/lib/PlatEMO/Data/
+**/indent.log
+
+# Local packaged release archives
+/ivfspea2-memetic-computing.zip
 
 # LaTeX build artifacts (keep sources under paper/)
 paper/build/
+paper/build_submission/*.aux
+paper/build_submission/*.bbl
+paper/build_submission/*.blg
+paper/build_submission/*.brf
+paper/build_submission/*.fls
+paper/build_submission/*.fdb_latexmk
+paper/build_submission/*.log
+paper/build_submission/*.out
+paper/build_submission/*.toc
+paper/build_submission/*.synctex.gz
 paper/src/build/
 paper/src/indent.log
 paper/src/*.aux
@@ -62,5 +76,8 @@ paper/src/*.out
 paper/src/*.toc
 paper/src/*.synctex.gz
 paper/src/*.bak*
+archive/paper-workfiles/paper/build_submission/
 *.bak
 *.bak*
+Claude.md
+conferences_2026.csv
