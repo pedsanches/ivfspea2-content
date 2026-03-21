@@ -1,0 +1,16 @@
+feature_set,model,validation,balanced_acc,mcc,spearman_r,r2,mae
+SET_ALL,RF_Regression,LOOCV,,,0.251,0.0321,11.9304
+SET_ALL,RF_Regression,LOFO,,,0.2556,,
+SET_NO_STRUCTURAL,RF_Regression,LOOCV,,,0.2319,0.0061,12.2041
+SET_NO_STRUCTURAL,RF_Regression,LOFO,,,0.1672,,
+SET_FRONT_ONLY,RF_Regression,LOOCV,,,0.0967,-0.1353,12.8767
+SET_FRONT_ONLY,RF_Regression,LOFO,,,0.0518,,
+SET_ALL,RF_Classification,LOOCV,0.5233,0.0511,,,
+SET_ALL,RF_Classification,LOFO,0.4332,-0.1527,,,
+SET_NO_STRUCTURAL,RF_Classification,LOOCV,0.497,-0.0062,,,
+SET_NO_STRUCTURAL,RF_Classification,LOFO,0.4322,-0.1356,,,
+SET_FRONT_ONLY,RF_Classification,LOOCV,0.5091,0.0174,,,
+SET_FRONT_ONLY,RF_Classification,LOFO,0.5091,0.0174,,,
+SET_ALL,LogisticRegression,LOOCV,0.6235,,,,
+SET_ALL,SVC_RBF,LOOCV,0.6387,,,,
+SET_ALL,KNN_5,LOOCV,0.6012,,,,

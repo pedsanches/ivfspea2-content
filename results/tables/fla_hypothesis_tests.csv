@@ -1,0 +1,6 @@
+hypothesis,feature,description,expected_sign,spearman_r,p_value,effect_size,conclusion
+H_FLA1,front_diameter,More front clusters (proxy: front_diameter) -> IVF less effective,negative,0.3225,0.020989,medium,NOT SUPPORTED (wrong sign)
+H_FLA2,front_connectivity,Lower front connectivity -> IVF less effective (positive corr expected),positive,0.3061,0.028897,medium,SUPPORTED
+H_FLA3,dom_depth_std,"Higher conflict (proxy: dom_depth_std, inverse) -> IVF more effective",negative,-0.2995,0.032723,small,SUPPORTED
+H_FLA4,autocorr_mean,Smoother landscape (higher autocorr) -> IVF more effective,positive,0.0507,0.723959,negligible,NOT SUPPORTED (p >= 0.05)
+H_FLA5,dom_depth_std,Higher non-dominated proportion (proxy: dom_depth_std) -> IVF less impactful,negative,-0.2995,0.032723,small,SUPPORTED
