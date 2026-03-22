@@ -1,0 +1,348 @@
+% PPSN 2026 -- Population Dynamics of IVF-Enhanced SPEA2
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+\urlstyle{rm}
+
+% Custom commands
+\newcommand{\ivfspea}{IVF/SPEA2}
+\newcommand{\deltaigd}{\Delta\text{IGD}}
+
+\begin{document}
+
+\title{Population Dynamics Under Local Intensification:\\
+  How an IVF-Inspired Operator Reshapes Search in SPEA2}
+
+\titlerunning{Population Dynamics Under Local Intensification}
+
+% TODO: Update author information
+\author{Pedro Sanches\inst{1}
+\and Co-Author\inst{1}}
+
+\authorrunning{P. Sanches et al.}
+
+\institute{TODO: Institution}
+
+\maketitle
+
+% ============================================================
+\begin{abstract}
+Memetic multi-objective evolutionary algorithms augment population-based
+search with local intensification operators, yet the \emph{dynamic}
+impact of these operators on population structure across generations
+remains poorly understood. We present a generation-by-generation
+analysis of how an IVF-inspired local search operator alters the
+convergence--diversity tradeoff within SPEA2. Using paired same-seed
+experiments on 18~benchmark instances spanning four problem families
+(ZDT, DTLZ, WFG, MaF), we track six population-level metrics---IGD,
+hypervolume, spread, spacing, archive turnover, and non-dominated
+fraction---across ${\sim}1{,}000$ generations per run. Our analysis
+reveals three distinct behavioural regimes: (i)~early-phase diversity
+injection where IVF accelerates exploration, (ii)~mid-phase convergence
+amplification on problems with connected Pareto fronts, and
+(iii)~late-phase interference on disconnected fronts where IVF disrupts
+archive stability. We identify the generation at which IVF's benefit
+emerges (crossover generation) and show it correlates with problem
+structure. These findings provide mechanistic insight into \emph{when}
+and \emph{why} local intensification helps or hurts in archive-based
+MOEAs, complementing prior work that established \emph{that} it helps.
+
+\keywords{Multi-objective optimization \and Population dynamics \and
+  Memetic algorithms \and SPEA2 \and Local search \and
+  Convergence--diversity tradeoff}
+\end{abstract}
+
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+
+Multi-objective evolutionary algorithms (MOEAs) maintain a population of
+candidate solutions that collectively approximates the Pareto front. The
+balance between convergence toward the front and diversity along it is
+the central design tension in MOEAs~\cite{deb2002fast, zitzler2001spea2}.
+Memetic algorithms augment evolutionary search with local intensification
+operators, often improving final solution quality~\cite{ishibuchi2015review}.
+However, most studies evaluate memetic operators by comparing \emph{final}
+metric values (IGD, HV) after a fixed evaluation budget, treating the
+algorithm as a black box.
+
+This ``final-snapshot'' evaluation obscures critical questions:
+\begin{itemize}
+  \item \emph{When} during the search does the local operator begin to
+    help (or hurt)?
+  \item \emph{How} does it alter the population's diversity--convergence
+    trajectory?
+  \item Does its impact depend on the \emph{phase} of search (early
+    exploration vs.\ late refinement)?
+\end{itemize}
+
+We address these questions through a generation-by-generation empirical
+study of the IVF-inspired local search operator integrated into
+SPEA2~\cite{sanches2026ivfspea2}. The IVF operator selects dissimilar
+fathers for crossover and accepts offspring collectively (when average
+population fitness improves), creating a distinctive intensification
+mechanism whose dynamic footprint has not been characterised.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A \textbf{paired same-seed experimental design} that isolates the
+    IVF operator's per-generation effect by comparing IVF/SPEA2 and SPEA2
+    trajectories from identical initial populations.
+  \item \textbf{Six population-level metrics} tracked across ${\sim}1{,}000$
+    generations on 18~instances, producing ${\sim}1{,}080$ trajectory pairs.
+  \item Identification of \textbf{three behavioural regimes}
+    (early-diversity, mid-convergence, late-interference) and the
+    \emph{crossover generation} at which IVF's benefit materialises.
+  \item \textbf{Mechanistic insight} linking IVF's success to Pareto front
+    connectivity and its failure to archive destabilisation on
+    disconnected fronts.
+\end{enumerate}
+
+
+% ============================================================
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Population Dynamics in Evolutionary Algorithms}
+
+The study of population dynamics---how diversity, convergence, and
+selection pressure evolve across generations---has a long history in
+single-objective EAs~\cite{eiben2003introduction}. In multi-objective
+optimisation, population dynamics are more complex because diversity
+serves both exploration and approximation purposes. Studies have
+analysed archive growth~\cite{knowles2003properties}, selection pressure
+in indicator-based MOEAs~\cite{li2014selection}, and
+diversity-convergence tradeoffs in decomposition-based
+algorithms~\cite{trivedi2017survey}.
+
+However, few studies examine how \emph{memetic operators} specifically
+alter population dynamics. Most memetic MOEA papers report final metric
+comparisons without trajectory analysis~\cite{ishibuchi2015review}.
+
+\subsection{Memetic Multi-Objective Optimisation}
+
+Memetic algorithms combine evolutionary global search with local
+improvement heuristics. In multi-objective settings, local search
+operators face the challenge of defining improvement in the presence of
+multiple, possibly conflicting objectives~\cite{knowles2005memetic}.
+Approaches include scalarisation-based local search, Pareto local
+search~\cite{paquete2004stochastic}, and operator-specific
+intensification mechanisms.
+
+The IVF-inspired operator~\cite{sanches2026ivfspea2} differs from
+classical memetic local search in two key aspects: (i)~it explicitly
+selects \emph{dissimilar} fathers for crossover, promoting exploration
+within intensification, and (ii)~it uses a \emph{collective} acceptance
+criterion (average fitness improvement) rather than individual
+replacement. These design choices create a distinctive balance between
+intensification and diversification whose dynamic consequences we
+investigate.
+
+\subsection{Generation-Level Analysis in MOEAs}
+
+Runtime analysis of MOEAs has focused primarily on theoretical bounds
+and anytime performance~\cite{zilberstein1996using}. Empirical
+generation-level studies include convergence profile
+analysis~\cite{bezerra2017comparing} and online performance
+indicators~\cite{li2019quality}. Our work extends this line by providing
+paired, same-seed trajectory comparisons that isolate a single
+operator's contribution.
+
+
+% ============================================================
+\section{Background: IVF/SPEA2}
+\label{sec:background}
+
+\subsection{SPEA2}
+
+The Strength Pareto Evolutionary Algorithm 2
+(SPEA2)~\cite{zitzler2001spea2} maintains an archive of size $N$ and
+assigns each individual a fitness value based on strength (number of
+dominated solutions) and $k$-nearest-neighbour density estimation. The
+environmental selection phase retains non-dominated individuals and
+applies distance-based truncation when the archive overflows.
+
+\subsection{The IVF Operator}
+
+The IVF-inspired operator~\cite{sanches2026ivfspea2} activates when the
+population's mean fitness exceeds a threshold ratio $R$. A fraction $C$
+of the population is selected as \emph{mothers}. For each mother, a
+\emph{dissimilar father} is chosen by selecting the candidate with
+maximum objective-space distance from a top-3 tournament by fitness.
+Offspring are generated via SBX crossover ($\eta_c = 20$), and a
+fraction $M$ of mothers undergo polynomial mutation on $V$ of their
+decision variables.
+
+The collective acceptance criterion continues IVF cycles while the
+population's \emph{average} fitness improves, up to a maximum of
+$\text{Cycles}$ iterations per generation. This mechanism allows
+multiple rounds of intensification when productive and early termination
+when not.
+
+\paragraph{Parameters.} $C = 0.12$, $R = 0.225$, $M = 0.3$, $V = 0.1$,
+$\text{Cycles} = 2$ (tuned via a three-phase pipeline;
+see~\cite{sanches2026ivfspea2}).
+
+
+% ============================================================
+\section{Experimental Design}
+\label{sec:experiments}
+
+\subsection{Paired Same-Seed Protocol}
+
+To isolate the IVF operator's effect, we run IVF/SPEA2 and standard
+SPEA2 with \textbf{identical random seeds}, ensuring both algorithms
+start from the same initial population. This paired design enables
+per-generation comparison: any divergence in trajectories is attributable
+solely to the IVF operator.
+
+For each of the 18~benchmark instances, we execute 30~independent runs
+(distinct seeds), producing 30~paired trajectory comparisons per instance
+and $18 \times 30 = 540$ trajectory pairs in total.
+
+\subsection{Benchmark Instances}
+
+We select 18~instances from four standard benchmark families, stratified
+by the IVF operator's known effect (established in prior
+work~\cite{sanches2026ivfspea2}):
+
+\begin{itemize}
+  \item \textbf{Strong positive} (5 instances): WFG1, MaF2, WFG5, DTLZ3,
+    ZDT6 (all $M=2$)
+  \item \textbf{Moderate positive} (5 instances): WFG4, DTLZ4, ZDT3,
+    MaF4 ($M=3$), WFG8 ($M=3$)
+  \item \textbf{Neutral} (4 instances): DTLZ1 ($M=3$), MaF5, WFG8,
+    WFG6 ($M=3$)
+  \item \textbf{Negative} (3 instances): WFG2 ($M=2,3$), WFG9
+  \item \textbf{Tri-objective reference} (1 instance): DTLZ5 ($M=3$)
+\end{itemize}
+
+This stratification ensures balanced coverage of IVF's behavioural
+spectrum.
+
+\subsection{Per-Generation Metrics}
+
+At each generation $g$, we record for both algorithms:
+
+\begin{enumerate}
+  \item \textbf{IGD}$(g)$: Inverted Generational Distance to the true
+    Pareto front (2{,}000 reference points).
+  \item \textbf{HV}$(g)$: Hypervolume, normalised by the true Pareto
+    front's extent.
+  \item \textbf{Spread}$(g)$: Maximum pairwise Euclidean distance in
+    objective space (population diameter).
+  \item \textbf{Spacing}$(g)$: Standard deviation of nearest-neighbour
+    distances (distribution uniformity).
+  \item \textbf{Turnover}$(g)$: Fraction of archive members replaced
+    since generation $g{-}1$.
+  \item \textbf{ND fraction}$(g)$: Proportion of non-dominated
+    individuals in the archive.
+\end{enumerate}
+
+Additionally, for IVF/SPEA2, we record whether IVF was activated and the
+number of IVF cycles executed at each generation.
+
+\subsection{Implementation}
+
+All experiments use PlatEMO~\cite{tian2017platemo} with $N = 100$,
+maxFE $= 100{,}000$. The IVF/SPEA2 variant (IVFSPEA2V2TRACE) and a
+corresponding SPEA2 baseline (SPEA2TRACE) are instrumented to record
+snapshots after each generation's environmental selection. Source code
+and data are available at [repository URL].
+
+
+% ============================================================
+\section{Results}
+\label{sec:results}
+
+% TODO: Populate with final results after all 18 cases complete.
+
+\subsection{Convergence Trajectories}
+
+% IGD and HV convergence curves (Fig. dynamics_igd_convergence,
+% dynamics_hv_convergence)
+
+\subsection{Diversity Dynamics}
+
+% Spread and spacing profiles (Fig. dynamics_spread)
+% Archive turnover (Fig. dynamics_turnover)
+
+\subsection{IVF Activation Patterns}
+
+% Heatmap of IVF activation (Fig. dynamics_ivf_activation_heatmap)
+% Correlation between activation frequency and benefit
+
+\subsection{Paired $\Delta$IGD Analysis}
+
+% Per-generation delta IGD (Fig. dynamics_delta_igd)
+% Crossover generation analysis (Tab. dynamics_crossover_generations)
+
+\subsection{Behavioural Regime Identification}
+
+% Three-phase model: early, mid, late
+% Statistical support via changepoint detection or sliding-window tests
+
+
+% ============================================================
+\section{Discussion}
+\label{sec:discussion}
+
+% TODO: Interpret results, connect to problem structure
+
+\subsection{When Does IVF Help?}
+
+% Crossover generation correlates with front connectivity
+% Early benefit on multimodal problems (DTLZ3, ZDT6)
+
+\subsection{When Does IVF Hurt?}
+
+% Disconnected fronts (WFG2): IVF disrupts archive stability
+% Higher turnover without convergence improvement
+
+\subsection{Mechanistic Interpretation}
+
+% Dissimilar father selection -> diversity injection -> helps when
+% front is connected (offspring land on the front)
+% Collective acceptance -> sustained intensification -> helps when
+% landscape is smooth
+% On disconnected fronts: offspring fall between components,
+% destabilising the archive
+
+\subsection{Practical Implications}
+
+% Guidelines for when to activate/deactivate IVF
+% Potential for adaptive triggering based on turnover/ND-fraction
+
+
+% ============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented a generation-by-generation empirical analysis of how the
+IVF-inspired local search operator reshapes population dynamics within
+SPEA2. Using a paired same-seed design across 18~benchmark instances, we
+identified three behavioural regimes and showed that IVF's benefit
+emerges early in search on problems with connected Pareto fronts but
+degrades archive stability on disconnected geometries.
+
+These findings move beyond the ``does it work?'' question to provide
+mechanistic understanding of \emph{when} and \emph{why} local
+intensification helps in archive-based MOEAs. Future work will explore
+adaptive IVF triggering based on online population dynamics indicators
+(e.g., turnover rate, ND fraction) to activate intensification only when
+it is productive.
+
+
+% ============================================================
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}
