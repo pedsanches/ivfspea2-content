@@ -63,6 +63,7 @@ paper/build_submission/*.log
 paper/build_submission/*.out
 paper/build_submission/*.toc
 paper/build_submission/*.synctex.gz
+paper/ppsn2026/figures/*.png
 paper/src/build/
 paper/src/indent.log
 paper/src/*.aux
