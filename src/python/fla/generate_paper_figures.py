@@ -29,6 +29,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 FIGURES_DIR = PROJECT_ROOT / "paper" / "ppsn2026" / "figures"
 DATA_PROCESSED = PROJECT_ROOT / "data" / "processed"
 DATA_RAW = PROJECT_ROOT / "data" / "raw" / "ppsn_dynamics"
+RESULTS_TABLES = PROJECT_ROOT / "results" / "tables"
+MAIN_EARLY_FRAC = float(os.getenv("DYN_MAIN_EARLY_FRAC", "0.20"))
 
 # Styling constants
 BLUE = "#1f77b4"
@@ -147,6 +149,18 @@ def save_figure(fig, name):
     print(f"  Saved: {pdf_path}")
     print(f"  Saved: {png_path}")
     plt.close(fig)
+
+
+def load_main_dynamic_stats():
+    """Load the main dynamic feature table if it exists."""
+    path = RESULTS_TABLES / "dynamic_signal_main_tests.csv"
+    if not path.exists():
+        return pd.DataFrame()
+    try:
+        return pd.read_csv(path)
+    except Exception as exc:
+        print(f"  WARNING: Failed to load {path.name}: {exc}")
+        return pd.DataFrame()
 
 
 # ===========================================================================
@@ -416,31 +430,53 @@ def figure4_discriminant():
 
     df = pd.read_csv(csv_path)
 
-    if "ivf_turnover_early" not in df.columns or "label_binary" not in df.columns:
+    label_col = "label_binary_eval" if "label_binary_eval" in df.columns else "label_binary"
+    if "ivf_turnover_early" not in df.columns or label_col not in df.columns:
         print("  ERROR: Required columns missing. Skipping.")
         return
+    if "early_frac" in df.columns:
+        df = df.loc[np.isclose(df["early_frac"], MAIN_EARLY_FRAC)].copy()
+    df = df.loc[df[label_col].isin(["HELPS", "NOT_HELPS"])].copy()
+    if df.empty:
+        print("  ERROR: No labeled rows available at the main early fraction. Skipping.")
+        return
+
+    stats_df = load_main_dynamic_stats()
+    turnover_stats = pd.DataFrame()
+    hv_stats = pd.DataFrame()
+    if not stats_df.empty:
+        turnover_stats = stats_df.loc[stats_df["feature"] == "ivf_turnover_early"]
+        hv_stats = stats_df.loc[stats_df["feature"] == "hv_final_delta"]
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3.5))
 
-    # ---- Left: Boxplot of early turnover by label_binary ----
-    helps = df.loc[df.label_binary == "HELPS", "ivf_turnover_early"].dropna()
-    not_helps = df.loc[df.label_binary == "NOT_HELPS", "ivf_turnover_early"].dropna()
+    # ---- Left: Boxplot of early turnover by main label ----
+    helps = df.loc[df[label_col] == "HELPS", "ivf_turnover_early"].dropna()
+    not_helps = df.loc[df[label_col] == "NOT_HELPS", "ivf_turnover_early"].dropna()
 
     bp_data = [helps.values, not_helps.values]
-    bp = ax1.boxplot(bp_data, labels=["HELPS", "NOT_HELPS"], widths=0.5,
+    bp = ax1.boxplot(bp_data, tick_labels=["HELPS", "NOT_HELPS"], widths=0.5,
                      patch_artist=True, medianprops=dict(color="black", linewidth=1.5))
     bp["boxes"][0].set_facecolor(BLUE)
     bp["boxes"][0].set_alpha(0.6)
     bp["boxes"][1].set_facecolor(ORANGE)
     bp["boxes"][1].set_alpha(0.6)
 
-    # Mann-Whitney test
+    # Mann-Whitney test and BH-FDR annotation if available.
     if len(helps) >= 3 and len(not_helps) >= 3:
         stat, p = stats.mannwhitneyu(helps, not_helps, alternative="two-sided")
         p_str = f"p = {p:.3f}" if p >= 0.001 else f"p = {p:.1e}"
+        p_bh_str = None
+        if not turnover_stats.empty:
+            p_bh = float(turnover_stats.iloc[0].get("p_bh", np.nan))
+            if np.isfinite(p_bh):
+                p_bh_str = f"BH q = {p_bh:.3f}"
         y_max = max(helps.max(), not_helps.max())
         y_range = y_max - min(helps.min(), not_helps.min())
-        ax1.annotate(f"Mann-Whitney\n{p_str}",
+        annotation = f"Mann-Whitney\n{p_str}"
+        if p_bh_str:
+            annotation += f"\n{p_bh_str}"
+        ax1.annotate(annotation,
                      xy=(1.5, y_max + 0.02 * y_range),
                      ha="center", va="bottom", fontsize=FONT_ANNOTATION,
                      bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow",
@@ -453,10 +489,10 @@ def figure4_discriminant():
     if "igd_final_delta" not in df.columns:
         print("  WARNING: igd_final_delta not found. Right subplot will be empty.")
     else:
-        valid = df[["ivf_turnover_early", "igd_final_delta", "label_binary"]].dropna()
+        valid = df[["ivf_turnover_early", "igd_final_delta", label_col]].dropna()
 
-        helps_mask = valid.label_binary == "HELPS"
-        not_helps_mask = valid.label_binary == "NOT_HELPS"
+        helps_mask = valid[label_col] == "HELPS"
+        not_helps_mask = valid[label_col] == "NOT_HELPS"
 
         ax2.scatter(valid.loc[not_helps_mask, "ivf_turnover_early"],
                     valid.loc[not_helps_mask, "igd_final_delta"],
@@ -477,6 +513,17 @@ def figure4_discriminant():
                      ha="left", va="top", fontsize=FONT_ANNOTATION,
                      bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow",
                                edgecolor="gray", alpha=0.9))
+
+        if "hv_final_delta" in df.columns:
+            valid_hv = df[["ivf_turnover_early", "hv_final_delta"]].dropna()
+            if len(valid_hv) >= 5:
+                rho_hv, p_hv = stats.spearmanr(valid_hv["ivf_turnover_early"], valid_hv["hv_final_delta"])
+                p_hv_str = f"p = {p_hv:.3f}" if p_hv >= 0.001 else f"p = {p_hv:.1e}"
+                ax2.annotate(f"HV rho = {rho_hv:.3f}\n{p_hv_str}",
+                             xy=(0.05, 0.63), xycoords="axes fraction",
+                             ha="left", va="top", fontsize=FONT_ANNOTATION - 1,
+                             bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                                       edgecolor="gray", alpha=0.85))
 
         ax2.axhline(0, color="gray", linewidth=0.8, linestyle="--", alpha=0.5)
         ax2.set_xlabel("Early turnover (first 20% gens)")
