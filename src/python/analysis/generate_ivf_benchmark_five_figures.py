@@ -42,7 +42,7 @@ DATA = os.path.join(
     ROOT, "data", "processed", "todas_metricas_consolidado_with_modern.csv"
 )
 FRONTS_DIR = os.path.join(ROOT, "data", "processed", "fronts")
-OUT_FIG = os.path.join(ROOT, "paper", "figures")
+OUT_FIG = os.path.join(ROOT, "paper", "springer-nature", "figures")
 OUT_TABLE = os.path.join(ROOT, "results", "tables")
 
 SUITES = ["ZDT", "DTLZ", "WFG", "MaF"]

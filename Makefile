@@ -11,7 +11,7 @@ MATLAB     := matlab -batch
 VENV_DIR   := .venv
 ACTIVATE   := source $(VENV_DIR)/bin/activate
 
-.PHONY: help setup test test-matlab test-python analysis analysis-benchmark-figures paper clean
+.PHONY: help setup test test-matlab test-python analysis analysis-benchmark-figures paper paper-ppsn paper-all paper-clean clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -44,8 +44,14 @@ analysis-benchmark-figures: ## Generate 5 benchmark figures (IGD/HV)
 
 # ---- Paper ----
 
-paper: ## Compile the LaTeX paper
-	$(MAKE) -C paper all
+paper: ## Compile the Springer Nature paper
+	$(MAKE) -C paper springer-nature
+
+paper-ppsn: ## Compile the PPSN paper
+	$(MAKE) -C paper ppsn2026
+
+paper-all: ## Compile both papers
+	$(MAKE) -C paper papers
 
 paper-clean: ## Clean LaTeX build artifacts
 	$(MAKE) -C paper clean

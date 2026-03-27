@@ -50,7 +50,7 @@ import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
 FRONTS_DIR = os.path.join(ROOT, "data", "processed", "fronts")
-OUT_DIR = os.path.join(ROOT, "paper", "figures")
+OUT_DIR = os.path.join(ROOT, "paper", "springer-nature", "figures")
 
 ALGO_DISPLAY = {
     "IVFSPEA2": "IVF/SPEA2",
@@ -340,7 +340,7 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--out",
-        help="Output PDF path. If omitted, a default name is created in paper/figures/.",
+        help="Output PDF path. If omitted, a default name is created in paper/springer-nature/figures/.",
     )
     return parser.parse_args()
 

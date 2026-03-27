@@ -3,7 +3,7 @@
 Generate Vargha-Delaney A12 effect size heatmap: IVF/SPEA2 vs SPEA2.
 
 Reads: data/processed/todas_metricas_consolidado_with_modern.csv
-Writes: paper/figures/heatmap_comparacao.pdf
+Writes: paper/springer-nature/figures/heatmap_comparacao.pdf
         results/figures/heatmap_a12_ivf_vs_spea2.pdf
 """
 
@@ -21,7 +21,9 @@ PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", ".."))
 DATA_PATH = os.path.join(
     PROJECT_ROOT, "data", "processed", "todas_metricas_consolidado_with_modern.csv"
 )
-PAPER_FIG_DIR = os.path.join(PROJECT_ROOT, "paper", "figures")
+PAPER_FIG_DIR = os.path.join(
+    PROJECT_ROOT, "paper", "springer-nature", "figures"
+)
 RESULTS_FIG_DIR = os.path.join(PROJECT_ROOT, "results", "figures")
 
 ALGO_IVF = "IVFSPEA2"

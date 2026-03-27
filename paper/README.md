@@ -1,45 +1,23 @@
-# Setup Guide for IVF/SPEA2 Paper
+# Papers
 
-This project contains the LaTeX source code for the "Memetic Computing IVF/SPEA2" paper.
+This directory now keeps each manuscript isolated in its own folder:
 
-## Prerequisites
+- `springer-nature/` — Springer Nature / Memetic Computing manuscript
+- `ppsn2026/` — PPSN 2026 manuscript
 
-You need a LaTeX distribution installed. On Ubuntu/Debian, run:
+## Common commands
 
-```bash
-sudo apt-get update
-sudo apt-get install texlive-full latexmk
-```
-
-Or minimally:
-```bash
-sudo apt-get install texlive-latex-base texlive-latex-extra texlive-science texlive-bibtex-extra latexmk
-```
-
-## Compilation
-
-To compile the paper, run:
+From `paper/`:
 
 ```bash
-make
+make                 # build the Springer Nature paper
+make springer-nature # same as above
+make ppsn2026        # build the PPSN paper
+make papers          # build both papers
+make clean           # clean both paper build trees
 ```
 
-The output PDF will be generated in the `build/` directory: `build/sn-article.pdf`.
+## Build outputs
 
-To view the PDF:
-```bash
-make view
-```
-
-To clean build artifacts:
-```bash
-make clean
-```
-
-## Directory Structure
-
-- `src/`: LaTeX source files (`sn-article.tex`)
-- `bib/`: Bibliography files (`.bib`, `.bst`)
-- `cls/`: LaTeX class files (`.cls`)
-- `figures/`: Images and plots
-- `build/`: Generated output files
+- `springer-nature/build/sn-article.pdf`
+- `ppsn2026/build/main.pdf`

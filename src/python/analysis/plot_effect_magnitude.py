@@ -4,7 +4,7 @@ Generate effect-magnitude figure: median % IGD improvement of IVF/SPEA2
 over SPEA2 on each synthetic instance, split by M and OOS status.
 
 Output:
-  paper/figures/effect_magnitude_igd.pdf
+  paper/springer-nature/figures/effect_magnitude_igd.pdf
 
 Usage:
   python src/python/analysis/plot_effect_magnitude.py
@@ -29,7 +29,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", ".."))
 DATA_PATH = os.path.join(
     PROJECT_ROOT, "data", "processed", "todas_metricas_consolidado_with_modern.csv"
 )
-OUT_DIR = os.path.join(PROJECT_ROOT, "paper", "figures")
+OUT_DIR = os.path.join(PROJECT_ROOT, "paper", "springer-nature", "figures")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # ---------- style ----------

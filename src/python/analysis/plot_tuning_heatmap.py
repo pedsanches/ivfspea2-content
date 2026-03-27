@@ -22,7 +22,7 @@ A43 in panel (a), C26 in panel (c).  The winning bar in panel (b)
 is highlighted.
 
 Input:  results/tuning_ivfspea2v2/tuning_phase_ranking.csv
-Output: paper/figures/tuning_heatmap_combined.pdf
+Output: paper/springer-nature/figures/tuning_heatmap_combined.pdf
         results/tuning_ivfspea2v2/tuning_heatmap_combined.pdf  (copy)
 """
 
@@ -56,7 +56,7 @@ RANKING_CSV = os.path.join(
     PROJECT_ROOT, "results", "tuning_ivfspea2v2", "tuning_phase_ranking.csv"
 )
 OUT_PAPER = os.path.join(
-    PROJECT_ROOT, "paper", "figures", "tuning_heatmap_combined.pdf"
+    PROJECT_ROOT, "paper", "springer-nature", "figures", "tuning_heatmap_combined.pdf"
 )
 OUT_RESULTS = os.path.join(
     PROJECT_ROOT, "results", "tuning_ivfspea2v2", "tuning_heatmap_combined.pdf"

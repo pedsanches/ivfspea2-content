@@ -6,9 +6,11 @@ Repository for the IVF/SPEA2 manuscript, code, and reproducibility artifacts.
 
 ## Reviewer Guide
 
-- Main and only manuscript source: `paper/src/sn-article.tex`
-- Main manuscript PDF output: `paper/build/sn-article.pdf`
-- Supplement source: `paper/src/ivfspea2_supplementary_tables.tex`
+- Primary manuscript source: `paper/springer-nature/src/sn-article.tex`
+- Primary manuscript PDF output: `paper/springer-nature/build/sn-article.pdf`
+- Supplement source: `paper/springer-nature/src/ivfspea2_supplementary_tables.tex`
+- PPSN manuscript source: `paper/ppsn2026/main.tex`
+- PPSN manuscript PDF output: `paper/ppsn2026/build/main.pdf`
 - Algorithm and data knowledge: `docs/IVFSPEA2_KNOWLEDGE_BASE.md`
 - Evidence model and claim scope: `docs/IVFSPEA2_EVIDENCE_MODEL.md`
 - Human-readable evidence index: `results/SUBMISSION_EVIDENCE_MAP.md`
@@ -66,12 +68,14 @@ python3 -m pytest tests/python/ -v
 ### Paper build
 
 ```bash
-make -C paper
+make paper
+make paper-ppsn
+make paper-all
 ```
 
 ## Repository Layout
 
-- `paper/` - manuscript, bibliography, class files, and current figure set
+- `paper/` - manuscript folders and paper-specific build entrypoints
 - `docs/` - condensed knowledge docs only
 - `src/` - canonical MATLAB implementation and Python analysis code
 - `experiments/` - experiment runners and post-processing entry points

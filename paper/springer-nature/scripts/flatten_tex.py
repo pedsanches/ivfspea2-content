@@ -3,7 +3,9 @@
 Flatten LaTeX: expand all \\input{...} directives into a single self-contained .tex file.
 
 Usage:
-    python paper/scripts/flatten_tex.py paper/src/sn-article.tex paper/src/sn-article-flat.tex
+    python paper/springer-nature/scripts/flatten_tex.py \
+        paper/springer-nature/src/sn-article.tex \
+        paper/springer-nature/src/sn-article-flat.tex
 
 The output file can be submitted directly to journal systems that prohibit \\input.
 """

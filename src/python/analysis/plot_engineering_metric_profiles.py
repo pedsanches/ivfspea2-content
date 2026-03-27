@@ -3,7 +3,7 @@
 Plot engineering-suite metric profiles with valid-run annotations.
 
 Outputs:
-  - paper/figures/engineering_metric_profiles.pdf
+  - paper/springer-nature/figures/engineering_metric_profiles.pdf
   - results/tables/engineering_metric_profiles_summary.csv
 
 Method:
@@ -29,7 +29,9 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
 RAW_MAIN = os.path.join(
     ROOT, "results", "engineering_suite", "engineering_suite_raw_main.csv"
 )
-OUT_FIG = os.path.join(ROOT, "paper", "figures", "engineering_metric_profiles.pdf")
+OUT_FIG = os.path.join(
+    ROOT, "paper", "springer-nature", "figures", "engineering_metric_profiles.pdf"
+)
 OUT_TABLE = os.path.join(
     ROOT, "results", "tables", "engineering_metric_profiles_summary.csv"
 )

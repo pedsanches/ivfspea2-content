@@ -44,7 +44,7 @@ METRICS_CSV = os.path.join(
 ENG_SUMMARY = os.path.join(
     ROOT, "results", "engineering_suite", "engineering_suite_summary_main.csv"
 )
-OUT_DIR = os.path.join(ROOT, "paper", "figures")
+OUT_DIR = os.path.join(ROOT, "paper", "springer-nature", "figures")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # ── style ──────────────────────────────────────────────────────────────

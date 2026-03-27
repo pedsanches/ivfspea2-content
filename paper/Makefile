@@ -1,36 +1,37 @@
-# Makefile for the single-source IVF/SPEA2 manuscript
+SPRINGER_DIR = springer-nature
+PPSN_DIR = ppsn2026
 
-MAIN_FILE = sn-article.tex
-MAIN_STEM = $(basename $(MAIN_FILE))
-SRC_DIR = src
-OUTPUT_DIR = build
-MAIN_PDF = $(OUTPUT_DIR)/$(MAIN_STEM).pdf
+.PHONY: all springer springer-nature ppsn ppsn2026 papers clean view view-springer view-springer-nature view-ppsn view-ppsn2026 install-deps
 
-# Tools
-LATEXMK = latexmk
-LATEXMK_FLAGS = -pdf -pdflatex="pdflatex -interaction=nonstopmode" -outdir=../$(OUTPUT_DIR) -cd
+all: springer-nature
 
-# Environment variables for LaTeX to findcls/bst/images
-CURDIR=$(shell pwd)
-export TEXINPUTS=$(CURDIR)/cls:$(CURDIR)/figures:
-export BIBINPUTS=$(CURDIR)/bib:$(CURDIR)/bib/bst:
-export BSTINPUTS=$(CURDIR)/bib:$(CURDIR)/bib/bst:
+springer: springer-nature
 
-.PHONY: all clean view install-deps
+springer-nature:
+	$(MAKE) -C $(SPRINGER_DIR) all
 
-all: $(MAIN_PDF)
+ppsn: ppsn2026
 
-$(MAIN_PDF): $(SRC_DIR)/$(MAIN_FILE)
-	@mkdir -p $(OUTPUT_DIR)
-	$(LATEXMK) $(LATEXMK_FLAGS) $(SRC_DIR)/$(MAIN_FILE)
+ppsn2026:
+	$(MAKE) -C $(PPSN_DIR) all
+
+papers: springer-nature ppsn2026
 
 clean:
-	rm -rf $(OUTPUT_DIR)
-	rm -rf build_submission
-	rm -f $(SRC_DIR)/$(MAIN_STEM).aux $(SRC_DIR)/$(MAIN_STEM).bbl $(SRC_DIR)/$(MAIN_STEM).blg $(SRC_DIR)/$(MAIN_STEM).brf $(SRC_DIR)/$(MAIN_STEM).fdb_latexmk $(SRC_DIR)/$(MAIN_STEM).fls $(SRC_DIR)/$(MAIN_STEM).log $(SRC_DIR)/$(MAIN_STEM).out $(SRC_DIR)/$(MAIN_STEM).synctex.gz $(SRC_DIR)/$(MAIN_STEM).toc
+	$(MAKE) -C $(SPRINGER_DIR) clean
+	$(MAKE) -C $(PPSN_DIR) clean
 
-view: all
-	xdg-open $(MAIN_PDF)
+view: view-springer-nature
+
+view-springer: view-springer-nature
+
+view-springer-nature: springer-nature
+	$(MAKE) -C $(SPRINGER_DIR) view
+
+view-ppsn: view-ppsn2026
+
+view-ppsn2026: ppsn2026
+	$(MAKE) -C $(PPSN_DIR) view
 
 install-deps:
-	@echo "Please run: sudo apt-get update && sudo apt-get install texlive-full latexmk"
+	$(MAKE) -C $(SPRINGER_DIR) install-deps

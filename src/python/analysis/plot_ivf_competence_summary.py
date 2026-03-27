@@ -31,7 +31,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
 DATA = os.path.join(
     ROOT, "data", "processed", "todas_metricas_consolidado_with_modern.csv"
 )
-OUT_DIR = os.path.join(ROOT, "paper", "figures")
+OUT_DIR = os.path.join(ROOT, "paper", "springer-nature", "figures")
 
 SUITES = ["ZDT", "DTLZ", "WFG", "MaF"]
 ALGORITHMS = [

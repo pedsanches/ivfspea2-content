@@ -32,7 +32,8 @@ python src/python/analysis/script.py                   # Main analysis runner
 
 ### Paper
 ```bash
-cd paper && make        # Compile LaTeX → paper/build/sn-article.pdf
+cd paper && make        # Compile Springer Nature → paper/springer-nature/build/sn-article.pdf
+cd paper && make ppsn2026 # Compile PPSN 2026 → paper/ppsn2026/build/main.pdf
 cd paper && make clean  # Remove build artifacts
 cd paper && make view   # Open compiled PDF
 ```
@@ -87,7 +88,7 @@ MATLAB experiments → data/raw/          (gitignored, .mat files)
 Python analysis   → data/processed/    (consolidated CSVs)
                   → results/figures/   (plots, gitignored)
                   → results/tables/    (LaTeX tables)
-Paper build       → paper/build/       (gitignored PDF)
+Paper build       → paper/<paper-name>/build/  (gitignored PDFs)
 ```
 
 ### Python Analysis (`src/python/analysis/`)

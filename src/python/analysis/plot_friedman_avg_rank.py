@@ -36,7 +36,9 @@ DATA = os.path.join(
     ROOT, "data", "processed", "todas_metricas_consolidado_with_modern.csv"
 )
 OUT_TABLES = os.path.join(ROOT, "results", "tables")
-OUT_FIG = os.path.join(ROOT, "paper", "figures", "friedman_avg_rank_igd.pdf")
+OUT_FIG = os.path.join(
+    ROOT, "paper", "springer-nature", "figures", "friedman_avg_rank_igd.pdf"
+)
 
 ALGORITHMS = [
     "IVFSPEA2",

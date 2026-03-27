@@ -10,8 +10,8 @@ Matches the pseudocode in sn-article.tex exactly:
      host env selection -> FE < FE_max? -> yes: next generation / no: return
 
 Output:
-  - paper/figures/flowchart.pdf
-  - paper/figures/flowchart.png
+  - paper/springer-nature/figures/flowchart.pdf
+  - paper/springer-nature/figures/flowchart.png
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon
 
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
-OUT_DIR = os.path.join(ROOT, "paper", "figures")
+OUT_DIR = os.path.join(ROOT, "paper", "springer-nature", "figures")
 OUT_PDF = os.path.join(OUT_DIR, "flowchart.pdf")
 OUT_PNG = os.path.join(OUT_DIR, "flowchart.png")
 
