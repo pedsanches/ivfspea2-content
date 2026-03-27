@@ -1,6 +1,6 @@
 # Dynamic Signal Integrity Audit
 
-- Manifest: /Users/pedrosanches/Public/Desenvolvimento/ivfspea2/config/ppsn_dynamics_cases_full.csv
+- Manifest: /home/pedro/desenvolvimento/ivfspea2/config/ppsn_dynamics_cases_full.csv
 - Cases in manifest: 52
 - Cases with >= 30 selected paired runs: 52
 - Unlabeled cases excluded from label-based tests: 1

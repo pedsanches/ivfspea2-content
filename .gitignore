@@ -64,6 +64,7 @@ paper/springer-nature/build_submission/*.out
 paper/springer-nature/build_submission/*.toc
 paper/springer-nature/build_submission/*.synctex.gz
 paper/ppsn2026/figures/*.png
+paper/ppsn2026/figures/fig5_controller_oos_*.pdf
 paper/ppsn2026/build/
 paper/ppsn2026/indent.log
 paper/ppsn2026/*.aux

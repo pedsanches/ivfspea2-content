@@ -316,8 +316,55 @@ def baseline_classifiers(df, features):
     results = {}
     for name, factory in baselines.items():
         _, m = loocv_classification(df, features, clf_factory=factory)
-        results[name] = m["balanced_accuracy"]
-        print(f"    {name}: balanced_acc = {m['balanced_accuracy']:.4f}")
+        results[name] = {
+            "balanced_accuracy": m["balanced_accuracy"],
+            "mcc": m["mcc"],
+        }
+        print(
+            f"    {name}: balanced_acc = {m['balanced_accuracy']:.4f}, "
+            f"MCC = {m['mcc']:.4f}"
+        )
+    return results
+
+
+def baseline_classifiers_lofo(df, features):
+    """Compare alternative classifiers via leave-one-family-out CV."""
+    baselines = {
+        "LogisticRegression": lambda: LogisticRegression(
+            C=1.0, class_weight="balanced", solver="lbfgs", max_iter=1000
+        ),
+        "SVC_RBF": lambda: SVC(
+            kernel="rbf", class_weight="balanced", probability=True
+        ),
+        "KNN_5": lambda: KNeighborsClassifier(n_neighbors=5),
+    }
+
+    X = df[features].values
+    y = (df["label_binary"] == "HELPS").astype(int).values
+    families = df["family"].values
+    unique_families = sorted(set(families))
+
+    results = {}
+    for name, factory in baselines.items():
+        preds = np.full(len(y), -1, dtype=int)
+        for fam in unique_families:
+            test_mask = families == fam
+            train_mask = ~test_mask
+            if test_mask.sum() < 1:
+                continue
+            scaler = StandardScaler()
+            X_train = scaler.fit_transform(X[train_mask])
+            X_test = scaler.transform(X[test_mask])
+            clf = factory()
+            clf.fit(X_train, y[train_mask])
+            preds[test_mask] = clf.predict(X_test)
+
+        valid = preds >= 0
+        ba = balanced_accuracy_score(y[valid], preds[valid])
+        mcc = matthews_corrcoef(y[valid], preds[valid])
+        results[name] = {"balanced_accuracy": ba, "mcc": mcc}
+        print(f"    {name}: balanced_acc = {ba:.4f}, MCC = {mcc:.4f}")
+
     return results
 
 
@@ -595,7 +642,7 @@ def main():
         ))
 
     # 2c. Permutation test (only for SET_ALL -- expensive)
-    print("\n  [2c] Permutation test (SET_ALL, 1000 permutations) ...")
+    print("\n  [2c] Permutation test (SET_ALL, 200 permutations) ...")
     obs_r, null_dist, perm_p = permutation_test_regression(df, SET_ALL, n_perm=200)
     print(f"       Observed Spearman r = {obs_r:.4f}")
     print(f"       Permutation p-value = {perm_p:.4f}")
@@ -653,10 +700,21 @@ def main():
     # 3c. Alternative classifiers
     print("\n  [3c] Alternative classifiers (SET_ALL, LOOCV):")
     bl_results = baseline_classifiers(df, SET_ALL)
-    for name, ba in bl_results.items():
+    for name, res in bl_results.items():
         summary_rows.append(dict(
             feature_set="SET_ALL", model=name, validation="LOOCV",
-            balanced_acc=round(ba, 4), mcc=np.nan,
+            balanced_acc=round(res["balanced_accuracy"], 4),
+            mcc=round(res["mcc"], 4),
+            spearman_r=np.nan, r2=np.nan, mae=np.nan,
+        ))
+
+    print("\n  [3d] Alternative classifiers (SET_ALL, LOFO):")
+    bl_lofo_results = baseline_classifiers_lofo(df, SET_ALL)
+    for name, res in bl_lofo_results.items():
+        summary_rows.append(dict(
+            feature_set="SET_ALL", model=name, validation="LOFO",
+            balanced_acc=round(res["balanced_accuracy"], 4),
+            mcc=round(res["mcc"], 4),
             spearman_r=np.nan, r2=np.nan, mae=np.nan,
         ))
 

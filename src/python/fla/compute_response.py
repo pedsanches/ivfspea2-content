@@ -24,12 +24,25 @@ Output: data/processed/fla_response.csv
 NOTE: Performance data comes from the IVF/SPEA2 experiments reported in
 the Memetic Computing submission (cited in the PPSN paper). This script
 only computes the derived response variable for the FLA study.
+
+To keep the PPSN analysis on the same evidence surface as the main synthetic
+comparison, we first apply the canonical submission cohort filter:
+  - IVFSPEA2 runs 3001..3060
+  - baseline runs 1..60
 """
 
 import pandas as pd
 import numpy as np
 from scipy.stats import mannwhitneyu
 from pathlib import Path
+import sys
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.python.analysis.cohort_filter import filter_submission_synthetic_cohort
 
 # --- Configuration ---
 INPUT_CSV = Path("data/processed/todas_metricas_consolidado_with_modern.csv")
@@ -86,9 +99,7 @@ def main():
     print("=== Computing FLA Response Variable ===")
 
     df = pd.read_csv(INPUT_CSV)
-
-    # Filter to synthetic instances only (exclude RWMOP)
-    df = df[~df["Problema"].str.contains("RWMOP", na=False)]
+    df = filter_submission_synthetic_cohort(df)
 
     # Keep only IVF/SPEA2 and SPEA2
     df = df[df["Algoritmo"].isin([IVF_ALGO, SPEA2_ALGO])]

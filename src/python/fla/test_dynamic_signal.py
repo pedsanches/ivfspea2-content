@@ -10,6 +10,7 @@ Outputs:
   - data/processed/dynamic_signal_sensitivity.csv
   - results/tables/dynamic_signal_main_tests.csv
   - results/tables/dynamic_signal_loocv.csv
+  - results/tables/dynamic_signal_lofo.csv
   - results/tables/dynamic_signal_integrity.csv
   - results/tables/dynamic_signal_integrity.md
   - results/tables/dynamic_signal_report.md
@@ -145,8 +146,21 @@ def env_path(name: str, default: Path) -> Path:
     return path.resolve()
 
 
+def env_bool(name: str, default: bool = False) -> bool:
+    raw = os.getenv(name, "").strip().lower()
+    if not raw:
+        return default
+    return raw in {"1", "true", "yes", "on"}
+
+
 def normalize_instance_name(value: str) -> str:
     return str(value).strip().upper()
+
+
+def problem_family(value: object) -> str:
+    raw = str(value).strip().upper()
+    match = re.match(r"[A-Z]+", raw)
+    return match.group(0) if match else raw
 
 
 def instance_key_from_case(problem: str, m: int) -> str:
@@ -700,10 +714,86 @@ def run_loocv_threshold_tests(summary_df: pd.DataFrame, label_col: str, feature_
     ).reset_index(drop=True)
 
 
+def run_lofo_threshold_tests(summary_df: pd.DataFrame, label_col: str, feature_columns: list[str]) -> pd.DataFrame:
+    labeled = summary_df.loc[summary_df[label_col].isin(["HELPS", "NOT_HELPS"])].copy()
+    if labeled.empty:
+        return pd.DataFrame()
+
+    if "family" not in labeled.columns:
+        if "problem" in labeled.columns:
+            labeled["family"] = labeled["problem"].map(problem_family)
+        else:
+            labeled["family"] = labeled["instance_key"].map(problem_family)
+
+    rows = []
+    families = [fam for fam in sorted(labeled["family"].dropna().unique()) if str(fam).strip()]
+
+    for feature in feature_columns:
+        y_true: list[int] = []
+        y_pred: list[int] = []
+        thresholds: list[float] = []
+        directions: list[str] = []
+        family_rules: list[str] = []
+        families_tested: list[str] = []
+
+        for family in families:
+            holdout = labeled.loc[labeled["family"] == family].copy()
+            train = labeled.loc[labeled["family"] != family].copy()
+            if holdout.empty:
+                continue
+
+            holdout_feature = pd.to_numeric(holdout[feature], errors="coerce")
+            valid_mask = holdout_feature.notna() & holdout[label_col].isin(["HELPS", "NOT_HELPS"])
+            if not valid_mask.any():
+                continue
+
+            rule = fit_best_threshold(train, feature, label_col)
+            if rule is None:
+                continue
+
+            x_hold = holdout_feature.loc[valid_mask].to_numpy()
+            preds = predict_binary(x_hold, rule["threshold"], rule["direction"])
+            true = (holdout.loc[valid_mask, label_col] == "HELPS").astype(int).to_numpy()
+
+            y_true.extend(true.tolist())
+            y_pred.extend(preds.tolist())
+            thresholds.append(rule["threshold"])
+            directions.append(rule["direction"])
+            families_tested.append(str(family))
+            family_rules.append(f"{family}:{rule['threshold']:.6f}:{rule['direction']}")
+
+        if not y_true:
+            continue
+
+        metrics = classification_metrics(y_true, y_pred)
+        direction_mode = Counter(directions).most_common(1)[0][0] if directions else ""
+        rows.append(
+            {
+                "feature": feature,
+                "n_eval": len(y_true),
+                "n_families": len(families_tested),
+                "families_tested": "|".join(families_tested),
+                "direction_mode": direction_mode,
+                "median_threshold": float(np.median(thresholds)) if thresholds else np.nan,
+                "family_rule_summary": ";".join(family_rules),
+                **metrics,
+            }
+        )
+
+    if not rows:
+        return pd.DataFrame()
+
+    return pd.DataFrame(rows).sort_values(
+        ["balanced_accuracy", "mcc", "accuracy", "feature"],
+        ascending=[False, False, False, True],
+    ).reset_index(drop=True)
+
+
 def write_markdown_report(
     main_tests: pd.DataFrame,
     sensitivity: pd.DataFrame,
     loocv_df: pd.DataFrame,
+    lofo_df: pd.DataFrame,
     integrity_df: pd.DataFrame,
     cases_csv: Path,
 ) -> None:
@@ -752,6 +842,15 @@ def write_markdown_report(
             f"mcc={best['mcc']:.3f}, accuracy={best['accuracy']:.3f}, n_eval={int(best['n_eval'])}"
         )
 
+    if not lofo_df.empty:
+        best = lofo_df.iloc[0]
+        lines.append("")
+        lines.append("## LOFO")
+        lines.append(
+            f"- Best out-of-family threshold rule: {best['feature']} | balanced_accuracy={best['balanced_accuracy']:.3f}, "
+            f"mcc={best['mcc']:.3f}, accuracy={best['accuracy']:.3f}, n_eval={int(best['n_eval'])}, n_families={int(best['n_families'])}"
+        )
+
     if not sensitivity.empty:
         best = sensitivity.sort_values(["p_bh", "p_value"]).iloc[0]
         lines.append("")
@@ -788,6 +887,7 @@ def main() -> None:
         raise ValueError("DYN_AGG must be 'mean' or 'median'")
     early_fracs = env_float_list("DYN_EARLY_FRACS", DEFAULT_EARLY_FRACS)
     help_cutoffs = env_float_list("DYN_HELP_CUTOFFS", DEFAULT_HELP_CUTOFFS)
+    use_existing_summary = env_bool("DYN_USE_EXISTING_SUMMARY", False)
 
     print(f"Manifest: {cases_csv}")
     print(f"Cases: {len(cases)}")
@@ -795,52 +895,70 @@ def main() -> None:
     print(f"Aggregation: {agg_method}")
     print(f"Early fractions: {early_fracs}")
     print(f"Help cutoffs: {help_cutoffs}")
+    print(f"Use existing summary: {use_existing_summary}")
 
-    ivf_root = RAW_DIR / "ivf"
-    spea2_root = RAW_DIR / "spea2"
-
-    integrity_df = audit_case_inventory(cases, response_map, max_runs)
-    write_integrity_artifacts(integrity_df, cases_csv, max_runs)
-    complete_cases = int((integrity_df["n_selected_pairs"] >= max_runs).sum())
-    labeled_cases = int(integrity_df["response_available"].sum())
-    print(f"Integrity: {complete_cases}/{len(integrity_df)} cases have >= {max_runs} selected paired runs")
-    print(f"Labeled for confirmatory tests: {labeled_cases}/{len(integrity_df)} cases")
-
-    all_rows = []
-    for _, case_row in cases.iterrows():
-        case_id = str(case_row["case_id"])
-        ivf_dir = ivf_root / case_id
-        spea2_dir = spea2_root / case_id
-        if not ivf_dir.exists() or not spea2_dir.exists():
-            print(f"  SKIP {case_id}: missing directories")
-            continue
-
-        paired_files = collect_paired_files(ivf_dir, spea2_dir)
-        if not paired_files:
-            print(f"  SKIP {case_id}: no paired traces")
-            continue
-
-        rows = summarise_case(case_row, paired_files, response_map, early_fracs, max_runs, agg_method)
-        if not rows:
-            print(f"  SKIP {case_id}: insufficient valid runs")
-            continue
-
-        print(f"  {case_id}: {len(rows)} summaries from {min(max_runs, len(paired_files))} paired runs")
-        all_rows.extend(rows)
-
-    if not all_rows:
-        print("ERROR: no case-level summaries were produced")
-        sys.exit(1)
-
-    summary_df = pd.DataFrame(all_rows)
-    summary_df = summary_df.sort_values(["early_frac", "case_id"]).reset_index(drop=True)
-    summary_df = build_main_label_column(summary_df, response_map, MAIN_HELP_CUTOFF)
-
-    # Preserve the historical filename used by the figure code.
-    DATA_PROCESSED.mkdir(parents=True, exist_ok=True)
     main_out = DATA_PROCESSED / "dynamic_signal_test.csv"
-    summary_df.to_csv(main_out, index=False)
-    print(f"Saved case summary: {main_out}")
+    integrity_csv = RESULTS_TABLES / "dynamic_signal_integrity.csv"
+
+    if use_existing_summary:
+        if not main_out.exists():
+            print(f"ERROR: existing summary not found: {main_out}")
+            sys.exit(1)
+        summary_df = pd.read_csv(main_out)
+        summary_df = summary_df.sort_values(["early_frac", "case_id"]).reset_index(drop=True)
+        summary_df = build_main_label_column(summary_df, response_map, MAIN_HELP_CUTOFF)
+        print(f"Loaded existing case summary: {main_out}")
+
+        if integrity_csv.exists():
+            integrity_df = pd.read_csv(integrity_csv)
+        else:
+            integrity_df = audit_case_inventory(cases, response_map, max_runs)
+            write_integrity_artifacts(integrity_df, cases_csv, max_runs)
+    else:
+        ivf_root = RAW_DIR / "ivf"
+        spea2_root = RAW_DIR / "spea2"
+
+        integrity_df = audit_case_inventory(cases, response_map, max_runs)
+        write_integrity_artifacts(integrity_df, cases_csv, max_runs)
+        complete_cases = int((integrity_df["n_selected_pairs"] >= max_runs).sum())
+        labeled_cases = int(integrity_df["response_available"].sum())
+        print(f"Integrity: {complete_cases}/{len(integrity_df)} cases have >= {max_runs} selected paired runs")
+        print(f"Labeled for confirmatory tests: {labeled_cases}/{len(integrity_df)} cases")
+
+        all_rows = []
+        for _, case_row in cases.iterrows():
+            case_id = str(case_row["case_id"])
+            ivf_dir = ivf_root / case_id
+            spea2_dir = spea2_root / case_id
+            if not ivf_dir.exists() or not spea2_dir.exists():
+                print(f"  SKIP {case_id}: missing directories")
+                continue
+
+            paired_files = collect_paired_files(ivf_dir, spea2_dir)
+            if not paired_files:
+                print(f"  SKIP {case_id}: no paired traces")
+                continue
+
+            rows = summarise_case(case_row, paired_files, response_map, early_fracs, max_runs, agg_method)
+            if not rows:
+                print(f"  SKIP {case_id}: insufficient valid runs")
+                continue
+
+            print(f"  {case_id}: {len(rows)} summaries from {min(max_runs, len(paired_files))} paired runs")
+            all_rows.extend(rows)
+
+        if not all_rows:
+            print("ERROR: no case-level summaries were produced")
+            sys.exit(1)
+
+        summary_df = pd.DataFrame(all_rows)
+        summary_df = summary_df.sort_values(["early_frac", "case_id"]).reset_index(drop=True)
+        summary_df = build_main_label_column(summary_df, response_map, MAIN_HELP_CUTOFF)
+
+        # Preserve the historical filename used by the figure code.
+        DATA_PROCESSED.mkdir(parents=True, exist_ok=True)
+        summary_df.to_csv(main_out, index=False)
+        print(f"Saved case summary: {main_out}")
 
     # Build the main tests on the reference cutoff and fraction.
     main_summary = summary_df.loc[summary_df["early_frac"].round(6) == round(MAIN_EARLY_FRAC, 6)].copy()
@@ -863,6 +981,13 @@ def main() -> None:
         RESULTS_TABLES.mkdir(parents=True, exist_ok=True)
         loocv_df.to_csv(loocv_out, index=False)
         print(f"Saved LOOCV table: {loocv_out}")
+
+    lofo_df = run_lofo_threshold_tests(main_summary, "label_eval", EARLY_FEATURE_COLUMNS)
+    if not lofo_df.empty:
+        lofo_out = RESULTS_TABLES / "dynamic_signal_lofo.csv"
+        RESULTS_TABLES.mkdir(parents=True, exist_ok=True)
+        lofo_df.to_csv(lofo_out, index=False)
+        print(f"Saved LOFO table: {lofo_out}")
 
     # Sensitivity over early fractions and HELP cutoffs.
     sensitivity_rows = []
@@ -927,7 +1052,7 @@ def main() -> None:
         sensitivity_df.to_csv(sensitivity_out, index=False)
         print(f"Saved sensitivity table: {sensitivity_out}")
 
-    write_markdown_report(main_tests, sensitivity_df, loocv_df, integrity_df, cases_csv)
+    write_markdown_report(main_tests, sensitivity_df, loocv_df, lofo_df, integrity_df, cases_csv)
 
     # Concise verdict for the terminal.
     if not main_tests.empty:
@@ -949,6 +1074,12 @@ def main() -> None:
             best = loocv_df.iloc[0]
             print(
                 f"Best LOOCV early feature: {best['feature']} | "
+                f"BA={best['balanced_accuracy']:.3f}, MCC={best['mcc']:.3f}, Acc={best['accuracy']:.3f}"
+            )
+        if not lofo_df.empty:
+            best = lofo_df.iloc[0]
+            print(
+                f"Best LOFO early feature: {best['feature']} | "
                 f"BA={best['balanced_accuracy']:.3f}, MCC={best['mcc']:.3f}, Acc={best['accuracy']:.3f}"
             )
 

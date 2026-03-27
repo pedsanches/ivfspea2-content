@@ -16,6 +16,8 @@
 %    PPSN_SEED_RUNS   runs/case used by the fallback seed schedule (default 30)
 %    CTRL_WARMUP_FRAC controller warmup fraction     (default 0.20)
 %    CTRL_TURNOVER_THRESHOLD controller threshold    (default 0.232437)
+%    CTRL_OUTPUT_ROOT output directory for controller traces
+%                     (default data/raw/ppsn_dynamics/controller)
 %    CTRL_CAPTURE_POP 0|1 store pre/post-IVF pops    (default 0)
 %
 %  Output:
@@ -45,6 +47,9 @@ warmup_frac = local_env_float('CTRL_WARMUP_FRAC', 0.20);
 turnover_threshold = local_env_float('CTRL_TURNOVER_THRESHOLD', 0.232437);
 capture_population = local_env_bool('CTRL_CAPTURE_POP', false);
 seed_base = 70000;
+ctrl_root = local_resolve_output_path(project_root, ...
+    getenv('CTRL_OUTPUT_ROOT'), ...
+    fullfile(project_root, 'data', 'raw', 'ppsn_dynamics', 'controller'));
 
 manifest_path = local_resolve_manifest_path(project_root, ...
     getenv('PPSN_MANIFEST'), ...
@@ -64,7 +69,6 @@ if ~isempty(selected_ids)
     cases = cases(keep, :);
 end
 
-ctrl_root = fullfile(project_root, 'data', 'raw', 'ppsn_dynamics', 'controller');
 ivf_root = fullfile(project_root, 'data', 'raw', 'ppsn_dynamics', 'ivf');
 spea2_root = fullfile(project_root, 'data', 'raw', 'ppsn_dynamics', 'spea2');
 logs_root = fullfile(project_root, 'logs');
@@ -89,6 +93,7 @@ fprintf('Cases: %d | Runs/case: %d | maxFE: %d | N: %d | Workers: %d\n', ...
     height(cases), n_runs, maxFE, N_pop, n_workers);
 fprintf('Seed base: %d | seed_runs: %d | warmup_frac: %.4f | turnover_threshold: %.6f | capture_population: %d\n', ...
     seed_base, seed_runs, warmup_frac, turnover_threshold, capture_population);
+fprintf('Controller output root: %s\n', ctrl_root);
 if ~isempty(job_storage)
     fprintf('Job storage: %s\n', job_storage);
 end
@@ -296,6 +301,30 @@ function manifest_path = local_resolve_manifest_path(project_root, raw_path, def
     end
 
     manifest_path = candidate;
+end
+
+function output_path = local_resolve_output_path(project_root, raw_path, default_path)
+    if nargin < 2 || isempty(strtrim(raw_path))
+        output_path = default_path;
+        return;
+    end
+
+    candidate = strtrim(raw_path);
+    if isfolder(candidate)
+        output_path = candidate;
+        return;
+    end
+
+    if isfolder(fullfile(project_root, candidate))
+        output_path = fullfile(project_root, candidate);
+        return;
+    end
+
+    if startsWith(candidate, filesep) || (~isempty(regexp(candidate, '^[A-Za-z]:[\\/]', 'once')))
+        output_path = candidate;
+    else
+        output_path = fullfile(project_root, candidate);
+    end
 end
 
 function local_require_columns(tbl, required_cols)
