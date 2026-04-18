@@ -1,0 +1,9 @@
+phase=B->C
+triggered_at=2026-02-28 01:35:33
+phase_c_center_r=0.2
+phase_c_center_c=0.16
+phase_c_center_cycles=2
+phase_c_runbase=500001
+workers=6
+groups=3
+verify_full_metrics=1

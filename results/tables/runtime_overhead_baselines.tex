@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{Empirical runtime overhead on synthetic benchmarks under canonical run cohorts (IVF/SPEA2: runs 3001--3060; baselines: runs 1--60). Runtime statistics are medians and IQRs of per-instance median runtime across 51 synthetic instances. $\rho$ denotes per-instance runtime ratio relative to SPEA2.}\label{tab:runtime_overhead_baselines}
+\centering\scriptsize
+\begin{tabular}{lrrrrr}
+\toprule
+Algorithm & Runtime med. (s) & Runtime IQR (s) & $\rho$ med. & $\rho_{M2}$ med. & $\rho_{M3}$ med. \\
+\midrule
+IVF/SPEA2 & 60.22 & 14.92 & 4.87 & 5.63 & 3.34 \\
+SPEA2 & 11.28 & 10.88 & 1.00 & 1.00 & 1.00 \\
+MFO-SPEA2 & 24.27 & 23.15 & 2.06 & 2.07 & 2.06 \\
+SPEA2+SDE & 13.44 & 11.30 & 1.27 & 1.27 & 1.28 \\
+NSGA-II & 0.75 & 0.11 & 0.06 & 0.07 & 0.04 \\
+NSGA-III & 1.32 & 0.26 & 0.11 & 0.12 & 0.08 \\
+MOEA/D & 10.65 & 0.60 & 0.93 & 1.04 & 0.54 \\
+AGE-MOEA-II & 17.63 & 8.47 & 1.36 & 1.87 & 1.09 \\
+AR-MOEA & 20.24 & 10.69 & 1.57 & 1.57 & 1.46 \\
+\botrule
+\end{tabular}
+\end{table}

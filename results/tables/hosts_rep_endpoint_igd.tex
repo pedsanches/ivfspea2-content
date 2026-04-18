@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\caption{Representative IGD endpoint cases selected deterministically per host: strongest significant gain, most neutral case ($A_{12}^{\mathrm{IVF}}$ closest to 0.5), and strongest adverse case. When a host has no IGD loss, the last row reports the weakest available case instead. Entries show median [IQR].}
+\label{tab:rep_endpoint_medians}
+\scriptsize
+\begin{tabular}{lllcll}
+\toprule
+Host & Case & Instance & IVF & Base & Sign \\
+\midrule
+IVF/SPEA2 & gain & MaF3 ($M=2$) & 0.00376 [7.04e-05] & 0.00425 [0.000627] & + \\
+ & tie & WFG6 ($M=3$) & 0.24 [0.0199] & 0.238 [0.0132] & = \\
+ & adverse & WFG2 ($M=3$) & 0.183 [0.00742] & 0.173 [0.00645] & - \\
+\addlinespace
+IVF/NSGA-III & gain & DTLZ2 ($M=2$) & 0.00397 [4.14e-09] & 0.00397 [3.25e-08] & + \\
+ & tie & WFG4 ($M=3$) & 0.221 [0.000102] & 0.221 [8.76e-05] & = \\
+ & weakest & WFG8 ($M=2$) & 0.106 [0.00124] & 0.106 [0.00222] & = \\
+\addlinespace
+IVF/NSGA-II & gain & WFG1 ($M=2$) & 0.0181 [0.00115] & 0.0205 [0.00255] & + \\
+ & tie & MaF7 ($M=3$) & 0.0775 [0.00591] & 0.0782 [0.00513] & = \\
+ & adverse & ZDT6 ($M=2$) & 0.0039 [0.000249] & 0.00362 [0.000127] & - \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

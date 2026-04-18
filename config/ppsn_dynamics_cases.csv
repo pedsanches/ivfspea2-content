@@ -1,0 +1,19 @@
+case_id,problem,m,d,role,a12,label_binary,notes
+strong_pos_wfg1_m2,WFG1,2,11,strong_positive,0.804,HELPS,Strongest improvement (delta_igd=0.0146). Deceptive front.
+strong_pos_maf2_m2,MaF2,2,11,strong_positive,0.885,HELPS,Highest A12 across all instances. Concave front.
+strong_pos_wfg5_m2,WFG5,2,11,strong_positive,0.826,HELPS,High A12 on deceptive biased front.
+strong_pos_dtlz3_m2,DTLZ3,2,11,strong_positive,0.781,HELPS,Multimodal with many local fronts.
+strong_pos_zdt6_m2,ZDT6,2,10,strong_positive,0.795,HELPS,Non-uniform density on front.
+mod_pos_wfg4_m2,WFG4,2,11,moderate_positive,0.751,HELPS,Concave multi-frontal landscape.
+mod_pos_dtlz4_m2,DTLZ4,2,11,moderate_positive,0.595,HELPS,Biased density distribution.
+mod_pos_zdt3_m2,ZDT3,2,30,moderate_positive,0.660,HELPS,Disconnected Pareto front.
+mod_pos_maf4_m3,MaF4,3,12,moderate_positive,0.668,HELPS,Badly scaled tri-objective.
+mod_pos_wfg8_m3,WFG8,3,12,moderate_positive,0.634,HELPS,Non-separable bias in tri-objective.
+neutral_dtlz1_m3,DTLZ1,3,7,neutral,0.543,NOT_HELPS,Multimodal tri-objective. Neutral despite multimodality.
+neutral_maf5_m2,MaF5,2,11,neutral,0.560,NOT_HELPS,Convex badly-scaled front. IVF does not help.
+neutral_wfg8_m2,WFG8,2,11,neutral,0.488,NOT_HELPS,Non-separable bias. IVF slightly worse (A12<0.5).
+neutral_wfg6_m3,WFG6,3,12,neutral,0.513,NOT_HELPS,Non-separable reduction. No effect.
+hurts_wfg2_m2,WFG2,2,11,hurts,0.352,NOT_HELPS,Disconnected front. IVF consistently hurts.
+hurts_wfg2_m3,WFG2,3,12,hurts,0.143,NOT_HELPS,Strongest negative case (A12=0.14). Disconnected tri-obj.
+hurts_wfg9_m2,WFG9,2,11,hurts,0.401,NOT_HELPS,Deceptive non-separable. IVF slightly hurts.
+triobj_dtlz5_m3,DTLZ5,3,12,strong_positive,0.804,HELPS,Degenerate front in 3D (maps to 2D curve). Strong IVF benefit.

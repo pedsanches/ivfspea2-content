@@ -1,0 +1,111 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+ENV/
+
+# MATLAB
+*.asv
+*.m~
+*.mlx~
+*.autosave
+*.mat
+*.mex*
+slprj/
+codegen/
+
+# Data (large / generated / external)
+data/raw/
+data/temp/
+data/external/
+
+# Derived results and logs (large trace CSVs exceed GitHub 100 MB limit)
+results/ivf_trace/trace_child_records.csv
+results/ivf_trace/trace_cycle_summary.csv
+results/figures/
+results/metrics/
+logs/
+experiments/logs/
+src/matlab/lib/PlatEMO/Data/
+**/indent.log
+
+# Exclude large artifact tables (exceeds GitHub 100MB limit)
+artifact/ppsn2026-ivf-hosts-rev1/tables/hosts_dynamic_normalized_traces.csv
+
+# Exclude large results tables (exceeds GitHub 100MB limit)
+results/tables/hosts_dynamic_normalized_traces.csv
+
+# Local packaged release archives
+/ivfspea2-memetic-computing.zip
+
+# LaTeX build artifacts (keep sources under paper/)
+paper/springer-nature/build/
+paper/springer-nature/build_submission/*.aux
+paper/springer-nature/build_submission/*.bbl
+paper/springer-nature/build_submission/*.blg
+paper/springer-nature/build_submission/*.brf
+paper/springer-nature/build_submission/*.fls
+paper/springer-nature/build_submission/*.fdb_latexmk
+paper/springer-nature/build_submission/*.log
+paper/springer-nature/build_submission/*.out
+paper/springer-nature/build_submission/*.toc
+paper/springer-nature/build_submission/*.synctex.gz
+paper/ppsn2026/figures/*.png
+paper/ppsn2026/figures/fig5_controller_oos_*.pdf
+paper/ppsn2026/build/
+paper/ppsn2026/indent.log
+paper/ppsn2026/*.aux
+paper/ppsn2026/*.bbl
+paper/ppsn2026/*.blg
+paper/ppsn2026/*.fls
+paper/ppsn2026/*.fdb_latexmk
+paper/ppsn2026/*.log
+paper/ppsn2026/*.out
+paper/ppsn2026/*.pdf
+paper/ppsn2026/*.bak*
+paper/springer-nature/src/build/
+paper/springer-nature/src/indent.log
+paper/springer-nature/src/*.aux
+paper/springer-nature/src/*.bbl
+paper/springer-nature/src/*.blg
+paper/springer-nature/src/*.brf
+paper/springer-nature/src/*.fls
+paper/springer-nature/src/*.fdb_latexmk
+paper/springer-nature/src/*.log
+paper/springer-nature/src/*.out
+paper/springer-nature/src/*.toc
+paper/springer-nature/src/*.synctex.gz
+paper/springer-nature/src/*.bak*
+# Archive (legacy/internal — not for public release)
+archive/
+
+# Legacy mirror (shadows canonical PlatEMO classes)
+src/matlab/ivf_spea2/
+
+# Non-research files
+data/docs/
+conferences_2026.csv
+memetic_computing_submission_guidelines_summary.txt
+
+*.bak
+*.bak*
+Claude.md

@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\caption{RWMOP9 results ($M=2$, $D=4$, $100\,000$ FEs, 60 runs). IGD is recomputed against an empirical non-dominated reference front built from all algorithms/runs. HV uses the RWMOP9 reference point from \texttt{GetOptimum}. Symbols: $+$ IVF/SPEA2 significantly better, $-$ significantly worse, $\approx$ no significant difference (Wilcoxon rank-sum, $\alpha=0.05$).}
+\label{tab:rwmop9}
+\scriptsize
+\begin{tabular}{lcccc}
+\toprule
+Algorithm & IGD$_{PF}$ median (IQR) & HV median (IQR) & vs IVF (IGD) & vs IVF (HV) \\
+\midrule
+IVF/SPEA2 & 4.2284e+00 (1.147e-01) & 4.1255e+01 (3.631e-02) & --- & --- \\
+IVF/SPEA2-ABL-DOM & \textbf{4.2247e+00} (1.113e-01) & 4.1249e+01 (2.597e-02) & $≈$ ($p=0.727$) & $≈$ ($p=0.795$) \\
+IVF/SPEA2-ABL-4C & 4.2414e+00 (1.258e-01) & 4.1249e+01 (2.544e-02) & $≈$ ($p=0.281$) & $≈$ ($p=0.458$) \\
+IVF/SPEA2-ABL-1C & 4.2307e+00 (1.535e-01) & 4.1253e+01 (2.656e-02) & $≈$ ($p=0.368$) & $≈$ ($p=0.477$) \\
+SPEA2 & 4.2648e+00 (1.173e-01) & 4.1246e+01 (3.317e-02) & $+$ ($p=0.032$) & $≈$ ($p=0.576$) \\
+MFO/SPEA2 & 4.2599e+00 (1.422e-01) & 4.1253e+01 (2.677e-02) & $+$ ($p=0.022$) & $≈$ ($p=0.723$) \\
+SPEA2+SDE & 1.0042e+01 (6.444e+00) & 4.1223e+01 (5.489e-02) & $+$ ($p=0.000$) & $+$ ($p=0.000$) \\
+NSGA-II & 5.5184e+00 (2.878e-01) & 4.1192e+01 (2.987e-02) & $+$ ($p=0.000$) & $+$ ($p=0.000$) \\
+NSGA-III & 5.6972e+00 (1.680e-01) & 4.1322e+01 (2.204e-02) & $+$ ($p=0.000$) & $-$ ($p=0.000$) \\
+MOEA/D & 7.5193e+02 (1.021e-02) & 1.3899e-02 (8.084e-03) & $+$ ($p=0.000$) & $+$ ($p=0.000$) \\
+AGE-MOEA-II & 4.6314e+00 (2.196e-01) & 4.1339e+01 (6.777e-03) & $+$ ($p=0.000$) & $-$ ($p=0.000$) \\
+AR-MOEA & 5.2798e+00 (4.090e-02) & \textbf{4.1379e+01} (1.875e-03) & $+$ ($p=0.000$) & $-$ ($p=0.000$) \\
+\bottomrule
+\end{tabular}
+\end{table}

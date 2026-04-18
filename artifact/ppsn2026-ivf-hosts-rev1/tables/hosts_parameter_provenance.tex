@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\caption{Parameter provenance audit comparing the values reported in the manuscript against the defaults extracted from the current MATLAB implementations.}
+\label{tab:hosts_parameter_provenance}
+\scriptsize
+\begin{tabular}{llccc}
+\toprule
+Pipeline & Parameter & Code & Text & Status \\
+\midrule
+IVFNSGAII & C & 0.07 & 0.07 & match \\
+IVFNSGAII & Cycles & 5 & 5 & match \\
+IVFNSGAII & R & 0.5 & 0.5 & match \\
+IVFNSGAIII & C & 0.10 & 0.10 & match \\
+IVFNSGAIII & Cycles & 5 & 5 & match \\
+IVFNSGAIII & ivf_rate & 0.10 & 0.10 & match \\
+IVFSPEA2 & C & 0.12 & 0.12 & match \\
+IVFSPEA2 & Cycles & 2 & 2 & match \\
+IVFSPEA2 & EARN & 0 &  & code-only \\
+IVFSPEA2 & M_mut & 0.3 & 0.3 & match \\
+IVFSPEA2 & N_Offspring & 1 &  & code-only \\
+IVFSPEA2 & R & 0.225 & 0.225 & match \\
+IVFSPEA2 & V & 0.1 & 0.1 & match \\
+\bottomrule
+\end{tabular}
+\end{table}

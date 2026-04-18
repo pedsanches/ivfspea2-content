@@ -1,0 +1,623 @@
+           Claude Code v2.1.112
+ ▐▛███▜▌   Sonnet 4.6 · Claude Pro
+▝▜█████▛▘  ~/code/research/ivfspea2
+  ▘▘ ▝▝    Welcome to Opus 4.7 xhigh! · /effort to tune speed vs. intellige…
+
+❯ /effort                                                                       
+  ⎿  Set effort level to xhigh: Deeper reasoning than high, just below maximum
+     (Opus 4.7 only)
+
+❯ This was the result of a review to our text (                                 
+  @paper/ppsn2026-ivf-hosts/main.tex ): # Manuscript Review: *Operator-Host     
+  Compatibility in Multi-Objective Intensification*                             
+                                                                                
+  *Note on PDF encoding:* the PDF I received has `ff/fi/ffi` ligature           
+  extraction artifacts (e.g. "intensication" for "intensification", "dierent"   
+  for "different", "eect" for "effect"). I am treating these as rendering       
+  issues rather than authorial typos. However, if they appear this way in the   
+  actual compiled PDF the author is submitting, this is a **critical**          
+  production-level problem — likely a font-embedding issue with                 
+  `\usepackage[T1]{fontenc}` or similar. The author should verify the final PDF 
+   renders correctly in Adobe Reader and in a PDF-to-text extractor.            
+                                                                                
+  ---                                                                           
+                                                                                
+  ## Part 1 — Executive Assessment                                              
+                                                                                
+  **Overall verdict:** The manuscript is structurally sound, argumentatively    
+  coherent, and intellectually honest about the scope of its claims (the        
+  pipeline-level framing is carefully and correctly maintained throughout).     
+  However, the writing is **not yet submission-ready** for a venue like         
+  *Memetic Computing*. It reads as a late-stage draft from a careful author who 
+   has not yet been through a professional line-editing pass.                   
+                                                                                
+  **Major strengths**                                                           
+  - The scope-of-inference framing (pipeline-level, not mechanism-isolated) is  
+  admirably consistent and rarely oversells.                                    
+  - The results narrative has a clear backbone: global picture → per-host →     
+  geometry → dimensionality → dynamics → discussion.                            
+  - Figures 1, 3, and 5 are argumentatively well-used: the text points to       
+  specific features and interprets them.                                        
+  - The Discussion's self-imposed limits (three threats to validity, geometry   
+  interaction "suggestive rather than definitive") are editorially mature.      
+                                                                                
+  **Major weaknesses**                                                          
+  - **Unresolved placeholders in §4** (`[release]`, `[PlatEMO version]`, `[CPU  
+  / RAM / OS]`, `[artifact URL or DOI]` twice). These are submission-blocking.  
+  - Recurrent non-native-English constructions: awkward verb choices ("sharpens 
+   where", "dominates the synthetic suite", "IVF/NSGA-II never finds a          
+  family"), informal physical metaphors ("shifted furthest into", "the sharp    
+  asymmetry belongs to"), and wordy subordination.                              
+  - Several long, multi-clausal sentences that could be split with measurable   
+  gain in clarity.                                                              
+  - Figure 2 is visually **over-packed** (51 columns × 3 rows with asterisks)   
+  and the text does not give the reader a reading strategy commensurate with    
+  the figure's density.                                                         
+  - Abstract dumps raw win/tie/loss triplets (`+33/=15/-3`)                     
+  ──── (357 lines hidden) ───────────────────────────────────────────────────── 
+  -section transitions                                                          
+                                                                                
+  - **End of §3 → start of §4:** Currently abrupt. Insert a one-sentence        
+  bridge: *"With the pipelines specified, we now turn to the experimental       
+  protocol under which they are compared."*                                     
+                                                                                
+  - **End of §5.3 → start of §5.4:** Currently abrupt ("as the objective space  
+  expands. 5.4 Dynamic Evidence"). Insert: *"Endpoint analyses alone, however,  
+  cannot indicate whether the observed ordering also holds during the search    
+  rather than only at its termination."*                                        
+                                                                                
+  - **End of §5 → start of §6:** The transition from the ranking paragraph into 
+   Discussion is weak. Add a connector: *"We now turn from what the evidence    
+  shows to what it licenses as interpretation."*                                
+                                                                                
+  ### 5.5 Figure callout rewrites                                               
+                                                                                
+  - **Fig. 2 callout (§5.1, full rewrite):**                                    
+    > *"Figure 2 disaggregates the global picture to the per-instance level     
+  (three host rows × 51 instance columns, grouped by family). Three patterns    
+  stand out. First, IVF/SPEA2's row is dominated by blue cells across all four  
+  families, with the three IGD losses concentrated on WFG. Second,              
+  IVF/NSGA-III's row is strongly blue on DTLZ and MaF but near-white on most    
+  WFG and ZDT instances. Third, IVF/NSGA-II's row is near-white across the full 
+   suite, with isolated red on ZDT6. The paired aligned analysis gives 33/15/3  
+  for IVF/SPEA2, 22/29/0 for IVF/NSGA-III, and 1/48/2 for IVF/NSGA-II in IGD;   
+  the corresponding HV tallies are 37/10/4, 21/28/2, and 5/43/3. The            
+  pairing-aware robustness re-analysis leaves the IGD tallies unchanged and     
+  shifts only one HV case (+38/=9/-4 for IVF/SPEA2 under the unpaired primary   
+  test), so the host ranking is not an artifact of the alignment choice."*      
+                                                                                
+  - **Fig. 4 callout (§5.4):** see earlier suggestion in Part 4.                
+                                                                                
+  ---                                                                           
+                                                                                
+  ### Final editorial note                                                      
+                                                                                
+  The paper has real and honestly-presented results; its failure modes are      
+  almost entirely surface-level (placeholders, ligatures, awkward verbs,        
+  overlong sentences, one over-dense figure). A focused line-editing pass       
+  addressing the **critical** items (C1, C2), the **major** items (especially   
+  M1–M4), and the 20 worst-offender sentences in §5.3 will raise the manuscript 
+   to journal-submission quality without touching the scientific content. The   
+  authorial restraint on claim strength is a strength to preserve through       
+  revision — do not let polishing the prose silently strengthen any claim. .    
+  Help me to make a robust and precise plan (being effective) to solve all the  
+  problems described. We have the resouces and the machine (actual machine) to  
+  answer all things                                                             
+  ⎿  Read paper/ppsn2026-ivf-hosts/main.tex (unchanged)
+
+● I'll build the plan after reading the actual manuscript structure to ground
+  each action in real line numbers and section boundaries. Let me first invoke
+  the brainstorming skill since this is a planning task.
+
+● Skill(superpowers:brainstorming)
+  ⎿  Successfully loaded skill
+
+● Let me explore the project context first to ground the plan in reality.
+
+  Read 1 file, listed 2 directories (ctrl+o to expand)
+
+● Now I have the full manuscript. Let me quickly check a few more context items
+  to understand what infrastructure/artifacts exist.
+
+  Read 1 file, listed 1 directory (ctrl+o to expand)
+
+● Bash(git -C /home/pedro/code/research/ivfspea2 log --oneline -10)
+  ⎿  a41455b revision: [passo 10] LNCS budget
+     c16696b revision: [passo 8-9] results + discussion rewrite
+     0bc7fc4 revision: [passo 5-7] compact table + dynamic decision
+     … +9 lines (ctrl+o to expand)
+
+● I have strong context now. The manuscript is paper/ppsn2026-ivf-hosts/main.tex
+   (246 lines), already through 10 revision passes. The figures directory is
+  populated, a prior plan.md exists for an earlier review round, and
+  docs/superpowers/specs/ is the correct place for a new design doc. Before I
+  draft the plan, I need to pin down three decisions whose choice cascades into
+  everything else.
+
+  Question 1/3 (the most consequential): How do you want to handle Fig. 2 / C2
+  (the 51-column heatmap)? The reviewer gave three options:
+
+  - (A) Split into two panels (M=2 and M=3) stacked vertically in the main text
+  — preserves the heatmap narrative, widens each cell so asterisks become
+  legible, but requires regenerating hosts_v2_fig2_heatmap.pdf (modify the
+  Python plotting script).
+  - (B) Demote to supplementary and replace the main-text slot with a new
+  per-family win/tie/loss bar chart — simpler visual, but requires a new figure
+  and frees a page-budget slot.
+  - (C) Keep current figure, fix only the callout and caption — cheapest, but
+  accepts that the asterisks stay visually cramped (reviewer's least preferred).
+
+  My recommendation is (A): it is the smallest scientific change that directly
+  answers the reviewer's complaint, and your plotting script almost certainly
+  already faceting-capable since you generate the fig3_m2_vs_m3 split for a
+  different figure. Which do you want?
+
+✻ Sautéed for 1m 39s
+
+❯ (A)                                                                           
+
+● Good — (A) it is.
+
+  Question 2/3: The artifact URL / DOI (C1) appears twice in the manuscript (§4
+  "Metrics and references" and §7 final paragraph). For a Memetic Computing
+  submission the reviewer flagged GitHub URLs as non-archival. What's the
+  current state?
+
+  - (i) A Zenodo/Figshare/OSF DOI is already minted (you provide the DOI, plan
+  just fills it in).
+  - (ii) No DOI yet, and you want the plan to include minting one (requires
+  uploading a zip of data/processed/, raw metric traces, analysis scripts, and
+  figure scripts to Zenodo via their web UI — I can prepare the zip and the
+  deposit metadata but cannot complete the upload non-interactively).
+  - (iii) Ship with a GitHub release tag (not just a URL) as an acceptable
+  fallback — I pin ref [20] and the artifact pointer to a specific release
+  commit + Git tag. Less archival than Zenodo but survives repo renames.
+
+  My recommendation is (ii) via Zenodo (free, DOI mint on first release, accepts
+   a single zip ≤50 GB, indexed by DataCite). (iii) is the pragmatic fallback if
+   the submission deadline is tight.
+
+  Which applies?
+
+❯ A have a pre-print with citation: Pedro Henrique Sanches Pelegrino Zambrano,  
+  Eduardo Faria de Souza, Altino Dantas et al. A Budget-Controlled In Vitro     
+  Fertilization Memetic Hybrid for SPEA2 on Bi- and Tri-Objective Problems, 17  
+  April 2026, PREPRINT (Version 1) available at Research Square                 
+  [https://doi.org/10.21203/rs.3.rs-9431034/v1] to IVFSPEA2 article in the      
+  memetic computing submission. For data we can makei a DOI of the branch that  
+  we are right now to cite it                                                   
+
+● Got it. So ref [20] → 10.21203/rs.3.rs-9431034/v1 (Research Square preprint),
+  and the artifact DOI will come from a Zenodo release minted off the current
+  branch. Zenodo's GitHub integration works but requires a web-UI action from
+  you (linking the repo + clicking "Create Release") — I can prepare everything
+  up to that point (release notes, tag name, reproducibility zip, deposit
+  metadata) and the plan will have a clearly-marked handoff step.
+
+  Question 3/3: What's the scope of execution you want from me after the plan is
+   approved?
+
+  - (I) Plan only — I produce a design doc + detailed implementation plan in
+  docs/superpowers/specs/ and stop. You execute (or delegate) manually.
+  - (II) Plan + full execution — after approval, I execute all text edits
+  (§§1–7), regenerate Fig. 2 (split M=2/M=3), rewrite all 5 figure captions, fix
+   ligatures, fill [release]/[PlatEMO version]/[CPU / RAM / OS] after asking you
+   to confirm the values, prepare the Zenodo archive, compile the PDF, and
+  checkpoint at each phase for your review. Your own actions remain: Zenodo DOI
+  mint (web UI) and final PDF inspection.
+  - (III) Plan + staged execution by severity — I execute only CRITICAL and
+  MAJOR items (C1, C2, M1–M7), then pause for you to decide whether the
+  MODERATE/MINOR pass is worth the time before the submission deadline.
+
+  Recommendation: (II) with tight checkpoints — the review is ~80% mechanical
+  prose edits where human review per-sentence would be slow; batched review of
+  the diff per section is faster. (III) is the right call only if the deadline
+  is very close and MINOR polish is acceptable to skip.
+
+  Which do you want?
+
+❯ With II i want                                                                
+
+● Here is the proposed design. I'll hold for your approval before writing the
+  spec doc and starting execution.
+
+  Revision Design
+
+  Goal: Convert the reviewer's punchlist into a committed, PDF-verified,
+  DOI-archived revision of paper/ppsn2026-ivf-hosts/main.tex without touching
+  scientific claims.
+
+  Working branch: ppsn2026-population-dynamics (current). I'll commit in small
+  phase-scoped commits matching your existing revision: [passo N] ... style.
+
+  Phases & Checkpoints
+
+  #: 0
+  Phase: Preflight
+  What I do: Detect MATLAB release, PlatEMO version, hardware; compile current
+    PDF and confirm whether ligatures are a real font issue or a reviewer-side
+    pdftotext artifact (\usepackage[T1]{fontenc} is already present, so likely
+    the latter).
+  Gate: Checkpoint A: I report the five values; you confirm before I paste them.
+  ────────────────────────────────────────
+  #: 1
+  Phase: Critical + Major text edits
+  What I do: C1 placeholders (after Checkpoint A); M1 abstract notation; M2
+    caveat dedup (keep §1 + §7, compress elsewhere); M3 six verb/metaphor
+    rewrites; M4 sentence splits in §4 + §5.4; M5 "canonical"; M6
+    "actionable"→"directional"; M7 Fig. 4 callout.
+  Gate: Checkpoint B: diff review.
+  ────────────────────────────────────────
+  #: 2
+  Phase: Fig. 2 split (M=2/M=3)
+  What I do: Locate the Python script producing hosts_v2_fig2_heatmap.pdf, add a
+
+    faceted two-row layout, regenerate PDF, rewrite caption + callout per
+    reviewer Part 4.
+  Gate: Checkpoint C: visual review of new PDF.
+  ────────────────────────────────────────
+  #: 3
+  Phase: Moderate + Minor edits
+  What I do: Mo1–Mo10, minor items, ref [20] → Research Square DOI
+    10.21203/rs.3.rs-9431034/v1, DOIs added to refs [5], [9] where possible,
+    Table 1 unit consistency, math spacing, §3/§5.3 subsection retitles.
+  Gate: Checkpoint D: diff review.
+  ────────────────────────────────────────
+  #: 4
+  Phase: Figure caption & callout rewrites
+  What I do: Captions 1–5 + §5 callouts per reviewer Part 5.5.
+  Gate: Checkpoint E: diff review.
+  ────────────────────────────────────────
+  #: 5
+  Phase: Cross-section transitions
+  What I do: Three one-sentence bridges (§3→§4, §5.3→§5.4, §5→§6).
+  Gate: Rolled into Checkpoint E.
+  ────────────────────────────────────────
+  #: 6
+  Phase: Zenodo archive prep
+  What I do: Assemble reproducibility zip (data/processed/, results/tables/,
+    paper/ppsn2026-ivf-hosts/figures/, src/python/analysis/, README), draft
+    release notes, draft Zenodo metadata, propose tag ppsn2026-ivf-hosts-rev1.
+  Gate: Checkpoint F: you click Create Release on GitHub + authorize Zenodo
+    webhook; I fill the resulting DOI into the two manuscript slots.
+  ────────────────────────────────────────
+  #: 7
+  Phase: Verification
+  What I do: Compile PDF; pdftotext + grep for known ligature tells (dierent,
+    intensication, eect); grep for any remaining \[.*\] placeholders;
+    page-overflow inspection of floats.
+  Gate: Checkpoint G: sign-off commit.
+
+  Out of scope
+
+  No new experiments, no new analyses, no claim changes, no figure redesigns
+  beyond Fig. 2 split, no restructure of §§1–7. The reviewer explicitly warned
+  "do not let polishing silently strengthen any claim" — I will preserve hedge
+  wording verbatim where it exists.
+
+  Deliverables
+
+  main.tex, references.bib, Fig. 2 plotting script + regenerated PDF, Zenodo
+  bundle, compiled build/main.pdf, one commit per phase.
+
+  Approve the phase/checkpoint structure? If yes, I'll write the spec to docs/su
+  perpowers/specs/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision-design.md,
+  self-review it, then hand it to you for the written-spec review before I start
+   Phase 0.
+
+✻ Worked for 1m 5s
+
+❯ Approved                                                                      
+
+  Listed 1 directory (ctrl+o to expand)
+
+● Write(docs/superpowers/specs/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision-d
+       esign.md)
+  ⎿  Wrote 191 lines to docs/superpowers/specs/2026-04-17-ppsn2026-ivf-host
+     s-reviewer-revision-design.md
+       2 # PPSN 2026 IVF-Hosts Manuscript — Reviewer Revision Design
+       3 **Date:** 2026-04-17
+       5 **Branch:** `ppsn2026-population-dynamics`
+       6 **Target:** `paper/ppsn2026-ivf-hosts/main.tex` (246 lines, revi
+       7 sion passo 10)
+       8 ## 1. Goal & Non-Goals
+      10 **Goal.** Convert the reviewer punchlist (CRITICAL C1–C2, MAJOR 
+         M1–M7, MODERATE Mo1–Mo10, MINOR items, five figure caption rewri
+         , Zenodo DOI mint) into a committed, PDF-verified, DOI-archived 
+         revision of `main.tex`.
+     … +285 lines (ctrl+o to expand)
+
+● Self-reviewing now — one mapping issue to fix.
+
+● Update(docs/superpowers/specs/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision-
+        design.md)
+  ⎿  Added 1 line, removed 1 line
+      49  | C1 | §4 "Metrics and references" + §7 final paragraph | Repla
+          ce `[release]`, `[PlatEMO version]`, `[CPU / RAM / OS]`; leave 
+          `[artifact URL or DOI]` as a TODO marker pending Phase 6. |
+      50  | M1 | Abstract | Replace `+33/=15/-3 IGD outcomes` phrasing wi
+          th "33 wins, 15 ties, and 3 losses in IGD" across all three tri
+          plets. Remove editorializing "only". |
+      51  | M2 | Abstract, §1 Scope, §3 last sentence, §6 opener, §7 open
+          er | Keep full statement in §1 Scope + §7 opener. Compress abst
+          ract to "pipeline-level compatibility interpretation" phrase on
+          ly. Replace §3 last sentence with reviewer's proposed rewrite. 
+          Replace §6 opener with reviewer's proposed rewrite. |
+      52 -| M3 (×6) | §5 opener, §5.1, §5.2 opener, §5.3, §5.1, §5 | Appl
+         -y rewrites 5, 6, 7, 8, 9, 10, 11 from reviewer Part 5.3. |     
+      52 +| M3 (×6) | §5 opener (×2), §5.1 (×2), §5.2 opener, §5.3 | Appl
+         +y rewrites 6–11 from reviewer Part 5.3. |                      
+      53  | M4 | §4 Budget accounting, §5.4 aggregate sentence | Apply re
+          writes 4 and 14 from Part 5.3 (also removes "at at most" redund
+          ancy). Move trajectory-interpolation sentence from §4 to §5.4. 
+          |
+      54  | M5 | §3.1 | "IVF/SPEA2 v2 is the canonical implementation in 
+          this study" → "IVF/SPEA2 v2 is the published reference implemen
+          tation used in this study [20]." |
+      55  | M6 | §1 "actionable feedback" and all other sites | Replace w
+          ith "directional feedback" globally; apply rewrite 1 from Part 
+          5.3. |
+
+● Update(docs/superpowers/specs/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision-
+        design.md)  ⎿  Added 2 lines, removed 1 line
+      77  - Mo3: add a one-line gloss on first use of "mothers/fathers" i
+          n §1 or §2.2.
+      78  - Mo4: remove the §3 intro paragraph's structural overlap with 
+          §2.2.
+      79  - Mo5: Table 1 row "Offspring operator" header; move crossover 
+          parameter to own column or note.
+      80 -- Mo6: §5 opener → "At the aggregate level, the three pipelines
+         - already separate by a large margin (Fig. 1)."                 
+      80 +- Mo6: §5 opener → "At the aggregate level, the three pipelines
+         + already separate by a large margin (Fig. 1)." (= rewrite 5 fro
+         +m Part 5.3).                                                   
+      81 +- Also apply rewrite 2 (§1 "common IVF core is stable" → "share
+         +d"/"unchanged") and rewrite 12 (§5.3 "indicating that the host 
+         +mechanism governs…" → reviewer's cleaner verb).                
+      82  - Mo7: §5.4 reorder sentence on IVF/NSGA-II being "no longer co
+          mpletely inert".
+      83  - Mo8: §6 "material" → "relevant".
+      84  - Mo9: §7 drop "practically useful".
+
+● Bash(git add docs/superpowers/specs/2026-04-17-ppsn2026-ivf-hosts-reviewer-rev
+      ision-design.md && git commit -m "$(cat <<'EOF'
+      spec: reviewer-driven revision plan for…)
+  ⎿  [ppsn2026-population-dynamics 736d0fd] spec: reviewer-driven revision
+     plan for ppsn2026-ivf-hosts
+      1 file changed, 192 insertions(+)
+     … +3 lines (ctrl+o to expand)
+
+● Spec written and committed to docs/superpowers/specs/2026-04-17-ppsn2026-ivf-h
+  osts-reviewer-revision-design.md (commit 736d0fd). Please review it and let me
+   know if you want to make any changes before we move to the implementation
+  plan.
+
+  Quick summary of what's in it:
+  - 7 phases, each with its own checkpoint and commit (revision: [passo 11a]
+  through [passo 11g]).
+  - Explicit scope guard preserving hedge words (reviewer's "do not silently
+  strengthen claims" rule).
+  - Concrete risk register with mitigations for the ligature question, Fig. 2
+  aspect-ratio regression, Zenodo webhook, and missing Crossref DOIs.
+  - Success criteria are objectively checkable (pdftotext grep, placeholder
+  sweep, Zenodo DOI resolution).
+  - Fallback for Fig. 2 Option (A) failure: revert to improved caption only.
+
+  Open or reply "approved" and I'll invoke the writing-plans skill next.
+
+✻ Churned for 2m 31s
+
+❯ Approved                                                                      
+
+● Skill(superpowers:writing-plans)
+  ⎿  Successfully loaded skill
+
+● I'm using the writing-plans skill to create the implementation plan.
+
+  Searched for 2 patterns, read 1 file, listed 1 directory (ctrl+o to expand)
+
+● I have the Fig. 2 script structure. Now writing the implementation plan.
+
+● Write(docs/superpowers/plans/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision.m
+       d)
+  ⎿  Wrote 1187 lines to docs/superpowers/plans/2026-04-17-ppsn2026-ivf-hos
+     ts-reviewer-revision.md
+      2 # PPSN 2026 IVF-Hosts Reviewer Revision Implementation Plan
+      3 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:su
+        plans to implement this plan task-by-task. Steps use checkbox (`-
+         [ ]`) syntax for tracking.
+      5 **Goal:** Apply the complete reviewer punchlist (C1–C2, M1–M7, Mo
+        1–Mo10, minor items, five figure caption rewrites, twenty sentenc
+        Zenodo DOI mint) to `paper/ppsn2026-ivf-hosts/main.tex` without t
+        ouching scientific claims.
+      7 **Architecture:** Seven sequential tasks matching the seven desig
+        n phases. Each task ends with a verification step an
+     … +1673 lines (ctrl+o to expand)
+
+● Running self-review — two small fixes needed.
+
+● Update(docs/superpowers/plans/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision.
+        md)
+  ⎿  Added 18 lines, removed 16 lines
+      775  
+      776  - [ ] **Step 5.1: §3 → §4 bridge**
+      777  
+      778 -Find the final sentence of §3 ending "...transplanted unchange
+          -d across hosts." (now "...held identical across hosts." after 
+          -Step 1.6). Append before `\section{Experimental Setup}`:      
+      779 -```                                                           
+      780 -OLD: transplanted unchanged across hosts.\n\n\section{Experime
+          -ntal Setup}                                                   
+      781 -NEW: held identical across hosts. With the pipelines specified
+          -, we now turn to the experimental protocol under which they ar
+          -e compared.\n\n\section{Experimental Setup}                   
+      782 -```                                                           
+      783 -(Use the actual post-Task-1 wording; adjust `OLD` to match.)  
+      778 +Find the final sentence of §3 ending "...held identical across
+          + hosts." (post-Step-1.6 wording). Append the bridge sentence t
+          +o that paragraph (same line, followed by a real newline that a
+          +lready exists before `\section{Experimental Setup}`):         
+      779  
+      780 +Use `Edit` with                                               
+      781 +- `old_string` = `held identical across hosts.`               
+      782 +- `new_string` = `held identical across hosts. With the pipeli
+          +nes specified, we now turn to the experimental protocol under 
+          +which they are compared.`                                     
+      783 +                                                              
+      784  - [ ] **Step 5.2: §5.3 → §5.4 bridge**
+      785  
+      787 -Find the last sentence of §5.3 ending "...in higher-dimensiona
+          -l objective space." (post-Step-3.8 wording). Append:          
+      788 -```                                                           
+      789 -OLD: in higher-dimensional objective space.\n\n\subsection{Dyn
+          -amic Evidence}                                                
+      790 -NEW: in higher-dimensional objective space. Endpoint analyses 
+          -alone, however, cannot indicate whether the observed ordering 
+          -also holds during the search rather than only at its terminati
+          -on.\n\n\subsection{Dynamic Evidence}                          
+      791 -```                                                           
+      786 +Find the last sentence of §5.3 ending "...in higher-dimensiona
+          +l objective space." (post-Step-3.8 wording). Append the bridge
+          +:                                                             
+      787  
+      788 +Use `Edit` with                                               
+      789 +- `old_string` = `in higher-dimensional objective space.`     
+      790 +- `new_string` = `in higher-dimensional objective space. Endpo
+          +int analyses alone, however, cannot indicate whether the obser
+          +ved ordering also holds during the search rather than only at 
+          +its termination.`                                             
+      791 +                                                              
+      792  - [ ] **Step 5.3: §5 → §6 bridge**
+      793  
+      795 -Find the last sentence of §5 (absolute cross-host ranking para
+          -graph ending with `\input{../../results/tables/hosts_a12_summa
+          -ry.tex}` or similar). Add a bridge sentence immediately before
+          - `\section{Discussion}`:                                      
+      796 -```                                                           
+      797 -OLD: \input{../../results/tables/hosts_a12_summary.tex}\n\n\Fl
+          -oatBarrier\n\section{Discussion}                              
+      798 -NEW: \input{../../results/tables/hosts_a12_summary.tex}\n\nWe 
+          -now turn from what the evidence shows to what it licenses as i
+          -nterpretation.\n\n\FloatBarrier\n\section{Discussion}         
+      799 -```                                                           
+      794 +The last sentence of §5 is the cross-host-ranking paragraph fo
+          +llowed by `\input{../../results/tables/hosts_a12_summary.tex}`
+          +. Insert the bridge between the `\input{...}` and the `\FloatB
+          +arrier`/`\section{Discussion}` block. Use `Edit` with         
+      795  
+      796 +- `old_string` = `\input{../../results/tables/hosts_a12_summar
+          +y.tex}`                                                       
+      797 +- `new_string` = `\input{../../results/tables/hosts_a12_summar
+          +y.tex}                                                        
+      798 +                                                              
+      799 +We now turn from what the evidence shows to what it licenses a
+          +s interpretation.`                                            
+      800 +                                                              
+      801 +(Note: the `new_string` contains a real blank line before the 
+          +sentence. If the Edit tool rejects multi-line new_string with 
+          +a blank line, split into two edits: delete the `\FloatBarrier`
+          + line, re-insert it after the bridge sentence.)               
+      802 +                                                              
+      803  - [ ] **Step 5.4: Verify**
+      804  
+      805  Run:
+
+● Update(docs/superpowers/plans/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision.
+        md)
+  ⎿  Added 7 lines, removed 1 line
+      527  NEW: The three implementations studied here inherit the shared
+            macro-structure summarized in Section~\ref{sec:ivf_family}. T
+           hey differ in four design axes: father selection, offspring ge
+           neration, continuation criterion, and activation budget. Table
+           ~\ref{tab:adaptations} gives the full breakdown.
+      528  ```
+      529  
+      530 -- [ ] **Step 3.3: Mo5 — Table 1 header clarity + rewording**  
+      530 +- [ ] **Step 3.3: Mo5 — Table 1 header clarity + rewording + n
+          +ame consistency**                                             
+      531  
+      532  Edit Table 1 row labels:
+      533  ```
+     ...
+      535  NEW: Offspring generation & SBX ($\eta_c=20$) & SBX ($\eta_c=1
+           5$) & DE/current-to-best \\
+      536  ```
+      537  
+      538 +Also normalize the column header name to match body-text usage
+          +:                                                             
+      539 +```                                                           
+      540 +OLD: \textbf{IVF/SPEA2-v2}                                    
+      541 +NEW: \textbf{IVF/SPEA2 v2}                                    
+      542 +```                                                           
+      543 +                                                              
+      544  - [ ] **Step 3.4: Mo6 — §5 opener**
+      545  
+      546  Edit:
+
+● Bash(git add
+      docs/superpowers/plans/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision.md
+      && git commit -m "$(cat <<'EOF'
+      plan: implementation plan for ppsn2026-ivf-hos…)
+  ⎿  [ppsn2026-population-dynamics 8328457] plan: implementation plan for p
+     psn2026-ivf-hosts reviewer revision
+      1 file changed, 1195 insertions(+)
+     … +6 lines (ctrl+o to expand)
+
+● Plan complete and saved to
+  docs/superpowers/plans/2026-04-17-ppsn2026-ivf-hosts-reviewer-revision.md
+  (commit 8328457).
+
+  Summary of what's in the plan:
+  - 7 tasks, ~90 numbered steps, each with exact old_string/new_string pairs,
+  shell commands, expected outputs, and checkpoint gates.
+  - Every reviewer item mapped: CRITICAL C1–C2, MAJOR M1–M7, MODERATE Mo1–Mo10,
+  all minor items, all 20 sentence rewrites, all 5 figure captions, 3
+  cross-section bridges, Zenodo DOI mint.
+  - Hedge-word preservation check built into Step 7.5 (guards against silently
+  strengthening claims).
+  - Fallback paths for ligature fix, Fig. 2 aspect ratio regression, Zenodo
+  webhook unavailable, and missing Crossref DOIs.
+  - Per-phase commit messages continuing your existing revision: [passo N] ...
+  style.
+
+  Two execution options:
+
+  1. Subagent-Driven (recommended) — I dispatch a fresh subagent per task,
+  review the diff between tasks, iterate quickly.
+
+  2. Inline Execution — I execute tasks in this session using executing-plans,
+  batching with your checkpoints (A, B, C, D, E, F, G).
+
+  Which approach? Given the plan is largely mechanical text edits with explicit
+  old/new strings (low divergence risk) and the Zenodo step hard-requires your
+  browser action anyway, Inline Execution is probably the right fit — one
+  session, tight checkpoints, you see every diff in context. Subagent-driven
+  shines when tasks are exploratory; this plan is not.
+
+✻ Cooked for 7m 42s
+
+❯ Lets go with 1                                                                
+
+● Skill(superpowers:subagent-driven-development)
+  ⎿  Successfully loaded skill
+
+  Read 3 files, listed 1 directory (ctrl+o to expand)
+
+● I'm using Subagent-Driven Development to execute this plan. Starting with Task
+   0 (Preflight).
+
+  Task status:
+  - [in progress] Task 0 — Preflight & information gathering
+  - [pending] Tasks 1–7
+
+  Dispatching the Task 0 implementer subagent now. Task 0 is diagnostic-only —
+  its job is to report values; it will NOT commit any ligature fix without your
+  confirmation.
+
+● Agent(Task 0 preflight diagnostics)
+  ⎿  Done (16 tool uses · 0 tokens · 31m 2s)
+  (ctrl+o to expand)
+  ⎿  You've hit your limit · resets 11pm (America/Araguaina)
+     /upgrade to increase your usage limit.
+
+✻ Cogitated for 2m 2s

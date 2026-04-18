@@ -1,0 +1,10 @@
+Algoritmo,status,n_groups
+AGEMOEAII,ok,51
+ARMOEA,ok,51
+IVFSPEA2,mismatch,51
+MFOSPEA2,ok,51
+MOEAD,ok,51
+NSGAII,ok,51
+NSGAIII,ok,51
+SPEA2,ok,51
+SPEA2SDE,ok,51

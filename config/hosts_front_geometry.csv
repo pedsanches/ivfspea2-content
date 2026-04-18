@@ -1,0 +1,52 @@
+problem,M,geometry_primary,geometry_secondary,geometry_group,source_note
+DTLZ1,2,linear,,regular,Deb et al. 2005; hyperplane sum(fi)=0.5
+DTLZ1,3,linear,,regular,Deb et al. 2005; hyperplane sum(fi)=0.5
+DTLZ2,2,concave,,regular,Deb et al. 2005; unit sphere sum(fi^2)=1
+DTLZ2,3,concave,,regular,Deb et al. 2005; unit sphere sum(fi^2)=1
+DTLZ3,2,concave,multimodal,regular,Deb et al. 2005; same PF as DTLZ2 with many local fronts
+DTLZ3,3,concave,multimodal,regular,Deb et al. 2005; same PF as DTLZ2 with many local fronts
+DTLZ4,2,concave,biased,regular,Deb et al. 2005; same PF as DTLZ2 with biased density
+DTLZ4,3,concave,biased,regular,Deb et al. 2005; same PF as DTLZ2 with biased density
+DTLZ5,2,concave,,regular,Deb et al. 2005; quarter-circle arc in 2D (degeneracy manifests only at M>=3)
+DTLZ5,3,degenerate,curved,irregular,Deb et al. 2005; 1-D curve on unit sphere in 3-D space
+DTLZ6,2,concave,,regular,Deb et al. 2005; same PF as DTLZ5 M=2 with harder landscape
+DTLZ6,3,degenerate,curved,irregular,Deb et al. 2005; same PF as DTLZ5 M=3 with harder landscape
+DTLZ7,2,disconnected,,irregular,Deb et al. 2005; disconnected segments
+DTLZ7,3,disconnected,,irregular,Deb et al. 2005; disconnected regions in 3-D
+MaF1,2,linear,inverted,regular,Cheng et al. 2017; inverted DTLZ1 hyperplane
+MaF1,3,linear,inverted,regular,Cheng et al. 2017; inverted DTLZ1 hyperplane
+MaF2,2,concave,,regular,Cheng et al. 2017; DTLZ2BZ variant
+MaF2,3,concave,,regular,Cheng et al. 2017; DTLZ2BZ variant
+MaF3,2,convex,multimodal,regular,Cheng et al. 2017; convex DTLZ3
+MaF3,3,convex,multimodal,regular,Cheng et al. 2017; convex DTLZ3
+MaF4,2,concave,badly_scaled,regular,Cheng et al. 2017; inverted badly-scaled DTLZ2
+MaF4,3,concave,badly_scaled,regular,Cheng et al. 2017; inverted badly-scaled DTLZ2
+MaF5,2,convex,badly_scaled,regular,Cheng et al. 2017; convex badly-scaled DTLZ4
+MaF5,3,convex,badly_scaled,regular,Cheng et al. 2017; convex badly-scaled DTLZ4
+MaF6,2,concave,,regular,"Cheng et al. 2017; DTLZ5(I,M) variant; degeneracy at M>=3 only"
+MaF6,3,degenerate,curved,irregular,"Cheng et al. 2017; DTLZ5(I,M) with degenerate 1-D front"
+MaF7,2,disconnected,,irregular,Cheng et al. 2017; DTLZ7 variant with disconnected regions
+MaF7,3,disconnected,,irregular,Cheng et al. 2017; DTLZ7 variant with disconnected regions
+WFG1,2,convex,biased,regular,Huband et al. 2006; convex shape function with flat bias
+WFG1,3,convex,biased,regular,Huband et al. 2006; convex shape function with flat bias
+WFG2,2,disconnected,convex,irregular,Huband et al. 2006; convex segments that are disconnected
+WFG2,3,disconnected,convex,irregular,Huband et al. 2006; disconnected regions
+WFG3,2,linear,,regular,Huband et al. 2006; linear shape function
+WFG3,3,degenerate,linear,irregular,Huband et al. 2006; degenerates to 1-D line in 3-D space
+WFG4,2,concave,multimodal,regular,Huband et al. 2006; concave shape with S-multimodal landscape
+WFG4,3,concave,multimodal,regular,Huband et al. 2006; concave shape with S-multimodal landscape
+WFG5,2,concave,deceptive,regular,Huband et al. 2006; concave shape with deceptive landscape
+WFG5,3,concave,deceptive,regular,Huband et al. 2006; concave shape with deceptive landscape
+WFG6,2,concave,nonseparable,regular,Huband et al. 2006; concave shape with nonseparable landscape
+WFG6,3,concave,nonseparable,regular,Huband et al. 2006; concave shape with nonseparable landscape
+WFG7,2,concave,parameter_dependent,regular,Huband et al. 2006; concave shape with parameter-dependent bias
+WFG7,3,concave,parameter_dependent,regular,Huband et al. 2006; concave shape with parameter-dependent bias
+WFG8,2,concave,biased,regular,Huband et al. 2006; concave shape with nonseparable bias
+WFG8,3,concave,biased,regular,Huband et al. 2006; concave shape with nonseparable bias
+WFG9,2,concave,multimodal,regular,Huband et al. 2006; concave shape with nonsep/deceptive/multimodal
+WFG9,3,concave,multimodal,regular,Huband et al. 2006; concave shape with nonsep/deceptive/multimodal
+ZDT1,2,convex,,regular,Zitzler et al. 2000; f2=1-sqrt(f1)
+ZDT2,2,concave,,regular,Zitzler et al. 2000; f2=1-f1^2
+ZDT3,2,disconnected,,irregular,Zitzler et al. 2000; five disconnected convex segments
+ZDT4,2,convex,multimodal,regular,Zitzler et al. 2000; same PF as ZDT1 with multimodal landscape
+ZDT6,2,concave,nonuniform,regular,Zitzler et al. 2000; f2=1-f1^2 with non-uniform density

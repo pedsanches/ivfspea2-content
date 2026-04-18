@@ -1,0 +1,17 @@
+case_id,problem,m,d,role
+dtlz6_m3,DTLZ6,3,12,synthetic
+dtlz7_m3,DTLZ7,3,22,synthetic
+maf1_m2,MaF1,2,11,synthetic
+maf2_m2,MaF2,2,11,synthetic
+maf3_m2,MaF3,2,11,synthetic
+maf4_m2,MaF4,2,11,synthetic
+maf5_m2,MaF5,2,11,synthetic
+maf6_m2,MaF6,2,11,synthetic
+maf7_m2,MaF7,2,21,synthetic
+maf1_m3,MaF1,3,12,synthetic
+maf2_m3,MaF2,3,12,synthetic
+maf3_m3,MaF3,3,12,synthetic
+maf4_m3,MaF4,3,12,synthetic
+maf5_m3,MaF5,3,12,synthetic
+maf6_m3,MaF6,3,12,synthetic
+maf7_m3,MaF7,3,22,synthetic

@@ -1,0 +1,17 @@
+metric,condition,M,wins,losses,ties,n
+IGD,unadjusted,M2,23,3,2,28
+IGD,unadjusted_OOS,M2,20,2,2,24
+IGD,Holm,M2,22,3,3,28
+IGD,Holm_OOS,M2,19,2,3,24
+IGD,unadjusted,M3,18,1,4,23
+IGD,unadjusted_OOS,M3,13,0,2,15
+IGD,Holm,M3,15,1,7,23
+IGD,Holm_OOS,M3,12,0,3,15
+HV,unadjusted,M2,23,3,2,28
+HV,unadjusted_OOS,M2,20,2,2,24
+HV,Holm,M2,22,3,3,28
+HV,Holm_OOS,M2,19,2,3,24
+HV,unadjusted,M3,17,1,5,23
+HV,unadjusted_OOS,M3,11,0,4,15
+HV,Holm,M3,17,1,5,23
+HV,Holm_OOS,M3,11,0,4,15
