@@ -50,10 +50,10 @@ The broader hybrid and memetic MOEA literature already suggests that intensifica
 This paper addresses that gap through a controlled comparison across three hosts: SPEA2~\cite{zitzler2001spea2}, NSGA-II~\cite{deb2002nsga2}, and NSGA-III~\cite{deb2014nsga3}. The three algorithms differ precisely in the kind of signal they provide during survival and diversity maintenance. SPEA2 combines strength and density, NSGA-II relies on non-dominated sorting plus crowding distance, and NSGA-III organizes selection around reference-point niches.
 
 \paragraph{Research question.}
-Does the benefit of IVF depend on the structure of the host selection mechanism?
+Does the benefit of IVF depend on the host's selection mechanism, and if so, which structural property of the host---dominance strength, crowding, or reference-point niching---best explains the observed coupling?
 
 \paragraph{Hypothesis H.}
-Across host-specific IVF realizations reported in prior work, stronger IVF gains are expected in MOEAs whose selection mechanisms provide more explicit directional feedback in objective space about under-explored regions. Hosts with predominantly isotropic crowding feedback are expected to show weaker synergy.
+IVF gains are strongest in hosts whose selection mechanism produces a \emph{granular, non-isotropic} quality ordering over the non-dominated set, because the IVF mother-selection step (top-ranked fraction) requires such an ordering to identify promising intensification seeds. Hosts whose selection collapses the non-dominated set onto an isotropic crowding signal should show weak synergy; hosts that impose a discretised directional signal through reference-point niches should show intermediate, geometry- and dimensionality-dependent synergy.
 
 \paragraph{Scope of inference.}
 The unit of comparison in this paper is the \emph{host + host-specific IVF realization} pipeline. This is a valid contribution in its own right: the paper compares three canonical couplings from the literature under a unified benchmark and analysis protocol. Our conclusions are therefore about comparative compatibility patterns across published pipelines, not about isolating a pure host-mechanism effect under a single identical IVF implementation transplanted unchanged across hosts.
