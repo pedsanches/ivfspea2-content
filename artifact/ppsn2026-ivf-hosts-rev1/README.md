@@ -33,7 +33,10 @@ The raw `.mat` traces (runs 3001-3030 IVF/SPEA2, 4001-4030 NSGA-II/IVF-NSGA-II, 
 
 ## Citation
 
-If you use this artifact, please cite the paper and the Zenodo record minted for this archive.
+If you use this artifact, please cite the paper and this Zenodo record:
+
+- DOI: `10.5281/zenodo.19637623`
+- URL: https://doi.org/10.5281/zenodo.19637623
 
 ## License
 
