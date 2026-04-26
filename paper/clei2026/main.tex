@@ -1,0 +1,770 @@
+% main.tex — CLEI 2026 paper (Intelligent Systems track)
+\documentclass[conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{algpseudocode}
+\usepackage{float}
+\usepackage{url}
+
+% Define algorithm float (compatible with IEEEtran)
+\floatstyle{ruled}
+\newfloat{algorithm}{tbp}{loa}
+\floatname{algorithm}{Algorithm}
+
+\begin{document}
+
+\title{Early Population Dynamics Provide Stronger Switching Signals than Static Landscape Features for Warmup-Based Operator Switching}
+
+\author{\IEEEauthorblockN{Pedro Sanches Zambrano,
+Eduardo Faria de Souza,
+and Celso G. Camilo-Junior}
+\IEEEauthorblockA{Institute of Informatics, Federal University of Goi\'as\\
+Goi\^ania, GO, Brazil\\
+pedrosanches@discente.ufg.br}}
+
+\maketitle
+
+%% ===================================================================
+\begin{abstract}
+Adaptive operator control often relies on reward signals accumulated
+during the run, yet for some operators a single keep-or-drop decision
+after a short warmup may suffice. We investigate whether static
+fitness-landscape features or early population dynamics better inform
+such a decision for an IVF-inspired intensification operator inside
+SPEA2. On 51 continuous multi-objective benchmark instances, a
+14-feature landscape feature set provides moderate signal for ranking
+expected IGD gain (Random Forest leave-one-out $r_s = 0.374$), but
+binary classification does not generalize reliably across benchmark families.
+In contrast, mean archive turnover during the first 20\% of generations
+yields a stronger switching signal ($q_{\mathrm{BH}} = 0.013$,
+$\hat{A}_{12} = 0.849$); a single-threshold rule achieves balanced
+accuracy $0.754$ under leave-one-family-out cross-validation. A
+warmup-based controller using this signal incurs no hypervolume
+losses relative to always-on IVF-SPEA2 on the 10 IGD-labeled
+\textsc{Not helpful} instances, while recording 34 wins against
+baseline SPEA2 overall, at the cost of forfeiting gains on
+9 \textsc{Helpful} cases concentrated in WFG.
+Our results suggest that, for this operator--host pair, static
+features serve as priors on gain magnitude whereas early dynamics are
+more actionable for binary switching.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Fitness landscape analysis, Adaptive operator control,
+Multi-objective optimization, Evolutionary algorithms, Population dynamics
+\end{IEEEkeywords}
+
+%% ===================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Whether a search operator helps a multi-objective evolutionary algorithm
+depends on both the problem instance and the phase of the run. An
+intensification step that accelerates convergence on one landscape may waste
+evaluations on another.
+
+Fitness landscape analysis (FLA) describes optimization problems through
+numerical features of sampled search behavior and objective structure. In
+single-objective continuous optimization, such descriptors have supported
+algorithm selection with measurable gains over fixed
+solvers~\cite{mersmann2011exploratory,kerschke2019automated,bischl2016aslib}.
+Multi-objective extensions exist~\cite{liefooghe2018landscape}, but their
+empirical use for operator-level decisions is limited.
+
+Most FLA studies target full algorithm selection. Here we study a narrower
+decision: after a warmup phase, should one intensification operator remain
+active inside a fixed host algorithm? The question is adjacent to adaptive
+operator selection~\cite{fialho2008adaptive,maturana2009adaptive} and
+component-wise algorithm design~\cite{bezerra2016automatic}, but we focus on
+one operator, one host algorithm, and one irreversible keep/drop decision
+rather than repeated on-line adaptation.
+
+We investigate this question for an IVF-inspired operator inside
+SPEA2~\cite{zitzler2001spea2} on 51 instances from the ZDT, DTLZ, WFG, and
+MaF families, examining static landscape features, early population dynamics,
+and a one-shot warmup switch. Throughout the paper, \textsc{Helpful} and
+\textsc{Not helpful} denote operational IGD-based analysis labels derived from
+this specific benchmark cohort, not universal claims about the problem
+instances.
+
+Our contributions are:
+\begin{enumerate}
+	\item Static landscape descriptors provide moderate prior signal about
+	      operator gain magnitude, but not robust cross-family binary
+	      decisions: four retained features survive BH correction, Random
+	      Forest regression reaches $r_s = 0.374$ and $R^{2} = 0.160$ in
+	      LOOCV, and removing structural metadata weakens the signal.
+	\item Early turnover is the clearest switching signal in this study,
+	      whereas static binary prediction does not generalize across
+	      benchmark families
+	      ($q_{\mathrm{BH}} = 0.013$, $\hat{A}_{12} = 0.849$; threshold-rule
+	      balanced accuracy $0.691$ in LOOCV and $0.754$ in leave-one-family-out
+	      refitting, with uncertainty discussed in
+	      Section~\ref{sec:early_turnover}).
+	\item We evaluate a one-shot warmup controller based on early turnover,
+	      showing that it avoids hypervolume losses relative to always-on
+	      IVF-SPEA2 on all IGD-labeled \textsc{Not helpful} instances, while
+	      forfeiting gains on 9~\textsc{Helpful} cases concentrated in
+	      WFG (Section~\ref{sec:ctrl_results}).
+\end{enumerate}
+
+\subsection{Relationship to companion work}
+The IVF operator and its empirical validation on this benchmark suite are
+presented in a companion preprint~\cite{zambrano2026ivfspea2}, which addresses
+the design, ablation, and tuning of the memetic hybrid. The companion preprint
+evaluates whether the operator improves SPEA2; it does not study adaptive
+control or landscape features. The present paper asks a different
+question---whether static landscape features or early population dynamics
+can inform a one-shot keep/drop decision for the operator---and contributes
+all landscape analysis, dynamics experiments, threshold calibration, and
+controller evaluation reported here. These reused IGD outcomes serve only to
+define fixed external labels; no landscape feature extraction, trajectory
+logging, threshold calibration, controller execution, or HV-based controller
+evaluation is reused from the companion preprint. The two papers share a
+benchmark suite and a host
+algorithm, but address distinct research questions with distinct evidence. This paper should not be read as another performance evaluation of IVF/SPEA2, but as an operator-control study using IVF/SPEA2 as a fixed case study.
+
+%% ===================================================================
+\section{Background}
+\label{sec:background}
+
+\subsection{SPEA2}
+\label{sec:spea2}
+
+SPEA2~\cite{zitzler2001spea2} is an elitist multi-objective evolutionary
+algorithm that maintains a population and an external archive of fixed size
+$\bar{N}$. Fitness assignment combines a strength-based raw fitness with a
+$k$-nearest-neighbor density estimate; environmental selection retains all
+individuals with fitness below~1, applying distance-based truncation when the
+non-dominated set exceeds $\bar{N}$. The full formulation appears
+in~\cite{zitzler2001spea2}.
+
+\subsection{The IVF-Inspired Crossover Operator}
+\label{sec:ivf}
+
+The intensification operator studied here derives from a family of
+\emph{in vitro fertilization} (IVF) metaheuristics originally proposed for
+single-objective search and later extended to multi-objective
+settings~\cite{camilo-junior2011,sampaio2017ivf,sampaio2019ivf,Sampaio2024}.
+The operator introduces two mechanisms:
+\textbf{(H1)~Dissimilar father selection} selects a fraction $C$ of the
+population as ``mothers'' and pairs each mother with a father chosen for high
+objective-space distance (top-3 candidates, binary tournament on fitness).
+\textbf{(H2)~Collective acceptance criterion} applies IVF cycles
+(SBX,~$\eta_c = 20$)~\cite{deb1995simulated} up to
+$\mathcal{C}_{\max}$ per generation while the \emph{average population
+	fitness improves}, rather than requiring each offspring to outperform its
+parent individually.
+Algorithm~\ref{alg:ivf} gives the complete procedure.
+The operator is skipped once its cumulative IVF evaluation count exceeds a
+budget gate proportional to the current global evaluation count, controlled by
+threshold $R$. The IVF budget gate $R$ controls cumulative IVF evaluations and
+is independent of the controller warmup horizon used later for the keep/drop
+decision (Section~\ref{sec:dynamics}). The broader algorithm design and empirical validation
+appear in the companion preprint~\cite{zambrano2026ivfspea2}; unless stated otherwise, parameters are
+$C = 0.12$, $R = 0.225$, mutation fraction
+$p_{\mathrm{mut}} = 0.3$, variable mutation $V = 0.1$,
+and $\mathcal{C}_{\max} = 2$.
+
+We use the term IVF-inspired because the operator preserves the
+collection-and-intensification logic of IVF but adapts the father-selection
+and acceptance mechanisms to SPEA2's fitness assignment.
+
+\begin{algorithm}[t]
+\caption{IVF operator (one generation)}\label{alg:ivf}
+\begin{algorithmic}[1]\footnotesize
+\State \textbf{Input:} population $P$, fitness values $\phi$, params.\ $C, R, \mathcal{C}_{\max}$
+\If{cum.\ IVF evals.\ $> R \times$ current global evals.}
+  \State \Return $P$ unchanged \Comment{gate}
+\EndIf
+\State Sort $P$ by $\phi$ (ascending); mothers $\mathcal{M} \gets$ top $\lceil C \cdot N \rceil$
+\State Father pool $\mathcal{P}_f \gets$ top 50\% of $P$ by $\phi$
+\For{cycle $= 1, \dots, \mathcal{C}_{\max}$}
+  \State $\bar{\phi}_{\mathrm{before}} \gets \mathrm{mean}(\phi)$
+  \State $O \gets \emptyset$
+  \For{each $m \in \mathcal{M}$} \Comment{H1: dissimilar father}
+    \State Find 3 farthest fathers in $\mathcal{P}_f$ from $m$ (objective-space Euclidean distance)
+    \State Pick father $p$ by binary tournament on $\phi$ among those 3
+    \State $O \gets O \cup \{\mathrm{SBX}(m, p;\; \eta_c = 20)\}$
+  \EndFor
+  \State $P \gets P \cup O$; apply SPEA2 env.\ selection $\to$ size $N$
+  \State Recompute fitness values $\phi$ for the new population
+  \If{$\mathrm{mean}(\phi) \geq \bar{\phi}_{\mathrm{before}}$} \Comment{H2: collective crit.}
+    \State \textbf{break} \Comment{no improvement}
+  \EndIf
+\EndFor
+\State \Return $P$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Fitness Landscape Analysis for Multi-Objective Optimization}
+\label{sec:fla_background}
+
+Fitness landscape analysis characterizes optimization problems through
+computable numerical features~\cite{mersmann2011exploratory}. For
+single-objective problems, ELA features have supported effective algorithm
+selection~\cite{kerschke2019automated}. The multi-objective setting is harder
+because the landscape is vector-valued and must capture dominance structure,
+Pareto front geometry, and objective correlation.
+
+Liefooghe et al.~\cite{liefooghe2018landscape} proposed landscape features
+for multi-objective optimization based on random walks and sample-based
+probes, capturing distributional properties of objective values, dominance
+relationships, and fitness-distance correlations. Whether such features carry
+useful signal for operator-level decisions---rather than full algorithm
+selection---has received little attention.
+
+
+%% ===================================================================
+\section{Can Static Features Predict Operator Benefit?}
+\label{sec:fla}
+
+\subsection{Experimental Setup}
+\label{sec:fla_setup}
+
+We evaluate IVF-SPEA2 and standard SPEA2 on 51 synthetic benchmark instances
+drawn from the ZDT~\cite{zitzler2000comparison},
+DTLZ~\cite{deb2005scalable}, WFG~\cite{huband2006review}, and
+MaF~\cite{cheng2017benchmark} suites, with $M \in \{2, 3\}$ objectives.
+Each synthetic instance contributes 60 independent IVF-SPEA2 runs and
+60 independent SPEA2 runs, with a budget of $10^5$ function evaluations and
+population size $N = 100$. All experiments are conducted on the
+PlatEMO platform~\cite{tian2017platemo}.
+
+One engineering case (RWMOP9) exists in the broader trajectory batch but is
+excluded from the label-based analyses here.
+
+IGD is the primary endpoint for label construction and static modeling. HV
+remains the secondary endpoint in the synthetic host comparison and becomes
+the primary endpoint in the controller section to avoid reusing the IGD label
+metric. HV is computed on the final archive using a reference point of
+$\mathbf{1}_M$ (vector of ones) after objective-wise normalization as
+$(x - f_{\min})/[1.1(f_{\max} - f_{\min})]$, where $f_{\min}$ and
+$f_{\max}$ are derived from the benchmark reference Pareto front
+of each instance.
+The same normalization and reference point are used for all algorithms
+per instance.
+
+The inferential core of this paper is the host comparison IVF-SPEA2 versus
+SPEA2, since the response variable is the marginal gain of the IVF module
+over its host. For broader algorithmic context, exploratory pairwise Wilcoxon comparisons
+on the same 51-instance cohort show that IVF-SPEA2 wins 47/51 IGD cases
+against NSGA-II~\cite{deb2002fast} and 40/51 against MOEA/D~\cite{zhang2007moead}, but only 26/51 against AR-MOEA~\cite{tian2018indicator}
+and 26/51 against NSGA-III~\cite{deb2014evolutionary}, placing it in a competitive but not uniformly
+dominant region. IVF-SPEA2 also incurs roughly $5{\times}$ runtime overhead
+versus SPEA2 (median 60\,s vs.\ 11\,s per run at $10^5$ evaluations).
+These contextual results motivate the operator-level question but do not
+replace the confirmatory IVF-SPEA2 versus SPEA2 contrast.
+
+Because outcome samples are independent (not seed-paired), we use the
+Wilcoxon rank-sum (Mann--Whitney $U$) test and the Vargha--Delaney
+$\hat{A}_{12}$ effect size~\cite{arcuri2011practical,vargha2000critique} on
+the Inverted Generational Distance (IGD) of the final archive relative to
+the true Pareto front.
+For the binary analysis, an instance is labeled \textsc{Helpful} if IVF-SPEA2 is
+better at $p < 0.05$ with $\hat{A}_{12} > 0.56$ (at least a small effect).
+$\hat{A}_{12}$ is oriented so that values above~0.5 favor IVF-SPEA2, i.e.,
+indicate lower IGD than SPEA2. All
+remaining instances are labeled \textsc{Not helpful}. This yields
+41~\textsc{Helpful} and 10~\textsc{Not helpful} in the binary view (the 10
+comprise 6~neutral and 4~hurts cases). These labels are analysis categories
+for this benchmark cohort, not family-wise corrected claims of universal
+per-instance truth.
+
+\subsection{Landscape Feature Extraction}
+\label{sec:fla_features}
+
+We extract 22 raw landscape features spanning five descriptor families:
+objective statistics, dominance structure, front geometry, local-walk
+behavior, and structural metadata. Representative examples include
+objective correlation, skewness, dominance-depth variability,
+front diameter, front-gap ratio, information content, neutrality ratio,
+fitness--distance correlation, number of objectives, and number of
+variables.
+
+Features are computed from 2{,}000 Latin Hypercube sample points and
+1{,}000-step probe walks, replicated across 5 independent seeds to reduce
+sampling noise; seed-level estimates are arithmetically averaged before
+modeling. All feature extraction operates on raw (unscaled) objective
+values to preserve geometry-sensitive properties such as front diameter;
+objective-wise $z$-score normalization is applied only during the PCA
+projection in Fig.~\ref{fig:pca}. For modeling and visualization, we retain 14 features after
+removing degenerate variables (single-value fraction $>0.90$) and
+high-redundancy pairs (absolute Spearman correlation $|r| > 0.80$,
+greedy drop by mean absolute correlation).
+Because raw objective values preserve benchmark-specific scale, geometry
+features such as front diameter may partially encode scale differences
+across suites; normalized feature variants should be tested in future work.
+
+\subsection{Predictive Modeling}
+\label{sec:fla_prediction}
+
+We first assess whether the retained feature sets predict operator
+benefit in two settings:
+
+\subsubsection{Regression}
+The target variable is the rank-transformed median IGD difference
+$\Delta\mathrm{IGD}$ between SPEA2 and IVF-SPEA2, where positive values
+indicate IVF advantage.
+A Random Forest~\cite{breiman2001random} with 500 trees is trained using leave-one-out
+cross-validation (LOOCV). With the 14-feature retained set, the model
+achieves Spearman $r_s = 0.374$ ($p = 0.0068$), $R^{2} = 0.160$, and
+mean absolute error $= 11.00$ on the rank scale. Under
+leave-one-family-out validation, the overall Spearman correlation remains
+$0.380$, indicating that static descriptors do capture part of the
+between-instance variation in operator gain.
+
+\subsubsection{Classification}
+For the binary label (\textsc{Helpful}/\textsc{Not helpful}), the Random
+Forest achieves $\mathrm{BA} = 0.527$ ($\mathrm{MCC} = 0.059$) under LOOCV.
+Alternative classifiers score higher under LOOCV (logistic regression
+$\mathrm{BA} = 0.728$; RBF-SVC $\mathrm{BA} = 0.690$), but all collapse
+to $\mathrm{BA} = 0.439$--$0.488$ under leave-one-family-out validation.
+Static features help rank expected gain, but they do not support cross-family
+binary switching. This negative classification result is central in this
+study: static descriptors alone do not justify a reliable cross-family
+keep/drop rule.
+
+\subsection{Correlation Analysis}
+\label{sec:fla_correlation}
+
+We compute Spearman rank correlations between each retained feature and
+$\Delta\mathrm{IGD}$, applying the Benjamini--Hochberg
+procedure~\cite{benjamini1995controlling} at $q = 0.05$.
+
+Four features survive correction (Table~\ref{tab:fla_top5}). The strongest
+associations are front diameter and number of objectives (both positive),
+followed by dominance-depth variability (negative) and number of variables
+(positive).
+
+\begin{table}[t]
+	\centering
+	\caption{Top five retained landscape features by $|\rho|$ (Spearman
+		correlation with $\Delta\mathrm{IGD}$). Four features survive
+		Benjamini--Hochberg correction at $q = 0.05$.}
+	\label{tab:fla_top5}
+	\begin{tabular}{llccc}
+		\toprule
+		\textbf{Group}                  & \textbf{Feature}                & $\boldsymbol{\rho}$ &
+		$\boldsymbol{p_{\mathrm{raw}}}$ & $\boldsymbol{p_{\mathrm{adj}}}$                                         \\
+		\midrule
+		Front geometry                  & front\_diameter                 & $0.47$              & 0.0005 & 0.0037 \\
+		Structural                      & n\_obj                          & $0.47$              & 0.0005 & 0.0037 \\
+		Dominance                       & dom\_depth\_std                 & $-0.36$             & 0.0106 & 0.0380 \\
+		Structural                      & n\_var                          & $0.35$              & 0.0109 & 0.0380 \\
+		Local walk                      & fdc\_mean                       & $-0.21$             & 0.1368 & 0.3277 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Discussion}
+\label{sec:fla_discussion}
+
+Static descriptors carry signal about \emph{how much} IVF is likely to help,
+but not enough for cross-family binary keep/drop decisions. Regression
+captures part of the between-instance variation in $\Delta\mathrm{IGD}$ and
+four features survive BH correction, yet the two classes overlap heavily in
+feature space (Fig.~\ref{fig:pca}).
+
+Part of that signal is carried by structural metadata (number of objectives,
+number of variables). Removing them drops regression from $r_s = 0.374$ to
+$0.314$ in LOOCV and from $0.380$ to $0.192$ in leave-one-family-out
+validation; classification is weak in both cases.
+
+The static FLA result should be read narrowly. The retained descriptors
+contain useful prior information about gain magnitude, but the stronger LOOCV
+classification signal disappears in family-held-out tests.
+Other multi-objective landscape feature frameworks, such as PLON or Deep-ELA,
+remain untested and could change this picture.
+
+Ranking expected gain, however, is not sufficient for an in-run keep/drop
+decision. The next question is whether within-run signals are sharper than
+these static priors.
+Fig.~\ref{fig:classifier} contrasts the cross-family classification
+performance of static models against the early-turnover rule, confirming
+that the stronger LOOCV signal does not generalize.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{figures/fig1_pca_fla.pdf}
+	\caption{PCA projection of the 14 retained landscape features
+		for 51 benchmark instances, colored by operator benefit label.
+		\textsc{Helpful} (circles) and \textsc{Not helpful} (triangles)
+		overlap substantially. Despite the moderate continuous correlation
+		between individual features and expected IGD gain, no linear
+		combination cleanly separates the two classes.}
+	\label{fig:pca}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{figures/fig7_classifier_comparison.pdf}
+	\caption{Static versus dynamic signals for binary operator switching.
+		Cross-family (LFO-CV) performance of static-landscape classifiers and
+		the early-turnover rule. Static methods collapse below random
+		(BA~=~0.5, dashed), while early turnover provides actionable signal
+		(BA~=~0.754, MCC~=~0.413).}
+	\label{fig:classifier}
+\end{figure}
+
+
+%% ===================================================================
+\section{Population Dynamics and Early Signal}
+\label{sec:dynamics}
+
+Since static models do not generalize for cross-family binary selection, we
+turn from ex ante descriptors to warmup summaries from paired trajectories.
+The goal is to identify a signal observable during a run that
+separates \textsc{Helpful} from \textsc{Not helpful} cases.
+
+\subsection{Experimental Design}
+\label{sec:dynamics_setup}
+
+For the dynamic analysis, we execute 30 paired-seed runs on the same 51
+labeled synthetic cases. IVF-SPEA2 and SPEA2 share the same random seed per
+run, reducing variance due to stochastic initialization. Each run logs
+per-generation snapshots including IGD$(t)$, HV$(t)$, spread$(t)$, spacing$(t)$, archive
+turnover$(t)$ (fraction of archive members at generation $t$ that are replaced
+relative to generation $t-1$), non-dominated fraction$(t)$,
+and IVF cycle count$(t)$. This yields $51 \times 30 \times 2 = 3{,}060$
+synthetic trajectory runs. The operator-benefit labels used throughout this
+section and the next are those derived from the independent-run cohort
+(60~runs per algorithm, Section~\ref{sec:fla_setup}); they are applied
+unchanged to this paired-seed cohort. One additional engineering case was
+logged in the broader batch but is excluded from the label-based tests.
+
+\subsection{Trajectory Patterns and Self-Regulation}
+\label{sec:trajectories}
+
+The IGD trajectories in Fig.~\ref{fig:trajectories} exhibit two recurrent
+patterns: \emph{immediate separation} (e.g., WFG4), where IVF-SPEA2 diverges
+favorably within the first 10--15\% of generations; and \emph{delayed
+	crossover} (e.g., DTLZ3), where SPEA2 briefly leads before IVF-SPEA2
+overtakes later. These representative patterns illustrate that operator
+benefit can emerge at different phases of the run.
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=\textwidth]{figures/fig2_trajectories.pdf}
+	\caption{IGD trajectories for four representative instances (median and IQR
+		over 30 paired seeds): (a)~DTLZ3 delayed crossover; (b)~WFG4 gradual
+		divergence; (c)~WFG8 near-neutral; (d)~WFG2 harmful case.
+		The vertical dashed line at 20\% of generations marks the
+		warmup horizon used by the controller. Trajectories reveal that
+		IVF benefit can emerge immediately or after a crossover.}
+	\label{fig:trajectories}
+\end{figure*}
+
+The collective acceptance criterion (H2) self-limits IVF intensity over time.
+Fig.~\ref{fig:cycles} shows the resulting archive turnover for three
+representative cases: higher-turnover beneficial cases remain above the
+controller threshold ($\theta \approx 0.216$) for longer than neutral
+or harmful ones. Early generations typically execute both IVF cycles
+($\bar{c} \approx 1.8$), whereas later generations use fewer
+($\bar{c} \approx 1.1$).
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{figures/fig4_turnover.pdf}
+	\caption{Mean archive turnover (IVF-SPEA2) for three representative
+		cases. The vertical line marks the 20\% warmup horizon;
+		the horizontal dotted line denotes the controller threshold
+		$\theta \approx 0.216$. Higher-turnover beneficial cases
+		remain above the threshold longer than neutral or harmful ones.}
+	\label{fig:cycles}
+\end{figure}
+
+\subsection{Early Dynamics as Candidate Discriminants}
+\label{sec:early_turnover}
+
+Archive turnover---the fraction of archive members replaced per
+generation---reflects how much the population changes between consecutive
+generations. The IVF-to-SPEA2 turnover ratio is ${\approx}\,1.0$ across
+instances, so the discriminative signal comes from absolute turnover levels
+rather than from the ratio. \textsc{Helpful} cases exhibit higher absolute
+early turnover than \textsc{Not helpful} cases.
+
+We test 18 case-level summary features with Mann--Whitney $U$
+tests~\cite{mann1947test} and BH correction at $q = 0.05$. The set includes
+early-run quantities available at decision time (turnover, ND fraction,
+fitness, spacing, cycle counts) and endpoint references not available at
+decision time (paired IGD/HV deltas).
+Table~\ref{tab:dynamic_features} reports the five smallest raw $p$-values.
+Both IVF and SPEA2 early turnover survive BH correction, but only the
+IVF-side signal is usable without a parallel baseline run.
+
+\begin{table}[t]
+	\centering
+	\caption{Top five dynamic features by raw $p$-value on the 51 labeled
+		cases. Two early-turnover features survive BH correction.}
+	\label{tab:dynamic_features}
+	\begin{tabular}{lccc}
+		\toprule
+		\textbf{Dynamic feature}       & $\boldsymbol{p_{\mathrm{raw}}}$ &
+		$\boldsymbol{q_{\mathrm{BH}}}$ & $\boldsymbol{\hat{A}_{12}}$                     \\
+		\midrule
+		Mean turnover (IVF)            & 0.0007                          & 0.013 & 0.849 \\
+		Mean turnover (SPEA2)          & 0.0017                          & 0.015 & 0.824 \\
+		Final HV delta                 & 0.028                           & 0.169 & 0.727 \\
+		Final IGD delta                & 0.073                           & 0.295 & 0.685 \\
+		Mean IVF cycles (early)        & 0.098                           & 0.295 & 0.335 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Among the usable summaries, mean early IVF turnover yields the strongest
+signal: $p_{\mathrm{raw}} = 7.2 \times 10^{-4}$,
+$q_{\mathrm{BH}} = 0.013$, $\hat{A}_{12} = 0.849$, with class medians
+$0.250$ (\textsc{Helpful}) and $0.209$ (\textsc{Not helpful}). A
+$10{,}000$-iteration label-permutation test confirms robustness: only 3
+permutations reached the observed $\hat{A}_{12}$ (empirical
+$p = 3 \times 10^{-4}$; 99th percentile of the null distribution is $0.737$).
+Fig.~\ref{fig:turnover_boxplot} shows both the label separation and its
+relation to final IGD delta.
+
+A leave-one-out threshold rule on this feature
+reaches $\mathrm{BA} = 0.691$ ($\mathrm{MCC} = 0.311$). An oracle rule
+using SPEA2 early turnover reaches $0.704$ but requires a parallel baseline
+run.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{figures/fig4_discriminant.pdf}
+	\caption{Early-turnover signal on the 51 labeled cases.
+    \textsc{Helpful} cases exhibit higher early turnover than
+    \textsc{Not helpful} cases ($\hat{A}_{12}=0.849$, $q_{\mathrm{BH}}=0.013$),
+    with the median decision threshold marked
+    ($\theta \approx 0.216$, dotted).}
+	\label{fig:turnover_boxplot}
+\end{figure}
+
+Under leave-one-family-out refitting, the threshold rule reaches
+$\mathrm{BA} = 0.754$ ($\mathrm{MCC} = 0.413$, sensitivity $0.707$,
+specificity $0.800$) with median threshold $\approx 0.216$.
+The higher BA under leave-one-family-out versus LOOCV
+($\mathrm{BA} = 0.691$) arises because thresholds are refitted per held-out
+family rather than per held-out instance; given the small and imbalanced
+case set (41:10), this estimate should be interpreted as promising but
+provisional. The signal is sensitive to the warmup horizon: at 10\% of
+generations, IVF turnover remains raw-significant ($p = 0.016$,
+$\hat{A}_{12} = 0.749$) but no longer survives BH correction
+($q_{\mathrm{BH}} = 0.110$). Fig.~\ref{fig:horizon} summarizes these
+trends.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{figures/fig8_warmup_horizon.pdf}
+	\caption{Sensitivity of the turnover signal to the warmup horizon.
+		Panel~(a): switching performance (balanced accuracy).
+		Panel~(b): discriminative strength ($\hat{A}_{12}$).
+		The shaded band at 20\% marks the chosen horizon, which
+		balances early decision-making ($\hat{A}_{12} = 0.849$,
+		$\mathrm{BA} = 0.754$) against stable class separation;
+		at 10\% the $\hat{A}_{12}$ signal is weaker (0.749) and
+		does not survive BH correction.}
+	\label{fig:horizon}
+\end{figure}
+
+Early turnover thus separates \textsc{Helpful} from \textsc{Not helpful} cases
+more cleanly than static descriptors when the goal is a binary warmup
+decision. Static descriptors remain useful for ranking expected gain, but
+turnover is the only signal in this study that both survives multiple-testing
+correction and supports a simple within-run rule.
+However, this signal is family-dependent: ZDT, DTLZ, and MaF
+have few \textsc{Not helpful} cases, and in WFG (where both
+classes are represented) the separation is weaker
+($\hat{A}_{12}=0.775$, $p=0.055$), foreshadowing the controller's
+failure mode discussed in Section~\ref{sec:ctrl_results}.
+
+
+%% ===================================================================
+\section{Turnover-Threshold Warmup Controller}
+\label{sec:controller}
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=\textwidth]{figures/fig9_wfg_failure_mode.pdf}
+	\caption{Failure mode of the early-turnover controller on WFG configurations.
+		Panel~(a) shows the early-turnover score during the first 20\% of the
+		evaluation budget, with the deactivation threshold $\theta=0.248$.
+		Configurations below the threshold are deactivated by the controller.
+		Panel~(b) reports $\Delta\mathrm{HV} = \mathrm{HV}_{\mathrm{CTRL}} -
+		\mathrm{HV}_{\mathrm{IVF/SPEA2}}$; negative values indicate a loss
+		caused by the controller relative to always-on IVF/SPEA2. Helpful
+		configurations below the threshold correspond to premature deactivation
+		events and explain the observed controller losses on WFG.}
+	\label{fig:wfg_failure}
+\end{figure*}
+
+We test a one-shot warmup switch that keeps or drops the IVF operator based
+on early archive turnover. Unlike adaptive operator selection schemes, it
+makes a single irreversible decision after warmup and does not revisit it.
+
+\subsection{Controller Design}
+\label{sec:ctrl_design}
+
+During a warmup phase (first 20\% of generations), the algorithm runs
+IVF-SPEA2 and records mean archive turnover $\bar{\tau}$. If
+$\bar{\tau} \geq \theta$, IVF remains active; otherwise, the algorithm
+reverts to standard SPEA2 for the remaining 80\%. Thresholds are imported
+from leave-one-family-out calibration in
+Section~\ref{sec:early_turnover} and frozen before execution. For each
+held-out family, $\theta$ is estimated from the remaining families by
+exhaustive search over candidate thresholds (midpoints between adjacent
+unique turnover values) to maximize balanced accuracy; ties are resolved
+by maximizing the Matthews correlation coefficient, then accuracy.
+This yields $\theta \approx 0.216$ for ZDT, DTLZ, and MaF, and
+$\theta \approx 0.248$ for WFG. In deployment, the appropriate threshold
+is selected based on known benchmark family membership. For truly unseen
+problems where the family is unknown, a single global threshold would be
+required; its performance would likely be weaker than the family-wise
+results reported here. The controller is a single-feature design with
+calibration external to the evaluated family.
+
+When IVF is dropped, the current population and archive are retained without
+modification, and only the IVF operator is disabled for the remaining
+generations; SPEA2 operators (SBX, polynomial mutation, environmental
+selection) continue normally.
+
+The controller runs on the same 51 cases with the same 30 paired seeds as the
+dynamics batch, enabling three-way comparison (CTRL vs.\ always-on IVF-SPEA2
+vs.\ SPEA2). Statistical comparison uses paired Wilcoxon signed-rank tests
+with BH correction applied across the 51 instance-level tests
+within each algorithm comparison and endpoint. Case-wise
+win/tie/loss counts are reported
+conservatively: a case counts as a win or loss only when the corrected paired
+test indicates a clear directional difference under the case-level comparison
+rule used in the released analysis pipeline; otherwise it is treated as a
+tie. Hypervolume is the primary controller endpoint to avoid reusing the
+IGD-based labels; IGD is checked as a supporting endpoint.
+
+\subsection{Results}
+\label{sec:ctrl_results}
+
+Table~\ref{tab:ctrl_wtl} reports win/tie/loss counts stratified by the
+operator-benefit label from Section~\ref{sec:fla_setup} (labels derived from
+IGD in the independent-run cohort).
+
+\begin{table}[t]
+	\centering
+	\caption{Win/tie/loss counts for CTRL against IVF-SPEA2 and SPEA2 under HV
+		with family-wise out-of-sample thresholds.}
+	\label{tab:ctrl_wtl}
+	\begin{tabular}{llccc}
+		\toprule
+		\textbf{Comparison} & \textbf{Label}           & \textbf{W} & \textbf{T} & \textbf{L} \\
+		\midrule
+		CTRL vs IVF-SPEA2   & \textsc{Helpful} (41)      & 0          & 32         & 9          \\
+		CTRL vs IVF-SPEA2   & \textsc{Not helpful} (10) & 2          & 8          & 0          \\
+		\cmidrule(lr){1-5}
+		CTRL vs SPEA2       & \textsc{Helpful} (41)      & 33         & 8          & 0          \\
+		CTRL vs SPEA2       & \textsc{Not helpful} (10) & 1          & 6          & 3          \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+On the 10 \textsc{Not helpful} instances---where always-on IVF degrades or does
+not improve SPEA2---the controller never loses to IVF-SPEA2 (2 wins, 8 ties,
+0 losses). On the 41 \textsc{Helpful} instances, it ties IVF-SPEA2 in 32 cases
+but loses in 9, all in WFG. The main failure mode is premature
+deactivation on that family. On WFG instances, both \textsc{Helpful}
+(mean turnover $0.218$) and \textsc{Not helpful} (mean $0.196$) cases fall
+below the WFG-specific threshold ($\theta \approx 0.248$), so the
+controller deactivates IVF for all 18~WFG instances. Although
+\textsc{Helpful} cases tend toward higher turnover
+($\hat{A}_{12}=0.775$, $p=0.055$), the class separation is insufficient
+to avoid premature deactivation under a fixed threshold. A plausible
+explanation is that WFG's multi-level deceptive structure sustains high
+archive churn even when convergence stalls, which weakens turnover as a
+proxy for search progress (Fig.~\ref{fig:wfg_failure}).
+This interpretation is consistent with the concentration of controller
+losses in that family, but it remains a mechanistic hypothesis;
+establishing causality would require controlled trajectory-level
+intervention experiments.
+
+Relative to SPEA2, the controller records 34 wins, 14 ties, and 3 losses
+in hypervolume (33 of the wins on \textsc{Helpful} cases). On the
+10~\textsc{Not helpful} cases, the controller does not uniformly protect
+against SPEA2 (1~win, 6~ties, 3~losses). The IGD summary follows the same
+direction but is less pronounced: 41/51 match-or-beat versus IVF-SPEA2 and
+47/51 versus SPEA2. Because the label distribution is imbalanced toward
+always-on IVF (41/51 \textsc{Helpful}), raw label frequency alone is not the
+right target. We thus read the controller as a risk-management mechanism:
+it avoids hypervolume losses against always-on IVF on all 10 instances where
+IVF is unhelpful, at the cost of forfeiting some gains on 9 of 41 beneficial
+instances---all concentrated in WFG. The controller should therefore be
+interpreted as a risk-management mechanism relative to always-on IVF, not as a
+guarantee of recovery to canonical SPEA2 performance.
+Table~\ref{tab:ctrl_wtl} summarizes the controller performance under
+family-wise out-of-sample thresholds; Fig.~\ref{fig:wfg_failure} details
+the concentration of losses in that family.
+
+%% ===================================================================
+\section{Discussion and Conclusions}
+\label{sec:conclusion}
+
+Taken together, the evidence supports a focused claim: for one-shot operator
+switching inside SPEA2, warmup dynamics are more actionable than ex ante
+landscape descriptors. Static ELA-style features help rank expected gain
+magnitude, but this signal does not survive cross-family binary switching.
+Early turnover over the first 20\% of generations separates
+\textsc{Helpful} from \textsc{Not helpful} cases more reliably and supports a
+one-shot warmup rule. Under family-wise out-of-sample calibration, the rule
+matches or beats always-on IVF-SPEA2 on 42/51 hypervolume cases and incurs
+zero hypervolume losses on the 10~\textsc{Not helpful} cases. The trade-off is
+9~losses on \textsc{Helpful} cases, all in WFG, where turnover is a weak proxy
+for convergence progress. The controller is better interpreted as
+risk reduction in a fixed host than as universal protection.
+
+These findings are specific to one operator in one host algorithm, but they
+address a practical design decision: whether to keep an expensive
+intensification module after warmup. In this setting, static descriptors are
+more useful as priors on expected gain magnitude, while early dynamics are
+more suitable for the actual keep/drop decision.
+
+\subsection{Limitations}
+Our FLA analysis uses ELA-style features; more specialized descriptors such as
+Pareto local optima networks~\cite{ochoa2024funnels} or learned features
+(Deep-ELA~\cite{seiler2024deep}) remain untested. The sample size
+($n = 51$) is modest and class-imbalanced (41:10), which makes threshold
+calibration uncertain. The controller uses a single feature with family-wise
+thresholds imported from leave-one-family-out analysis---stronger than
+in-sample calibration, but not full unseen-domain validation. All
+9~hypervolume losses to IVF-SPEA2 on \textsc{Helpful} cases occur in WFG
+(Section~\ref{sec:ctrl_results}); the near-overlap of turnover distributions
+on that family limits discriminative power. The 9~losses on \textsc{Helpful}
+and 3~losses to SPEA2 on \textsc{Not helpful} leave engineering margin.
+Controller results are endpoint-specific: we use hypervolume to avoid reusing
+IGD-based labels, and the IGD summaries are slightly less favorable. The
+study examines one operator (IVF) in one host (SPEA2); broader
+generalization remains open. In addition, raw-objective landscape
+descriptors may partially encode benchmark-scale differences, especially
+for geometry features such as front diameter.
+
+\subsection{Future work}
+Future work should first test whether the turnover signal transfers to
+unseen benchmark suites and real engineering problems. A second direction
+is to replace the single-threshold rule with multi-feature controllers
+that combine turnover with progress proxies, such as early HV gain,
+archive stability, or dominance-depth changes. Controlled
+trajectory-level interventions are needed to test whether the WFG failure
+mode arises from deceptive archive churn rather than useful convergence
+progress. Richer static descriptors (e.g., PLON or Deep-ELA) may also
+strengthen the prior-signal role of landscape features.
+
+\subsection{Data and code availability}
+Code, processed data, manuscript sources, and reproducibility artifacts for
+this study are available at
+\url{https://github.com/pedsanches/IVF-SPEA2/releases/tag/submission-snapshot-2026-03}.
+Additional figures (family-wise turnover separability, IGD-HV consistency,
+and experimental design schematic) are included in the supplementary
+material.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
