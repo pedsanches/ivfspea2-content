@@ -34,9 +34,9 @@ OUT_FIGS = PROJECT_ROOT / "results" / "figures"
 PAPER_FIGS = PROJECT_ROOT / "paper" / "ppsn2026-ivf-hosts" / "figures"
 
 HOST_PAIRS = [
-    ("IVFSPEA2", "SPEA2", "IVF/SPEA2", "#4c72b0"),
-    ("IVFNSGAIII", "NSGAIII", "IVF/NSGA-III", "#55a868"),
-    ("IVFNSGAII", "NSGAII", "IVF/NSGA-II", "#c44e52"),
+    ("IVFSPEA2", "SPEA2", "IVF/SPEA2", "#0072B2"),
+    ("IVFNSGAIII", "NSGAIII", "IVF/NSGA-III", "#009E73"),
+    ("IVFNSGAII", "NSGAII", "IVF/NSGA-II", "#D55E00"),
 ]
 METRICS = ["IGD", "HV"]
 TAUS = [0.5, 0.25, 0.1]
@@ -184,8 +184,8 @@ def build_curve_outputs(traces: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFram
                             "n_traces": int(solved.shape[0]),
                         }
 
-                    auc_ivf = float(np.trapz(pivots[ivf_algo]["frac"], pivot.columns.to_numpy(dtype=float)))
-                    auc_base = float(np.trapz(pivots[base_algo]["frac"], pivot.columns.to_numpy(dtype=float)))
+                    auc_ivf = float(np.trapezoid(pivots[ivf_algo]["frac"], pivot.columns.to_numpy(dtype=float)))
+                    auc_base = float(np.trapezoid(pivots[base_algo]["frac"], pivot.columns.to_numpy(dtype=float)))
                     summary_rows.append(
                         {
                             "comparison": pair_name,
@@ -228,16 +228,16 @@ def plot_main_figure(curves: pd.DataFrame) -> None:
             ax.plot(sub["fe_norm"], sub["fraction_solved"], color=color, linestyle=ls, linewidth=lw, label=label)
             ax.fill_between(sub["fe_norm"], sub["ci_low"], sub["ci_high"], color=color, alpha=0.12)
 
-        ax.set_title(display, fontsize=11, fontweight="bold")
-        ax.set_xlabel("FE / max FE", fontsize=9)
+        ax.set_title(display, fontsize=12, fontweight="bold")
+        ax.set_xlabel("FE / max FE", fontsize=11)
         ax.set_xlim(0.1, 1.0)
         ax.set_ylim(0.0, 1.02)
         ax.spines[["top", "right"]].set_visible(False)
-        ax.tick_params(labelsize=8)
+        ax.tick_params(labelsize=10)
 
-    axes[0].set_ylabel("Fraction of runs with IGD gap $\\leq 0.1$", fontsize=9)
+    axes[0].set_ylabel("Fraction of runs with IGD gap $\\leq 0.1$", fontsize=10)
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=3, fontsize=9, bbox_to_anchor=(0.5, -0.06), frameon=True, edgecolor="0.8")
+    fig.legend(handles, labels, loc="lower center", ncol=3, fontsize=11, bbox_to_anchor=(0.5, -0.06), frameon=True, edgecolor="0.8")
     fig.tight_layout(rect=(0, 0.06, 1, 1))
     save_fig(fig, "hosts_v2_fig5_dynamic_aggregate.pdf")
     plt.close(fig)

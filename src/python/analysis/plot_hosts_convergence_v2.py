@@ -30,18 +30,18 @@ FIG_DIR = os.path.join(PROJECT_ROOT, "results", "figures")
 PAPER_FIG_DIR = os.path.join(PROJECT_ROOT, "paper", "ppsn2026-ivf-hosts", "figures")
 
 HOST_PAIRS = [
-    ("IVFSPEA2", "SPEA2", "#4c72b0", "IVF/SPEA2"),
-    ("IVFNSGAIII", "NSGAIII", "#55a868", "IVF/NSGA-III"),
-    ("IVFNSGAII", "NSGAII", "#c44e52", "IVF/NSGA-II"),
+    ("IVFSPEA2", "SPEA2", "#0072B2", "IVF/SPEA2"),
+    ("IVFNSGAIII", "NSGAIII", "#009E73", "IVF/NSGA-III"),
+    ("IVFNSGAII", "NSGAII", "#D55E00", "IVF/NSGA-II"),
 ]
 
 ALGO_STYLES = {
-    "IVFSPEA2":   {"color": "#4c72b0", "ls": "-",  "lw": 2.5, "label": "IVF/SPEA2"},
-    "SPEA2":      {"color": "#4c72b0", "ls": "--", "lw": 1.5, "label": "SPEA2"},
-    "IVFNSGAIII": {"color": "#55a868", "ls": "-",  "lw": 2.5, "label": "IVF/NSGA-III"},
-    "NSGAIII":    {"color": "#55a868", "ls": "--", "lw": 1.5, "label": "NSGA-III"},
-    "IVFNSGAII":  {"color": "#c44e52", "ls": "-",  "lw": 2.5, "label": "IVF/NSGA-II"},
-    "NSGAII":     {"color": "#c44e52", "ls": "--", "lw": 1.5, "label": "NSGA-II"},
+    "IVFSPEA2":   {"color": "#0072B2", "ls": "-",  "lw": 2.5, "label": "IVF/SPEA2"},
+    "SPEA2":      {"color": "#0072B2", "ls": "--", "lw": 1.5, "label": "SPEA2"},
+    "IVFNSGAIII": {"color": "#009E73", "ls": "-",  "lw": 2.5, "label": "IVF/NSGA-III"},
+    "NSGAIII":    {"color": "#009E73", "ls": "--", "lw": 1.5, "label": "NSGA-III"},
+    "IVFNSGAII":  {"color": "#D55E00", "ls": "-",  "lw": 2.5, "label": "IVF/NSGA-II"},
+    "NSGAII":     {"color": "#D55E00", "ls": "--", "lw": 1.5, "label": "NSGA-II"},
 }
 
 MAX_FE = 100_000
@@ -183,16 +183,16 @@ def fig4_convergence_v2(df: pd.DataFrame, instances: pd.DataFrame) -> None:
             ax.fill_between(fe_norm, ci_low, ci_high, color=color, alpha=0.15,
                           label=f"{label} 95% CI")
 
-        ax.set_title(f"{prob} ($M={m_val}$)", fontsize=11, fontweight="bold")
-        ax.set_xlabel("FE / max FE", fontsize=9)
+        ax.set_title(f"{prob} ($M={m_val}$)", fontsize=12, fontweight="bold")
+        ax.set_xlabel("FE / max FE", fontsize=11)
         if col == 0:
-            ax.set_ylabel("IGD ratio (base / IVF)", fontsize=9)
+            ax.set_ylabel("IGD ratio (base / IVF)", fontsize=11)
         ax.set_xlim(0, 1)
         ax.spines[["top", "right"]].set_visible(False)
-        ax.tick_params(labelsize=8)
+        ax.tick_params(labelsize=10)
 
         ylims = ax.get_ylim()
-        ax.axhspan(1.0, ylims[1], color="#2ecc71", alpha=0.05, zorder=0)
+        ax.axhspan(1.0, ylims[1], color="#2166ac", alpha=0.05, zorder=0)
         ax.axhspan(ylims[0], 1.0, color="#e74c3c", alpha=0.05, zorder=0)
         ax.set_ylim(ylims)
 
@@ -210,7 +210,7 @@ def fig4_convergence_v2(df: pd.DataFrame, instances: pd.DataFrame) -> None:
             seen.add(key)
             kept_h.append(h)
             kept_l.append(l)
-    fig.legend(kept_h, kept_l, loc="lower center", ncol=3, fontsize=10,
+    fig.legend(kept_h, kept_l, loc="lower center", ncol=3, fontsize=11,
                bbox_to_anchor=(0.5, -0.01), frameon=True, edgecolor="0.8")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
     save_fig(fig, "hosts_v2_fig4_convergence.pdf")

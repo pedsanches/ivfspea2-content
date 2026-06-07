@@ -27,10 +27,10 @@ TRACKS = [
     ("IVFNSGAII", "IVF/NSGA-II"),
 ]
 GROUP_COLORS = {
-    "ZDT": "#1f77b4",
-    "DTLZ": "#ff7f0e",
-    "WFG": "#2ca02c",
-    "MaF": "#d62728",
+    "ZDT": "#0072B2",
+    "DTLZ": "#E69F00",
+    "WFG": "#009E73",
+    "MaF": "#D55E00",
 }
 M_MARKERS = {2: "o", 3: "^"}
 
@@ -67,7 +67,7 @@ def load_all_igd_stats() -> pd.DataFrame:
 
 def draw_reference_bands(ax: plt.Axes) -> None:
     for lo, hi, alpha in ((0.56, 0.64, 0.06), (0.64, 0.71, 0.08), (0.71, 1.0, 0.10)):
-        ax.axhspan(lo, hi, color="#2ecc71", alpha=alpha, linewidth=0)
+        ax.axhspan(lo, hi, color="#2166ac", alpha=alpha, linewidth=0)
         ax.axhspan(1 - hi, 1 - lo, color="#e74c3c", alpha=alpha, linewidth=0)
     ax.axhline(0.5, color="black", linewidth=0.8, linestyle="--", alpha=0.6)
 
@@ -227,9 +227,9 @@ def fig2_heatmap(df: pd.DataFrame) -> None:
             )
 
         ax.set_xticks(range(len(col_labels)))
-        ax.set_xticklabels(col_labels, fontsize=7, rotation=90)
+        ax.set_xticklabels(col_labels, fontsize=9, rotation=90)
         ax.set_yticks(range(len(label_order)))
-        ax.set_yticklabels(label_order, fontsize=10)
+        ax.set_yticklabels(label_order, fontsize=11)
         ax.set_ylabel(f"$M={m_val}$", fontsize=11, fontweight="bold")
 
     fig.subplots_adjust(hspace=0.95, bottom=0.18, top=0.97)
@@ -242,7 +242,7 @@ def fig2_heatmap(df: pd.DataFrame) -> None:
         pad=0.2,
         shrink=0.7,
     )
-    cbar.set_label(r"$A_{12}^{\mathrm{IVF}}$", fontsize=10)
+    cbar.set_label(r"$A_{12}^{\mathrm{IVF}}$", fontsize=11)
     cbar.ax.axvline(0.5, color="black", linewidth=0.8)
 
     save_fig(fig, "hosts_v2_fig2_heatmap.pdf")

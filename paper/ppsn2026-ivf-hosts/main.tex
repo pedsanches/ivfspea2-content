@@ -143,7 +143,7 @@ At the aggregate level, the three pipelines already separate by a large margin (
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/hosts_v2_fig1_a12_strip.pdf}
-\caption{Oriented Vargha--Delaney effect size $A_{12}^{\mathrm{IVF}}$ per instance for each host (51 instances; 30 runs each). Orientation: $A_{12}^{\mathrm{IVF}}>0.5$ favors the IVF variant, $=0.5$ is neutral, $<0.5$ favors the base host. Green/red shaded bands mark small (0.56), medium (0.64), and large (0.71) thresholds. Horizontal bars are per-host medians. Markers: $\bullet$ $M=2$, $\blacktriangle$ $M=3$; colors encode benchmark family. Reading cue: the vertical centre of mass of each host's cloud is near 0.75 for IVF/SPEA2, 0.60 for IVF/NSGA-III, and 0.51 for IVF/NSGA-II.}
+\caption{Oriented Vargha--Delaney effect size $A_{12}^{\mathrm{IVF}}$ for each instance, grouped by host (51 instances, 30 runs each): $>0.5$ favors the IVF variant, $<0.5$ the base host. Horizontal bars are per-host medians (0.75, 0.60, and 0.51 for IVF/SPEA2, IVF/NSGA-III, and IVF/NSGA-II). Blue/red bands mark the small/medium/large thresholds (0.56/0.64/0.71). Point color encodes the benchmark family (DTLZ, MaF, WFG, ZDT); marker shape encodes the objective count ($\bullet$ $M=2$, $\blacktriangle$ $M=3$).}
 \label{fig:a12_strip}
 \end{figure}
 
@@ -198,7 +198,7 @@ For the all-suite aggregate, every run is transformed into a normalized IGD prog
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=0.9\textwidth]{figures/hosts_v2_fig5_dynamic_aggregate.pdf}
-\caption{All-suite dynamic aggregate over the 51-instance trace cohort. Each curve shows the fraction of runs whose cumulative-best IGD has reached a normalized gap of at most $\tau=0.1$ (gap normalized per instance against the pair-specific initial state and the best final value attained by either algorithm) as a function of FE / maxFE. Solid lines: IVF variant; dashed lines: base host. Shaded bands: 95\% bootstrap confidence intervals. Early separation (FE / maxFE $< 0.3$) indicates the IVF variant reaches near-final quality on a larger fraction of runs sooner.}
+\caption{All-suite dynamic aggregate over the 51-instance cohort. Each curve gives the fraction of runs whose cumulative-best IGD has reached a normalized gap $\le\tau=0.1$ as a function of FE\,/\,maxFE (the gap is normalized per instance between the pair-specific initial state and the best final value reached by either algorithm). Solid lines: IVF variant; dashed: base host; bands: 95\% bootstrap confidence intervals. Early separation (FE\,/\,maxFE $<0.3$) means the IVF variant reaches near-final quality on more runs sooner.}
 \label{fig:dynamic_aggregate}
 \end{figure}
 
@@ -209,7 +209,7 @@ The six protocol-defined dynamic instances are still useful as diagnostic case s
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/hosts_v2_fig4_convergence.pdf}
-\caption{IGD ratio (base~/~IVF) over normalized function evaluations on the six protocol-defined dynamic instances. Values $>1$ (green shading) indicate IVF benefit; values $<1$ (red shading) indicate harm. Solid lines: host-wise medians across 30 runs per algorithm per instance. Shaded bands: 95\% bootstrap confidence intervals. FE grids aligned by linear interpolation when saved checkpoints are not exactly aligned across runs. Reading cue: each panel shows how early the colored line crosses 1 and how long it stays above --- IVF/SPEA2 shows early, large ratios on DTLZ5 and ZDT4 and a sub-1 excursion on WFG2.}
+\caption{IGD ratio (base~/~IVF) over normalized function evaluations on the six protocol-defined dynamic instances. Values $>1$ (blue shading) indicate IVF benefit; values $<1$ (red shading) indicate harm. Solid lines: host-wise medians across 30 runs per algorithm per instance; shaded bands: 95\% bootstrap confidence intervals. FE grids are aligned by linear interpolation when saved checkpoints are not exactly aligned. Reading cue: how early the line crosses 1 and how long it stays above---IVF/SPEA2 shows early, large ratios on DTLZ5 and ZDT4 and a sub-1 excursion on WFG2.}
 \label{fig:convergence}
 \end{figure}
 
