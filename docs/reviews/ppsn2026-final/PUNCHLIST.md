@@ -63,26 +63,26 @@ Status legend: ☐ todo · ◐ in progress · ☑ done · ⊘ won't-do (concede 
 
 | ID | Rev | Location (≈line) | Action | Page Δ | Status |
 |----|-----|------------------|--------|--------|--------|
-| C1 | R3 | abstract l.36 | Remove "is a first-order design concern"; cut waffle; keep only load-bearing words | − | ☐ |
-| C2 | R3 | keywords l.38 | Replace keywords that merely repeat the title with non-redundant terms (e.g. memetic/local search, host–operator compatibility, empirical comparison) | 0 | ☐ |
+| C1 | R3 | abstract l.36 | Remove "is a first-order design concern"; cut waffle; keep only load-bearing words. Done: abstract tightened, junk phrase removed (IVF definition kept). | − | ☑ |
+| C2 | R3 | keywords l.38 | Replace keywords that merely repeat the title with non-redundant terms (e.g. memetic/local search, host–operator compatibility, empirical comparison). Done: keywords now Multi-objective optimization / Memetic algorithms / Intensification operators / Local search / Empirical comparison. | 0 | ☑ |
 | C3 | R3 | title l.21,24 | **Decided (title A).** New title: *"Operator-Host Compatibility: When Does IVF Help SPEA2, NSGA-II, or NSGA-III?"* (keeps the contribution anchor; question maps onto §5.1–§5.4). Update `\title` and `\titlerunning`; keep keywords (C2) non-redundant with the new title. | 0 | ☑ |
-| C4 | R3 | §1 opening l.42–46 | Don't open on "intensification operators"; lead with the plain-language question in PPSN terms, then introduce IVF | ± | ☐ |
+| C4 | R3 | §1 opening l.42–46 | Don't open on "intensification operators"; lead with the plain-language question in PPSN terms. Done: §1 now opens "Adding local search to a multi-objective evolutionary algorithm (MOEA)…". | ± | ☑ |
 | C5 | R3 | §1 l.46 (mother/father) | Add one sentence: mothers/fathers share the **same representation**; "sex" is a transient role assigned per cycle (not fixed per individual). Done: gloss added in §2.2 ("ordinary individuals with the same representation; the labels denote only a role within a pairing"). | + small | ☑ |
-| C6 | R3 | §4 l.118 | State population model explicitly: fixed `N=100`, generational; whether offspring are produced by crossover **and** mutation or alternatives | + small | ☐ |
-| C7 | R3 | §1 l.48 | Gloss or drop "hybrid and memetic" | 0 | ☐ |
-| C8 | R3 | §1 l.55 (Hypothesis H) | Rewrite Hypothesis H paragraph in simpler words | 0 | ☐ |
-| C9 | R3 | §1 l.58–59 | Rename "Scope of inference" heading (try "What we compare"); delete "in this paper" (l.59, l.113) | − | ☐ |
+| C6 | R3 | §4 l.118 | State population model explicitly: fixed `N=100`, generational; whether offspring are produced by crossover **and** mutation. Done: §4 states "standard generational model: every generation produces N offspring through the host's crossover and mutation, after which environmental selection retains N survivors". | + small | ☑ |
+| C7 | R3 | §1 l.48 | Gloss or drop "hybrid and memetic". Done: glossed "---which combine global evolutionary search with local refinement---". | 0 | ☑ |
+| C8 | R3 | §1 l.55 (Hypothesis H) | Rewrite Hypothesis H paragraph in simpler words. Done: "fine-grained, direction-aware" ranking, isotropic crowding glossed as "only spreads solutions out evenly". | 0 | ☑ |
+| C9 | R3 | §1 l.58–59 | Rename "Scope of inference" heading (try "What we compare"); delete "in this paper" (l.59, l.113). Done: heading → "What we compare"; "in this paper"/"This is a valid contribution" removed; active "we compare". | − | ☑ |
 | C10 | R2,R3 | §3.1–3.3 l.79–94 | **Biggest lever:** move duplicated technical settings into Table 1; replace freed prose with concept/motivation per host; resolve "high objective-space dissimilarity" + "average fitness improves collectively" (l.82) with concrete definitions. Done: §3.1–3.3 rewritten — dropped numeric param lists (now only in §4 provenance), clarified dissimilar-father + collective-continuation + DE; net length-neutral. | − (net) | ☑ |
 | C11 | R3 | §3.2 l.87 | State explicitly: fathers sampled **uniformly at random from the whole population** | 0 | ☑ |
 | C12 | R3 | Table 1 l.~100–110 | "Mother selection" row: harmonize "fitness" vs "rank" wording (or footnote why they differ). Done: explained in §3 intro ("Mother selection always follows the host's own primary ordering---scalar fitness for SPEA2, Pareto rank for NSGA-II/III"). | 0 | ☑ |
 | C13 | R3 | §3 l.111–113 | Consider promoting the "Table 1" paragraph to a short §3.4 | 0 | ☐ |
-| C14 | R3 | §4 headings l.120–135 | Rename weak `\paragraph` titles ("Budget accounting", p5 headings) | 0 | ☐ |
-| C15 | R3 | §5/§5.x titles l.150,168,177,191 | Reconsider "Per-Host Compatibility" / "Geometry Stratification" / "Dynamic Evidence" wording | 0 | ☐ |
-| C16 | R3 | §5 l.130,158,216 | First use of "BH" is already spelled out (l.130). Reduce bare "BH" in captions; keep one full "Benjamini–Hochberg (BH-FDR)" anchor; trim ECDF/ΔAUC/power-loss jargon where avoidable | − | ☐ |
-| C17 | R3 | §5 l.141 | "The ordering is immediate" → plain wording | 0 | ☐ |
-| C18 | R3 | §5.3 l.189 | Rephrase sentence starting "At $M=3$…" | 0 | ☐ |
-| C19 | R3 | §6 l.228 | Rephrase first sentence of Discussion | 0 | ☐ |
-| C20 | R3 | §7 l.237 | Remove "This paper"; make readable | 0 | ☐ |
+| C14 | R3 | §4 headings l.120–135 | Rename weak `\paragraph` titles ("Budget accounting", p5 headings). Done: "Budget accounting"→"Evaluation budget". Others kept (acceptable). | 0 | ☑ |
+| C15 | R3 | §5/§5.x titles l.150,168,177,191 | Reconsider "Per-Host Compatibility" / "Geometry Stratification" / "Dynamic Evidence" wording. Done: "Geometry Stratification"→"Effect of Pareto-Front Geometry"; "Dynamic Evidence"→"Evidence During the Search". "Per-Host Compatibility" kept. | 0 | ☑ |
+| C16 | R3 | §5 l.130,158,216 | First use of "BH" is already spelled out (l.130). Reduce bare "BH" in captions; keep one full "Benjamini–Hochberg (BH-FDR)" anchor; trim ECDF/ΔAUC/power-loss jargon where avoidable. Done: defined "Benjamini--Hochberg (BH)" and "empirical cumulative distribution function (ECDF)" at first use. ΔAUC/power-loss left (acceptable). | − | ☑ |
+| C17 | R3 | §5 l.141 | "The ordering is immediate" → plain wording. Done → "The ranking is clear:". | 0 | ☑ |
+| C18 | R3 | §5.3 l.189 | Rephrase sentence starting "At $M=3$…". Done → "Raising the objective count to M=3…". | 0 | ☑ |
+| C19 | R3 | §6 l.228 | Rephrase first sentence of Discussion. Done → "Across all three analyses---endpoint, dimensional, and dynamic---…". | 0 | ☑ |
+| C20 | R3 | §7 l.237 | Remove "This paper"; make readable. Done → "We compared three IVF pipelines…". | 0 | ☑ |
 
 ---
 
@@ -90,9 +90,9 @@ Status legend: ☐ todo · ◐ in progress · ☑ done · ⊘ won't-do (concede 
 
 | ID | Rev | Location | Action | Page Δ | Status |
 |----|-----|----------|--------|--------|--------|
-| S1 | R3 | §2 related work | Add **Tackett soft brood selection** (WCCI 1994, doi:10.1109/ICEC.1994.350023) + 1 sentence positioning IVF vs brood selection | + small | ☐ |
+| S1 | R3 | §2 related work | Add **Tackett soft brood selection** (WCCI 1994, doi:10.1109/ICEC.1994.350023) + 1 sentence positioning IVF vs brood selection. Done: cited tackett1994brood in §1 ("IVF's generate-and-select cycle is a multi-objective descendant of soft brood selection… produces several offspring per mating and keeps the best"). | + small | ☑ |
 | S2 | R3 | §3.3 / Table 1 l.92 | Define **DE = Differential Evolution** at first use + citation; one clause on how DE/current-to-best relates to the NSGA-III population. Done: DE defined + cited (storn1997de) in §3.3 with current-to-best gloss. | + small | ☑ |
-| S3 | R3 | §4 l.118 / §5.1 | Strengthen benchmark answerability: confirm suite/M/N/maxFE (mostly present) and add explicit pointer that per-instance "which technique won where" is in Fig. 2 + the archived artifact | + small | ☐ |
+| S3 | R3 | §4 l.118 / §5.1 | Strengthen benchmark answerability: confirm suite/M/N/maxFE (mostly present) and add explicit pointer that per-instance "which technique won where" is in Fig. 2 + the archived artifact. Done: pointer added in §4 (Fig.~\ref{fig:heatmap} + full per-technique median/IQR tables in artifact). | + small | ☑ |
 
 ---
 
@@ -101,12 +101,12 @@ Status legend: ☐ todo · ◐ in progress · ☑ done · ⊘ won't-do (concede 
 | ID | Rev | Location | Action | Page Δ | Status |
 |----|-----|----------|--------|--------|--------|
 | **F0** | **R1.1**,R3 | §1 l.50; §7 l.239 | **Highest-value framing fix.** Make the host-**inclusion criterion** explicit: the three hosts are exactly the MOEAs with an existing IVF realization (NSGA-II, NSGA-III, SPEA2-preprint-under-review); to our knowledge no IVF/RVEA or IVF/MOEA/D exists, so including them means *designing* new operators → future work. Cite RVEA + MOEA/D (refs don't count to the 14pp cap). Reframes R1's "swap NSGA-III" from a flaw to out-of-scope. Also fixes "published"→"under review" for [20] (see H6). **Phrase declaratively** (positive inclusion criterion), never as a rebuttal. Done: §1 l.50 rewritten ("We study IVF across the three hosts for which a realization has been proposed…"; RVEA/MOEA/D not proposed → future work). Also covers F3. | + small | ☑ |
-| F1 | R1.2,R3 | §6 threats-to-validity l.228 | Name explicitly the **SBX-vs-DE variation-operator confound** (already partially conceded — make it a named threat) | + small | ☐ |
-| F2 | R1.4 | §6 | Add the **absolute-performance / weak-baseline** caveat: relative IVF gain may partly reflect host baseline strength; point to absolute IGD/HV in artifact | + small | ☐ |
+| F1 | R1.2,R3 | §6 threats-to-validity l.228 | Name explicitly the **SBX-vs-DE variation-operator confound**. Done: threat 4 in §6 names variation operator (SBX vs DE) + selection pressure/diversity. | + small | ☑ |
+| F2 | R1.4 | §6 | Add the **absolute-performance / weak-baseline** caveat: relative IVF gain may partly reflect host baseline strength; point to absolute IGD/HV in artifact. Done: threat 5 in §6 (improvement relative to base host; absolute IGD/HV in artifact). | + small | ☑ |
 | F3 | R1.1 | §6/§7 future work | Concede limited host set (now mainly handled by **F0**); keep one future-work line on RVEA/MOEA/D as a controlled comparison requiring new IVF operators | + small | ☐ |
-| F4 | R1.3,R1 overall | §6/§7 | State that a fully **controlled factorial** (host × operator × IVF strategy) is future work; keep current claims at the pipeline level | 0 | ☐ |
-| F5 | R3 | §6 | Acknowledge alternative explanation: differences could stem from **selection pressure / diversity preservation**, not only host compatibility | + small | ☐ |
-| F6 | R3 | §1 p2 "host" term | **Decided: partial rename (b)** — keep "host" in the title; in prose soften and add a justifying line at first use, preferring EMO-community phrasing (host MOEA / base algorithm) where natural. | 0 | ◐ |
+| F4 | R1.3,R1 overall | §6/§7 | State that a fully **controlled factorial** (host × operator × IVF strategy) is future work; keep current claims at the pipeline level. Done: §6 threats close with "controlled cross-host experiments left to future work"; §7 already states this. | 0 | ☑ |
+| F5 | R3 | §6 | Acknowledge alternative explanation: differences could stem from **selection pressure / diversity preservation**, not only host compatibility. Done: folded into threat 4 in §6. | + small | ☑ |
+| F6 | R3 | §1 p2 "host" term | **Decided: partial rename (b)** — keep "host" in the title; in prose soften and add a justifying line at first use. Done: §1 first use now defines the term ("without replacing the underlying algorithm, which we call the \emph{host}"). Term kept (R2 liked the host discussion). | 0 | ☑ |
 
 ---
 
@@ -114,11 +114,11 @@ Status legend: ☐ todo · ◐ in progress · ☑ done · ⊘ won't-do (concede 
 
 | ID | Rev | Target | Action | Status |
 |----|-----|--------|--------|--------|
-| G1 | R3 | all figs, esp. Fig 5 | Replace **red/green** with colorblind-safe palette (Fig 5 convergence shading is the real red/green offender; Fig 2 blue/red is borderline — verify) | ☐ |
-| G2 | R3 | Fig 2, Fig 4, Fig 5 | Increase font sizes for print legibility | ☐ |
-| G3 | R3 | Fig 4, Fig 2, Fig 1 | Shorten over-long captions (l.158, l.185, others) | ☐ |
-| G4 | R3 | Fig 1 | Y-axis: spell out abbreviation; clarify legend; explain "4 things" (3 hosts + ?); | ☐ |
-| G5 | R3 | Fig 1 + Fig 3 | Evaluate merging Fig 1 and Fig 3 (also helps page budget) | ☐ |
+| G1 | R3 | all figs, esp. Fig 5 | **Done.** Benefit/harm bands → blue/red (Figs 1,5). Categorical palettes → Okabe-Ito colorblind-safe (families WFG green→teal #009E73, MaF red→vermillion #D55E00; host lines NSGA-III→teal, NSGA-II→vermillion). Fig 2 blue/red kept. Verified visually. | ☑ |
+| G2 | R3 | Fig 2, Fig 4, Fig 5 | **Done.** Fig 2 xticklabels 7→9, yticklabels 10→11; Figs 4,5 ticks 8→10, labels 9→11, titles 11→12, legends 9/10→11. | ☑ |
+| G3 | R3 | Fig 4, Fig 2, Fig 1 | **Done.** Fig 1 and Fig 4 captions shortened (and Fig 5 trimmed). | ☑ |
+| G4 | R3 | Fig 1 | **Done.** Caption now clarifies: grouped by host (3); point color = benchmark family (the "4 things" = DTLZ/MaF/WFG/ZDT); marker shape = M. Y-axis keeps the standard $A_{12}^{\mathrm{IVF}}$ symbol (defined in caption). | ☑ |
+| G5 | R3 | Fig 1 + Fig 3 | ⊘ **Deferred (author decision).** Kept separate: they answer different questions (per-instance strip vs by-$M$ distribution); risky refactor near deadline; body already within 14pp. | ⊘ |
 
 > Scripts: `src/python/analysis/plot_hosts_figures_v2.py`,
 > `plot_hosts_convergence_v2.py`. Regenerate via `.venv/bin/python …`.
