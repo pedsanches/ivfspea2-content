@@ -125,12 +125,13 @@ def fig1_a12_strip(df: pd.DataFrame) -> None:
     ax.legend(
         handles=family_handles + m_handles,
         fontsize=7.5,
-        ncol=4,
-        loc="lower left",
+        ncol=6,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.1),
         framealpha=0.9,
     )
 
-    fig.tight_layout()
+    fig.subplots_adjust(bottom=0.18)
     save_fig(fig, "hosts_v2_fig1_a12_strip.pdf")
     plt.close(fig)
 
