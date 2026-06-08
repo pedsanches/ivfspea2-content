@@ -244,7 +244,7 @@ def figure1_pca_fla():
         s=42,
         edgecolors="white",
         linewidths=0.5,
-        label="NOT_HELPS",
+        label="Not helpful",
         zorder=2,
     )
     ax.scatter(
@@ -256,13 +256,13 @@ def figure1_pca_fla():
         s=42,
         edgecolors="white",
         linewidths=0.5,
-        label="HELPS",
+        label="Helpful",
         zorder=3,
     )
 
     ax.set_xlabel(f"PC1 ({ev1:.1f}% variance)")
     ax.set_ylabel(f"PC2 ({ev2:.1f}% variance)")
-    ax.legend(frameon=True, framealpha=0.9, edgecolor="gray")
+    ax.legend(frameon=True, framealpha=0.85, edgecolor="lightgray")
     ax.grid(True, alpha=0.3, linewidth=0.5)
 
     fig.tight_layout()
@@ -358,6 +358,8 @@ def figure2_trajectories():
 
         ax.set_title(label, fontsize=FONT_TICK)
         ax.grid(True, alpha=0.3, linewidth=0.5, which="both")
+        ax.axvline(x=0.2, color="gray", linestyle="--", linewidth=0.8, alpha=0.7,
+                   label="20% warmup")
 
         if idx == 0:
             ax.legend(
@@ -395,7 +397,7 @@ def figure3_ivf_dynamics():
         ("hurts_wfg2_m3", "WFG2 (M=3)", ORANGE, "^", "-."),
     ]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.8, 2.7))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6.0, 2.8))
 
     any_data = False
 
@@ -463,16 +465,12 @@ def figure3_ivf_dynamics():
                 s = extract_trajectory(t, "turnover")[:n_gen_common]
                 all_turnover.append(s)
             mean_turnover_ivf = np.nanmean(np.array(all_turnover), axis=0)
-            markevery = max(1, len(x_ivf_t) // 12)
             ax2.plot(
                 x_ivf_t,
                 mean_turnover_ivf,
                 color=color,
                 linewidth=1.5,
                 linestyle="-",
-                marker=marker,
-                markersize=3,
-                markevery=markevery,
             )
 
         if spea2_trajs:
@@ -485,86 +483,58 @@ def figure3_ivf_dynamics():
                     s = extract_trajectory(t, "turnover")[:n_gen_common]
                     all_turnover_sp.append(s)
                 mean_turnover_sp = np.nanmean(np.array(all_turnover_sp), axis=0)
-                markevery = max(1, len(x_sp_t) // 12)
                 ax2.plot(
                     x_sp_t,
                     mean_turnover_sp,
                     color=color,
                     linewidth=1.5,
                     linestyle="--",
-                    marker=marker,
-                    markersize=3,
-                    markerfacecolor="white",
-                    markevery=markevery,
-                    alpha=0.75,
+                    alpha=0.65,
                 )
 
     # Left subplot labels
     ax1.set_xlabel("Fraction of total generations")
     ax1.set_ylabel("Mean IVF cycle count")
     ax1.grid(True, alpha=0.3, linewidth=0.5)
+    ax1.axvline(x=0.2, color="gray", linestyle="--", linewidth=0.8, alpha=0.7)
     ax1.legend(
         frameon=True,
-        framealpha=0.9,
-        edgecolor="gray",
+        framealpha=0.85,
+        edgecolor="lightgray",
         fontsize=FONT_LEGEND - 1,
         loc="upper right",
+        bbox_to_anchor=(1.01, 1.01),
     )
 
     # Right subplot labels
     ax2.set_xlabel("Fraction of total generations")
     ax2.set_ylabel("Mean archive turnover")
     ax2.grid(True, alpha=0.3, linewidth=0.5)
+    ax2.axvline(x=0.2, color="gray", linestyle="--", linewidth=0.8, alpha=0.7)
+    # Threshold line: median cutoff for controller (approx. 0.216)
+    ax2.axhline(y=0.216, color="gray", linestyle=":", linewidth=0.8, alpha=0.6,
+                label=r"$\theta \approx 0.216$")
+    ax2.text(0.98, 0.216 + 0.005, r"$\theta\approx 0.216$",
+             transform=ax2.get_yaxis_transform(), ha="right", va="bottom",
+             fontsize=FONT_ANNOTATION, color="gray", alpha=0.8)
 
-    # Custom legend for right subplot: solid = IVF, dashed = SPEA2
+    # Combined legend: solid = IVF-SPEA2, dashed = SPEA2, colors = cases
     algo_handles = [
-        Line2D(
-            [0], [0], color="black", linewidth=1.5, linestyle="-", label="IVF-SPEA2"
-        ),
-        Line2D(
-            [0],
-            [0],
-            color="black",
-            linewidth=1.5,
-            linestyle="--",
-            alpha=0.7,
-            label="SPEA2",
-        ),
+        Line2D([0], [0], color="black", linewidth=1.5, linestyle="-", label="IVF-SPEA2"),
+        Line2D([0], [0], color="black", linewidth=1.5, linestyle="--", alpha=0.7, label="SPEA2"),
     ]
-    leg_algo = ax2.legend(
-        handles=algo_handles,
-        frameon=True,
-        framealpha=0.9,
-        edgecolor="gray",
-        fontsize=FONT_LEGEND - 1,
-        title="Algorithm",
-        title_fontsize=FONT_LEGEND - 1,
-        loc="upper right",
-    )
-    ax2.add_artist(leg_algo)
-
     case_handles = [
-        Line2D(
-            [0],
-            [0],
-            color=color,
-            linewidth=1.5,
-            linestyle=linestyle,
-            marker=marker,
-            markersize=4,
-            label=label,
-        )
+        Line2D([0], [0], color=color, linewidth=1.5, linestyle="-", label=label)
         for _, label, color, marker, linestyle in cases
     ]
     ax2.legend(
-        handles=case_handles,
+        handles=algo_handles + case_handles,
         frameon=True,
-        framealpha=0.9,
-        edgecolor="gray",
-        fontsize=FONT_LEGEND - 1,
-        title="Case",
-        title_fontsize=FONT_LEGEND - 1,
+        framealpha=0.85,
+        edgecolor="lightgray",
+        fontsize=FONT_LEGEND - 2,
         loc="lower left",
+        ncol=2,
     )
 
     fig.tight_layout(w_pad=2.0)
@@ -609,16 +579,16 @@ def figure4_discriminant():
     if not stats_df.empty:
         turnover_stats = stats_df.loc[stats_df["feature"] == "ivf_turnover_early"]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6.2, 2.9))
+    fig, ax = plt.subplots(figsize=(3.4, 2.5))
 
-    # ---- Left: Boxplot of early turnover by main label ----
+    # Single-panel boxplot for single-column layout
     helps = df.loc[df[label_col] == "HELPS", "ivf_turnover_early"].dropna()
     not_helps = df.loc[df[label_col] == "NOT_HELPS", "ivf_turnover_early"].dropna()
 
     bp_data = [helps.values, not_helps.values]
-    bp = ax1.boxplot(
+    bp = ax.boxplot(
         bp_data,
-        tick_labels=["HELPS", "NOT_HELPS"],
+        tick_labels=["Helpful", "Not helpful"],
         widths=0.5,
         patch_artist=True,
         medianprops=dict(color="black", linewidth=1.5),
@@ -631,102 +601,52 @@ def figure4_discriminant():
     # Mann-Whitney test and BH-FDR annotation if available.
     if len(helps) >= 3 and len(not_helps) >= 3:
         stat, p = stats.mannwhitneyu(helps, not_helps, alternative="two-sided")
-        p_str = f"p = {p:.3f}" if p >= 0.001 else f"p = {p:.1e}"
+        p_str = f"p = {p:.4f}" if p >= 0.001 else f"p = {p:.1e}"
+        hat_a12_str = ""
+        if len(helps) >= 3 and len(not_helps) >= 3:
+            u_val = stat
+            n1, n2 = len(helps), len(not_helps)
+            a12_val = u_val / (n1 * n2)
+            hat_a12_str = f"$\\hat{{A}}_{{12}}$ = {a12_val:.3f}"
         p_bh_str = None
         if not turnover_stats.empty:
             p_bh = float(turnover_stats.iloc[0].get("p_bh", np.nan))
             if np.isfinite(p_bh):
-                p_bh_str = f"BH q = {p_bh:.3f}"
+                p_bh_str = f"$q_{{\\mathrm{{BH}}}}$ = {p_bh:.3f}"
         y_max = max(helps.max(), not_helps.max())
         y_range = y_max - min(helps.min(), not_helps.min())
         annotation = f"Mann-Whitney\n{p_str}"
+        if hat_a12_str:
+            annotation += f"\n{hat_a12_str}"
         if p_bh_str:
             annotation += f"\n{p_bh_str}"
-        ax1.annotate(
+        ax.annotate(
             annotation,
-            xy=(1.5, y_max + 0.02 * y_range),
-            ha="center",
-            va="bottom",
+            xy=(2.3, y_max - 0.18 * y_range),
+            ha="right",
+            va="center",
             fontsize=FONT_ANNOTATION,
             bbox=dict(
                 boxstyle="round,pad=0.3",
-                facecolor="lightyellow",
-                edgecolor="gray",
-                alpha=0.9,
+                facecolor="white",
+                edgecolor="lightgray",
+                alpha=0.85,
             ),
         )
 
-    ax1.set_ylabel("Early turnover (first 20%)")
-    ax1.grid(True, alpha=0.3, linewidth=0.5, axis="y")
+    # Threshold reference line with θ marker on the y-axis
+    ax.axhline(y=0.216, color="gray", linestyle=":", linewidth=0.8, alpha=0.6)
+    yticks = [t for t in ax.get_yticks() if not np.isclose(t, 0.216)]
+    yticks.append(0.216)
+    yticks = sorted(yticks)
+    ytick_labels = [r"$\theta$" if np.isclose(t, 0.216) else f"{t:.2f}" for t in yticks]
+    ax.set_yticks(yticks)
+    ax.set_yticklabels(ytick_labels)
 
-    # ---- Right: Scatter of early turnover vs final IGD delta ----
-    if "igd_final_delta" not in df.columns:
-        print("  WARNING: igd_final_delta not found. Right subplot will be empty.")
-    else:
-        valid = df[["ivf_turnover_early", "igd_final_delta", label_col]].dropna()
+    ax.set_ylabel("Early turnover (first 20%)")
+    ax.grid(True, alpha=0.3, linewidth=0.5, axis="y")
 
-        helps_mask = valid[label_col] == "HELPS"
-        not_helps_mask = valid[label_col] == "NOT_HELPS"
-
-        ax2.scatter(
-            valid.loc[not_helps_mask, "ivf_turnover_early"],
-            valid.loc[not_helps_mask, "igd_final_delta"],
-            c=ORANGE,
-            marker="^",
-            alpha=0.75,
-            s=52,
-            edgecolors="white",
-            linewidths=0.5,
-            label="NOT_HELPS",
-            zorder=2,
-        )
-        ax2.scatter(
-            valid.loc[helps_mask, "ivf_turnover_early"],
-            valid.loc[helps_mask, "igd_final_delta"],
-            c=BLUE,
-            marker="o",
-            alpha=0.75,
-            s=52,
-            edgecolors="white",
-            linewidths=0.5,
-            label="HELPS",
-            zorder=3,
-        )
-
-        # Spearman correlation
-        rho, p_rho = stats.spearmanr(
-            valid["ivf_turnover_early"], valid["igd_final_delta"]
-        )
-        rho_str = f"Spearman rho = {rho:.3f}"
-        p_rho_str = f"p = {p_rho:.3f}" if p_rho >= 0.001 else f"p = {p_rho:.1e}"
-        ax2.annotate(
-            f"{rho_str}\n{p_rho_str}",
-            xy=(0.05, 0.95),
-            xycoords="axes fraction",
-            ha="left",
-            va="top",
-            fontsize=FONT_ANNOTATION,
-            bbox=dict(
-                boxstyle="round,pad=0.3",
-                facecolor="lightyellow",
-                edgecolor="gray",
-                alpha=0.9,
-            ),
-        )
-
-        ax2.axhline(0, color="gray", linewidth=0.8, linestyle="--", alpha=0.5)
-        ax2.set_xlabel("Early turnover (first 20%)")
-        ax2.set_ylabel("Final IGD delta (SPEA2 - IVF)")
-        ax2.legend(
-            frameon=True,
-            framealpha=0.9,
-            edgecolor="gray",
-            fontsize=FONT_LEGEND - 1,
-            loc="lower right",
-        )
-        ax2.grid(True, alpha=0.3, linewidth=0.5)
-
-    fig.tight_layout(w_pad=2.0)
+    fig.tight_layout()
     save_figure(fig, "fig4_discriminant")
 
 

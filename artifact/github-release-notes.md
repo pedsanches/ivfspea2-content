@@ -16,4 +16,6 @@ Raw MATLAB `.mat` traces (runs 3001-3030, 4001-4030, 5001-5030) are omitted due 
 
 ## Zenodo
 
-This tag is intended to be linked to a Zenodo record; the minted DOI should be copied back into the manuscript once Zenodo generates it.
+Minted DOI: `10.5281/zenodo.19637623`
+
+Zenodo record: https://doi.org/10.5281/zenodo.19637623
