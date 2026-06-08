@@ -20,6 +20,8 @@ $(MAIN_PDF): $(MAIN_FILE) references.bib llncs.cls splncs04.bst | assets
 assets:
 	$(PYTHON) $(ANALYSIS_DIR)/build_hosts_paper_csv.py
 	$(PYTHON) $(ANALYSIS_DIR)/compute_hosts_tables.py
+	$(PYTHON) $(ANALYSIS_DIR)/build_hosts_rep_endpoint_table.py
+	$(PYTHON) $(ANALYSIS_DIR)/compute_hosts_geometry_stratified.py
 	$(PYTHON) $(ANALYSIS_DIR)/plot_hosts_results.py
 	$(PYTHON) $(ANALYSIS_DIR)/select_convergence_instances.py
 	$(PYTHON) $(ANALYSIS_DIR)/plot_hosts_figures_v2.py

@@ -237,14 +237,16 @@ def write_summary_tex(summary: pd.DataFrame, out_path: Path) -> None:
         "degenerate; $n=11$) Pareto-front geometries.}",
         "\\label{tab:hosts_geometry_summary}",
         "\\scriptsize",
-        "\\begin{tabular}{llcrrrc}",
+        "\\setlength{\\tabcolsep}{0pt}",
+        "\\renewcommand{\\arraystretch}{1.08}",
+        "\\begin{tabular}{@{}l@{\\hspace{0.9em}}l@{\\hspace{0.9em}}l@{\\hspace{1.2em}}r@{\\hspace{0.9em}}r@{\\hspace{0.9em}}r@{\\hspace{1.2em}}r@{}}",
         "\\toprule",
-        f"Host & Metric & Geometry & W & T & L & Med.~$A_{{12}}^{{\\mathrm{{IVF}}}}$ {newline}",
+        f"Host & Metric & Geometry & Wins & Ties & Losses & Med.~$A_{{12}}^{{\\mathrm{{IVF}}}}$ {newline}",
         "\\midrule",
     ]
 
     for host in host_order:
-        first = True
+        host_rows = []
         for metric in METRICS:
             for geo in ["regular", "irregular"]:
                 row = sub[
@@ -254,14 +256,18 @@ def write_summary_tex(summary: pd.DataFrame, out_path: Path) -> None:
                 ]
                 if row.empty:
                     continue
-                r = row.iloc[0]
-                host_str = host_display[host] if first else ""
-                lines.append(
-                    f"{host_str} & {metric} & {geo} & "
-                    f"{int(r['wins'])} & {int(r['ties'])} & {int(r['losses'])} & "
-                    f"{r['median_a12_ivf']:.3f} {newline}"
-                )
-                first = False
+                host_rows.append((metric, geo, row.iloc[0]))
+
+        span = len(host_rows)
+        for idx, (metric, geo, r) in enumerate(host_rows):
+            host_str = (
+                f"\\multirow{{{span}}}{{*}}{{{host_display[host]}}}" if idx == 0 else ""
+            )
+            lines.append(
+                f"{host_str} & {metric} & {geo} & "
+                f"{int(r['wins'])} & {int(r['ties'])} & {int(r['losses'])} & "
+                f"{r['median_a12_ivf']:.3f} {newline}"
+            )
         lines.append("\\addlinespace")
 
     lines.extend(["\\bottomrule", "\\end{tabular}", "\\end{table}"])

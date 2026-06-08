@@ -29,7 +29,7 @@ def ivf_favoring_a12(raw_a12: float) -> float:
 
 
 def fmt_value(value: float) -> str:
-    return f"{value:.3g}"
+    return f"{value:#.3g}"
 
 
 def fmt_pair(median: float, iqr: float) -> str:
@@ -83,30 +83,32 @@ def select_rows(df: pd.DataFrame, host_key: str, host_label: str) -> list[dict]:
 
 def write_tex(df: pd.DataFrame, out_path: Path) -> None:
     newline = r"\\"
-    case_display = {"gain": "gain", "tie": "tie", "adverse": "adverse", "weakest": "weakest"}
+    case_display = {"gain": "gain", "tie": "neutral", "adverse": "adverse", "weakest": "weakest"}
     lines = [
         "\\begin{table}[t]",
         "\\centering",
-        "\\caption{Representative IGD endpoint cases selected deterministically per host: strongest significant gain, most neutral case ($A_{12}^{\\mathrm{IVF}}$ closest to 0.5), and strongest adverse case. When a host has no IGD loss, the last row reports the weakest available case instead. Entries show median [IQR].}",
+        "\\caption{Representative IGD endpoint cases per host: strongest significant gain, most neutral case ($A_{12}^{\\mathrm{IVF}}$ closest to 0.5), and strongest adverse case. If a host has no IGD loss, the last row shows its weakest available case. Entries are median [IQR], so each host block can be read directly as gain / neutral / adverse exemplars.}",
         "\\label{tab:rep_endpoint_medians}",
         "\\scriptsize",
-        "\\begin{tabular}{lllcll}",
+        "\\setlength{\\tabcolsep}{0pt}",
+        "\\renewcommand{\\arraystretch}{1.08}",
+        "\\begin{tabular}{@{}l@{\\hspace{0.9em}}l@{\\hspace{0.9em}}l@{\\hspace{1.4em}}r@{\\hspace{1.2em}}r@{}}",
         "\\toprule",
-        f"Host & Case & Instance & IVF & Base & Sign {newline}",
+        f"Host & Case & Instance & \\multicolumn{{1}}{{c}}{{IVF}} & \\multicolumn{{1}}{{c}}{{Base}} {newline}",
         "\\midrule",
     ]
-    current_host = None
-    for _, row in df.iterrows():
-        host = row["host_label"] if row["host_label"] != current_host else ""
-        current_host = row["host_label"]
-        instance = f"{row['problem']} ($M={int(row['M'])}$)"
-        lines.append(
-            f"{host} & {case_display[row['case']]} & {instance} & "
-            f"{fmt_pair(row['median_ivf'], row['iqr_ivf'])} & "
-            f"{fmt_pair(row['median_base'], row['iqr_base'])} & {row['sign']} {newline}"
-        )
-        if row["case"] in {"weakest", "adverse"}:
-            lines.append("\\addlinespace")
+    for host_label, group in df.groupby("host_label", sort=False):
+        group_rows = list(group.to_dict("records"))
+        span = len(group_rows)
+        for idx, row in enumerate(group_rows):
+            host = f"\\multirow{{{span}}}{{*}}{{{host_label}}}" if idx == 0 else ""
+            instance = f"{row['problem']} ($M={int(row['M'])}$)"
+            lines.append(
+                f"{host} & {case_display[row['case']]} & {instance} & "
+                f"{fmt_pair(row['median_ivf'], row['iqr_ivf'])} & "
+                f"{fmt_pair(row['median_base'], row['iqr_base'])} {newline}"
+            )
+        lines.append("\\addlinespace")
     lines.extend(["\\bottomrule", "\\end{tabular}", "\\end{table}"])
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

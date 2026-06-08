@@ -72,6 +72,7 @@ analysis-convergence-plots: analysis-convergence-tests ## Sensitivity, HV ratio,
 	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/sensitivity_smoothing.py
 	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/plot_hosts_convergence_hv.py
 	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/plot_hosts_convergence_v2.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/compute_hosts_dynamic_aggregate.py
 
 analysis-convergence: analysis-convergence-plots ## Full convergence-rigor pipeline end-to-end
 
