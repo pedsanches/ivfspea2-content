@@ -5,6 +5,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{placeins}
 
@@ -38,30 +39,30 @@ Celso G. Camilo-Junior\inst{1}}
 \maketitle
 
 \begin{abstract}
-In vitro fertilization (IVF) intensification has been adapted separately to SPEA2, NSGA-II, and NSGA-III. Whether these couplings behave alike under a common protocol has not been tested; we show that they do not. Across 51 synthetic benchmark instances with two and three objectives, IVF/SPEA2 improves its host broadly and consistently, IVF/NSGA-III helps in a narrower set of cases, and IVF/NSGA-II is mostly neutral---the same ordering appears in both endpoint and search-dynamics analyses. The benefit of IVF therefore depends on the host: it is largest when the host's selection provides a fine-grained, directionally informative signal.
+In vitro fertilization (IVF) intensification has been adapted separately to SPEA2, NSGA-II, and NSGA-III. Whether these couplings behave alike under a common protocol has not been tested; we show that they do not. Across 51 synthetic benchmark instances with two and three objectives, IVF/SPEA2 improves its host in most instances, IVF/NSGA-III helps in fewer cases, and IVF/NSGA-II stays close to neutral; endpoint and search-dynamics analyses give the same ordering. IVF benefit therefore depends on the host: it is largest when the host's selection provides a fine-grained, directionally informative signal.
 
-\keywords{Multi-objective optimization \and Memetic algorithms \and Intensification operators \and Local search \and Empirical comparison}
+\keywords{Memetic algorithms \and Local search \and Empirical benchmarking \and Search dynamics \and Evolutionary computation}
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
 
-Adding local search to a multi-objective evolutionary algorithm (MOEA) is a common way to sharpen its results: a short burst of intensification refines promising solutions without replacing the underlying algorithm, which we call the \emph{host}. Whether such intensification helps, however, depends not only on its internal mechanics but also on the selection structure of the host into which it is inserted. A useful intensification step needs directional feedback from the host: information about where additional search effort is most likely to pay off.
+A local-search module that helps one multi-objective evolutionary algorithm (MOEA) need not help another. Its effect depends not only on its own reproduction rule but also on the selection and diversity machinery into which it is inserted. We use \emph{host} in this hybrid-algorithm sense: the base MOEA that embeds the module and performs survival selection. The practical question is therefore not whether IVF is strong in isolation, but which hosts give IVF useful direction for extra search effort.
 
-The IVF family provides a natural case study for this question. IVF is a short-cycle intensification operator that selects a subset of top-ranked individuals as \emph{mothers}, pairs each with a \emph{father} drawn from the population, generates intensified offspring through a small number of internal reproduction cycles, and re-injects them into the host population. It was first proposed as a multi-objective hybrid inspired by in vitro fertilization~\cite{camilo-junior2011}. It was subsequently adapted as an operator for NSGA-II~\cite{sampaio2017ivf}, extended to many-objective settings~\cite{sampaio2019ivf}, specialized for NSGA-III~\cite{Sampaio2024}, and most recently redesigned for SPEA2~\cite{zambrano2026ivfspea2}. What changes across hosts is the realization of that core, including how mothers and fathers are chosen, how continuation is decided, and how the IVF budget is integrated with the host generation.
+The IVF family is a useful test case for this question. IVF is a short-cycle intensification operator that selects a subset of top-ranked individuals as \emph{mothers}, pairs each with a \emph{father} drawn from the population, generates intensified offspring through a small number of internal reproduction cycles, and re-injects them into the host population. It was first proposed as a multi-objective hybrid inspired by in vitro fertilization~\cite{camilo-junior2011}. It was subsequently adapted as an operator for NSGA-II~\cite{sampaio2017ivf}, extended to many-objective settings~\cite{sampaio2019ivf}, specialized for NSGA-III~\cite{Sampaio2024}, and most recently redesigned for SPEA2~\cite{zambrano2026ivfspea2}. What changes across hosts is the realization of that core, including how mothers and fathers are chosen, how continuation is decided, and how the IVF budget is integrated with the host generation.
 
-The broader literature on hybrid and memetic MOEAs---which combine global evolutionary search with local refinement---already suggests that intensification should be judged by how it couples to the host search process rather than by intensification strength alone. Classical memetic MOEAs such as \mbox{M-PAES}~\cite{knowles2000memetic}, component-wise MOEA design studies~\cite{bezerra2016automatic}, and hybrid-metaheuristic taxonomies and surveys~\cite{talbi2002taxonomy,blum2011hybrid} all point to the same design question: which host properties make a given intensification module useful? More recent mating-policy work reinforces this view by showing that structured pairing strategies can materially change multi-objective search behaviour~\cite{Lu2025}. At the operator level, IVF's generate-and-select cycle is a multi-objective descendant of soft brood selection~\cite{tackett1994brood}, which produces several offspring per mating and keeps the best.
+Hybrid and memetic MOEA work suggests that embedded improvement steps should be judged by how they couple to the host search process. Here, \emph{hybrid} means combining search components, while \emph{memetic} emphasizes local improvement inside an evolutionary algorithm. Classical memetic MOEAs such as \mbox{M-PAES}~\cite{knowles2000memetic}, studies of MOEA components~\cite{bezerra2016automatic}, and surveys of hybrid metaheuristics~\cite{talbi2002taxonomy,blum2011hybrid} raise the same design question: which host properties make a given module useful? Outside the IVF line initiated by Camilo-Junior and Yamanaka~\cite{camilo-junior2011}, Tackett and Carmi's soft brood selection~\cite{tackett1994brood} is a related brood-selection mechanism: it generates multiple offspring from a mating event and keeps promising brood members. IVF differs in that it chooses mothers from the host order, repeats only while a host-specific continuation rule holds, and charges the resulting offspring to a fixed evaluation budget. Recent mating-policy results also show that structured pairing strategies can change multi-objective search behaviour~\cite{Lu2025}.
 
-We study IVF across the three hosts for which a realization has been proposed~\cite{sampaio2017ivf,Sampaio2024,zambrano2026ivfspea2}: SPEA2~\cite{zitzler2001spea2}, NSGA-II~\cite{deb2002nsga2}, and NSGA-III~\cite{deb2014nsga3}. These hosts differ in the kind of signal they provide during survival and diversity maintenance: SPEA2 combines strength and density, NSGA-II relies on non-dominated sorting plus crowding distance, and NSGA-III organizes selection around reference-point niches. IVF couplings for reference-vector or decomposition algorithms such as RVEA~\cite{cheng2016rvea} or MOEA/D~\cite{zhang2007moead} have not been proposed, and constructing them is left to future work.
+We study IVF across the three hosts for which a realization has been proposed~\cite{sampaio2017ivf,Sampaio2024,zambrano2026ivfspea2}: SPEA2~\cite{zitzler2001spea2}, NSGA-II~\cite{deb2002nsga2}, and NSGA-III~\cite{deb2014nsga3}. These hosts differ in the kind of signal they provide during survival and diversity maintenance: SPEA2 combines strength and density, NSGA-II relies on non-dominated sorting plus crowding distance, and NSGA-III organizes selection around reference-point niches.
 
 \paragraph{Research question.}
-Does the benefit of IVF depend on the host's selection mechanism, and if so, which structural property of the host---dominance strength, crowding, or reference-point niching---best explains the observed coupling?
+Does the benefit of IVF depend on the host's selection mechanism, and if so, which structural property of the host (dominance strength, crowding, or reference-point niching) best explains the observed coupling?
 
 \paragraph{Hypothesis H.}
-IVF gains are strongest when the host ranks the non-dominated solutions in a \emph{fine-grained, direction-aware} way, because IVF draws its mothers from the top of that ranking and needs it to tell good intensification seeds apart. A host whose selection only spreads solutions out evenly---an isotropic crowding signal---should show weak synergy, whereas a host that points search toward specific regions through reference-point niches should fall in between, with gains that depend on front geometry and dimensionality.
+IVF should help most when the host gives mother selection a fine, directional ordering among good solutions. SPEA2's strength-density fitness should provide that signal. NSGA-II's crowding distance mainly identifies sparse regions, so it should give weaker guidance. NSGA-III's reference-point niches provide directional guidance too, but that guidance may weaken as front geometry or objective count changes.
 
 \paragraph{What we compare.}
-The unit of comparison is the \emph{host + host-specific IVF realization} pipeline: we compare three couplings from the literature under a unified benchmark and analysis protocol. Our conclusions therefore concern comparative compatibility patterns across existing pipelines, not the isolation of a pure host-mechanism effect under a single identical IVF implementation transplanted unchanged across hosts.
+The unit of comparison is the \emph{host + host-specific IVF realization} pipeline: we compare three couplings from the literature under a unified benchmark and analysis protocol. We deliberately restrict the study to IVF couplings that already exist, rather than designing new host pairings for this evaluation. Our conclusions therefore concern comparative compatibility patterns across existing pipelines, not the isolation of a pure host-mechanism effect under a single identical IVF implementation transplanted unchanged across hosts.
 
 \section{Background}
 \label{sec:background}
@@ -74,22 +75,22 @@ SPEA2~\cite{zitzler2001spea2} combines dominance strength and density in an exte
 \subsection{The IVF Operator Family}
 \label{sec:ivf_family}
 
-Across IVF variants, the shared core is short-cycle intensification: a subset of promising \emph{mothers} (top-ranked candidates under the host's selection order) is paired with \emph{fathers} (a second set of parents drawn from the same population), intensified offspring are generated by a crossover operator, and the cycle repeats for a limited number of rounds while a continuation criterion is satisfied~\cite{sampaio2017ivf,sampaio2019ivf,Sampaio2024,zambrano2026ivfspea2}. Mothers and fathers are ordinary individuals with the same representation; the labels denote only a role within a pairing, so an individual may serve as either across cycles. What changes across hosts is how mothers and fathers are chosen, how continuation is judged, and how the host absorbs the intensified offspring.
+Across IVF variants, the shared core is short-cycle intensification: a subset of promising \emph{mothers} (top-ranked candidates under the host's selection order) is paired with \emph{fathers} (a second set of parents drawn from the same population), intensified offspring are generated by a crossover operator, and the cycle repeats for a limited number of rounds while a continuation criterion is satisfied~\cite{camilo-junior2011,sampaio2017ivf,sampaio2019ivf,Sampaio2024,zambrano2026ivfspea2}. Mothers and fathers are ordinary individuals with the same representation; the labels denote only a role within a pairing, so an individual may serve as either across cycles. What changes across hosts is how mothers and fathers are chosen, how continuation is judged, and how the host absorbs the intensified offspring.
 
 \section{Host-Specific IVF Realizations}
 \label{sec:adaptations}
 
-The three implementations studied here inherit the shared macro-structure summarized in Section~\ref{sec:ivf_family}. They differ in four design axes: father selection, offspring generation, continuation criterion, and activation budget. Mother selection always follows the host's own primary ordering---a scalar fitness for SPEA2 and Pareto rank for NSGA-II and NSGA-III. Table~\ref{tab:adaptations} gives the full breakdown.
+The three implementations studied here inherit the shared macro-structure summarized in Section~\ref{sec:ivf_family}. They differ in four design axes: father selection, offspring generation, continuation criterion, and activation budget. Mother selection always follows the host's own primary ordering: a scalar fitness for SPEA2 and Pareto rank for NSGA-II and NSGA-III. Table~\ref{tab:adaptations} gives the full breakdown.
 
 \subsection{IVF/SPEA2}
 \label{sec:ivfspea2}
 
-IVF/SPEA2 v2 is the implementation introduced in~\cite{zambrano2026ivfspea2} and adopted here. It selects mothers from the best portion of the combined population--archive ranking and applies two design changes. First, each mother is paired with a distinct father chosen to lie far from her in objective space---maximizing the dissimilarity between the two parents---and then confirmed by a binary tournament on SPEA2 fitness, so the crossover spans a wide region while still favoring high-quality parents. Second, a cycle continues only while the \emph{mean} fitness of the whole intensified set keeps improving, rather than requiring any single offspring to beat its father. Offspring are produced with SBX~\cite{deb1995simulated} ($\eta_c=20$), and activation is governed by a cumulative budget gate.
+IVF/SPEA2 is the implementation introduced in~\cite{zambrano2026ivfspea2} and adopted here. It selects mothers from the best portion of the combined population--archive ranking and applies two design changes. First, each mother is paired with a distinct father chosen from distant candidates in objective space and then selected by a binary tournament on SPEA2 fitness; the crossover therefore spans a wide region while still favoring high-quality parents. Second, a cycle continues only while the \emph{mean} fitness of the whole intensified set keeps improving, rather than requiring any single offspring to beat its father. Offspring are produced with SBX~\cite{deb1995simulated} ($\eta_c=20$), and activation is governed by a cumulative budget gate.
 
 \subsection{IVF/NSGA-II}
 \label{sec:ivfnsgaii}
 
-IVF/NSGA-II follows the operator introduced in~\cite{sampaio2017ivf}. Mothers are taken from the top-ranked portion of the population; the best collected individual becomes the initial father, and the remaining collected individuals become mothers. Offspring are generated by SBX ($\eta_c=15$). A cycle continues while the best offspring improves on a designated objective, the original best-on-objective rule, and activation is decided probabilistically per generation.
+IVF/NSGA-II follows the operator introduced in~\cite{sampaio2017ivf}. The collected set is ordered by NSGA-II rank and crowding distance; its best individual becomes the initial father, and the remaining collected individuals become mothers. Offspring are generated by SBX ($\eta_c=15$). A cycle continues while the best offspring improves on a designated objective, the original best-on-objective rule, and activation is decided probabilistically per generation.
 
 \subsection{IVF/NSGA-III}
 \label{sec:ivfnsgaiii}
@@ -100,152 +101,160 @@ IVF/NSGA-III adopts the host-specific adaptation of~\cite{Sampaio2024}. The init
 \centering
 \caption{Host-specific differences among the three IVF adaptations.}
 \label{tab:adaptations}
-\footnotesize
-\begin{tabular}{p{2.5cm}p{3.0cm}p{2.7cm}p{3.0cm}}
+\scriptsize
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\linewidth}{@{}p{3.0cm}@{\hspace{0.8em}}>{\raggedright\arraybackslash}X@{\hspace{0.8em}}>{\raggedright\arraybackslash}X@{\hspace{0.8em}}>{\raggedright\arraybackslash}X@{}}
 \toprule
-\textbf{Component} & \textbf{IVF/SPEA2 v2} & \textbf{IVF/NSGA-II} & \textbf{IVF/NSGA-III} \\
+\textbf{Component} & \textbf{\mbox{IVF/SPEA2}} & \textbf{\mbox{IVF/NSGA-II}} & \textbf{\mbox{IVF/NSGA-III}} \\
 \midrule
-Mother selection & top-$C$ by host fitness & top-$C$ by host rank & top-$C$ by host rank \\
-Father selection & dissimilar (H1) & best collected solution & worst-coverage solution \\
-Offspring generation & SBX ($\eta_c=20$) & SBX ($\eta_c=15$) & DE/current-to-best \\
-Continuation criterion & collective (H2) & best-on-objective-B & niche proximity \\
-Budget gate & cumulative rate ($R$) & probabilistic rate ($R$) & cumulative rate (\textit{ivf\_rate}) \\
-Cited source & \cite{zambrano2026ivfspea2} & \cite{sampaio2017ivf} & \cite{Sampaio2024} \\
+Mother~selection & top-$C$ by host fitness & top-$C$ by host rank & top-$C$ by host rank \\
+\midrule
+Father~selection & dissimilar (H1) & best collected solution & worst-coverage solution \\
+\midrule
+Offspring~generation & SBX ($\eta_c=20$) & SBX ($\eta_c=15$) & DE/current-to-best \\
+\midrule
+Continuation~criterion & collective (H2) & best-on-objective-B & niche proximity \\
+\midrule
+Budget~gate & cumulative rate ($R$) & probabilistic rate ($R$) & cumulative rate (\textit{ivf\_rate}) \\
+\midrule
+Cited~source & \cite{zambrano2026ivfspea2} & \cite{sampaio2017ivf} & \cite{Sampaio2024} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
-Table~\ref{tab:adaptations} summarizes these host-specific choices. Because the realizations differ in several components, compatibility claims here refer to the pipeline level (host + realization) rather than to a single IVF module held identical across hosts. With the pipelines specified, we now turn to the experimental protocol under which they are compared.
+\subsection{Comparison Unit}
+\label{sec:comparison_unit}
+
+Because the realizations differ in several components, compatibility claims here refer to the pipeline level (host + realization) rather than to a single IVF module held identical across hosts. The experimental protocol follows.
 
 \section{Experimental Setup}
 \label{sec:setup}
 
-All experiments were conducted in MATLAB~\texttt{R2025b Update 5} using PlatEMO version~\texttt{4.6}~\cite{tian2017platemo}. We considered 51 synthetic benchmark instances: 28 bi-objective instances from ZDT~\cite{zitzler2000zdt}, DTLZ~\cite{deb2005dtlz}, WFG~\cite{huband2006wfg}, and MaF~\cite{cheng2017maf}; and 23 tri-objective instances from DTLZ, WFG, and MaF. This yields 28 instances with $M=2$ and 23 instances with $M=3$. Each configuration was executed for 30 runs with population size $N=100$ and stopping criterion $\mathrm{maxFE}=100{,}000$. All hosts use the standard generational model: every generation produces $N$ offspring through the host's crossover and mutation, after which environmental selection retains $N$ survivors. Per-instance outcomes for every host pair are shown in Figure~\ref{fig:heatmap}, and the full per-technique median/IQR tables for all instances are provided in the archived artifact.
+All experiments were conducted in MATLAB~\texttt{R2025b Update 5} using PlatEMO version~\texttt{4.6}~\cite{tian2017platemo}. We considered 51 synthetic benchmark instances: 28 bi-objective instances from ZDT~\cite{zitzler2000zdt}, DTLZ~\cite{deb2005dtlz}, WFG~\cite{huband2006wfg}, and MaF~\cite{cheng2017maf}; and 23 tri-objective instances from DTLZ, WFG, and MaF. This yields 28 instances with $M=2$ and 23 instances with $M=3$. Each configuration was executed for 30 runs with population size $N=100$ and stopping criterion $\mathrm{maxFE}=100{,}000$. All compared algorithms are generational: after each IVF and/or host-variation phase, environmental selection reduces the parent--offspring union back to $N=100$. The remaining host offspring are produced by PlatEMO's standard genetic operator, which applies crossover and mutation; the IVF offspring generator is the host-specific one in Table~\ref{tab:adaptations}.
 
-\paragraph{Evaluation budget.}
+\paragraph{Fixed evaluation budget.}
 The comparison is evaluation-normalized rather than runtime-normalized. In all three host-specific IVF realizations, evaluations spent inside IVF are debited from the host's generation budget. The IVF phase consumes at most $N$ internal evaluations per activated generation, and the remaining host variation budget is reduced to \(N - \mathrm{FE}_{\mathrm{IVF,gen}}\). Consequently, the nominal generation budget remains fixed at $N$, although wall-clock overhead still differs across hosts because the IVF realizations use different internal selection, continuation, and offspring-generation routines.
 
-\paragraph{Metrics and references.}
+\paragraph{Endpoint metrics.}
 Final IGD~\cite{zitzler1999igd} and HV~\cite{zitzler2003hv} were used as endpoint metrics. For the synthetic benchmarks, both were taken from PlatEMO's built-in metric outputs. Each problem instance constructs a problem-specific reference set through \texttt{Problem.GetOptimum(10000)} before optimization. IGD is then computed as the mean distance from this 10{,}000-point reference-front sample to the final nondominated approximation, whereas HV uses the same problem-specific optimum set to determine the normalization bounds in PlatEMO's standard HV implementation, after which the reference point is the all-ones vector in normalized objective space. The runs were executed on an Intel 13th Gen Core i5-13600KF CPU with 62 GiB RAM running Ubuntu 24.04.4 LTS, and the processed CSV files, raw metric traces, and analysis scripts used to generate the reported tables and figures are archived at \url{https://doi.org/10.5281/zenodo.19637623}.
 
-\paragraph{Pairing and endpoint inference.}
-The three host comparisons do not share the same pairing status. IVF/NSGA-II versus NSGA-II and IVF/NSGA-III versus NSGA-III use strict run-ID pairing because each IVF track shares the same run range as its baseline track (4001--4030 and 5001--5030, respectively). IVF/SPEA2 versus SPEA2 does not share absolute run IDs (3001--3030 versus 1--30); for this block we therefore report the deterministic matched-order analysis used in the original version together with an unpaired robustness analysis in the supplementary artifact. Endpoint comparisons use the Wilcoxon signed-rank test~\cite{wilcoxon1945} on strictly paired blocks and an unpaired robustness analysis on the order-aligned block; Vargha--Delaney $A_{12}$~\cite{vargha2000a12} is reported throughout as effect size.
+\paragraph{Endpoint tests and pairing.}
+The three host comparisons do not share the same pairing status. IVF/NSGA-II versus NSGA-II and IVF/NSGA-III versus NSGA-III use strict run-ID pairing because each IVF track shares the same run range as its baseline track (4001--4030 and 5001--5030, respectively). IVF/SPEA2 versus SPEA2 does not share absolute run IDs (3001--3030 versus 1--30); for this block we therefore report the deterministic matched-order analysis used in the original version together with an unpaired sensitivity analysis in the supplementary artifact. Endpoint comparisons use the Wilcoxon signed-rank test~\cite{wilcoxon1945} on strictly paired blocks and an unpaired sensitivity analysis on the order-aligned block; Vargha--Delaney $A_{12}$~\cite{vargha2000a12} is reported throughout as effect size.
 
-\paragraph{Multiplicity control.}
-We use Benjamini--Hochberg (BH) false-discovery-rate control~\cite{benjamini1995bh} rather than a family-wise procedure such as Bonferroni--Holm because the goal is to characterize broad comparative patterns across many benchmark instances without the severe power loss that arises under dozens of simultaneous tests. For endpoint analyses, BH is applied separately within each \emph{(host comparison, metric)} family across the 51 instance-level hypotheses. For dynamic per-run trajectory summaries, BH is applied separately within each summary metric across the 18 host-instance hypotheses in the dynamic block. For empirical cumulative distribution function (ECDF) differences, BH is applied across the 18 host-instance Kolmogorov--Smirnov tests in the ECDF block.
+\paragraph{Multiple comparisons.}
+We use Benjamini--Hochberg false-discovery-rate control~\cite{benjamini1995bh} rather than a family-wise procedure such as Bonferroni--Holm because the goal is to characterize broad comparative patterns across many benchmark instances without making the correction overly conservative. For endpoint analyses, the Benjamini--Hochberg correction is applied separately within each \emph{(host comparison, metric)} family across the 51 instance-level hypotheses. For dynamic per-run trajectory summaries, the same correction is applied separately within each summary metric across the 18 host-instance hypotheses in the dynamic block. For empirical cumulative distribution differences, it is applied across the 18 host-instance Kolmogorov--Smirnov tests in the dynamic block.
 
-\paragraph{Parameter provenance.}
-No additional instance-wise retuning was performed for this host-comparison study. Each pipeline used the fixed parameter setting of its cited canonical implementation throughout the 51-instance evaluation: IVF/SPEA2 v2 used $C=0.12$, $R=0.225$, $M_{\mathrm{mut}}=0.3$, $V=0.1$, and \textit{Cycles} = 2; IVF/NSGA-II used $R=0.5$, $C=0.07$, and \textit{Cycles} = 5; and IVF/NSGA-III used \textit{ivf\_rate}=0.10, $C=0.10$, and \textit{Cycles} = 5.
+\paragraph{Fixed parameter settings.}
+No additional instance-wise retuning was performed for this host-comparison study. Each pipeline used the fixed parameter setting of its cited canonical implementation throughout the 51-instance evaluation: IVF/SPEA2 used $C=0.12$, $R=0.225$, $M_{\mathrm{mut}}=0.3$, $V=0.1$, and \textit{Cycles} = 2; IVF/NSGA-II used $R=0.5$, $C=0.07$, and \textit{Cycles} = 5; and IVF/NSGA-III used \textit{ivf\_rate}=0.10, $C=0.10$, and \textit{Cycles} = 5.
 
-\paragraph{Dynamic block.}
-To complement the 51-instance endpoint analysis with trajectory-level evidence, we also analyze a smaller dynamic block defined by a deterministic six-instance protocol: DTLZ5 ($M=2$), MaF1 ($M=2$), WFG8 ($M=2$), ZDT4 ($M=2$), DTLZ5 ($M=3$), and WFG2 ($M=2$). These configurations were rerun with 100 saved checkpoints. The dynamic block is intended as mechanism-oriented diagnostic evidence rather than as a second confirmatory benchmark of the same scope as the 51-instance endpoint analysis.
+\paragraph{Search-dynamics data.}
+For trajectory-level evidence, we also analyze a smaller dynamic block defined by a deterministic six-instance protocol: DTLZ5 ($M=2$), MaF1 ($M=2$), WFG8 ($M=2$), ZDT4 ($M=2$), DTLZ5 ($M=3$), and WFG2 ($M=2$). These configurations were rerun with 100 saved checkpoints. The dynamic block is intended as mechanism-oriented diagnostic evidence rather than as a second confirmatory benchmark of the same scope as the 51-instance endpoint analysis.
 
 \section{Results}
 \label{sec:results}
 
-At the aggregate level, the three pipelines already separate by a large margin (Fig.~\ref{fig:a12_strip}). The ranking is clear: IVF/SPEA2's effect-size distribution is shifted furthest toward IVF benefit, IVF/NSGA-III's is positive but weaker, and \mbox{IVF/NSGA-II's} stays close to neutrality. The median oriented effect size is about 0.75 for IVF/SPEA2, 0.60 for IVF/NSGA-III, and 0.51 for IVF/NSGA-II, which indicates that host compatibility manifests in effect-size magnitude, not only in win counts. Sections~\ref{sec:results_geometry} and~\ref{sec:results_dynamic} later show that the same ranking reappears in geometry-stratified endpoint summaries and in all-suite trajectory aggregates rather than only at the final checkpoint.
+The aggregate effect sizes separate the three pipelines (Fig.~\ref{fig:a12_strip}). IVF/SPEA2's distribution shifts furthest toward IVF benefit, IVF/NSGA-III is positive but weaker, and IVF/NSGA-II stays close to neutrality. Median oriented effect sizes are about 0.75, 0.60, and 0.51, respectively, so compatibility appears in effect-size magnitude and not only in win counts. The same ranking also appears in geometry-stratified endpoint summaries and in all-suite trajectory aggregates rather than only at the final checkpoint.
 
-\begin{figure}[tbp]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/hosts_v2_fig1_a12_strip.pdf}
-\caption{Oriented Vargha--Delaney effect size $A_{12}^{\mathrm{IVF}}$ for each instance, grouped by host (51 instances, 30 runs each): $>0.5$ favors the IVF variant, $<0.5$ the base host. Horizontal bars are per-host medians (0.75, 0.60, and 0.51 for IVF/SPEA2, IVF/NSGA-III, and IVF/NSGA-II). Blue/red bands mark the small/medium/large thresholds (0.56/0.64/0.71). Point color encodes the benchmark family (DTLZ, MaF, WFG, ZDT); marker shape encodes the objective count ($\bullet$ $M=2$, $\blacktriangle$ $M=3$).}
+\caption{Oriented Vargha--Delaney effect sizes for IGD on each instance. Values above 0.5 favor IVF; values below 0.5 favor the base host. Blue/orange bands mark small, medium, and large IVF benefit/harm thresholds; black bars are host medians. Marker shape encodes objective count, and color encodes benchmark family.}
 \label{fig:a12_strip}
 \end{figure}
 
-\subsection{Per-Host Compatibility}
+\subsection{Instance-Level Outcomes}
 \label{sec:results_per_host}
 
-Figure~\ref{fig:heatmap} disaggregates the aggregate picture to the instance level. The same ranking remains visible, and the figure additionally shows which benchmark families drive it. Under the aligned paired analysis visualized here, IVF/SPEA2 dominates the synthetic suite with +33/=15/-3 in IGD and +37/=10/-4 in HV over the 51 instances. IVF/NSGA-III is clearly beneficial but more selective, with +22/=29/-0 in IGD and +21/=28/-2 in HV. IVF/NSGA-II is nearly inert, with only +1/=48/-2 in IGD and +5/=43/-3 in HV. The pairing-aware robustness reanalysis leaves the IGD tallies unchanged and shifts the IVF/SPEA2 HV count by only one case (+38/=9/-4 under the unpaired primary test), so the host ranking is not an artifact of the alignment choice.
+Figure~\ref{fig:heatmap} reports the same comparison at the instance level, identifying the IVF pipeline that won on each benchmark and the benchmark families behind the aggregate ranking. Under the aligned paired analysis visualized here, IVF/SPEA2 dominates the synthetic suite with +33/=15/-3 in IGD and +37/=10/-4 in HV over the 51 instances. IVF/NSGA-III improves fewer cases, with +22/=29/-0 in IGD and +21/=28/-2 in HV. IVF/NSGA-II is close to inert, with only +1/=48/-2 in IGD and +5/=43/-3 in HV. The pairing-aware sensitivity reanalysis leaves the IGD tallies unchanged and shifts the IVF/SPEA2 HV count by only one case (+38/=9/-4 under the unpaired primary test), so the host ranking is not an artifact of the alignment choice.
 
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/hosts_v2_fig2_heatmap.pdf}
-\caption{Per-instance oriented effect size $A_{12}^{\mathrm{IVF}}$ across all 51 instances (rows: three IVF hosts; columns: instances, grouped by family). Top panel: $M=2$ (28 instances); bottom panel: $M=3$ (23 instances). Blue = IVF benefit, red = IVF harm, white = neutrality around $A_{12}^{\mathrm{IVF}}=0.5$. Asterisks mark instances significant under Wilcoxon with BH-FDR correction at $\alpha=0.05$. The IVF/SPEA2 row is dominated by blue cells across all four families; red cells on WFG account for all three IGD losses. IVF/NSGA-III is strongly blue on DTLZ and MaF but near-white on most of WFG. IVF/NSGA-II is near-white across the full suite, with isolated red on ZDT6.}
+\caption{Per-instance oriented effect size across all 51 instances. Rows are IVF hosts; columns are benchmark instances grouped by family. Blue favors IVF, orange favors the base host, and white is neutral around 0.5. Asterisks mark instances significant under Wilcoxon with Benjamini--Hochberg FDR correction at $\alpha=0.05$.}
 \label{fig:heatmap}
 \end{figure}
 
-Reading the $M=2$ panel (top) and the $M=3$ panel (bottom) separately highlights three patterns. First, the IVF/SPEA2 row is dominated by blue across all four families, with its three IGD losses concentrated on WFG. Second, IVF/NSGA-III is strongly blue on DTLZ and MaF at $M=2$ but collapses to near-white on most of WFG and across most $M=3$ instances, with a WFG tally of 3/15/0. Third, the IVF/NSGA-II row is near-white across the full suite, with isolated red on ZDT6. No benchmark family yields a consistent IVF benefit for IVF/NSGA-II. ZDT is the sharpest separator: IVF/SPEA2 wins all five cases, IVF/NSGA-III improves only partially, and IVF/NSGA-II remains neutral. Table~\ref{tab:a12_summary} confirms the same pattern through oriented effect sizes.
+Reading the $M=2$ panel (top) and the $M=3$ panel (bottom) separately separates the hosts. The IVF/SPEA2 row is dominated by blue across all four families, with its three IGD losses concentrated on WFG. IVF/NSGA-III is blue on DTLZ and MaF at $M=2$ but collapses to near-white on most of WFG and across most $M=3$ instances, with a WFG tally of 3/15/0. The IVF/NSGA-II row is near-white across the full suite, with isolated orange on ZDT6. No benchmark family yields a consistent IVF benefit for IVF/NSGA-II. ZDT is the sharpest separator: IVF/SPEA2 wins all five cases, IVF/NSGA-III improves only partially, and IVF/NSGA-II remains neutral. Table~\ref{tab:a12_summary} confirms the same pattern through oriented effect sizes.
 
-To complement wins/ties/losses and oriented effect sizes with a direct view of dispersion, Table~\ref{tab:rep_endpoint_medians} reports median/IQR endpoint values for a deterministic representative set of gain, tie, and adverse cases across the three hosts. The full per-instance median/IQR tables remain in the archived supplementary artifact.
+As a dispersion check on the wins/ties/losses and oriented effect sizes, Table~\ref{tab:rep_endpoint_medians} reports median/IQR endpoint values for a deterministic representative set of gain, tie, and adverse cases across the three hosts. The full per-instance median/IQR tables remain in the archived supplementary artifact.
 
 \input{../../results/tables/hosts_rep_endpoint_igd.tex}
 
-\subsection{Effect of Pareto-Front Geometry}
+\subsection{Pareto-Front Geometry}
 \label{sec:results_geometry}
 
-Stratifying by Pareto-front geometry clarifies the source of the endpoint gains. Table~\ref{tab:hosts_geometry_summary} splits the 51 instances into \emph{regular} (convex, concave, linear) and \emph{irregular} (disconnected, degenerate) Pareto-front geometries. IVF/SPEA2 remains strongest in both strata but is clearly stronger on regular fronts: +28/=11/-1 in IGD and +30/=8/-2 in HV, versus +5/=4/-2 and +7/=2/-2 on irregular fronts. IVF/NSGA-III shows the same directional drop, from +20/=20/-0 and +18/=20/-2 on regular fronts to +2/=9/-0 and +3/=8/-0 on irregular fronts. IVF/NSGA-II remains weak throughout and becomes effectively non-improving on irregular fronts.
+Stratifying by Pareto-front geometry clarifies the source of the endpoint gains. Table~\ref{tab:hosts_geometry_summary} splits the 51 instances into \emph{regular} (convex, concave, linear) and \emph{irregular} (disconnected, degenerate) Pareto-front geometries. IVF/SPEA2 remains strongest in both strata but is stronger on regular fronts: +28/=11/-1 in IGD and +30/=8/-2 in HV, versus +5/=4/-2 and +7/=2/-2 on irregular fronts. IVF/NSGA-III also drops across strata: regular fronts give 20 wins, 20 ties, and no losses in IGD, and 18 wins, 20 ties, and 2 losses in HV. Irregular fronts give 2 wins, 9 ties, and no losses in IGD, and 3 wins, 8 ties, and no losses in HV. IVF/NSGA-II remains weak throughout and becomes effectively non-improving on irregular fronts.
 
-This stratified pattern is consistent with the directional-feedback interpretation, but it is not yet a strong interaction result in the statistical sense. The permutation tests on $A_{12}^{\mathrm{IVF}}$ do not detect a robust host$\times$geometry interaction in either metric under either geometry encoding (all $p \geq 0.356$), so the evidence here should be read as descriptive stratification rather than as confirmatory interaction testing.
+This stratification matches the directional-feedback interpretation, but the interaction tests do not make it confirmatory. The permutation tests on $A_{12}^{\mathrm{IVF}}$ do not detect a host$\times$geometry interaction in either metric under either geometry encoding (all $p \geq 0.356$), so the evidence here should be read as descriptive stratification rather than as confirmatory interaction testing.
 
 \input{../../results/tables/hosts_geometry_summary.tex}
 
-\subsection{Effect of Objective Dimensionality}
+\subsection{Objective Count}
 \label{sec:results_dimension}
 
 Figure~\ref{fig:m2_vs_m3} isolates the role of the number of objectives. IVF/SPEA2 remains strong in both settings and IVF/NSGA-II remains almost neutral regardless of dimensionality. The asymmetry is specific to IVF/NSGA-III: 18/11/0 at $M=2$ collapses to 4/19/0 at $M=3$.
 
-\begin{figure}[tbp]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/hosts_v2_fig3_m2_vs_m3.pdf}
-\caption{Oriented IGD effect size $A_{12}^{\mathrm{IVF}}$ split by number of objectives. At $M=2$ (left), all three hosts produce distinct distributions; at $M=3$ (right), IVF/NSGA-III collapses toward the IVF/NSGA-II distribution (median drops from $\approx 0.70$ to $\approx 0.54$), while IVF/SPEA2's distribution is largely preserved. IVF/NSGA-II remains near-neutral at both dimensionalities. Markers colored by benchmark family.}
+\caption{Oriented IGD effect sizes split by objective count. IVF/SPEA2 remains strong in both panels, IVF/NSGA-II remains near-neutral, and IVF/NSGA-III drops toward the IVF/NSGA-II distribution when moving from $M=2$ to $M=3$. Colors encode benchmark family.}
 \label{fig:m2_vs_m3}
 \end{figure}
 
-Raising the objective count to $M=3$ turns most IVF/NSGA-III gains into ties rather than losses. IVF/SPEA2 does not show the same collapse, indicating that the host's selection mechanism determines whether IVF can still produce useful search directions in higher-dimensional objective space. Endpoint analyses alone, however, cannot indicate whether the observed ordering also holds during the search rather than only at its termination.
+Raising the objective count to $M=3$ turns most IVF/NSGA-III gains into ties rather than losses. IVF/SPEA2 does not show the same collapse, indicating that the host's selection mechanism determines whether IVF can still produce search directions that survive selection in higher-dimensional objective space. Endpoint analyses alone, however, cannot indicate whether the observed ordering also holds during the search rather than only at its termination.
 
-\subsection{Evidence During the Search}
+\subsection{Search-Dynamics Evidence}
 \label{sec:results_dynamic}
 
-To complement the endpoint analysis with temporal evidence, we use two dynamic views. The first is an all-suite aggregate over the reconstructed 51-instance trace cohort; the second is the smaller six-instance diagnostic block used for mechanism-oriented visualization. The aggregate view serves as the primary dynamic evidence; the six-instance traces serve as diagnostic case studies.
+For temporal evidence, we use two dynamic views: an all-suite aggregate over the reconstructed 51-instance trace cohort and a smaller six-instance diagnostic block used for mechanism-oriented visualization. The aggregate view serves as the primary dynamic evidence; the six-instance traces serve as diagnostic case studies.
 
-For the all-suite aggregate, every run is transformed into a normalized IGD progress gap. The gap is zero at the pair-specific initial state and one at the best final value attained by either algorithm on that instance. Figure~\ref{fig:dynamic_aggregate} then tracks the fraction of runs whose cumulative-best IGD reaches a normalized gap of at most $\tau=0.1$ as a function of FE / maxFE. This removes the instance-selection issue of the six-case block and still preserves the same ordering at the trajectory level: in Figure~\ref{fig:dynamic_aggregate} the IVF/SPEA2 solid curve rises above its dashed SPEA2 baseline within the first 20\% of the evaluation budget and maintains separation to the end, IVF/NSGA-III's curves overlap or cross the base for much of the budget, and \mbox{IVF/NSGA-II's} curves nearly coincide with a small late-stage separation.
+For the all-suite aggregate, every run is transformed into a normalized IGD progress gap. The gap is zero at the pair-specific initial state and one at the best final value attained by either algorithm on that instance. Figure~\ref{fig:dynamic_aggregate} then tracks the fraction of runs whose cumulative-best IGD reaches a normalized gap of at most $\tau=0.1$ as a function of FE / maxFE. This aggregate avoids selecting only the six diagnostic cases and preserves the same trajectory-level ordering: in Figure~\ref{fig:dynamic_aggregate} the IVF/SPEA2 solid curve rises above its dashed SPEA2 baseline within the first 20\% of the evaluation budget and remains separated to the end, IVF/NSGA-III's curves overlap or cross the base for much of the budget, and \mbox{IVF/NSGA-II's} curves nearly coincide with a small late-stage separation.
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=0.9\textwidth]{figures/hosts_v2_fig5_dynamic_aggregate.pdf}
-\caption{All-suite dynamic aggregate over the 51-instance cohort. Each curve gives the fraction of runs whose cumulative-best IGD has reached a normalized gap $\le\tau=0.1$ as a function of FE\,/\,maxFE (the gap is normalized per instance between the pair-specific initial state and the best final value reached by either algorithm). Solid lines: IVF variant; dashed: base host; bands: 95\% bootstrap confidence intervals. Early separation (FE\,/\,maxFE $<0.3$) means the IVF variant reaches near-final quality on more runs sooner.}
+\includegraphics[width=\textwidth]{figures/hosts_v2_fig5_dynamic_aggregate.pdf}
+\caption{All-suite dynamic aggregate over the 51-instance trace cohort. Each curve shows the fraction of runs whose cumulative-best IGD reaches a normalized gap of at most $\tau=0.1$ as a function of FE / maxFE. Solid lines are IVF variants, dashed lines are base hosts, and bands are 95\% bootstrap confidence intervals.}
 \label{fig:dynamic_aggregate}
 \end{figure}
 
-The corresponding $\Delta$AUC summaries at $\tau=0.1$ reinforce this picture. IVF/SPEA2 is strongly positive on regular fronts for both $M=2$ and $M=3$ (IGD $+0.122$ and $+0.089$; HV $+0.135$ and $+0.215$) and remains positive on irregular fronts at $M=3$, turning slightly negative only on irregular $M=2$. IVF/NSGA-III is mostly flat to negative, especially on irregular $M=3$ (IGD $-0.062$, HV $-0.036$), with only a small positive pocket on regular $M=3$ in IGD ($+0.012$). Under the aggregate view, IVF/NSGA-II is no longer completely inert; its gains, however, are small and restricted to regular fronts, in contrast to IVF/SPEA2 (for example, IGD $+0.038$ and HV $+0.056$ on regular $M=2$). The full host$\times M \times$geometry breakdown is reported in the supplementary artifact.
+The corresponding area-under-curve differences ($\Delta$AUC) at $\tau=0.1$ show the same ordering. IVF/SPEA2 is positive on regular fronts for both $M=2$ and $M=3$ (IGD $+0.122$ and $+0.089$; HV $+0.135$ and $+0.215$) and remains positive on irregular fronts at $M=3$, turning slightly negative only on irregular $M=2$. IVF/NSGA-III is flat to negative, especially on irregular $M=3$ (IGD $-0.062$, HV $-0.036$), with only a small positive pocket on regular $M=3$ in IGD ($+0.012$). IVF/NSGA-II shows small gains restricted to regular fronts, in contrast to IVF/SPEA2 (for example, IGD $+0.038$ and HV $+0.056$ on regular $M=2$). The full host$\times M \times$geometry breakdown is reported in the supplementary artifact.
 
-The six protocol-defined dynamic instances are still useful as diagnostic case studies because they show how these aggregate differences manifest on concrete trajectories.
+The six protocol-defined dynamic instances serve as diagnostic case studies because they show how these aggregate differences appear on concrete trajectories.
 
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\textwidth]{figures/hosts_v2_fig4_convergence.pdf}
-\caption{IGD ratio (base~/~IVF) over normalized function evaluations on the six protocol-defined dynamic instances. Values $>1$ (blue shading) indicate IVF benefit; values $<1$ (red shading) indicate harm. Solid lines: host-wise medians across 30 runs per algorithm per instance; shaded bands: 95\% bootstrap confidence intervals. FE grids are aligned by linear interpolation when saved checkpoints are not exactly aligned. Reading cue: how early the line crosses 1 and how long it stays above---IVF/SPEA2 shows early, large ratios on DTLZ5 and ZDT4 and a sub-1 excursion on WFG2.}
+\caption{IGD ratio (base~/~IVF) over normalized function evaluations on the six protocol-defined dynamic instances. Values above 1 favor IVF; values below 1 favor the base host. Lines are host-wise medians across 30 runs, and bands are 95\% bootstrap confidence intervals after FE-grid interpolation.}
 \label{fig:convergence}
 \end{figure}
 
-Figure~\ref{fig:convergence} makes this distinction concrete. IVF/SPEA2 separates above~1 early on DTLZ5, MaF1, and ZDT4 and reverses on WFG2. IVF/NSGA-III retains clear benefit on several bi-objective cases but weakens sharply when DTLZ5 moves from $M=2$ to $M=3$. IVF/NSGA-II remains close to neutrality in most panels. The paired trajectory summaries remain consistent with the aggregate ordering: across the six instances and six per-run summary metrics (AUC, final value, and best value for IGD and HV), IVF/SPEA2 yields 29/36 BH-significant paired differences, 24 of them in favor of IVF and the five adverse cases concentrated entirely on WFG2. IVF/NSGA-III also yields many significant differences (26/36), but they split evenly between IVF gains and base-algorithm gains, indicating a more fragile and context-dependent coupling. IVF/NSGA-II yields only 9/36 significant differences, which is consistent with the weak all-suite dynamic gains above rather than with strong sustained acceleration.
+Figure~\ref{fig:convergence} shows the trajectory differences. IVF/SPEA2 separates above~1 early on DTLZ5, MaF1, and ZDT4 and reverses on WFG2. IVF/NSGA-III retains benefit on several bi-objective cases but weakens sharply when DTLZ5 moves from $M=2$ to $M=3$. IVF/NSGA-II remains close to neutrality in most panels. The paired trajectory summaries remain consistent with the aggregate ordering: across the six instances and six per-run summary metrics (AUC, final value, and best value for IGD and HV), IVF/SPEA2 yields 29/36 significant paired differences after Benjamini--Hochberg correction, 24 of them in favor of IVF and the five adverse cases concentrated entirely on WFG2. IVF/NSGA-III also yields many significant differences (26/36), but they split evenly between IVF gains and base-algorithm gains, indicating coupling that is more sensitive to instance and objective count. IVF/NSGA-II yields only 9/36 significant differences, which is consistent with the weak all-suite dynamic gains above rather than with large sustained acceleration.
 
 In the absolute cross-host ranking among IVF variants, IVF/SPEA2 attains the best mean rank in both IGD (1.51) and HV (1.43), IVF/NSGA-III follows closely (1.73 IGD, 1.76 HV), and IVF/NSGA-II is rarely first (mean rank 2.76 IGD, 2.80 HV). Table~\ref{tab:a12_summary} reports the effect-size ordering in tabular form.
 
 \input{../../results/tables/hosts_a12_summary.tex}
 
-We now turn from what the evidence shows to what it licenses as interpretation.
-
 \FloatBarrier
 \section{Discussion}
 \label{sec:discussion}
 
-Across all three analyses---endpoint, dimensional, and dynamic---the evidence supports Hypothesis~H at the pipeline level (Figs.~\ref{fig:a12_strip}--\ref{fig:dynamic_aggregate}; Table~\ref{tab:hosts_geometry_summary}), but it does not establish directional feedback as the sole causal mechanism. The common IVF core is shared across hosts, yet the host-specific realizations also differ in father selection, reproduction, continuation, and activation policy. The present evidence therefore supports a comparative reading: among the canonical pipelines considered here, IVF/SPEA2 couples most effectively to its host, IVF/NSGA-III remains conditionally beneficial, and IVF/NSGA-II is weakest overall, with only modest dynamic gains in some regular strata.
+The results support Hypothesis~H at the pipeline level (Figs.~\ref{fig:a12_strip}--\ref{fig:dynamic_aggregate}; Table~\ref{tab:hosts_geometry_summary}), but they do not establish directional feedback as the sole causal mechanism. The common IVF core is shared across hosts, yet the host-specific realizations also differ in father selection, reproduction, continuation, and activation policy. The evidence supports a comparative reading: among the canonical pipelines considered here, IVF/SPEA2 couples most effectively to its host, IVF/NSGA-III remains conditionally beneficial, and IVF/NSGA-II is weakest overall, with only modest dynamic gains in some regular strata.
 
-A plausible interpretation is that hosts providing more explicit directional information in objective space enable the IVF core to convert local intensification into offspring that survive environmental selection. This interpretation is consistent with the observed ranking, but it should still be read as a mechanistic account supported by the current evidence rather than as a mechanism already isolated experimentally. Its most useful implication is predictive: if the interpretation is correct, the strength of IVF should vary not only with the host but also with Pareto-front geometry. The geometry-stratified summaries are directionally consistent with that prediction---regular fronts favor IVF/SPEA2 most strongly and weaken both IVF/NSGA-III and IVF/NSGA-II---but the permutation tests do not yet show a strong host$\times$geometry interaction, so this part of the evidence remains suggestive rather than definitive.
+One interpretation is that hosts providing more explicit directional information in objective space enable the IVF core to convert local intensification into offspring that survive environmental selection. This interpretation is consistent with the observed ranking, but it should still be read as a mechanistic account supported by the current evidence rather than as a mechanism already isolated experimentally. The implication is predictive: if the interpretation is correct, the strength of IVF should vary not only with the host but also with Pareto-front geometry. The geometry-stratified summaries match that prediction: regular fronts favor IVF/SPEA2 most strongly and weaken both IVF/NSGA-III and IVF/NSGA-II. The permutation tests, however, do not yet show a strong host$\times$geometry interaction, so this part of the evidence remains descriptive.
 
-Several threats to validity remain relevant. First, the comparison is evaluation-normalized only if the documented FE accounting is accepted; wall-clock overhead still differs across hosts. Second, the inference is strongest for strict run-ID pairing and weaker for the order-aligned IVF/SPEA2 versus SPEA2 block, which is why the robustness analysis is reported separately. Third, any parameter adjustment performed on the reported benchmark suite would blur the distinction between host compatibility and problem-specific calibration. Fourth, the pipelines differ not only in host but also in variation operator---SBX for IVF/SPEA2 and IVF/NSGA-II, differential evolution for IVF/NSGA-III---and in selection pressure and diversity maintenance, so the measured effect cannot be attributed to the host's selection mechanism in isolation. Fifth, improvement is reported relative to each base host, and part of the gain may reflect how much room a weaker baseline leaves rather than the IVF core itself; absolute IGD and HV values for all hosts are included in the artifact for direct inspection. These limitations do not erase the pipeline-level result, but they bound the causal interpretation that can be attached to it; separating host compatibility from operator, selection-pressure, and baseline-strength effects is the aim of the controlled cross-host experiments left to future work.
+Four threats to validity remain relevant. First, variation operators are confounded with host choice: IVF/NSGA-III uses DE/current-to-best while the other two IVF realizations use SBX, and IVF/SPEA2 also mutates selected mothers under its cited setting. Some differences may therefore reflect the offspring generator rather than host selection alone. Second, relative IVF gains can be larger for a weaker baseline, so the absolute IGD/HV tables in the artifact should be read alongside the relative effect sizes. Third, the observed ranking could also reflect broader differences in selection pressure or diversity preservation, not only directional feedback. Fourth, the comparison is evaluation-normalized only if the documented FE accounting is accepted; wall-clock overhead still differs across hosts. These limitations do not invalidate the pipeline-level result, but they do limit the causal interpretation that can be attached to it.
 
 \section{Conclusions}
 \label{sec:conclusion}
 
 We compared three IVF pipelines rather than a single identical IVF implementation transplanted across hosts. Under that scope, the evidence is consistent: IVF/SPEA2 shows the strongest and most stable gains, IVF/NSGA-III is a conditional second host, and IVF/NSGA-II is largely neutral. The results therefore support the conclusion that existing IVF couplings are not interchangeable across hosts.
 
-A broader claim about operator-host compatibility as a mechanism remains plausible but provisional. It is supported by the observed pipeline ordering, by the all-suite dynamic aggregate and the diagnostic case studies, and by suggestive geometry-stratified patterns, but it is not yet isolated from differences among the host-specific IVF realizations themselves and the geometry interaction tests are not yet significant. Future work should therefore separate mechanism from implementation more cleanly through cross-host transplant experiments, broader geometry-stratified analyses, and higher-dimensional benchmarks.
+The mechanism-level claim remains provisional. The observed pipeline ordering, all-suite dynamic aggregate, diagnostic traces, and geometry-stratified summaries point in the same direction, but the experiments do not isolate host feedback from the host-specific IVF implementations, and the geometry interaction tests are not significant. Future work should therefore separate mechanism from implementation more cleanly through controlled factorial experiments over host, variation operator, IVF strategy, and budget policy; cross-host transplant experiments including newly designed RVEA or MOEA/D couplings; broader geometry-stratified analyses; and higher-dimensional benchmarks.
 
 \FloatBarrier
 
-The archived artifact contains the full per-instance median/IQR tables for all 51 instances (IGD and HV, by host and $M$), the endpoint robustness analyses, the geometry labels and stratified summaries, the FE-accounting audit, the paired dynamic-test tables, and the dynamic-selection diagnostics. All machine-readable CSV files and figure-generation scripts needed to reproduce the summaries reported in the main text are included in the same artifact at \url{https://doi.org/10.5281/zenodo.19637623}.
+The archived artifact contains the full per-instance median/IQR tables for all 51 instances (IGD and HV, by host and $M$), the endpoint sensitivity analyses, the geometry labels and stratified summaries, the FE-accounting audit, the paired dynamic-test tables, and the dynamic-selection diagnostics. All machine-readable CSV files and figure-generation scripts needed to reproduce the summaries reported in the main text are included in the same artifact at \url{https://doi.org/10.5281/zenodo.19637623}.
 
 \bibliographystyle{splncs04}
 \bibliography{references}

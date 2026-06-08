@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from matplotlib.colors import TwoSlopeNorm
+from matplotlib.colors import LinearSegmentedColormap, TwoSlopeNorm
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -30,9 +30,14 @@ GROUP_COLORS = {
     "ZDT": "#0072B2",
     "DTLZ": "#E69F00",
     "WFG": "#009E73",
-    "MaF": "#D55E00",
+    "MaF": "#CC79A7",
 }
 M_MARKERS = {2: "o", 3: "^"}
+BENEFIT_COLOR = "#0072B2"
+HARM_COLOR = "#D55E00"
+A12_CMAP = LinearSegmentedColormap.from_list(
+    "ivf_benefit_harm", [HARM_COLOR, "#F7F7F7", BENEFIT_COLOR]
+)
 
 
 for out_dir in (FIG_DIR, PAPER_FIG_DIR):
@@ -67,13 +72,13 @@ def load_all_igd_stats() -> pd.DataFrame:
 
 def draw_reference_bands(ax: plt.Axes) -> None:
     for lo, hi, alpha in ((0.56, 0.64, 0.06), (0.64, 0.71, 0.08), (0.71, 1.0, 0.10)):
-        ax.axhspan(lo, hi, color="#2166ac", alpha=alpha, linewidth=0)
-        ax.axhspan(1 - hi, 1 - lo, color="#e74c3c", alpha=alpha, linewidth=0)
+        ax.axhspan(lo, hi, color=BENEFIT_COLOR, alpha=alpha, linewidth=0)
+        ax.axhspan(1 - hi, 1 - lo, color=HARM_COLOR, alpha=alpha, linewidth=0)
     ax.axhline(0.5, color="black", linewidth=0.8, linestyle="--", alpha=0.6)
 
 
 def fig1_a12_strip(df: pd.DataFrame) -> None:
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(8.2, 5.1))
     draw_reference_bands(ax)
 
     labels = [label for _, label in TRACKS]
@@ -101,9 +106,10 @@ def fig1_a12_strip(df: pd.DataFrame) -> None:
         )
 
     ax.set_xticks(range(len(labels)))
-    ax.set_xticklabels(labels, fontsize=11)
-    ax.set_ylabel(r"$A_{12}^{\mathrm{IVF}}$ (oriented, IGD)", fontsize=11)
+    ax.set_xticklabels(labels, fontsize=12)
+    ax.set_ylabel("Oriented Vargha--Delaney effect size", fontsize=12)
     ax.set_ylim(-0.02, 1.02)
+    ax.tick_params(labelsize=10)
     ax.spines[["top", "right"]].set_visible(False)
 
     family_handles = [
@@ -118,13 +124,13 @@ def fig1_a12_strip(df: pd.DataFrame) -> None:
             marker=marker,
             linestyle="None",
             markersize=6,
-            label=f"M={m_val}",
+            label=f"{m_val} objectives",
         )
         for m_val, marker in M_MARKERS.items()
     ]
     ax.legend(
         handles=family_handles + m_handles,
-        fontsize=7.5,
+        fontsize=8.5,
         ncol=6,
         loc="upper center",
         bbox_to_anchor=(0.5, -0.1),
@@ -180,7 +186,7 @@ def fig2_heatmap(df: pd.DataFrame) -> None:
         im = ax.imshow(
             heat,
             aspect="auto",
-            cmap=sns.diverging_palette(10, 240, as_cmap=True),
+            cmap=A12_CMAP,
             norm=TwoSlopeNorm(vmin=0.0, vcenter=0.5, vmax=1.0),
             interpolation="nearest",
         )
@@ -194,7 +200,7 @@ def fig2_heatmap(df: pd.DataFrame) -> None:
                         "*",
                         ha="center",
                         va="center",
-                        fontsize=9,
+                        fontsize=12,
                         fontweight="bold",
                         color="black",
                     )
@@ -216,11 +222,11 @@ def fig2_heatmap(df: pd.DataFrame) -> None:
             mid = (start + end) / 2
             ax.text(
                 mid,
-                -0.42,
+                -0.50,
                 family,
                 ha="center",
                 va="bottom",
-                fontsize=9,
+                fontsize=11,
                 fontweight="bold",
                 color=GROUP_COLORS.get(family, "black"),
                 transform=ax.get_xaxis_transform(),
@@ -228,10 +234,10 @@ def fig2_heatmap(df: pd.DataFrame) -> None:
             )
 
         ax.set_xticks(range(len(col_labels)))
-        ax.set_xticklabels(col_labels, fontsize=9, rotation=90)
+        ax.set_xticklabels(col_labels, fontsize=9.5, rotation=90)
         ax.set_yticks(range(len(label_order)))
         ax.set_yticklabels(label_order, fontsize=11)
-        ax.set_ylabel(f"$M={m_val}$", fontsize=11, fontweight="bold")
+        ax.set_ylabel(f"$M={m_val}$", fontsize=12, fontweight="bold")
 
     fig.subplots_adjust(hspace=0.95, bottom=0.18, top=0.97)
 
@@ -243,7 +249,8 @@ def fig2_heatmap(df: pd.DataFrame) -> None:
         pad=0.2,
         shrink=0.7,
     )
-    cbar.set_label(r"$A_{12}^{\mathrm{IVF}}$", fontsize=11)
+    cbar.set_label(r"$A_{12}^{\mathrm{IVF}}$", fontsize=16)
+    cbar.ax.tick_params(labelsize=10)
     cbar.ax.axvline(0.5, color="black", linewidth=0.8)
 
     save_fig(fig, "hosts_v2_fig2_heatmap.pdf")
@@ -286,23 +293,25 @@ def fig3_m2_vs_m3(df: pd.DataFrame) -> None:
                 )
 
         ax.set_xticks(range(len(label_order)))
-        ax.set_xticklabels(label_order, fontsize=10)
-        ax.set_title(title, fontsize=12)
+        ax.set_xticklabels(label_order, fontsize=11)
+        ax.set_title(title, fontsize=13)
         ax.set_ylim(-0.02, 1.02)
+        ax.tick_params(labelsize=10)
         ax.spines[["top", "right"]].set_visible(False)
 
-    axes[0].set_ylabel(r"$A_{12}^{\mathrm{IVF}}$ (oriented, IGD)", fontsize=11)
-    axes[1].legend(
+    axes[0].set_ylabel("Oriented Vargha--Delaney effect size", fontsize=12)
+    fig.legend(
         handles=[
             mpatches.Patch(color=color, label=group)
             for group, color in GROUP_COLORS.items()
         ],
-        fontsize=8,
-        loc="lower left",
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.0),
+        ncol=4,
+        fontsize=9,
         framealpha=0.9,
     )
-
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0.05, 1, 1))
     save_fig(fig, "hosts_v2_fig3_m2_vs_m3.pdf")
     plt.close(fig)
 
