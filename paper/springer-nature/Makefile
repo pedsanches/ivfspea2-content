@@ -6,9 +6,12 @@ SRC_DIR = src
 OUTPUT_DIR = build
 MAIN_PDF = $(OUTPUT_DIR)/$(MAIN_STEM).pdf
 
-# Tools
-LATEXMK = latexmk
+# latexmk runs with -cd (from SRC_DIR), so its outdir is one level up.
 LATEXMK_FLAGS = -pdf -pdflatex="pdflatex -interaction=nonstopmode" -outdir=../$(OUTPUT_DIR) -cd
+
+# The class, styles and figures live outside SRC_DIR. latexmk finds them through
+# the TEXINPUTS family below; Tectonic through TEX_SEARCH_PATHS.
+TEX_SEARCH_PATHS = cls figures bib bib/bst
 
 # Environment variables for LaTeX to findcls/bst/images
 CURDIR=$(shell pwd)
@@ -16,13 +19,15 @@ export TEXINPUTS=$(CURDIR)/cls:$(CURDIR)/figures:
 export BIBINPUTS=$(CURDIR)/bib:$(CURDIR)/bib/bst:
 export BSTINPUTS=$(CURDIR)/bib:$(CURDIR)/bib/bst:
 
+include ../latex.mk
+
 .PHONY: all clean view install-deps
 
 all: $(MAIN_PDF)
 
 $(MAIN_PDF): $(SRC_DIR)/$(MAIN_FILE)
 	@mkdir -p $(OUTPUT_DIR)
-	$(LATEXMK) $(LATEXMK_FLAGS) $(SRC_DIR)/$(MAIN_FILE)
+	$(call LATEX_BUILD,$(SRC_DIR)/$(MAIN_FILE))
 
 clean:
 	rm -rf $(OUTPUT_DIR)
@@ -32,7 +37,10 @@ clean:
 	rm -f $(SRC_DIR)/indent.log
 
 view: all
-	xdg-open $(MAIN_PDF)
+	$(OPEN) $(MAIN_PDF)
 
 install-deps:
-	@echo "Please run: sudo apt-get update && sudo apt-get install texlive-full latexmk"
+	@printf '%s\n' \
+		"Install either engine:" \
+		"  brew install tectonic          (no system TeX needed)" \
+		"  apt-get install texlive-full latexmk"

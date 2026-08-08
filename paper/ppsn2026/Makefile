@@ -3,8 +3,7 @@ MAIN_STEM = $(basename $(MAIN_FILE))
 OUTPUT_DIR = build
 MAIN_PDF = $(OUTPUT_DIR)/$(MAIN_STEM).pdf
 
-LATEXMK = latexmk
-LATEXMK_FLAGS = -pdf -pdflatex="pdflatex -interaction=nonstopmode" -outdir=$(OUTPUT_DIR)
+include ../latex.mk
 
 .PHONY: all clean view install-deps
 
@@ -12,7 +11,7 @@ all: $(MAIN_PDF)
 
 $(MAIN_PDF): $(MAIN_FILE) references.bib llncs.cls splncs04.bst
 	@mkdir -p $(OUTPUT_DIR)
-	$(LATEXMK) $(LATEXMK_FLAGS) $(MAIN_FILE)
+	$(call LATEX_BUILD,$(MAIN_FILE))
 
 clean:
 	rm -rf $(OUTPUT_DIR)
@@ -20,7 +19,10 @@ clean:
 	rm -f indent.log $(MAIN_STEM).bak*
 
 view: all
-	xdg-open $(MAIN_PDF)
+	$(OPEN) $(MAIN_PDF)
 
 install-deps:
-	@echo "Please run: sudo apt-get update && sudo apt-get install texlive-full latexmk"
+	@printf '%s\n' \
+		"Install either engine:" \
+		"  brew install tectonic          (no system TeX needed)" \
+		"  apt-get install texlive-full latexmk"

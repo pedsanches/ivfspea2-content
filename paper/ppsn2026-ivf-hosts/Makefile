@@ -6,16 +6,15 @@ PROJECT_ROOT = ../..
 ANALYSIS_DIR = $(PROJECT_ROOT)/src/python/analysis
 PYTHON ?= $(PROJECT_ROOT)/.venv/bin/python
 
-LATEXMK = latexmk
-LATEXMK_FLAGS = -pdf -pdflatex="pdflatex -interaction=nonstopmode" -outdir=$(OUTPUT_DIR)
+include ../latex.mk
 
-.PHONY: all assets clean view install-deps
+.PHONY: all assets clean clean-assets view install-deps
 
 all: $(MAIN_PDF)
 
 $(MAIN_PDF): $(MAIN_FILE) references.bib llncs.cls splncs04.bst | assets
 	@mkdir -p $(OUTPUT_DIR)
-	$(LATEXMK) $(LATEXMK_FLAGS) $(MAIN_FILE)
+	$(call LATEX_BUILD,$(MAIN_FILE))
 
 assets:
 	$(PYTHON) $(ANALYSIS_DIR)/build_hosts_paper_csv.py
@@ -31,8 +30,19 @@ assets:
 		printf '%s\n' 'Skipping convergence assets: run experiments/run_hosts_convergence.m first.'; \
 	fi
 
+# Removes only build output. The figures and tables under figures/,
+# results/tables/ and data/processed/ are versioned deliverables, so wiping them
+# here would delete committed content; use clean-assets for that on purpose.
 clean:
 	rm -rf $(OUTPUT_DIR)
+	rm -f $(MAIN_STEM).aux $(MAIN_STEM).bbl $(MAIN_STEM).blg \
+	       $(MAIN_STEM).fdb_latexmk $(MAIN_STEM).fls \
+	       $(MAIN_STEM).log $(MAIN_STEM).out $(MAIN_STEM).pdf
+	rm -f indent.log $(MAIN_STEM).bak*
+
+# Deletes the generated assets so `make assets` rebuilds them from scratch.
+# These paths are tracked in git: expect a dirty working tree afterwards.
+clean-assets:
 	rm -f figures/hosts_fig1_wintieloss.pdf figures/hosts_fig2_scatter.pdf \
 	       figures/hosts_fig3_family.pdf figures/hosts_fig4_cross_host_ivf.pdf \
 	       figures/hosts_v2_fig1_a12_strip.pdf figures/hosts_v2_fig2_heatmap.pdf \
@@ -52,13 +62,12 @@ clean:
 	       $(PROJECT_ROOT)/results/tables/hosts_*.txt
 	rm -f $(PROJECT_ROOT)/data/processed/hosts_paper.csv \
 	       $(PROJECT_ROOT)/data/processed/hosts_convergence.csv
-	rm -f $(MAIN_STEM).aux $(MAIN_STEM).bbl $(MAIN_STEM).blg \
-	       $(MAIN_STEM).fdb_latexmk $(MAIN_STEM).fls \
-	       $(MAIN_STEM).log $(MAIN_STEM).out $(MAIN_STEM).pdf
-	rm -f indent.log $(MAIN_STEM).bak*
 
 view: all
-	xdg-open $(MAIN_PDF)
+	$(OPEN) $(MAIN_PDF)
 
 install-deps:
-	@echo "Please run: sudo apt-get update && sudo apt-get install texlive-full latexmk"
+	@printf '%s\n' \
+		"Install either engine:" \
+		"  brew install tectonic          (no system TeX needed)" \
+		"  apt-get install texlive-full latexmk"

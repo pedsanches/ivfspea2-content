@@ -31,7 +31,10 @@ python src/python/analysis/script.py                   # Main analysis runner
 ```
 
 ### Papers
-Each manuscript lives in its own directory under `paper/`, driven by `paper/Makefile`:
+Each manuscript lives in its own directory under `paper/`, driven by `paper/Makefile`.
+The engine is auto-detected in `paper/latex.mk`: `latexmk` when a system TeX is
+installed, otherwise Tectonic (`brew install tectonic`, no system TeX needed).
+Force one with `make ENGINE=tectonic` or `make ENGINE=latexmk`.
 
 ```bash
 cd paper && make                    # Springer Nature → paper/springer-nature/build/sn-article.pdf
