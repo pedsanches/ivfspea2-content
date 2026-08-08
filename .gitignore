@@ -58,7 +58,6 @@ results/tables/hosts_dynamic_normalized_traces.csv
 /ivfspea2-memetic-computing.zip
 *.tar.gz
 *.zip
-paper/clei2026/
 
 # LaTeX build artifacts (keep sources under paper/)
 paper/springer-nature/build/
