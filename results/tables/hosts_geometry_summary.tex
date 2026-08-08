@@ -1,0 +1,29 @@
+\begin{table}[t]
+\centering
+\caption{Geometry-stratified win/tie/loss summary and median $A_{12}^{\mathrm{IVF}}$. Instances are split into \emph{regular} (convex, concave, linear; $n=40$) and \emph{irregular} (disconnected, degenerate; $n=11$) Pareto-front geometries.}
+\label{tab:hosts_geometry_summary}
+\scriptsize
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}l@{\hspace{0.9em}}l@{\hspace{0.9em}}l@{\hspace{1.2em}}r@{\hspace{0.9em}}r@{\hspace{0.9em}}r@{\hspace{1.2em}}r@{}}
+\toprule
+Host & Metric & Geometry & Wins & Ties & Losses & Med.~$A_{12}^{\mathrm{IVF}}$ \\
+\midrule
+\multirow{4}{*}{IVF/SPEA2} & IGD & regular & 28 & 11 & 1 & 0.781 \\
+ & IGD & irregular & 5 & 4 & 2 & 0.642 \\
+ & HV & regular & 30 & 8 & 2 & 0.850 \\
+ & HV & irregular & 7 & 2 & 2 & 0.702 \\
+\addlinespace
+\multirow{4}{*}{IVF/NSGA-III} & IGD & regular & 20 & 20 & 0 & 0.687 \\
+ & IGD & irregular & 2 & 9 & 0 & 0.529 \\
+ & HV & regular & 18 & 20 & 2 & 0.676 \\
+ & HV & irregular & 3 & 8 & 0 & 0.501 \\
+\addlinespace
+\multirow{4}{*}{IVF/NSGA-II} & IGD & regular & 1 & 37 & 2 & 0.536 \\
+ & IGD & irregular & 0 & 11 & 0 & 0.427 \\
+ & HV & regular & 5 & 33 & 2 & 0.564 \\
+ & HV & irregular & 0 & 10 & 1 & 0.517 \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

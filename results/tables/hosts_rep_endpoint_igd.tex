@@ -1,0 +1,26 @@
+\begin{table}[t]
+\centering
+\caption{Representative IGD endpoint cases per host: strongest significant gain, most neutral case ($A_{12}^{\mathrm{IVF}}$ closest to 0.5), and strongest adverse case. If a host has no IGD loss, the last row shows its weakest available case. Entries are median [IQR], so each host block can be read directly as gain / neutral / adverse exemplars.}
+\label{tab:rep_endpoint_medians}
+\scriptsize
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}l@{\hspace{0.9em}}l@{\hspace{0.9em}}l@{\hspace{1.4em}}r@{\hspace{1.2em}}r@{}}
+\toprule
+Host & Case & Instance & \multicolumn{1}{c}{IVF} & \multicolumn{1}{c}{Base} \\
+\midrule
+\multirow{3}{*}{IVF/SPEA2} & gain & MaF3 ($M=2$) & 0.00376 [7.04e-05] & 0.00425 [0.000627] \\
+ & neutral & WFG6 ($M=3$) & 0.240 [0.0199] & 0.238 [0.0132] \\
+ & adverse & WFG2 ($M=3$) & 0.183 [0.00742] & 0.173 [0.00645] \\
+\addlinespace
+\multirow{3}{*}{IVF/NSGA-III} & gain & DTLZ2 ($M=2$) & 0.00397 [4.14e-09] & 0.00397 [3.25e-08] \\
+ & neutral & WFG4 ($M=3$) & 0.221 [0.000102] & 0.221 [8.76e-05] \\
+ & weakest & WFG8 ($M=2$) & 0.106 [0.00124] & 0.106 [0.00222] \\
+\addlinespace
+\multirow{3}{*}{IVF/NSGA-II} & gain & WFG1 ($M=2$) & 0.0181 [0.00115] & 0.0205 [0.00255] \\
+ & neutral & MaF7 ($M=3$) & 0.0775 [0.00591] & 0.0782 [0.00513] \\
+ & adverse & ZDT6 ($M=2$) & 0.00390 [0.000249] & 0.00362 [0.000127] \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

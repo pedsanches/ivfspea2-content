@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "title": "Operator-Host Compatibility for IVF Intensification - PPSN 2026 reproducibility artifact (rev1)",
+    "upload_type": "dataset",
+    "description": "Reproducibility artifact for the PPSN 2026 paper 'Operator-Host Compatibility in Multi-Objective Intensification: IVF Across SPEA2, NSGA-II, and NSGA-III'. Contains the processed per-run endpoint metrics, dynamic trajectories, LaTeX tables, figure PDFs, and Python analysis scripts needed to reproduce every summary reported in the paper.",
+    "creators": [
+      {
+        "name": "Zambrano, Pedro Henrique Sanches Pelegrino",
+        "affiliation": "Institute of Informatics, Federal University of Goias"
+      }
+    ],
+    "keywords": [
+      "multi-objective evolutionary algorithms",
+      "intensification",
+      "IVF operator",
+      "SPEA2",
+      "NSGA-II",
+      "NSGA-III",
+      "reproducibility",
+      "PlatEMO"
+    ],
+    "license": "CC-BY-4.0",
+    "related_identifiers": [
+      {
+        "identifier": "10.21203/rs.3.rs-9431034/v1",
+        "relation": "isDerivedFrom",
+        "resource_type": "publication-preprint"
+      }
+    ]
+  }
+}

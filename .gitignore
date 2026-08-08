@@ -48,8 +48,17 @@ experiments/logs/
 src/matlab/lib/PlatEMO/Data/
 **/indent.log
 
+# Exclude large artifact tables (exceeds GitHub 100MB limit)
+artifact/ppsn2026-ivf-hosts-rev1/tables/hosts_dynamic_normalized_traces.csv
+
+# Exclude large results tables (exceeds GitHub 100MB limit)
+results/tables/hosts_dynamic_normalized_traces.csv
+
 # Local packaged release archives
 /ivfspea2-memetic-computing.zip
+*.tar.gz
+*.zip
+paper/clei2026/
 
 # LaTeX build artifacts (keep sources under paper/)
 paper/springer-nature/build/

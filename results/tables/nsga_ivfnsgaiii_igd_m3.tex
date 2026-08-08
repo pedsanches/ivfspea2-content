@@ -1,0 +1,39 @@
+\begin{table}[t]
+\centering
+\caption{Median (IGD) and IQR for $M=3$ objectives. Sign column: \texttt{+} means IVF/NSGA-III wins, \texttt{-} means NSGA-III wins, \texttt{=} means no significant difference (Wilcoxon, BH-corrected $\alpha=0.05$).}
+\label{tab:igd_m3_ivfnsga-iii}
+\scriptsize
+\begin{tabular}{llrrrrl}
+\toprule
+Group & Problem & \multicolumn{2}{c}{IVF/NSGA-III} & \multicolumn{2}{c}{NSGA-III} & Sign \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+ & & Median & IQR & Median & IQR & \\
+\midrule
+DTLZ & DTLZ1 & $2.06\!\times\!10^{-2}$ & $1.03\!\times\!10^{-5}$ & $2.06\!\times\!10^{-2}$ & $1.19\!\times\!10^{-5}$ & = \\
+DTLZ & DTLZ2 & $5.45\!\times\!10^{-2}$ & $2.53\!\times\!10^{-8}$ & $5.45\!\times\!10^{-2}$ & $7.85\!\times\!10^{-7}$ & = \\
+DTLZ & DTLZ3 & $5.45\!\times\!10^{-2}$ & $8.55\!\times\!10^{-5}$ & $5.46\!\times\!10^{-2}$ & $2.81\!\times\!10^{-4}$ & \textbf{+} \\
+DTLZ & DTLZ4 & $5.45\!\times\!10^{-2}$ & $6.46\!\times\!10^{-6}$ & $5.45\!\times\!10^{-2}$ & $3.65\!\times\!10^{-1}$ & \textbf{+} \\
+DTLZ & DTLZ5 & $1.29\!\times\!10^{-2}$ & $3.19\!\times\!10^{-3}$ & $1.26\!\times\!10^{-2}$ & $1.53\!\times\!10^{-3}$ & = \\
+DTLZ & DTLZ6 & $1.90\!\times\!10^{-2}$ & $3.87\!\times\!10^{-3}$ & $1.95\!\times\!10^{-2}$ & $2.52\!\times\!10^{-3}$ & = \\
+DTLZ & DTLZ7 & $7.57\!\times\!10^{-2}$ & $3.78\!\times\!10^{-3}$ & $7.74\!\times\!10^{-2}$ & $5.05\!\times\!10^{-3}$ & = \\
+\addlinespace
+WFG & WFG1 & $1.48\!\times\!10^{-1}$ & $1.94\!\times\!10^{-3}$ & $1.48\!\times\!10^{-1}$ & $1.66\!\times\!10^{-3}$ & = \\
+WFG & WFG2 & $1.64\!\times\!10^{-1}$ & $9.03\!\times\!10^{-4}$ & $1.65\!\times\!10^{-1}$ & $1.29\!\times\!10^{-3}$ & = \\
+WFG & WFG3 & $1.06\!\times\!10^{-1}$ & $2.75\!\times\!10^{-2}$ & $1.06\!\times\!10^{-1}$ & $1.29\!\times\!10^{-2}$ & = \\
+WFG & WFG4 & $2.21\!\times\!10^{-1}$ & $1.02\!\times\!10^{-4}$ & $2.21\!\times\!10^{-1}$ & $8.76\!\times\!10^{-5}$ & = \\
+WFG & WFG5 & $2.30\!\times\!10^{-1}$ & $3.13\!\times\!10^{-5}$ & $2.30\!\times\!10^{-1}$ & $3.42\!\times\!10^{-5}$ & = \\
+WFG & WFG6 & $2.32\!\times\!10^{-1}$ & $7.13\!\times\!10^{-3}$ & $2.38\!\times\!10^{-1}$ & $8.31\!\times\!10^{-3}$ & \textbf{+} \\
+WFG & WFG7 & $2.21\!\times\!10^{-1}$ & $6.51\!\times\!10^{-5}$ & $2.21\!\times\!10^{-1}$ & $7.66\!\times\!10^{-5}$ & = \\
+WFG & WFG8 & $2.79\!\times\!10^{-1}$ & $3.14\!\times\!10^{-3}$ & $2.80\!\times\!10^{-1}$ & $5.77\!\times\!10^{-3}$ & = \\
+WFG & WFG9 & $2.21\!\times\!10^{-1}$ & $8.63\!\times\!10^{-4}$ & $2.21\!\times\!10^{-1}$ & $1.20\!\times\!10^{-3}$ & = \\
+\addlinespace
+MaF & MaF1 & $6.10\!\times\!10^{-2}$ & $2.43\!\times\!10^{-3}$ & $5.98\!\times\!10^{-2}$ & $2.49\!\times\!10^{-3}$ & = \\
+MaF & MaF2 & $3.60\!\times\!10^{-2}$ & $1.49\!\times\!10^{-3}$ & $3.60\!\times\!10^{-2}$ & $7.86\!\times\!10^{-4}$ & = \\
+MaF & MaF3 & $4.63\!\times\!10^{-2}$ & $2.84\!\times\!10^{-4}$ & $4.70\!\times\!10^{-2}$ & $9.02\!\times\!10^{-4}$ & \textbf{+} \\
+MaF & MaF4 & $3.37\!\times\!10^{-1}$ & $2.64\!\times\!10^{-2}$ & $3.40\!\times\!10^{-1}$ & $3.40\!\times\!10^{-2}$ & = \\
+MaF & MaF5 & $2.60\!\times\!10^{-1}$ & $1.24\!\times\!10^{0}$ & $2.60\!\times\!10^{-1}$ & $1.88\!\times\!10^{-4}$ & = \\
+MaF & MaF6 & $1.50\!\times\!10^{-2}$ & $2.27\!\times\!10^{-3}$ & $1.57\!\times\!10^{-2}$ & $1.54\!\times\!10^{-3}$ & = \\
+MaF & MaF7 & $7.71\!\times\!10^{-2}$ & $5.03\!\times\!10^{-3}$ & $7.72\!\times\!10^{-2}$ & $5.58\!\times\!10^{-3}$ & = \\
+\bottomrule
+\end{tabular}
+\end{table}

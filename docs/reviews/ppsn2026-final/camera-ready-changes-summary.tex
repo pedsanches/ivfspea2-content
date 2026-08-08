@@ -1,0 +1,143 @@
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.25cm]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{PPSN 2026 Camera-Ready: resumo das mudan\c{c}as}}\\
+\vspace{2pt}
+{\normalsize \textit{Operator-Host Compatibility: When Does IVF Help SPEA2, NSGA-II, or NSGA-III?}}
+\end{center}
+
+\textbf{Contexto.} O artigo foi aceito para proceedings. A carta pede apenas
+melhor esfor\c{c}o para atender aos revisores; n\~ao h\'a nova rodada de revis\~ao
+nem resposta formal obrigat\'oria. Este documento resume, de forma interna e
+concisa, o que foi atacado na vers\~ao camera-ready e por qu\^e.
+
+\textbf{Status.} O manuscrito foi reposicionado como compara\c{c}\~ao
+\emph{pipeline-level} entre acoplamentos IVF existentes. As conclus\~oes foram
+mantidas fortes no plano emp\'irico, mas mais cuidadosas no plano causal.
+
+\footnotesize
+\begin{longtable}{@{}L{1.35cm}L{4.25cm}L{6.35cm}L{4.25cm}@{}}
+\toprule
+\textbf{Origem} & \textbf{Ponto atacado} & \textbf{Altera\c{c}\~ao feita} & \textbf{Justificativa} \\
+\midrule
+\endhead
+Carta &
+Prazo, limite LNCS, source/PDF/figuras, autores, Meteor e registro. &
+O checklist final foi mantido no documento: conferir autores/afilia\c{c}\~oes, registro e pacote apenas com source, PDF e figuras usadas. &
+Esses itens s\~ao formais; n\~ao mudam a narrativa cient\'ifica, mas bloqueiam o upload se forem esquecidos. \\
+\addlinespace
+R1.1 &
+NSGA-II e NSGA-III podem diferir pouco quando a \'ultima fronteira n\~ao domina a sele\c{c}\~ao; sugest\~ao de RVEA/MOEA/D. &
+O escopo agora diz que o estudo fica nos acoplamentos IVF j\'a existentes; RVEA/MOEA-D aparecem apenas como trabalho futuro, n\~ao como justificativa solta na introdu\c{c}\~ao. &
+Criar novos acoplamentos exigiria operadores e nova campanha experimental, fora do escopo de camera-ready. \\
+\addlinespace
+R1.2 &
+Comparabilidade entre hosts: IVF/NSGA-III usa DE, enquanto IVF/SPEA2 e IVF/NSGA-II usam SBX. &
+Conclus\~oes passam a valer para o par \emph{host + realiza\c{c}\~ao IVF}. A discuss\~ao nomeia o confound DE/SBX. &
+Evita uma reivindica\c{c}\~ao causal forte demais sobre um n\'ucleo IVF id\^entico. \\
+\addlinespace
+R1.3 &
+Pedido de experimentos mais controlados; muitas vari\'aveis mudam ao mesmo tempo. &
+Escopo e conclus\~ao foram reposicionados como compara\c{c}\~ao \emph{pipeline-level}. Fatoriais e transplante de um IVF comum foram movidos para trabalho futuro. &
+Preserva o resultado emp\'irico e limita a infer\^encia causal ao que os dados sustentam. \\
+\addlinespace
+R1.4 &
+Ganhos relativos podem ser inflados por baseline fraco; falta desempenho absoluto. &
+Inclu\'imos leitura de desempenho absoluto entre variantes IVF e remetemos \`as tabelas IGD/HV completas no artefato. &
+Ajuda o leitor a distinguir ``melhora sobre o host'' de ``melhor algoritmo absoluto''. \\
+\addlinespace
+R2 &
+Se\c{c}\~oes IVF 3.1--3.3 pouco auto-suficientes; descri\c{c}\~oes densas para leitor n\~ao especialista. &
+Introdu\c{c}\~ao reescrita em termos de local search em MOEAs; ``host'', ``hybrid'', ``memetic'', m\~aes/pais e hip\'otese foram explicados. A tabela concentra diferen\c{c}as t\'ecnicas. &
+Melhora a leitura para PPSN sem remover detalhes necess\'arios para reprodutibilidade. \\
+\addlinespace
+R2 &
+Experimental/results densos, embora plots e testes pare\c{c}am bons. &
+Mantivemos os testes e plots principais, mas encurtamos captions, simplificamos frases de resultados e removemos formula\c{c}\~oes infladas. &
+Reduz carga de leitura sem enfraquecer a evid\^encia estat\'istica. \\
+\addlinespace
+R3 geral &
+Depend\^encia de EMO, par\^ametros e benchmark; leitor quer saber em quais benchmarks cada t\'ecnica foi bem. &
+O setup lista fam\'ilias/inst\^ancias, $M=2/3$, $N=100$, maxFE, par\^ametros fixos por pipeline e an\'alises por fam\'ilia, geometria e n\'umero de objetivos. &
+Torna a recomenda\c{c}\~ao mais operacional: n\~ao s\'o ``IVF ajuda'', mas onde e em qual host. \\
+\addlinespace
+R3 geral &
+``IVF'' n\~ao \'e nome amplamente usado; rela\c{c}\~ao com soft brood selection. &
+Mantivemos Camilo-Junior e Yamanaka como origem do IVF. Tackett e Carmi (1994), apontado pelo R3, entra apenas como mecanismo relacionado fora da linhagem IVF. &
+Preserva a autoria conceitual do IVF e responde \`a compara\c{c}\~ao bibliogr\'afica feita pelo revisor. \\
+\addlinespace
+R3 geral &
+Resultados podem decorrer de selection pressure ou diversity preservation. &
+A discuss\~ao inclui essas alternativas como amea\c{c}as \`a validade, junto com baseline strength e operador de varia\c{c}\~ao. &
+Evita apresentar host compatibility como mecanismo isolado e confirmado. \\
+\addlinespace
+R3 p1--p2 &
+T\'itulo, abstract, keywords, abertura, ``host'', ``hybrid/memetic'', Hypothesis H e escopo estavam carregados de jarg\~ao. &
+T\'itulo/abstract/keywords e in\'icio foram lapidados; a hip\'otese foi simplificada; ``Scope of inference'' virou uma explica\c{c}\~ao direta de ``We compare''. &
+Ataca a barreira de entrada apontada pelo revisor especialista. \\
+\addlinespace
+R3 sect.1 &
+M\~ae/pai, tamanho de popula\c{c}\~ao, regime geracional e operadores pouco claros. &
+Foi explicitado que m\~aes e pais t\^em a mesma representa\c{c}\~ao e pap\'eis tempor\'arios; o setup informa regime geracional, $N=100$, budget IVF e operador gen\'etico do PlatEMO. &
+Remove ambiguidade conceitual sem alterar os algoritmos. \\
+\addlinespace
+R3 p3--p4 &
+IVF/SPEA2 dif\'icil de seguir; ``published'' incorreto; pai dissimilar e continua\c{c}\~ao coletiva pouco claros; pais do NSGA-II; DE sem defini\c{c}\~ao. &
+IVF/SPEA2 foi descrito como preprint under review; pai dissimilar, continua\c{c}\~ao por fitness m\'edio, pai do NSGA-II como melhor coletado, pai do NSGA-III como nicho-alvo de pior cobertura, e DE/current-to-best foram explicitados. &
+Melhora reprodutibilidade e evita supervalorizar a refer\^encia IVF/SPEA2 ainda n\~ao publicada formalmente. \\
+\addlinespace
+R3 p4--p6 &
+Tabela 1, mother selection, headings, excesso de abrevia\c{c}\~oes, BH e bloco din\^amico. &
+Tabela e texto foram alinhados: mother selection segue a ordena\c{c}\~ao do host; DE recebeu cita\c{c}\~ao; headings e frases densas foram simplificados; Benjamini--Hochberg aparece por extenso. &
+Torna o protocolo menos criptogr\'afico para quem n\~ao acompanha a linha IVF. \\
+\addlinespace
+R3 figs. &
+Vermelho/verde, fontes pequenas, captions longas, e d\'uvida sobre combinar figuras. &
+Figuras principais foram regeneradas com paleta azul/laranja, fontes maiores e captions mais curtas. Figuras n\~ao foram combinadas porque cumprem leituras diferentes. &
+Melhora legibilidade e acessibilidade sem perder diagn\'osticos distintos. \\
+\addlinespace
+R3 p9--p14 &
+Frases ruins, jarg\~ao em resultados/discuss\~ao/conclus\~ao, quebras de linha ruins e necessidade de explicar o ``why''. &
+Resultados, discuss\~ao e conclus\~ao foram reescritos para leitura direta; quebras problem\'aticas foram evitadas com \texttt{\textbackslash mbox}; a interpreta\c{c}\~ao mecan\'istica foi tornada provis\'oria. &
+Deixa a narrativa mais defens\'avel e menos assertiva do que os experimentos permitem. \\
+\addlinespace
+R3 refs. &
+[20] n\~ao deveria ser tratado como publicado; DOI/URL duplicados; dados de confer\^encia e p\'aginas problem\'aticas. &
+`references.bib` foi revisado: IVF/SPEA2 aparece como preprint under review; URLs duplicadas foram removidas; confer\^encias receberam local/data/editora quando aplic\'avel. &
+Evita parecer que a submiss\~ao PPSN depende de uma publica\c{c}\~ao formal inexistente. \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\textbf{Itens conscientemente n\~ao executados.} N\~ao foram feitos novos
+experimentos com RVEA/MOEA-D, fatoriais sobre host, operador e estrat\'egia IVF,
+ou transplante de um n\'ucleo IVF comum entre hosts. Esses pontos foram incorporados como
+limita\c{c}\~oes e trabalho futuro, pois mudariam o escopo experimental da
+camera-ready. Tamb\'em n\~ao adicionamos uma nova figura conceitual nem fundimos
+figuras principais; a op\c{c}\~ao foi preservar espa\c{c}o e manter diagn\'osticos
+separados.
+
+\textbf{Checklist antes do upload final.} Confirmar nomes, ordem de autores,
+afilia\c{c}\~oes e dados no Meteor; confirmar registro obrigat\'orio; empacotar
+apenas source, PDF final e as figuras efetivamente usadas pelo `main.tex`.
+
+\end{document}

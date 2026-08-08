@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Iterable, Sequence
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
@@ -142,3 +143,127 @@ def quantile_target(series: pd.Series, q: float) -> float:
 
 def ensure_directory(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
+
+
+# ---------------------------------------------------------------------------
+# 3-D scatter helpers (shared across plot scripts)
+# ---------------------------------------------------------------------------
+
+COLORS = {
+    "reference_pf": "#D0D0D0",
+    "population_before": "#C7CBD1",
+    "population_after": "#6D6D6D",
+    "mother": "#2166AC",
+    "father": "#F18F01",
+    "beneficial": "#1A9850",
+    "harmful": "#D73027",
+    "neutral": "#A67C52",
+}
+
+
+def compute_axis_limits_3d(
+    populations: pd.DataFrame,
+    pairs: pd.DataFrame,
+    x: str,
+    y: str,
+    z: str,
+    pct_lo: float = 1.0,
+    pct_hi: float = 99.0,
+    margin: float = 0.08,
+) -> tuple[float, float, float, float, float, float]:
+    """Compute 3-axis limits based on data percentiles."""
+    all_vals: dict[str, list[np.ndarray]] = {x: [], y: [], z: []}
+
+    # Include reference PF for axis context
+    ref = populations[populations["point_group"] == "reference_pf"]
+    if not ref.empty:
+        for col in (x, y, z):
+            all_vals[col].append(ref[col].values)
+
+    for prefix in ("mother", "father", "child"):
+        for col in (x, y, z):
+            pc = f"{prefix}_{col}"
+            if pc in pairs.columns:
+                vals = pairs[pc].dropna().values
+                if vals.size > 0:
+                    all_vals[col].append(vals)
+
+    limits: list[float] = []
+    for col in (x, y, z):
+        if not all_vals[col]:
+            limits.extend([0.0, 1.0])
+            continue
+        arr = np.concatenate(all_vals[col])
+        lo, hi = float(np.percentile(arr, pct_lo)), float(np.percentile(arr, pct_hi))
+        d = max(hi - lo, 1e-6) * margin
+        limits.extend([lo - d, hi + d])
+
+    return tuple(limits)  # type: ignore[return-value]
+
+
+def scatter_group_3d(
+    ax: plt.Axes,
+    frame: pd.DataFrame,
+    point_group: str,
+    x: str,
+    y: str,
+    z: str,
+    color: str,
+    size: float,
+    alpha: float,
+    edgecolor: str | None = None,
+    linewidth: float = 0.0,
+) -> None:
+    """Scatter points belonging to a named point_group from a populations frame."""
+    group = frame[frame["point_group"] == point_group]
+    if group.empty:
+        return
+    ax.scatter(
+        group[x], group[y], group[z],
+        s=size, c=color, alpha=alpha,
+        edgecolors=edgecolor if edgecolor is not None else "none",
+        linewidths=linewidth,
+        depthshade=True,
+    )
+
+
+def scatter_parent_points_3d(
+    ax: plt.Axes,
+    frame: pd.DataFrame,
+    prefix: str,
+    x: str,
+    y: str,
+    z: str,
+    marker: str,
+    color: str,
+    size: float,
+) -> None:
+    """Scatter unique parent (mother or father) points from a pairs frame."""
+    cols = [f"{prefix}_{x}", f"{prefix}_{y}", f"{prefix}_{z}"]
+    unique_points = frame[cols].drop_duplicates()
+    if unique_points.empty:
+        return
+    ax.scatter(
+        unique_points[cols[0]], unique_points[cols[1]], unique_points[cols[2]],
+        s=size, c=color, marker=marker,
+        alpha=0.9, edgecolors="#111111", linewidths=0.25,
+        depthshade=True,
+    )
+
+
+def scatter_child_points_3d(
+    ax: plt.Axes,
+    frame: pd.DataFrame,
+    x: str,
+    y: str,
+    z: str,
+    color: str,
+    size: float,
+) -> None:
+    """Scatter child/offspring points from a pairs frame."""
+    if frame.empty:
+        return
+    ax.scatter(
+        frame[f"child_{x}"], frame[f"child_{y}"], frame[f"child_{z}"],
+        s=size, c=color, alpha=0.85, edgecolors="none", depthshade=True,
+    )

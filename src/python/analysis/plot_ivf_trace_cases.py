@@ -13,22 +13,20 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from mpl_toolkits.mplot3d.art3d import Line3D
 
-from ivf_trace_common import PROJECT_ROOT, ensure_directory, objective_columns
+from ivf_trace_common import (
+    COLORS,
+    PROJECT_ROOT,
+    compute_axis_limits_3d,
+    ensure_directory,
+    objective_columns,
+    scatter_child_points_3d,
+    scatter_group_3d,
+    scatter_parent_points_3d,
+)
 
 
 INPUT_DIR = PROJECT_ROOT / "results" / "ivf_trace"
 OUT_DIR = PROJECT_ROOT / "paper" / "figures"
-
-COLORS = {
-    "reference_pf": "#D0D0D0",
-    "population_before": "#C7CBD1",
-    "population_after": "#6D6D6D",
-    "mother": "#2166AC",
-    "father": "#F18F01",
-    "beneficial": "#1A9850",
-    "harmful": "#D73027",
-    "neutral": "#A67C52",
-}
 
 # Roles to include in the main (paper) figure
 MAIN_ROLES = ["positive", "bimodal_good"]
@@ -125,46 +123,6 @@ def _compute_axis_limits(
     dx = max(x_hi - x_lo, 1e-6) * margin
     dy = max(y_hi - y_lo, 1e-6) * margin
     return x_lo - dx, x_hi + dx, y_lo - dy, y_hi + dy
-
-
-def _compute_axis_limits_3d(
-    panel_pop: pd.DataFrame,
-    panel_pairs: pd.DataFrame,
-    x: str,
-    y: str,
-    z: str,
-    pct_lo: float = 1.0,
-    pct_hi: float = 99.0,
-    margin: float = 0.08,
-) -> tuple[float, float, float, float, float, float]:
-    """Compute 3-axis limits based on data percentiles."""
-    all_vals: dict[str, list[np.ndarray]] = {x: [], y: [], z: []}
-
-    # Include reference PF for axis context
-    ref = panel_pop[panel_pop["point_group"] == "reference_pf"]
-    if not ref.empty:
-        for col in (x, y, z):
-            all_vals[col].append(ref[col].values)
-
-    for prefix in ("mother", "father", "child"):
-        for col in (x, y, z):
-            pc = f"{prefix}_{col}"
-            if pc in panel_pairs.columns:
-                vals = panel_pairs[pc].dropna().values
-                if vals.size > 0:
-                    all_vals[col].append(vals)
-
-    limits: list[float] = []
-    for col in (x, y, z):
-        if not all_vals[col]:
-            limits.extend([0.0, 1.0])
-            continue
-        arr = np.concatenate(all_vals[col])
-        lo, hi = float(np.percentile(arr, pct_lo)), float(np.percentile(arr, pct_hi))
-        d = max(hi - lo, 1e-6) * margin
-        limits.extend([lo - d, hi + d])
-
-    return tuple(limits)  # type: ignore[return-value]
 
 
 # ---------------------------------------------------------------------------
@@ -308,92 +266,6 @@ def _draw_panel(
     ax.grid(True, linestyle="--", alpha=0.18)
 
 
-# ---------------------------------------------------------------------------
-# 3-D scatter helpers
-# ---------------------------------------------------------------------------
-
-
-def _scatter_group_3d(
-    ax: plt.Axes,
-    frame: pd.DataFrame,
-    point_group: str,
-    x: str,
-    y: str,
-    z: str,
-    color: str,
-    size: float,
-    alpha: float,
-    edgecolor: str | None = None,
-    linewidth: float = 0.0,
-) -> None:
-    group = frame[frame["point_group"] == point_group]
-    if group.empty:
-        return
-    ax.scatter(
-        group[x],
-        group[y],
-        group[z],
-        s=size,
-        c=color,
-        alpha=alpha,
-        edgecolors=edgecolor if edgecolor is not None else "none",
-        linewidths=linewidth,
-        depthshade=True,
-    )
-
-
-def _scatter_parent_points_3d(
-    ax: plt.Axes,
-    frame: pd.DataFrame,
-    prefix: str,
-    x: str,
-    y: str,
-    z: str,
-    marker: str,
-    color: str,
-    size: float,
-) -> None:
-    cols = [f"{prefix}_{x}", f"{prefix}_{y}", f"{prefix}_{z}"]
-    unique_points = frame[cols].drop_duplicates()
-    if unique_points.empty:
-        return
-    ax.scatter(
-        unique_points[cols[0]],
-        unique_points[cols[1]],
-        unique_points[cols[2]],
-        s=size,
-        c=color,
-        marker=marker,
-        alpha=0.9,
-        edgecolors="#111111",
-        linewidths=0.25,
-        depthshade=True,
-    )
-
-
-def _scatter_child_points_3d(
-    ax: plt.Axes,
-    frame: pd.DataFrame,
-    x: str,
-    y: str,
-    z: str,
-    color: str,
-    size: float,
-) -> None:
-    if frame.empty:
-        return
-    ax.scatter(
-        frame[f"child_{x}"],
-        frame[f"child_{y}"],
-        frame[f"child_{z}"],
-        s=size,
-        c=color,
-        alpha=0.85,
-        edgecolors="none",
-        depthshade=True,
-    )
-
-
 def _draw_panel_3d(
     ax: plt.Axes,
     panel_pop: pd.DataFrame,
@@ -411,7 +283,7 @@ def _draw_panel_3d(
     neutral = panel_pairs[panel_pairs["child_outcome"] == "neutral"]
     selected_children = panel_pairs[panel_pairs["selected_child"]]
 
-    _scatter_group_3d(
+    scatter_group_3d(
         ax, panel_pop, "reference_pf", x, y, z, COLORS["reference_pf"], 4, 0.25
     )
 
@@ -436,7 +308,7 @@ def _draw_panel_3d(
                 alpha=0.15,
             )
 
-    _scatter_parent_points_3d(
+    scatter_parent_points_3d(
         ax,
         panel_pairs,
         "mother",
@@ -447,7 +319,7 @@ def _draw_panel_3d(
         color=COLORS["mother"],
         size=22,
     )
-    _scatter_parent_points_3d(
+    scatter_parent_points_3d(
         ax,
         panel_pairs,
         "father",
@@ -458,9 +330,9 @@ def _draw_panel_3d(
         color=COLORS["father"],
         size=26,
     )
-    _scatter_child_points_3d(ax, beneficial, x, y, z, COLORS["beneficial"], 24)
-    _scatter_child_points_3d(ax, harmful, x, y, z, COLORS["harmful"], 24)
-    _scatter_child_points_3d(ax, neutral, x, y, z, COLORS["neutral"], 18)
+    scatter_child_points_3d(ax, beneficial, x, y, z, COLORS["beneficial"], 24)
+    scatter_child_points_3d(ax, harmful, x, y, z, COLORS["harmful"], 24)
+    scatter_child_points_3d(ax, neutral, x, y, z, COLORS["neutral"], 18)
 
     if not selected_children.empty:
         ax.scatter(
@@ -475,7 +347,7 @@ def _draw_panel_3d(
         )
 
     if clip_axes:
-        x_lo, x_hi, y_lo, y_hi, z_lo, z_hi = _compute_axis_limits_3d(
+        x_lo, x_hi, y_lo, y_hi, z_lo, z_hi = compute_axis_limits_3d(
             panel_pop, panel_pairs, x, y, z
         )
         ax.set_xlim(x_lo, x_hi)

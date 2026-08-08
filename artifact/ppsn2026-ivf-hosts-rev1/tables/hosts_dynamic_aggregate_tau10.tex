@@ -1,0 +1,39 @@
+\begin{table}[t]
+\centering
+\caption{Dynamic all-suite summary at normalized gap threshold $\tau=0.1$. Positive $\Delta$AUC favors IVF. Values are stratified by host, objective count, and geometry group.}
+\label{tab:hosts_dynamic_tau10}
+\scriptsize
+\begin{tabular}{llcrr}
+\toprule
+Host & Metric & $M$ & Geometry & $\Delta$AUC \\
+\midrule
+IVF/SPEA2 & IGD & 2 & regular & 0.122 \\
+ & IGD & 2 & irregular & -0.015 \\
+ & IGD & 3 & regular & 0.089 \\
+ & IGD & 3 & irregular & 0.090 \\
+ & HV & 2 & regular & 0.135 \\
+ & HV & 2 & irregular & -0.015 \\
+ & HV & 3 & regular & 0.215 \\
+ & HV & 3 & irregular & 0.112 \\
+\addlinespace
+IVF/NSGA-III & IGD & 2 & regular & -0.012 \\
+ & IGD & 2 & irregular & -0.017 \\
+ & IGD & 3 & regular & 0.012 \\
+ & IGD & 3 & irregular & -0.062 \\
+ & HV & 2 & regular & -0.009 \\
+ & HV & 2 & irregular & -0.004 \\
+ & HV & 3 & regular & -0.007 \\
+ & HV & 3 & irregular & -0.036 \\
+\addlinespace
+IVF/NSGA-II & IGD & 2 & regular & 0.038 \\
+ & IGD & 2 & irregular & -0.014 \\
+ & IGD & 3 & regular & 0.015 \\
+ & IGD & 3 & irregular & -0.000 \\
+ & HV & 2 & regular & 0.056 \\
+ & HV & 2 & irregular & -0.023 \\
+ & HV & 3 & regular & 0.055 \\
+ & HV & 3 & irregular & 0.040 \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

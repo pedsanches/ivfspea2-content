@@ -11,7 +11,10 @@ MATLAB     := matlab -batch
 VENV_DIR   := .venv
 ACTIVATE   := source $(VENV_DIR)/bin/activate
 
-.PHONY: help setup test test-matlab test-python analysis analysis-benchmark-figures paper paper-ppsn paper-all paper-clean clean
+.PHONY: help setup test test-matlab test-python analysis analysis-benchmark-figures \
+        analysis-convergence analysis-convergence-build analysis-convergence-summaries \
+        analysis-convergence-tests analysis-convergence-plots \
+        paper paper-ppsn paper-all paper-clean clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -41,6 +44,37 @@ analysis: ## Generate analysis plots from processed data
 
 analysis-benchmark-figures: ## Generate 5 benchmark figures (IGD/HV)
 	$(ACTIVATE) && $(PYTHON) src/python/analysis/generate_ivf_benchmark_five_figures.py
+
+# ---- Convergence-rigor pipeline (PLAN_CONVERGENCE_RIGOR.md) ----
+# Dependency chain:
+#   build (.mat -> hosts_convergence.csv)
+#     -> summaries (per-run metrics, merge diagnostic, alt-instance selection)
+#     -> tests (bootstrap CI, paired Wilcoxon+BH, KS ECDF)
+#     -> plots (sensitivity, HV ratio, v2 IGD/ECDF)
+
+ANALYSIS_DIR := src/python/analysis
+CONV_CSV     := data/processed/hosts_convergence.csv
+
+analysis-convergence-build: ## Extract IGD+HV traces from PlatEMO .mat files
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/build_hosts_convergence_csv.py
+
+analysis-convergence-summaries: analysis-convergence-build ## Per-run AUC/time-to-target + merge diag + alt selection
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/compute_convergence_summaries.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/diagnose_merge.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/select_convergence_sensitivity.py
+
+analysis-convergence-tests: analysis-convergence-summaries ## Bootstrap CIs, paired Wilcoxon+BH, KS ECDF
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/bootstrap_ci.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/test_convergence_significance.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/test_ecdf_difference.py
+
+analysis-convergence-plots: analysis-convergence-tests ## Sensitivity, HV ratio, v2 IGD+ECDF plots
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/sensitivity_smoothing.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/plot_hosts_convergence_hv.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/plot_hosts_convergence_v2.py
+	$(ACTIVATE) && $(PYTHON) $(ANALYSIS_DIR)/compute_hosts_dynamic_aggregate.py
+
+analysis-convergence: analysis-convergence-plots ## Full convergence-rigor pipeline end-to-end
 
 # ---- Paper ----
 
