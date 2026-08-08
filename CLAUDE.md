@@ -30,12 +30,24 @@ python src/python/analysis/compute_iqr_tables.py       # Generate IQR tables
 python src/python/analysis/script.py                   # Main analysis runner
 ```
 
-### Paper
+### Papers
+Each manuscript lives in its own directory under `paper/`, driven by `paper/Makefile`:
+
 ```bash
-cd paper && make        # Compile Springer Nature → paper/springer-nature/build/sn-article.pdf
-cd paper && make ppsn2026 # Compile PPSN 2026 → paper/ppsn2026/build/main.pdf
-cd paper && make clean  # Remove build artifacts
-cd paper && make view   # Open compiled PDF
+cd paper && make                    # Springer Nature → paper/springer-nature/build/sn-article.pdf
+cd paper && make ppsn2026           # PPSN 2026 (dynamics) → paper/ppsn2026/build/main.pdf
+cd paper && make ppsn-hosts         # PPSN 2026 (IVF hosts) → paper/ppsn2026-ivf-hosts/build/main.pdf
+cd paper && make clei2026           # CLEI 2026 → paper/clei2026/build/main.pdf
+cd paper && make papers             # Build all four
+cd paper && make clean              # Remove build artifacts
+cd paper && make view               # Open compiled PDF (view-ppsn2026, view-clei, ...)
+```
+
+### Thesis
+The master's dissertation (Portuguese, UFG template) is separate from the article manuscripts:
+
+```bash
+cd thesis/masters && make   # Compile → thesis/masters/build/main.pdf
 ```
 
 ### MATLAB Experiments
@@ -89,7 +101,17 @@ Python analysis   → data/processed/    (consolidated CSVs)
                   → results/figures/   (plots, gitignored)
                   → results/tables/    (LaTeX tables)
 Paper build       → paper/<paper-name>/build/  (gitignored PDFs)
+Thesis build      → thesis/masters/build/  (gitignored PDF)
 ```
+
+### Manuscripts
+| Directory | Manuscript |
+|-----------|------------|
+| `paper/springer-nature/` | Springer Nature / Memetic Computing article |
+| `paper/ppsn2026/` | PPSN 2026 — early population dynamics for operator switching |
+| `paper/ppsn2026-ivf-hosts/` | PPSN 2026 — IVF across host algorithms |
+| `paper/clei2026/` | CLEI 2026 (Intelligent Systems track) |
+| `thesis/masters/` | Master's dissertation (pt-BR, UFG template) |
 
 ### Python Analysis (`src/python/analysis/`)
 Scripts consume `data/processed/` CSVs and produce `results/`. Key scripts: `compute_iqr_tables.py`, `gen_graph.py`, `plot_sensitivity.py`, `analyze_engineering.py`, `script.py` (main runner). Uses `pymatreader` to load `.mat` files directly where needed.
