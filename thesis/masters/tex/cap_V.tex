@@ -1,0 +1,15 @@
+\chapter{Experimentos}
+\label{sec:Experiments}
+
+Os experimentos foram conduzidos utilizando a plataforma PlatEMO~\cite{platemo} no MATLAB para comparar o algoritmo memético com os algoritmos estabelecidos SPEA2, MFO-SPEA2, SPEA2+SDE, NSGA-II, NSGA-III e MOEA/D. A avaliação englobou múltiplas suítes de benchmarks (ZDT, DTLZ, WFG e MaF), selecionadas por suas características complementares e níveis variados de complexidade:
+\begin{itemize}
+    \item \textbf{Benchmark ZDT}~\cite{zitzler2000comparison} oferece problemas com diferentes geometrias de fronteira de Pareto (convexa, côncava, desconectada).
+    \item \textbf{Benchmark DTLZ}~\cite{deb2005scalable} estende a avaliação para objetivos escaláveis e dimensionalidade crescente.
+    \item \textbf{Benchmark WFG}~\cite{huband2006review} introduz transformações criando geometrias complexas com características do mundo real (não-separabilidade, multimodalidade, assimetria).
+    \item \textbf{Benchmark MaF}~\cite{cheng2017benchmark} fornece problemas de otimização com muitos objetivos que desafiam abordagens tradicionais~\cite{li2015many}.
+\end{itemize}
+Para fazer uma comparação justa alinhada com os padrões de pesquisa estabelecidos, empregamos a métrica de Distância Geracional Invertida (IGD). Este indicador de desempenho amplamente adotado mede tanto a convergência quanto a diversidade, calculando a distância entre as soluções na fronteira de Pareto obtida e um conjunto de referência representando a verdadeira fronteira ótima de Pareto. Valores menores de IGD indicam melhor desempenho do algoritmo, refletindo soluções que são bem distribuídas e mais próximas da fronteira ótima~\cite{bosman2003balance}.
+
+Para validação estatística dos nossos resultados experimentais, implementamos o teste de soma de postos de Wilcoxon, um teste estatístico de hipótese não-paramétrico que avalia se duas amostras independentes provêm de populações com a mesma distribuição. Este teste é particularmente apropriado para comparar algoritmos de otimização, pois não faz suposições sobre a normalidade das distribuições dos dados. A significância estatística foi estabelecida no limiar convencional de $p < 0,05$, indicando que as diferenças observadas entre os desempenhos dos algoritmos eram improváveis de terem ocorrido apenas por acaso.
+
+Devido à natureza estocástica do método proposto, para cada configuração de teste, o IVF/SPEA2 proposto e os algoritmos comparados SPEA2, MFO-SPEA2, SPEA2+SDE, NSGA-II, NSGA-III e MOEA/D foram cada um executados 100 vezes, com os dados de desempenho coletados usando a métrica IGD. Os algoritmos de benchmark utilizaram suas configurações de parâmetros padrão conforme definidas no PlatEMO versão 24.2.0.2923080 \cite{platemo}. Para o módulo IVF dentro do IVF/SPEA2 proposto, foram adotadas configurações padrão baseadas em estudos anteriores e descobertas experimentais \cite{sampaio2017ivf, sampaio2019ivf}, especificamente um Tamanho de Coleção ``c'' de 10\% do tamanho da população e uma Taxa de Execução ``r'' de 10\%.

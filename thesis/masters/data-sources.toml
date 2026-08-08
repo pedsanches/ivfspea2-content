@@ -1,0 +1,187 @@
+schema_version = 1
+title = "IVF/SPEA2 master's thesis evidence sources"
+policy = "Repository-relative canonical sources only; do not copy article datasets into the thesis directory."
+
+[[source]]
+id = "legacy-v1-dissertation"
+evidence_family = "ivfspea2-v1-history"
+manuscripts = ["thesis/masters/main.tex"]
+role = "historical"
+algorithm_version = "IVFSPEA2 v1"
+cohort = "Historical 2025 manuscript cohort; mixed run identifiers require reconciliation before reuse."
+metrics = ["IGD", "HV"]
+datasets = [
+  "data/processed/metrica_IGD.csv",
+  "data/processed/metrica_HV.csv",
+]
+scripts = [
+  "src/python/analysis/consolidate_ivfspea2.py",
+  "src/python/analysis/compute_iqr_tables.py",
+]
+artifacts = []
+notes = "Use for proposal history and v1 reproduction, not for current headline claims."
+raw_status = "The isolated v1 protocol uses documented runs 2001-2100, but that cohort is not present in the current consolidated CSV."
+overlaps = []
+known_gaps = ["Historical manuscript claims must be reconciled against the isolated v1 protocol before reuse."]
+
+[[source]]
+id = "memetic-computing-v2-confirmatory"
+evidence_family = "ivfspea2-v2-validation"
+manuscripts = ["paper/springer-nature/src/sn-article.tex"]
+role = "confirmatory"
+algorithm_version = "IVFSPEA2V2 / C26"
+cohort = "51 synthetic instances; IVF/SPEA2 runs 3001-3060 versus SPEA2 runs 1-60; fixed 100000-FE budget."
+metrics = ["IGD", "HV"]
+datasets = [
+  "data/processed/todas_metricas_consolidado_with_modern.csv",
+  "data/processed/hosts_convergence.csv",
+]
+scripts = [
+  "src/python/analysis/cohort_filter.py",
+  "src/python/analysis/compute_claims_summary.py",
+  "src/python/analysis/generate_per_instance_tables.py",
+  "src/python/analysis/compute_convergence_summaries.py",
+]
+artifacts = [
+  "results/tables/claims_summary_audit.csv",
+  "results/tables/claims_summary_instance_details.csv",
+]
+notes = "Primary synthetic evidence. IGD is primary and HV is mandatory secondary support."
+raw_status = "Raw PlatEMO synthetic outputs are Git-ignored and not present in this checkout; use the archived release for recovery."
+overlaps = ["The first 30 IVF/SPEA2 and SPEA2 runs are reused by the operator-host study and are not an independent replication."]
+known_gaps = ["The consolidated CSV is mixed and must always be filtered through cohort_filter.py."]
+
+[[source]]
+id = "memetic-computing-tuning-ablation"
+evidence_family = "ivfspea2-v2-validation"
+manuscripts = ["paper/springer-nature/src/sn-article.tex"]
+role = "supportive"
+algorithm_version = "IVFSPEA2V2 variants"
+cohort = "Three-phase tuning and factorial ablation cohorts; keep separate from confirmatory synthetic testing."
+metrics = ["IGD", "HV"]
+datasets = []
+scripts = [
+  "src/python/analysis/analyze_ivfspea2v2_tuning.py",
+  "src/python/analysis/analyze_ablation_v2_phase1.py",
+  "src/python/analysis/analyze_ablation_v2_phase2.py",
+  "src/python/analysis/analyze_ablation_v2_phase3.py",
+]
+artifacts = [
+  "results/tuning_ivfspea2v2/tuning_phase_ranking.csv",
+  "results/ablation_v2/phase1/phase1_summary.csv",
+  "results/ablation_v2/phase2/phase2_pairwise_adjusted.csv",
+  "results/ablation_v2/phase3/phase3_raw_metrics.csv",
+]
+notes = "Supports implementation and parameter choices; does not replace the main host comparison."
+raw_status = "Processed frozen result artifacts are available; raw availability varies by phase."
+overlaps = ["Tuning instances overlap the 51-instance suite but are excluded from out-of-sample headline counts."]
+known_gaps = []
+
+[[source]]
+id = "memetic-computing-engineering"
+evidence_family = "ivfspea2-v2-validation"
+manuscripts = ["paper/springer-nature/src/sn-article.tex"]
+role = "external-support"
+algorithm_version = "IVFSPEA2V2 / C26"
+cohort = "RWMOP9, RWMOP21, and RWMOP8 engineering suite with strict common-run processing."
+metrics = ["IGD", "HV"]
+datasets = ["data/processed/todas_metricas_consolidado_with_modern.csv"]
+scripts = [
+  "src/python/analysis/analyze_engineering.py",
+  "src/python/analysis/plot_engineering_metric_profiles.py",
+]
+artifacts = [
+  "results/engineering_suite/engineering_suite_pairwise_main.csv",
+  "results/engineering_suite/engineering_suite_summary_main.csv",
+  "results/tables/engineering_metric_profiles_summary.csv",
+]
+notes = "Transferability evidence with mixed outcomes; keep distinct from synthetic confirmatory claims."
+raw_status = "Engineering raw data are local/archived and not uniformly tracked by Git."
+overlaps = []
+known_gaps = ["RWMOP8 has heterogeneous valid-run coverage and lower evidential strength."]
+
+[[source]]
+id = "ppsn-clei-landscape-dynamics-controller"
+evidence_family = "keep-drop-decision"
+manuscripts = [
+  "paper/ppsn2026/main.tex",
+  "paper/clei2026/main.tex",
+]
+role = "diagnostic"
+algorithm_version = "IVFSPEA2V2 and warmup controller"
+cohort = "60-run independent endpoint cohort for labels plus 30 paired-seed trajectory/controller runs."
+metrics = ["IGD", "HV"]
+datasets = [
+  "data/processed/fla_dataset.csv",
+  "data/processed/fla_response.csv",
+  "data/processed/landscape_features.csv",
+  "data/processed/landscape_features_cv.csv",
+  "data/processed/dynamic_signal_test.csv",
+  "data/processed/ppsn_controller_comparison_oos_20260326_221909.csv",
+]
+scripts = [
+  "src/python/fla/build_dataset.py",
+  "src/python/fla/train_models.py",
+  "src/python/fla/test_dynamic_signal.py",
+  "src/python/dynamics/extract_trajectories.py",
+  "src/python/dynamics/analyze_dynamics.py",
+  "src/python/analysis/compare_controller.py",
+]
+artifacts = []
+notes = "PPSN and CLEI are two editorial outputs of one evidence family, not independent validations. IGD-derived labels are not an independent controller endpoint; HV is primary for the controller comparison."
+raw_status = "Dynamic raw files are local under data/raw/ppsn_dynamics; the OOS controller raw is absent, while its frozen processed CSV is present."
+overlaps = ["The 60-run label cohort reuses the Memetic Computing endpoint cohort."]
+known_gaps = [
+  "Use the timestamped OOS controller CSV, not data/processed/ppsn_controller_comparison.csv.",
+  "Four CLEI-only figures do not yet have an unambiguous named producer.",
+]
+
+[[source]]
+id = "ppsn-clei-partial-legacy-trajectories"
+evidence_family = "keep-drop-decision"
+manuscripts = [
+  "paper/ppsn2026/main.tex",
+  "paper/clei2026/main.tex",
+]
+role = "historical"
+algorithm_version = "IVFSPEA2V2 trajectory subset"
+cohort = "Five selected cases only; not the all-suite dynamics source."
+metrics = ["IGD", "HV"]
+datasets = ["data/processed/ppsn_trajectories.csv"]
+scripts = ["src/python/dynamics/extract_trajectories.py"]
+artifacts = []
+notes = "Retained for trace-level historical work; never substitute it for dynamic_signal_test.csv."
+raw_status = "Partial processed CSV available."
+overlaps = ["Subset/legacy view of the keep-drop dynamics family."]
+known_gaps = ["Contains only five cases."]
+
+[[source]]
+id = "ppsn-operator-host-compatibility"
+evidence_family = "operator-host-compatibility"
+manuscripts = ["paper/ppsn2026-ivf-hosts/main.tex"]
+role = "comparative"
+algorithm_version = "Published IVF/SPEA2, IVF/NSGA-II, and IVF/NSGA-III host pipelines"
+cohort = "51 synthetic instances with 30 runs per configuration; pairing status differs by host."
+metrics = ["IGD", "HV"]
+datasets = [
+  "data/processed/hosts_paper.csv",
+  "data/processed/nsga_experiments.csv",
+  "data/processed/hosts_convergence.csv",
+]
+scripts = [
+  "src/python/analysis/build_hosts_paper_csv.py",
+  "src/python/analysis/build_hosts_convergence_csv.py",
+  "src/python/analysis/compute_hosts_tables.py",
+  "src/python/analysis/compute_hosts_pairing_robustness.py",
+]
+artifacts = [
+  "results/tables/hosts_rep_endpoint_igd.tex",
+  "results/tables/hosts_summary.tex",
+]
+notes = "IVF/NSGA-II and IVF/NSGA-III use strict run-ID pairing; IVF/SPEA2 requires the documented robustness treatment."
+raw_status = "Endpoint and ten-checkpoint processed CSVs are present; raw synthetic outputs are Git-ignored."
+overlaps = ["IVF/SPEA2 runs 3001-3030 and SPEA2 runs 1-30 are a subset of the Memetic Computing cohort."]
+known_gaps = [
+  "The manuscript's six-case 100-checkpoint rerun statement is not represented by the current ten-checkpoint hosts_convergence.csv and must be reconciled before thesis use.",
+  "The comparison evaluates published pipelines and does not causally isolate host choice from implementation differences.",
+]

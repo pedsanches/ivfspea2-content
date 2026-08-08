@@ -1,0 +1,33 @@
+\chapter{Ameaças à Validade}
+\label{sec:threats}
+
+Embora os resultados experimentais demonstrem a eficácia do algoritmo IVF/SPEA2 em vários problemas de benchmark, diversas ameaças à validade devem ser reconhecidas para fornecer uma avaliação abrangente das limitações e da generalização do estudo. O estudo esforçou-se para abordar essas ameaças por meio de seu desenho e escolhas analíticas.
+
+\section{Validade Interna}
+
+\textbf{Viés de Configuração de Parâmetros:} Os parâmetros do método IVF (Tamanho da Coleta $c=10\%$ e Taxa $r=10\%$), embora configurados com base em investigações preliminares e para consistência com trabalhos relacionados anteriores para fornecer uma linha de base fundamentada, não foram otimizados para cada classe de problema específica. Esta abordagem visou demonstrar o impacto geral do método IVF com um conjunto de parâmetros consistente e comum, onde o artigo observa que um ``envolvimento relativamente modesto do método IVF'' com esses parâmetros foi frequentemente suficiente para produzir melhorias estatisticamente significativas.
+
+\textbf{Viés de Seleção de Benchmark:} Embora o estudo tenha utilizado conjuntos de benchmarks bem estabelecidos (ZDT, DTLZ, WFG e MaF) selecionados por suas ``características complementares e níveis de complexidade variados'' e capacidade de cobrir uma ``ampla gama de geometrias da fronteira de Pareto e complexidades de problemas'' (incluindo frentes convexas, côncavas, desconectadas, não separáveis, multimodais e assimétricas), a eficácia do algoritmo ainda pode ser dependente do problema. Isso é sugerido pelo desempenho variado em problemas específicos, como MaF2 e WFG2, que em alguns cenários tri-objetivo apresentaram resultados estatisticamente inferiores para o IVF/SPEA2. A seleção diversificada, no entanto, visou fornecer um ambiente de teste desafiador para avaliar a versatilidade.
+
+\textbf{Variabilidade da Implementação:} A implementação do IVF/SPEA2 na estrutura PlatEMO, uma reconhecida ``plataforma MATLAB para otimização multiobjetivo evolutiva'', ajuda a garantir a reprodutibilidade e reduzir a variabilidade em comparação com uma implementação totalmente personalizada. Embora escolhas específicas para operadores (por exemplo, tipos AR e EAR para IVF) e outros detalhes específicos da estrutura possam influenciar os resultados, o uso de uma plataforma padrão mitiga essa preocupação.
+
+\textbf{Natureza Estocástica dos Algoritmos:} Para levar em conta a estocasticidade inerente dos algoritmos evolutivos, tanto o IVF/SPEA2 quanto o SPEA2 foram executados ``100 vezes, coletando desempenho na métrica IGD'' para cada configuração de teste. A significância estatística das diferenças foi então avaliada usando o teste de soma de postos de Wilcoxon, que é apropriado para comparar distribuições de múltiplas execuções.
+
+\section{Validade Externa}
+
+
+\textbf{Limitação de Benchmarks Sintéticos:} Todos os problemas testados são benchmarks sintéticos (ZDT, DTLZ, WFG e MaF). Embora estes sejam ``amplamente reconhecidos'' e projetados para exibir propriedades matemáticas específicas que testam diversas capacidades algorítmicas (como ``não separabilidade, multimodalidade, assimetria'' para WFG ou geometrias variadas da fronteira de Pareto para ZDT e DTLZ), seu desempenho pode não se traduzir diretamente para problemas de otimização do mundo real com complexidades adicionais. No entanto, este ambiente controlado é padrão para avaliação rigorosa, e o artigo observa que o SPEA2 foi aplicado com sucesso em diversos campos, sugerindo potencial para sua versão aprimorada.
+
+\textbf{Configuração Experimental Fixa:} O estudo empregou tamanhos de população fixos ($N=100$) e um número definido de avaliações de função ($FE=100.000$) em todos os problemas e algoritmos. Essa consistência garante uma base justa para comparação e se alinha com as práticas comuns na literatura, embora essas configurações específicas possam não ser ótimas para a complexidade ou dimensionalidade de cada problema individual.
+
+\section{Validade de Construto}
+
+\textbf{Limitações da Métrica de Desempenho:} O estudo baseia-se na métrica de Distância Geracional Invertida (IGD), que é um ``indicador de desempenho amplamente adotado'' que mede tanto a convergência quanto a diversidade. Para fornecer uma perspectiva mais nuançada além do IGD e dos valores-p, o estudo também incorporou a análise de tamanho de efeito A12 de Vargha-Delaney, oferecendo insights sobre a ``probabilidade de que uma solução selecionada aleatoriamente do IVF/SPEA2 supere uma solução selecionada aleatoriamente do algoritmo de comparação''.
+
+\textbf{Suposições do Teste Estatístico:} O teste de soma de postos de Wilcoxon, ``um teste de hipótese estatístico não paramétrico'', foi usado para avaliar a significância estatística. Essa escolha é robusta, pois ``não faz suposições sobre a normalidade das distribuições dos dados'', tornando-o adequado para comparar algoritmos evolutivos. Além disso, a realização de 100 execuções independentes para cada configuração fortalece a confiabilidade das conclusões estatísticas.
+
+\section{Validade da Conclusão}
+
+\textbf{Generalização Além do Algoritmo Hospedeiro:} O mecanismo IVF foi testado exclusivamente dentro da estrutura SPEA2 neste estudo específico, pois essa hibridização é a proposta central. Embora os benefícios observados estejam diretamente ligados a essa combinação, o artigo também referencia integrações bem-sucedidas anteriores do método IVF com outros algoritmos como NSGA-II e GDE3, sugerindo que o próprio método IVF tem potencial como um módulo auxiliar de aplicação mais geral.
+
+Essas ameaças à validade identificadas fornecem contexto para a interpretação dos resultados e destacam áreas onde pesquisas futuras, conforme delineado na Seção \ref{sec:future_work}, poderiam fortalecer ainda mais as evidências para a abordagem IVF/SPEA2.

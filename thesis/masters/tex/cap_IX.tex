@@ -1,0 +1,43 @@
+\chapter{Trabalhos Futuros}
+\label{sec:future_work}
+
+Com base nos resultados, conclusões e ameaças à validade identificadas neste estudo, delineamos várias direções promissoras para pesquisas futuras que abordam as limitações identificadas e expandem o escopo da investigação:
+
+\section{Aprimoramentos Metodológicos}
+
+\begin{enumerate}
+\item \textbf{Otimização e Adaptação de Parâmetros:} Desenvolver estratégias para configuração automática dos parâmetros do IVF (Tamanho da Coleta $c$ e Taxa $r$), superando o viés de configuração identificado na Seção~\ref{sec:threats}. Isso inclui:
+\begin{itemize}
+\item Investigação de técnicas de meta-otimização para encontrar configurações ótimas específicas para cada classe de problema;
+\item Desenvolvimento de mecanismos adaptativos que ajustem dinamicamente os parâmetros durante a evolução com base em métricas de diversidade populacional e convergência;
+\end{itemize}
+
+\item \textbf{Integração com Outros Algoritmos Base:} Expandir a investigação do mecanismo IVF além do SPEA2, incorporando-o sistematicamente em outros algoritmos evolutivos multiobjetivo estabelecidos (NSGA-III, MOEA/D-variants, SMS-EMOA) para avaliar sua generalidade como módulo auxiliar.
+\end{enumerate}
+
+\section{Validação Experimental Abrangente}
+
+\begin{enumerate}
+\item \textbf{Avaliação em Problemas do Mundo Real:} Abordar a limitação de benchmarks sintéticos através da aplicação sistemática do IVF/SPEA2 em problemas de otimização do mundo real de diferentes domínios, entendendo por exemplo o impacto nos exemplos reais onde o SPEA2 vem sendo aplicado.
+
+
+
+\item \textbf{Estudos de Escalabilidade:} Investigar o comportamento do algoritmo com diferentes tamanhos de população e orçamentos computacionais, superando a limitação de configuração experimental fixa identificada nas ameaças à validade.
+\end{enumerate}
+
+\section{Extensões Algorítmicas}
+
+\begin{enumerate}
+\item \textbf{Variantes Híbridas Avançadas:} Explorar combinações do mecanismo IVF com outras técnicas de aprimoramento, como:
+\begin{itemize}
+\item Busca local multiobjetivo;
+\item Técnicas de niching e clustering;
+\item Abordagens baseadas em aprendizado de máquina para guiar a seleção.
+\end{itemize}
+
+\item \textbf{Paralelização e Computação Distribuída:} Desenvolver versões paralelas e distribuídas do IVF/SPEA2 para lidar com problemas computacionalmente intensivos e aproveitar arquiteturas de computação modernas.
+
+\item \textbf{Integração com Técnicas de Surrogate Modeling:} Investigar a combinação do IVF/SPEA2 com modelos substitutos para problemas com avaliações de função computacionalmente caras.
+\end{enumerate}
+
+Estas direções de pesquisa futura abordam sistematicamente as limitações identificadas nas ameaças à validade e proporcionam uma base sólida para o avanço contínuo da área de otimização evolutiva multiobjetivo, contribuindo tanto para o desenvolvimento teórico quanto para aplicações práticas relevantes.
