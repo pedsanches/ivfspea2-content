@@ -24,6 +24,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from figure_io import save_figure
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
@@ -46,11 +48,7 @@ RNG_SEED = 42
 
 
 def save_fig(fig: plt.Figure, name: str) -> None:
-    for out_dir in (OUT_FIGS, PAPER_FIGS):
-        out_dir.mkdir(parents=True, exist_ok=True)
-        path = out_dir / name
-        fig.savefig(path, bbox_inches="tight", dpi=300)
-        print(f"[A7] Wrote figure: {path}")
+    save_figure(fig, name, (OUT_FIGS, PAPER_FIGS), log_prefix="[A7] ")
 
 
 def compute_scalers(df: pd.DataFrame) -> dict[tuple[str, str, str, int, str], tuple[float, float]]:

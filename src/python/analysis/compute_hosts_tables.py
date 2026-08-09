@@ -343,24 +343,23 @@ def make_cross_host_summary_tex(cross_summaries: dict[str, pd.DataFrame]) -> str
     return "\n".join(lines)
 
 
-def make_a12_summary_tex(
+def a12_summary_lines(
     results_by_track_metric: dict[tuple[str, str], pd.DataFrame],
-) -> str:
-    newline = r"\\"
+) -> list[str]:
+    """Aggregate the oriented effect sizes behind Table~\\ref{tab:a12_summary}.
+
+    The LaTeX table itself lives in ``results/tables/hosts_a12_summary.tex`` and
+    is maintained by hand, so these numbers are reported as text only: compare
+    them against that file after any data refresh.
+    """
     lines = [
-        "\\begin{table}[t]",
-        "\\centering",
-        "\\caption{Vargha--Delaney effect-size summary. $A_{12}^{\\mathrm{IVF}}$ is oriented so that values above 0.5 favor the IVF variant ($A_{12}^{\\mathrm{IVF}}=1-A_{12}$ for IGD and $A_{12}^{\\mathrm{IVF}}=A_{12}$ for HV). Effect triplets report the number of significant wins or losses with small/medium/large magnitude using the conventional thresholds 0.56/0.64/0.71.}",
-        "\\label{tab:a12_summary}",
-        "\\scriptsize",
-        "\\begin{tabular}{llccc}",
-        "\\toprule",
-        f"Track & Metric & Median $A_{{12}}^{{\\mathrm{{IVF}}}}$ & IVF sig. wins (S/M/L) & Base sig. wins (S/M/L) {newline}",
-        "\\midrule",
+        "",
+        "  Oriented A12 (>0.5 favors IVF; A12_ivf = 1-A12 for IGD, A12 for HV).",
+        "  Triplets count significant wins/losses at magnitude small/medium/large",
+        "  using the thresholds 0.56/0.64/0.71.",
     ]
 
     for algo in SUMMARY_ORDER:
-        first_row = True
         for metric in ("IGD", "HV"):
             result = results_by_track_metric[(algo, metric)]
             a12_values = result["A12"].apply(lambda val: ivf_favoring_a12(val, metric))
@@ -383,17 +382,13 @@ def make_a12_summary_tex(
                     if magnitude in loss_counts:
                         loss_counts[magnitude] += 1
 
-            algo_label = IVF_DISPLAY[algo] if first_row else ""
             lines.append(
-                f"{algo_label} & {metric} & {median_a12:.3f} & "
-                f"{format_magnitude_triplet(win_counts)} & "
-                f"{format_magnitude_triplet(loss_counts)} {newline}"
+                f"    {IVF_DISPLAY[algo]:<14} {metric:<3}: median={median_a12:.3f}, "
+                f"IVF wins={format_magnitude_triplet(win_counts)}, "
+                f"base wins={format_magnitude_triplet(loss_counts)}"
             )
-            first_row = False
-        lines.append("\\addlinespace")
 
-    lines += ["\\bottomrule", "\\end{tabular}", "\\end{table}"]
-    return "\n".join(lines)
+    return lines
 
 
 def rank_cross_host_ivf(df: pd.DataFrame, metric: str) -> pd.DataFrame:
@@ -560,12 +555,12 @@ def main() -> None:
         f_out.write(cross_tex + "\n")
     print("  Wrote hosts_cross_host_summary.tex")
 
-    a12_tex = make_a12_summary_tex(results_by_track_metric)
-    with open(
-        os.path.join(OUT_DIR, "hosts_a12_summary.tex"), "w", encoding="utf-8"
-    ) as f_out:
-        f_out.write(a12_tex + "\n")
-    print("  Wrote hosts_a12_summary.tex")
+    # results/tables/hosts_a12_summary.tex is hand-maintained (camera-ready
+    # formatting); only its numbers are recomputed here, into hosts_summary.txt.
+    summary_lines.append("\n\n" + "=" * 60)
+    summary_lines.append("EFFECT-SIZE SUMMARY (tab:a12_summary)")
+    summary_lines.append("=" * 60)
+    summary_lines += a12_summary_lines(results_by_track_metric)
 
     with open(
         os.path.join(OUT_DIR, "hosts_summary.txt"), "w", encoding="utf-8"
