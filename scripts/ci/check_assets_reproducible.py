@@ -90,19 +90,18 @@ def compare_csv(root: Path, rel: str) -> list[str]:
 
     drifted = 0
     worst = 0.0
-    for line_no, (row_a, row_b) in enumerate(zip(before[1:], after[1:]), start=2):
+    for line_no, (row_a, row_b) in enumerate(zip(before[1:], after[1:], strict=True), start=2):
         if len(row_a) != len(row_b):
             problems.append(f"{rel}:{line_no}: column count {len(row_a)} -> {len(row_b)}")
             continue
-        for col, (cell_a, cell_b) in enumerate(zip(row_a, row_b)):
+        for col, (cell_a, cell_b) in enumerate(zip(row_a, row_b, strict=True)):
             if cell_a == cell_b:
                 continue
             try:
                 num_a, num_b = float(cell_a), float(cell_b)
             except ValueError:
                 problems.append(
-                    f"{rel}:{line_no} col {col}: non-numeric cell changed "
-                    f"{cell_a!r} -> {cell_b!r}"
+                    f"{rel}:{line_no} col {col}: non-numeric cell changed {cell_a!r} -> {cell_b!r}"
                 )
                 continue
             if math.isclose(num_a, num_b, rel_tol=RTOL, abs_tol=0.0):
