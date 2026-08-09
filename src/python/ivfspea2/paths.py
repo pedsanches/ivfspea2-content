@@ -7,7 +7,7 @@ incompatible idioms:
     ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
     PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
-    BASE_DIR = "/home/pedro/desenvolvimento/ivfspea2/..."      # and 47 like it
+    BASE_DIR = "/home/<user>/desenvolvimento/ivfspea2/..."     # and 47 like it
 
 Every ``parents[3]`` variant silently breaks the moment a script moves one level
 in the tree, and the absolute ones were already broken on any machine but the one
