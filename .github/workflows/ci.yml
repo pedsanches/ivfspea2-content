@@ -112,18 +112,12 @@ jobs:
       - name: Rebuild the hosts paper assets
         run: make -C paper/ppsn2026-ivf-hosts assets PYTHON=python
 
-      - name: Assets must be unchanged
-        run: |
-          git diff --exit-code -- \
-            paper/ppsn2026-ivf-hosts/figures \
-            results/tables \
-            data/processed \
-          || {
-            echo "::error::Regenerating the accepted paper's assets changed committed bytes."
-            echo "Either an input changed, or the environment differs from requirements.lock.txt."
-            git diff --stat -- paper/ppsn2026-ivf-hosts/figures results/tables data/processed
-            exit 1
-          }
+      # Structure exactly, numbers to tolerance. Byte-identity holds on the
+      # producer platform (macOS/arm64) but cannot hold here: reducing the same
+      # doubles on x86-64 lands one ULP away, and the shortest-roundtrip repr
+      # then prints a different string for the same value. See the script.
+      - name: Assets must be reproducible
+        run: python scripts/ci/check_assets_reproducible.py
 
   size-guard:
     name: no large new blobs

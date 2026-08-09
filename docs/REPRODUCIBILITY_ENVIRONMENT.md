@@ -52,6 +52,40 @@ pin — without it the job flaps on every upstream matplotlib release.
 The other pins are ordinary compatibility ranges. Nothing in the analysis code
 depends on a specific numpy or pandas patch version.
 
+## Reproducibility is platform-dependent below the last bit
+
+The committed CSVs under `data/processed/` and `results/tables/` were computed
+on **macOS/arm64**. Regenerating them on Linux/x86-64 reproduces every value to
+roughly 15 decimal digits — but not always to the last bit:
+
+```
+IVFNSGAII,MaF5,MaF,3,12,4010,4.8884956986782955,...   # macOS/arm64 (committed)
+IVFNSGAII,MaF5,MaF,3,12,4010,4.888495698678296,...    # Linux/x86-64
+```
+
+Those are adjacent doubles. Reducing the same numbers in a different order —
+different BLAS kernels, different SIMD widths — lands one ULP away, and Python's
+shortest-roundtrip `repr` then prints a visibly different string for what is
+arithmetically the same result. It shows up on a handful of MaF5 rows, where the
+IGD reduction is longest.
+
+What follows from that:
+
+- **Byte-identity of the CSVs is a same-platform property.** On macOS/arm64 with
+  `requirements.lock.txt`, `make -C paper/ppsn2026-ivf-hosts assets` followed by
+  `git diff --exit-code` is clean. Off that platform it is not, and no amount of
+  pinning fixes it.
+- **The figures inherit it.** A PDF rendered from data differing in the last bit
+  is itself byte-different, though nothing visible changes.
+- **CI checks the achievable invariant instead**, via
+  `scripts/ci/check_assets_reproducible.py`: structure exactly (row count,
+  headers, every non-numeric cell) and numbers within a relative tolerance of
+  1e-9. Tight enough to catch any real change in inputs or logic; loose enough
+  not to fail on arithmetic that is correct on both machines.
+
+No published number is affected — the reported precision is orders of magnitude
+coarser than where the platforms disagree.
+
 ## Two files, two purposes
 
 | File | Purpose |
