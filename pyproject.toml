@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ivfspea2"
+version = "1.1.0"
+description = "Shared library for the IVF-SPEA2 analysis and release pipeline"
+readme = "README.md"
+# tomllib, used by thesis/masters/scripts/validate_data_sources.py, is 3.11+.
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Pedro Sanches Zambrano" }]
+dependencies = [
+    "pandas>=2.0,<3.0",
+    # Hard pin, not a range: 3.10.8 stamped every committed figure PDF, and the
+    # `assets-reproducible` CI job compares bytes. See
+    # docs/REPRODUCIBILITY_ENVIRONMENT.md.
+    "matplotlib==3.10.8",
+    "seaborn>=0.13,<1.0",
+    "numpy>=1.26",
+    "scipy>=1.10,<2.0",
+    "scikit-learn>=1.2,<2.0",
+    "pymatreader>=0.0.12",
+    "tqdm>=4.60,<5.0",
+    "statsmodels>=0.14,<1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+# Imported by repository code but absent from requirements.txt until now.
+fla = ["shap"]                # src/python/fla/train_models.py (lazy import)
+legacy = ["imageio"]          # git_top10.py, gen_gif.py
+pygmo = ["pygmo"]             # platemo_script.py
+
+[project.urls]
+Repository = "https://github.com/pedsanches/ivfspea2-content"
+
+[tool.setuptools]
+package-dir = { "" = "src/python" }
+# Explicit, never find_packages(): auto-discovery under this package-dir would
+# export `analysis`, `dynamics`, `figures` and `fla` as top-level distributions,
+# which is a namespace collision waiting to happen.
+packages = ["ivfspea2"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+# Scoped deliberately. src/python/analysis/ holds ~90 scripts written over the
+# life of the project; linting them wholesale would produce thousands of findings
+# and no information. The maintained surface is linted from day one, and the
+# `include` list grows as scripts are migrated rather than being suppressed with
+# per-file ignores.
+include = [
+    "src/python/ivfspea2/**/*.py",
+    "scripts/ci/*.py",
+    "scripts/release/*.py",
+    "tests/python/*.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+# Three *production* scripts are named test_*.py and live outside tests/:
+#   src/python/analysis/test_convergence_significance.py
+#   src/python/analysis/test_ecdf_difference.py
+#   src/python/fla/test_dynamic_signal.py
+# The first two are steps of the `analysis-convergence-tests` Makefile target, so
+# renaming them would mean editing the pipeline to fix a collection artifact.
+# Constraining collection instead costs nothing and cannot break the pipeline.
+testpaths = ["tests/python"]
+norecursedirs = [
+    "src",
+    "legacy",
+    "artifact",
+    "paper",
+    "thesis",
+    "docs",
+    "data",
+    "results",
+    "experiments",
+    "scripts",
+]
+addopts = "--import-mode=importlib"

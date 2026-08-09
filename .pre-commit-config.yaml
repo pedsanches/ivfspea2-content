@@ -1,0 +1,58 @@
+# Local guards, run before a commit rather than after a push.
+#
+#     pip install pre-commit && pre-commit install
+#
+# Everything here also runs in CI; this is the fast local copy. The repository
+# has hit GitHub's 100 MB ceiling at least three times — .gitignore name-lists
+# individual offenders with "exceeds GitHub 100MB limit" — so the size guard is
+# the one that earns its place.
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=5120"]
+        # The six pre-existing large files are already committed and stay that
+        # way; this only stops new ones. See .largefiles-allow.
+      - id: end-of-file-fixer
+        exclude: ^(artifact/ppsn2026-ivf-hosts-rev1/|src/matlab/lib/PlatEMO/|docs/history/|legacy/|results/tables/)
+      - id: trailing-whitespace
+        exclude: ^(artifact/ppsn2026-ivf-hosts-rev1/|src/matlab/lib/PlatEMO/|docs/history/|legacy/|results/tables/)
+      - id: check-merge-conflict
+      - id: check-yaml
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: file-sizes
+        name: no new large files outside the allowlist
+        entry: python scripts/ci/check_file_sizes.py
+        language: system
+        pass_filenames: false
+
+      - id: hardcoded-paths
+        name: no hardcoded home directories
+        entry: python scripts/ci/check_paths.py
+        language: system
+        pass_filenames: false
+
+      - id: agents-mirror
+        name: AGENTS.md mirrors CLAUDE.md
+        entry: python scripts/ci/check_agents_mirror.py
+        language: system
+        pass_filenames: false
+        files: ^(CLAUDE|AGENTS)\.md$
+
+      - id: release-integrity
+        name: release manifest and checksums resolve
+        entry: python scripts/release/verify_release.py --quiet
+        language: system
+        pass_filenames: false
+        files: ^(results/submission_release_|docs/RELEASE_IDENTITY)

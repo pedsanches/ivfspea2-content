@@ -27,9 +27,12 @@ disp(results);
 % Return exit code
 if any([results.Failed])
     fprintf('\n❌ TESTS FAILED: %d of %d\n', sum([results.Failed]), numel(results));
-    if ~isempty(getenv('CI'))
-        exit(1);
-    end
+    % `matlab -batch` returns a non-zero exit status on an uncaught error, so
+    % raising one reports failure to make, to a shell, and to CI alike. The
+    % previous `exit(1)` was gated on a CI environment variable that no CI ever
+    % set, which meant a failing suite exited 0 everywhere it actually ran.
+    error('run_tests:Failed', '%d of %d MATLAB tests failed.', ...
+        sum([results.Failed]), numel(results));
 else
     fprintf('\n✅ ALL TESTS PASSED: %d of %d\n', sum([results.Passed]), numel(results));
 end

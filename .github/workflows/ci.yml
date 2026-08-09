@@ -1,0 +1,142 @@
+name: CI
+
+# MATLAB deliberately never runs here: there is no free hosted runner for it.
+# The MATLAB suite is `make test-matlab`, run locally; it now raises on failure
+# so it reports a non-zero status wherever it does run.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: lint + tests (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The declared floor, and the version that produced the committed artifacts.
+        python-version: ["3.11", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Format check
+        run: ruff format --check .
+
+      # Every input the suite reads is git-tracked (hosts_paper.csv,
+      # sensitivity_analysis_igd.csv, results/tables/hosts_*_stats.csv), so no
+      # .mat files and no MATLAB are needed.
+      - name: Tests
+        run: python -m pytest -q
+
+  release-integrity:
+    name: release integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      # Stdlib + git only — deliberately no dependency install, so this job also
+      # proves a bare clone can verify itself.
+      - name: Manifest and checksums
+        run: python scripts/release/verify_release.py
+
+      - name: Checksums via the standard tool
+        run: sha256sum -c results/submission_release_checksums.sha256
+
+      - name: No hardcoded home directories
+        run: python scripts/ci/check_paths.py
+
+      - name: Every MATLAB addpath target exists
+        run: python scripts/ci/check_matlab_paths.py
+
+      - name: AGENTS.md still mirrors CLAUDE.md
+        run: python scripts/ci/check_agents_mirror.py
+
+      - name: Project code inside vendored PlatEMO stays inventoried
+        run: python scripts/ci/check_platemo_inventory.py
+
+      - name: No unreachable scripts outside legacy/
+        run: |
+          python scripts/ci/find_orphans.py
+          test "$(python scripts/ci/find_orphans.py --json | python -c 'import json,sys; print(len(json.load(sys.stdin)["candidates"]))')" = 0
+
+  assets-reproducible:
+    name: accepted paper regenerates byte-identically
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      # The lock, not requirements.txt: this job compares bytes, and matplotlib
+      # 3.10.8 is what stamped every committed figure. A different matplotlib
+      # rewrites every PDF while changing no plotted number.
+      - name: Install the locked producer environment
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock.txt
+
+      - name: Rebuild the hosts paper assets
+        run: make -C paper/ppsn2026-ivf-hosts assets PYTHON=python
+
+      - name: Assets must be unchanged
+        run: |
+          git diff --exit-code -- \
+            paper/ppsn2026-ivf-hosts/figures \
+            results/tables \
+            data/processed \
+          || {
+            echo "::error::Regenerating the accepted paper's assets changed committed bytes."
+            echo "Either an input changed, or the environment differs from requirements.lock.txt."
+            git diff --stat -- paper/ppsn2026-ivf-hosts/figures results/tables data/processed
+            exit 1
+          }
+
+  size-guard:
+    name: no large new blobs
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Check added file sizes
+        run: |
+          python scripts/ci/check_file_sizes.py \
+            --base "origin/${{ github.base_ref }}" \
+            --head "${{ github.sha }}"

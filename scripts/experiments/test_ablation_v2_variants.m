@@ -8,7 +8,6 @@ PROJECT_ROOT = '/home/pedro/desenvolvimento/ivfspea2';
 PLATEMO_DIR  = fullfile(PROJECT_ROOT, 'src', 'matlab', 'lib', 'PlatEMO');
 
 addpath(genpath(PLATEMO_DIR));
-addpath(fullfile(PROJECT_ROOT, 'src', 'matlab', 'ivf_spea2'));
 
 maxFE = 10000;  % Small budget for quick test
 N_pop = 100;

@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from figure_io import save_figure
+from ivfspea2.figio import save_figure
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -223,7 +223,14 @@ def fig_bump_chart() -> None:
 # Stratified W/T/L: compute_stratified_wtl
 # ---------------------------------------------------------------------------
 
-STRATA_ORDER = ["M=2", "M=3", "DTLZ", "MaF", "WFG", "ZDT", "RWMOP"]
+# Display order for benchmark families. Which of these actually appear is a
+# property of the cohort, not of this list: the hosts pipeline excludes RWMOP9 by
+# design (see build_hosts_paper_csv.py and cohort_filter.py), so the current
+# cohort is synthetic-only. Naming families here fixes their order without
+# asserting they are present.
+FAMILY_ORDER = ["DTLZ", "MaF", "WFG", "ZDT", "RWMOP"]
+
+M_STRATA = ["M=2", "M=3"]
 
 WTL_COLORS = {
     "wins": "#2ecc71",
@@ -232,17 +239,29 @@ WTL_COLORS = {
 }
 
 
+def strata_present(df: pd.DataFrame) -> list[str]:
+    """Strata that ``df`` actually populates, in display order.
+
+    A hardcoded stratum list emitted an empty RWMOP column for every host once
+    the cohort became synthetic-only — three bars of zero height, indistinguishable
+    from a genuine 0/0/0 result. Deriving the list from the data means the figure
+    follows the cohort instead of contradicting it.
+    """
+    families = [group for group in FAMILY_ORDER if (df["group"] == group).any()]
+    return M_STRATA + families
+
+
 def compute_stratified_wtl(metric: str = "igd") -> pd.DataFrame:
     """Load all 3 track stats and compute W/T/L counts per (stratum, label).
 
-    Strata are: "M=2", "M=3", then each benchmark family from the group column.
+    Strata are "M=2", "M=3", then each benchmark family present in the cohort.
 
     Returns a DataFrame with columns: stratum, label, wins, ties, losses.
     """
     records = []
     for algo_key, label in TRACKS:
         df = load_all_stats(algo_key, metric)
-        for stratum in STRATA_ORDER:
+        for stratum in strata_present(df):
             if stratum.startswith("M="):
                 m_val = int(stratum[2:])
                 subset = df[df["M"] == m_val]
@@ -273,12 +292,15 @@ def fig_stratified_wtl(metric: str = "igd") -> None:
     wtl = compute_stratified_wtl(metric)
 
     algo_labels = [label for _, label in TRACKS]
-    n_strata = len(STRATA_ORDER)
+    # Read the axis off the computed frame, so the figure cannot disagree with
+    # the table it is drawn from.
+    strata = list(dict.fromkeys(wtl["stratum"]))
+    n_strata = len(strata)
 
     fig, axes = plt.subplots(1, 3, figsize=(14, 4), sharey=False)
 
     for ax, label in zip(axes, algo_labels):
-        sub = wtl[wtl["label"] == label].set_index("stratum").reindex(STRATA_ORDER)
+        sub = wtl[wtl["label"] == label].set_index("stratum").reindex(strata)
 
         x = list(range(n_strata))
         wins = sub["wins"].values
@@ -338,7 +360,7 @@ def fig_stratified_wtl(metric: str = "igd") -> None:
         ax.axvline(1.5, color="gray", linewidth=1.0, linestyle="--", alpha=0.7)
 
         ax.set_xticks(x)
-        ax.set_xticklabels(STRATA_ORDER, fontsize=9, rotation=30, ha="right")
+        ax.set_xticklabels(strata, fontsize=9, rotation=30, ha="right")
         ax.set_title(label, fontsize=11, fontweight="bold")
         ax.set_ylabel("Count" if ax is axes[0] else "", fontsize=10)
         ax.spines[["top", "right"]].set_visible(False)

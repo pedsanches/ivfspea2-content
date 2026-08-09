@@ -1,3 +1,13 @@
+> **Superseded.** These notes describe Zenodo version `v1.0.2`
+> (`10.5281/zenodo.19637623`, 2026-04-18), which accompanied the *revised
+> submission*. The **camera-ready** artifact is version `ppsn2026`
+> (`10.5281/zenodo.20672828`, 2026-06-12), and that is what
+> `paper/ppsn2026-ivf-hosts/main.tex` cites.
+>
+> The body below is left unchanged: it is an accurate record of what `v1.0.2`
+> contained. To cite the repository in general, use the concept DOI
+> `10.5281/zenodo.19071253`. See `docs/RELEASE_IDENTITY.md`.
+
 # ppsn2026-ivf-hosts-rev1
 
 Reproducibility artifact snapshot accompanying the revised PPSN 2026 submission *Operator-Host Compatibility in Multi-Objective Intensification: IVF Across SPEA2, NSGA-II, and NSGA-III*.

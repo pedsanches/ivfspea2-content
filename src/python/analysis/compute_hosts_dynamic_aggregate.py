@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from figure_io import save_figure
+from ivfspea2.figio import save_figure
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent

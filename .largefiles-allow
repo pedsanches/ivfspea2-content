@@ -1,0 +1,22 @@
+# Files above the 5 MB size guard that are kept deliberately.
+# Enforced by scripts/ci/check_file_sizes.py. One path per line; state the reason.
+#
+# History is not being rewritten, so these blobs stay reachable from every
+# existing tag regardless. This file only governs what future changes may add.
+
+# Deposited bytes for Zenodo version v1.0.2 (10.5281/zenodo.19637623). The zip is
+# the archive that was published; removing it would make artifact/ stop being a
+# record of the deposit. See artifact/README.md.
+artifact/ppsn2026-ivf-hosts-rev1.zip
+artifact/ppsn2026-ivf-hosts-rev1/data/hosts_convergence.csv
+
+# Evidence inputs consumed by the analysis pipeline and cited by the manifest.
+data/processed/ppsn_trajectories.csv
+data/processed/hosts_convergence.csv
+data/processed/todas_metricas_consolidado_with_modern.csv
+data/processed/todas_metricas_consolidado.csv
+results/hv_inventory.csv
+results/tuning_ivfspea2v2/tuning_runs.csv
+
+# Publication-resolution composite figure.
+results/sensitivity_multiclass/sensitivity_multiclass_combined.tiff

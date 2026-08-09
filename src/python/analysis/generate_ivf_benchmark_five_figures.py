@@ -31,10 +31,7 @@ import pandas as pd
 import seaborn as sns
 from scipy.stats import mannwhitneyu, rankdata
 
-try:
-    from cohort_filter import filter_submission_synthetic_cohort
-except ModuleNotFoundError:  # pragma: no cover
-    from src.python.analysis.cohort_filter import filter_submission_synthetic_cohort
+from ivfspea2.cohorts import filter_submission_synthetic_cohort
 
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))

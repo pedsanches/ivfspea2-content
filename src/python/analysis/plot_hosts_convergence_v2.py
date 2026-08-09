@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-from figure_io import save_figure
+from ivfspea2.figio import save_figure
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))

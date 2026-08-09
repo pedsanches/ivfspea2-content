@@ -4,22 +4,16 @@ test_hosts_figures_v3.py - Tests for the hosts paper figures v3 bump chart.
 Run with: pytest tests/python/test_hosts_figures_v3.py -v
 """
 
-import os
-import sys
-
 import numpy as np
-import pytest
 import pandas as pd
-
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-sys.path.insert(0, os.path.join(PROJECT_ROOT, "src", "python", "analysis"))
-
+import pytest
 from plot_hosts_figures_v3 import (  # noqa: E402
     compute_block_ranks,
-    compute_stratified_wtl,
-    load_sensitivity,
     compute_sensitivity_relative,
+    compute_stratified_wtl,
     load_raw_hosts,
+    load_sensitivity,
+    strata_present,
 )
 
 
@@ -39,9 +33,7 @@ class TestComputeBlockRanks:
 
     def test_compute_block_ranks_global(self, block_ranks):
         """Global block must exist with mean_rank in [1.0, 3.0]."""
-        assert "Global" in block_ranks.index.get_level_values("block"), (
-            "Block 'Global' not found"
-        )
+        assert "Global" in block_ranks.index.get_level_values("block"), "Block 'Global' not found"
         global_ranks = block_ranks.xs("Global", level="block")["mean_rank"]
         assert len(global_ranks) > 0, "No algos in Global block"
         assert global_ranks.min() >= 1.0, f"min rank {global_ranks.min()} < 1.0"
@@ -94,6 +86,42 @@ class TestComputeStratifiedWtl:
         wtl["total"] = wtl["wins"] + wtl["ties"] + wtl["losses"]
         bad = wtl[wtl["total"] == 0]
         assert len(bad) == 0, f"Found (stratum, label) with zero total:\n{bad}"
+
+    def test_rwmop_absent_from_current_cohort(self, wtl):
+        """The hosts pipeline excludes RWMOP9 by design, so no RWMOP stratum.
+
+        build_hosts_paper_csv.py drops RWMOP9 explicitly and cohort_filter.py
+        says the same. A stratum list that named RWMOP anyway produced an empty
+        column for every host, which is indistinguishable from a real 0/0/0.
+        """
+        assert "RWMOP" not in set(wtl["stratum"].unique())
+
+
+class TestStrataPresent:
+    """Tests for strata_present().
+
+    The point of these is that the fix generalizes rather than swapping one
+    hardcoded list for another: RWMOP must be absent when the data lacks it and
+    present when the data has it.
+    """
+
+    @staticmethod
+    def _frame(groups):
+        return pd.DataFrame({"group": groups, "M": [2] * len(groups)})
+
+    def test_omits_families_absent_from_the_data(self):
+        strata = strata_present(self._frame(["DTLZ", "ZDT", "WFG", "MaF"]))
+        assert strata == ["M=2", "M=3", "DTLZ", "MaF", "WFG", "ZDT"]
+        assert "RWMOP" not in strata
+
+    def test_includes_rwmop_when_the_data_has_it(self):
+        strata = strata_present(self._frame(["DTLZ", "RWMOP"]))
+        assert "RWMOP" in strata
+        assert strata == ["M=2", "M=3", "DTLZ", "RWMOP"]
+
+    def test_m_strata_always_lead(self):
+        strata = strata_present(self._frame(["ZDT"]))
+        assert strata[:2] == ["M=2", "M=3"]
 
 
 class TestLoadSensitivity:

@@ -1,11 +1,28 @@
 {
+  "_note": "Upload metadata for the next version of the IVF-SPEA2 Zenodo record (concept DOI 10.5281/zenodo.19071253). Keep the title stable across versions: all versions of a record share one title, and the per-version subject matter belongs in the description. See docs/RELEASE_IDENTITY.md. Zenodo reads the 'metadata' object; this key is ignored.",
   "metadata": {
-    "title": "Operator-Host Compatibility for IVF Intensification - PPSN 2026 reproducibility artifact (rev1)",
-    "upload_type": "dataset",
-    "description": "Reproducibility artifact for the PPSN 2026 paper 'Operator-Host Compatibility in Multi-Objective Intensification: IVF Across SPEA2, NSGA-II, and NSGA-III'. Contains the processed per-run endpoint metrics, dynamic trajectories, LaTeX tables, figure PDFs, and Python analysis scripts needed to reproduce every summary reported in the paper.",
+    "title": "IVF-SPEA2",
+    "upload_type": "software",
+    "description": "Code, processed data, manuscript sources, and reproducibility artifacts for the IVF/SPEA2 study. This version accompanies the PPSN 2026 paper 'Operator-Host Compatibility in Multi-Objective Intensification: IVF Across SPEA2, NSGA-II, and NSGA-III' and contains the processed per-run endpoint metrics, dynamic trajectories, LaTeX tables, figure PDFs, and Python analysis scripts needed to reproduce every summary reported in that paper.",
     "creators": [
       {
-        "name": "Zambrano, Pedro Henrique Sanches Pelegrino",
+        "name": "Zambrano, Pedro Sanches",
+        "affiliation": "Institute of Informatics, Federal University of Goias"
+      },
+      {
+        "name": "Souza, Eduardo Faria de",
+        "affiliation": "Institute of Informatics, Federal University of Goias"
+      },
+      {
+        "name": "Dantas, Altino",
+        "affiliation": "Institute of Informatics, Federal University of Goias"
+      },
+      {
+        "name": "Sampaio, Savio Menezes",
+        "affiliation": "Institute of Informatics, Federal University of Goias"
+      },
+      {
+        "name": "Camilo-Junior, Celso G.",
         "affiliation": "Institute of Informatics, Federal University of Goias"
       }
     ],
@@ -25,6 +42,11 @@
         "identifier": "10.21203/rs.3.rs-9431034/v1",
         "relation": "isDerivedFrom",
         "resource_type": "publication-preprint"
+      },
+      {
+        "identifier": "https://github.com/pedsanches/ivfspea2-content",
+        "relation": "isSupplementTo",
+        "resource_type": "software"
       }
     ]
   }

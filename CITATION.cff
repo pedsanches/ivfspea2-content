@@ -14,10 +14,25 @@ authors:
   - family-names: "Camilo-Junior"
     given-names: "Celso G."
 abstract: "Code, processed data, manuscript sources, and reproducibility artifacts for the IVF/SPEA2 study."
-doi: "10.5281/zenodo.19071254"
+# Concept DOI: always resolves to the latest published version.
+# Version DOIs are listed under identifiers; see docs/RELEASE_IDENTITY.md.
+doi: "10.5281/zenodo.19071253"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.19071253"
+    description: "Concept DOI — all versions"
+  - type: doi
+    value: "10.5281/zenodo.20672828"
+    description: "Version ppsn2026 (2026-06-12) — artifact for the accepted PPSN 2026 paper"
+  - type: doi
+    value: "10.5281/zenodo.19637623"
+    description: "Version v1.0.2 (2026-04-18)"
+  - type: doi
+    value: "10.5281/zenodo.19071254"
+    description: "Version v1.0.1 (2026-03-17) — Springer Nature submission snapshot"
 repository-code: "https://github.com/pedsanches/ivfspea2-content"
-version: "1.0.0"
-date-released: 2026-03-17
+version: "ppsn2026"
+date-released: 2026-06-12
 keywords:
   - multi-objective optimization
   - memetic computing

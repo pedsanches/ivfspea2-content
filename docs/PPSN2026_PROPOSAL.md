@@ -1,5 +1,19 @@
 # PPSN 2026 Paper Proposal
 
+> **Superseded — the finding inverted this hypothesis.**
+>
+> This proposal argues for *landscape-aware prediction*: that static fitness-
+> landscape features would predict when local intensification helps. The work
+> that followed found the opposite. The shipped manuscript is titled *"Early
+> Population Dynamics **Outperform** Static Landscape Features for Warmup-Based
+> Operator Switching"* (`paper/ppsn2026/main.tex`, and the CLEI variant at
+> `paper/clei2026/main.tex`).
+>
+> The document is kept unedited on purpose. A refuted hypothesis that was
+> pre-registered and then overturned by evidence is a result, and rewriting the
+> proposal to match the outcome would erase that. Read it as the starting
+> position, not as a description of the findings.
+
 ## Working Title
 
 **"When Does Local Intensification Help? Landscape-Aware Prediction of Memetic Operator Effectiveness in Multi-Objective Optimization"**

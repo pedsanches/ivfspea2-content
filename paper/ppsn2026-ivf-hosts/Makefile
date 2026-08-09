@@ -9,7 +9,13 @@ PYTHON ?= $(PROJECT_ROOT)/.venv/bin/python
 # Only genuine upstream inputs belong here. data/processed/hosts_paper.csv, the
 # figures and everything under results/tables/ are written *by* the assets
 # recipe, so listing any of them would leave the stamp permanently out of date.
-ASSET_SCRIPTS = $(ANALYSIS_DIR)/figure_io.py \
+PACKAGE_DIR = $(PROJECT_ROOT)/src/python/ivfspea2
+
+# The figure writer and path resolver moved into the ivfspea2 package; the stamp
+# has to track them there, or an edit to save_figure would no longer invalidate
+# the assets it produces.
+ASSET_SCRIPTS = $(PACKAGE_DIR)/figio.py \
+                $(PACKAGE_DIR)/paths.py \
                 $(ANALYSIS_DIR)/build_hosts_paper_csv.py \
                 $(ANALYSIS_DIR)/compute_hosts_tables.py \
                 $(ANALYSIS_DIR)/build_hosts_rep_endpoint_table.py \

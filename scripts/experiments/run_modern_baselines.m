@@ -43,7 +43,6 @@ fprintf('Log file: %s\n\n', log_file);
 
 %% Setup paths
 addpath(genpath(PLATEMO_DIR));
-addpath(fullfile(PROJECT_ROOT, 'src', 'matlab', 'ivf_spea2'));
 
 %% Experimental configuration
 num_runs = 100;

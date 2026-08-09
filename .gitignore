@@ -111,3 +111,17 @@ memetic_computing_submission_guidelines_summary.txt
 *.bak
 *.bak*
 Claude.md
+
+# Agent / editor local state
+.claude/
+.qwen/settings.json.orig
+
+# Project output that was committed inside the vendored PlatEMO tree (10 MB).
+# Untracked in the modernization pass; regenerate from a run rather than
+# expecting it in a clone. See src/matlab/lib/PlatEMO/VENDOR.md.
+src/matlab/lib/PlatEMO/generation_objectives.csv
+
+# The deposited PPSN artifact is tracked on purpose, against the *.zip rule
+# above: those bytes ARE the Zenodo deposit for DOI 10.5281/zenodo.19637623.
+# The negation makes the exception deliberate rather than accidental.
+!artifact/ppsn2026-ivf-hosts-rev1.zip

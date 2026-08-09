@@ -6,7 +6,11 @@ This release freezes the repository state at manuscript submission.
 
 ## Included
 
-- `paper/clei2026/` — full manuscript source, figures, bibliography, and IEEEtran template.
+- `paper/clei2026/` — full manuscript source, bibliography, and IEEEtran template.
+  Its `figures/` entry is a symlink to `paper/ppsn2026/figures/`: the two
+  manuscripts share one figure set by design, and only the symlink is tracked.
+  The directory is therefore not self-contained — unpack it alongside
+  `paper/ppsn2026/`, or resolve the symlink, to get the figures.
 - `paper/clei2026/build/main.pdf` — compiled PDF (camera-ready).
 
 ## Not included

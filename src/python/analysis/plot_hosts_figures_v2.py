@@ -14,7 +14,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap, TwoSlopeNorm
 
-from figure_io import save_figure
+from ivfspea2.figio import save_figure
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))

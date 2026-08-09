@@ -6,13 +6,10 @@ Run with: pytest tests/python/ -v
 """
 
 import os
-import sys
-import pytest
-import pandas as pd
 
-# Add project root to path
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-sys.path.insert(0, os.path.join(PROJECT_ROOT, "src", "python", "analysis"))
+import pandas as pd
+import pytest
+from ivfspea2.paths import PROJECT_ROOT
 
 
 class TestDataLoading:

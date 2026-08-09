@@ -1,13 +1,5 @@
-import os
-import sys
-
 import numpy as np
 import pandas as pd
-
-
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-sys.path.insert(0, os.path.join(PROJECT_ROOT, "src", "python", "analysis"))
-
 from ivf_trace_common import (  # noqa: E402
     a12_higher_better,
     a12_lower_better,

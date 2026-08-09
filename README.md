@@ -1,22 +1,33 @@
 # IVF-SPEA2
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19071254.svg)](https://doi.org/10.5281/zenodo.19071254)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19071253.svg)](https://doi.org/10.5281/zenodo.19071253)
 
-Repository for the IVF/SPEA2 manuscript, code, and reproducibility artifacts.
+Repository for the IVF/SPEA2 manuscripts, code, and reproducibility artifacts.
 
 ## Reviewer Guide
 
 - Primary manuscript source: `paper/springer-nature/src/sn-article.tex`
 - Primary manuscript PDF output: `paper/springer-nature/build/sn-article.pdf`
 - Supplement source: `paper/springer-nature/src/ivfspea2_supplementary_tables.tex`
-- PPSN manuscript source: `paper/ppsn2026/main.tex`
-- PPSN manuscript PDF output: `paper/ppsn2026/build/main.pdf`
+- PPSN 2026 (accepted, IVF across hosts): `paper/ppsn2026-ivf-hosts/main.tex`
+- PPSN 2026 (population dynamics): `paper/ppsn2026/main.tex`
+- CLEI 2026: `paper/clei2026/main.tex`
+- Master's dissertation (pt-BR): `thesis/masters/main.tex`
 - Algorithm and data knowledge: `docs/IVFSPEA2_KNOWLEDGE_BASE.md`
 - Evidence model and claim scope: `docs/IVFSPEA2_EVIDENCE_MODEL.md`
 - Human-readable evidence index: `results/SUBMISSION_EVIDENCE_MAP.md`
 - Machine-readable release inventory: `results/submission_release_manifest.csv`
+- Producer environment: `docs/REPRODUCIBILITY_ENVIRONMENT.md`
+- DOI hierarchy and which one to cite: `docs/RELEASE_IDENTITY.md`
 - Citation metadata: `CITATION.cff`
-- DOI: [10.5281/zenodo.19071254](https://doi.org/10.5281/zenodo.19071254)
+- DOI (all versions): [10.5281/zenodo.19071253](https://doi.org/10.5281/zenodo.19071253)
+
+Verify that every artifact this repository claims to ship is actually present and
+unmodified:
+
+```bash
+make verify-release
+```
 
 ## Canonical Implementation
 
@@ -82,30 +93,35 @@ make paper-all
 - `data/processed/` - processed CSVs and fronts used by the paper
 - `results/` - frozen evidence, tables, and machine-readable inventories
 - `tests/` - MATLAB and Python regression checks
-- `archive/` - historical, superseded, and procedural materials preserved without deletion
+- `thesis/masters/` - master's dissertation sources (pt-BR, UFG template)
 
 ## How To Cite
 
 Repository citation metadata is stored in `CITATION.cff` and points to the
 frozen release snapshot.
 
-Minimal BibTeX form:
+Minimal BibTeX form — the concept DOI resolves to the latest version, so it does
+not go stale:
 
 ```bibtex
 @software{zambrano2026ivfspea2,
-  author  = {Zambrano, Pedro Sanches and Souza, Eduardo Faria de and Dantas, Altino and Sampaio, Savio Menezes and Camilo-Junior, Celso G.},
-  title   = {IVF-SPEA2},
-  version = {submission-snapshot-2026-03},
-  year    = {2026},
-  url     = {https://github.com/pedsanches/IVF-SPEA2/releases/tag/submission-snapshot-2026-03}
+  author = {Zambrano, Pedro Sanches and Souza, Eduardo Faria de and Dantas, Altino and Sampaio, Savio Menezes and Camilo-Junior, Celso G.},
+  title  = {IVF-SPEA2},
+  year   = {2026},
+  doi    = {10.5281/zenodo.19071253},
+  url    = {https://github.com/pedsanches/ivfspea2-content}
 }
 ```
 
+To cite a specific snapshot instead, use its version DOI and state the version
+label; `docs/RELEASE_IDENTITY.md` lists all three.
+
 ## Notes
 
-- Procedural records were intentionally moved to `archive/docs-procedural/` and
-  `archive/results-procedural/`.
-- The visible documentation surface is now limited to condensed knowledge and
+- Procedural records are not distributed with the repository. They are recorded
+  as `archived_offline` rows in `results/submission_release_manifest.csv`, which
+  preserves the trail without shipping workflow history.
+- The visible documentation surface is limited to condensed knowledge and
   evidence summaries.
 - New experiments should preserve both `IGD` and `HV` for every evaluated configuration.
 
