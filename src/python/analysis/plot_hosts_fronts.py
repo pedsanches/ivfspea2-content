@@ -29,6 +29,8 @@ import matplotlib.lines as mlines
 import numpy as np
 import pandas as pd
 
+from figure_io import save_figure
+
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
@@ -92,10 +94,7 @@ def load_true_pf(problem: str, m: int) -> pd.DataFrame | None:
 
 def save_fig(fig: plt.Figure, name: str) -> None:
     """Save a figure to both results/figures/ and the paper figures directory."""
-    for out_dir in (FIG_DIR, PAPER_FIG_DIR):
-        path = os.path.join(out_dir, name)
-        fig.savefig(path, bbox_inches="tight", dpi=300)
-        print(f"Wrote {path}")
+    save_figure(fig, name, (FIG_DIR, PAPER_FIG_DIR))
 
 
 # ---------------------------------------------------------------------------

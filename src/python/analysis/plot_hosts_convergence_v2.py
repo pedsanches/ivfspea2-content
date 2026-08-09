@@ -20,6 +20,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+from figure_io import save_figure
+
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", ".."))
@@ -54,10 +56,7 @@ for out_dir in (FIG_DIR, PAPER_FIG_DIR):
 
 
 def save_fig(fig: plt.Figure, name: str) -> None:
-    for out_dir in (FIG_DIR, PAPER_FIG_DIR):
-        path = os.path.join(out_dir, name)
-        fig.savefig(path, bbox_inches="tight", dpi=300)
-        print(f"  Wrote {path}")
+    save_figure(fig, name, (FIG_DIR, PAPER_FIG_DIR), log_prefix="  ")
 
 
 def interpolate_ratio_per_run(

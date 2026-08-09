@@ -49,3 +49,18 @@ CROSS-HOST IVF SUMMARY
     IVF/SPEA2: best=29/51, mean-rank=1.43
     IVF/NSGA-III: best=20/51, mean-rank=1.76
     IVF/NSGA-II: best=2/51, mean-rank=2.80
+
+
+============================================================
+EFFECT-SIZE SUMMARY (tab:a12_summary)
+============================================================
+
+  Oriented A12 (>0.5 favors IVF; A12_ivf = 1-A12 for IGD, A12 for HV).
+  Triplets count significant wins/losses at magnitude small/medium/large
+  using the thresholds 0.56/0.64/0.71.
+    IVF/SPEA2      IGD: median=0.757, IVF wins=0/3/30, base wins=0/1/2
+    IVF/SPEA2      HV : median=0.822, IVF wins=0/5/32, base wins=0/1/3
+    IVF/NSGA-III   IGD: median=0.599, IVF wins=0/7/15, base wins=0/0/0
+    IVF/NSGA-III   HV : median=0.608, IVF wins=0/6/15, base wins=0/1/1
+    IVF/NSGA-II    IGD: median=0.514, IVF wins=0/0/1, base wins=0/0/2
+    IVF/NSGA-II    HV : median=0.551, IVF wins=0/1/4, base wins=0/0/3

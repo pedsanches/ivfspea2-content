@@ -6,6 +6,22 @@ PROJECT_ROOT = ../..
 ANALYSIS_DIR = $(PROJECT_ROOT)/src/python/analysis
 PYTHON ?= $(PROJECT_ROOT)/.venv/bin/python
 
+# Only genuine upstream inputs belong here. data/processed/hosts_paper.csv, the
+# figures and everything under results/tables/ are written *by* the assets
+# recipe, so listing any of them would leave the stamp permanently out of date.
+ASSET_SCRIPTS = $(ANALYSIS_DIR)/figure_io.py \
+                $(ANALYSIS_DIR)/build_hosts_paper_csv.py \
+                $(ANALYSIS_DIR)/compute_hosts_tables.py \
+                $(ANALYSIS_DIR)/build_hosts_rep_endpoint_table.py \
+                $(ANALYSIS_DIR)/compute_hosts_geometry_stratified.py \
+                $(ANALYSIS_DIR)/plot_hosts_results.py \
+                $(ANALYSIS_DIR)/select_convergence_instances.py \
+                $(ANALYSIS_DIR)/plot_hosts_figures_v2.py
+ASSET_INPUTS = $(PROJECT_ROOT)/data/processed/todas_metricas_consolidado.csv \
+               $(PROJECT_ROOT)/data/processed/nsga_experiments.csv \
+               $(PROJECT_ROOT)/config/hosts_front_geometry.csv
+ASSET_STAMP = $(OUTPUT_DIR)/.assets.stamp
+
 include ../latex.mk
 
 .PHONY: all assets clean clean-assets view install-deps
@@ -16,7 +32,10 @@ $(MAIN_PDF): $(MAIN_FILE) references.bib llncs.cls splncs04.bst | assets
 	@mkdir -p $(OUTPUT_DIR)
 	$(call LATEX_BUILD,$(MAIN_FILE))
 
-assets:
+assets: $(ASSET_STAMP)
+
+$(ASSET_STAMP): $(ASSET_SCRIPTS) $(ASSET_INPUTS)
+	@mkdir -p $(OUTPUT_DIR)
 	$(PYTHON) $(ANALYSIS_DIR)/build_hosts_paper_csv.py
 	$(PYTHON) $(ANALYSIS_DIR)/compute_hosts_tables.py
 	$(PYTHON) $(ANALYSIS_DIR)/build_hosts_rep_endpoint_table.py
@@ -29,6 +48,7 @@ assets:
 	else \
 		printf '%s\n' 'Skipping convergence assets: run experiments/run_hosts_convergence.m first.'; \
 	fi
+	@touch $@
 
 # Removes only build output. The figures and tables under figures/,
 # results/tables/ and data/processed/ are versioned deliverables, so wiping them
@@ -42,7 +62,10 @@ clean:
 
 # Deletes the generated assets so `make assets` rebuilds them from scratch.
 # These paths are tracked in git: expect a dirty working tree afterwards.
+# hosts_a12_summary.tex is deliberately spared -- it is hand-maintained and no
+# generator would bring it back.
 clean-assets:
+	rm -f $(ASSET_STAMP)
 	rm -f figures/hosts_fig1_wintieloss.pdf figures/hosts_fig2_scatter.pdf \
 	       figures/hosts_fig3_family.pdf figures/hosts_fig4_cross_host_ivf.pdf \
 	       figures/hosts_v2_fig1_a12_strip.pdf figures/hosts_v2_fig2_heatmap.pdf \
@@ -57,9 +80,9 @@ clean-assets:
 	       $(PROJECT_ROOT)/results/figures/hosts_v2_fig3_m2_vs_m3.pdf \
 	       $(PROJECT_ROOT)/results/figures/hosts_v2_fig4_convergence.pdf \
 	       $(PROJECT_ROOT)/results/figures/hosts_v2_fig5_ecdf.pdf
-	rm -f $(PROJECT_ROOT)/results/tables/hosts_*.tex \
-	       $(PROJECT_ROOT)/results/tables/hosts_*.csv \
-	       $(PROJECT_ROOT)/results/tables/hosts_*.txt
+	find $(PROJECT_ROOT)/results/tables \
+	       \( -name 'hosts_*.tex' -o -name 'hosts_*.csv' -o -name 'hosts_*.txt' \) \
+	       ! -name 'hosts_a12_summary.tex' -delete
 	rm -f $(PROJECT_ROOT)/data/processed/hosts_paper.csv \
 	       $(PROJECT_ROOT)/data/processed/hosts_convergence.csv
 

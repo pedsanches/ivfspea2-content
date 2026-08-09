@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from figure_io import save_figure as _save_figure
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", ".."))
 TABLES_DIR = os.path.join(PROJECT_ROOT, "results", "tables")
@@ -53,10 +55,7 @@ for out_dir in (FIG_DIR, PAPER_FIG_DIR):
 
 
 def save_figure(fig: plt.Figure, filename: str) -> None:
-    for out_dir in (FIG_DIR, PAPER_FIG_DIR):
-        out = os.path.join(out_dir, filename)
-        fig.savefig(out, bbox_inches="tight")
-        print(f"Wrote {out}")
+    _save_figure(fig, filename, (FIG_DIR, PAPER_FIG_DIR), dpi=None)
 
 
 def align_paired_runs(ivf_sub: pd.DataFrame, base_sub: pd.DataFrame) -> pd.DataFrame:
