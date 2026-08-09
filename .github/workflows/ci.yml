@@ -34,11 +34,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
+      # `-e .` is what puts `ivfspea2` on the path. Installing only
+      # requirements.txt leaves the package absent — a gap a developer machine
+      # hides the moment `make setup` has run there once.
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install ruff
+          pip install -e ".[dev]"
 
       - name: Lint
         run: ruff check .
@@ -105,6 +107,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.lock.txt
+          pip install -e . --no-deps
 
       - name: Rebuild the hosts paper assets
         run: make -C paper/ppsn2026-ivf-hosts assets PYTHON=python

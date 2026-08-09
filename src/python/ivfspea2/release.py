@@ -159,16 +159,10 @@ def verify_manifest(root: Path) -> list[Problem]:
 
         target = root / path_value
 
-        if not target.exists():
-            problems.append(
-                Problem(
-                    "missing-artifact",
-                    path_value,
-                    f"declared {availability} at {where}, but no such file",
-                )
-            )
-            continue
-
+        # Checked before existence: a build_output is gitignored *by definition*,
+        # so it is absent from any clean checkout. Requiring it to exist would
+        # contradict the category and pass only on machines that had already
+        # built it. What must hold is that someone can regenerate it.
         if availability == BUILD_OUTPUT:
             if not (row.get("producer") or "").strip():
                 problems.append(
@@ -178,6 +172,16 @@ def verify_manifest(root: Path) -> list[Problem]:
                         "build_output rows must name a runnable producer command",
                     )
                 )
+            continue
+
+        if not target.exists():
+            problems.append(
+                Problem(
+                    "missing-artifact",
+                    path_value,
+                    f"declared {availability} at {where}, but no such file",
+                )
+            )
             continue
 
         if availability == DEPOSIT_ONLY:
