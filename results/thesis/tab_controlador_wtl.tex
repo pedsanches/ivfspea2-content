@@ -1,0 +1,33 @@
+% Gerado por src/python/thesis/build_tab_controlador.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/controller_wtl_oos_20260326_221909.csv
+\begin{table}[!htb]
+    \centering
+    \caption{Controlador de aquecimento frente ao SPEA2 canônico e ao IVF/SPEA2 sempre ativo, por subconjunto de instâncias.}
+    \label{tab:controlador_wtl}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c|l|l|c|c|c|}
+        \hline
+        \textbf{Métrica} & \textbf{Comparação} & \textbf{Subconjunto} & \textbf{$n$} & \textbf{V/E/D} & \textbf{Iguala ou supera} \\
+        \hline
+        HV & Controlador contra SPEA2 & Todas & 51 & 34/14/3 & 48 \\
+         &  & O operador ajuda & 41 & 33/8/0 & 41 \\
+         &  & O operador não ajuda & 10 & 1/6/3 & 7 \\
+         & Controlador contra IVF/SPEA2 sempre ativo & Todas & 51 & 2/40/9 & 42 \\
+         &  & O operador ajuda & 41 & 0/32/9 & 32 \\
+         &  & O operador não ajuda & 10 & 2/8/0 & 10 \\
+        \hline
+        IGD & Controlador contra SPEA2 & Todas & 51 & 29/18/4 & 47 \\
+         &  & O operador ajuda & 41 & 29/12/0 & 41 \\
+         &  & O operador não ajuda & 10 & 0/6/4 & 6 \\
+         & Controlador contra IVF/SPEA2 sempre ativo & Todas & 51 & 1/40/10 & 41 \\
+         &  & O operador ajuda & 41 & 0/33/8 & 33 \\
+         &  & O operador não ajuda & 10 & 1/7/2 & 8 \\
+        \hline
+    \end{tabular}
+    }
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Controlador de aquecimento: o operador é desativado de forma irreversível quando a renovação do arquivo na fase inicial fica abaixo do limiar da família. Wilcoxon pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente. A coluna final conta as instâncias em que o controlador iguala ou supera o comparador. O HV é o desfecho primário declarado desta avaliação: os rótulos de instância foram derivados do desfecho confirmatório em IGD, de modo que pontuar o controlador em IGD reutilizaria os rótulos como sua própria validação. O ganho do controlador é eliminar as perdas onde o operador não ajuda, ao custo de abrir mão de ganhos onde ele ajuda.
+    }
+\end{table}

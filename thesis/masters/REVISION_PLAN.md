@@ -17,15 +17,25 @@ record. Revise it in evidence order.
 
 ## 2. Algorithm identity
 
-- Separate the original `IVFSPEA2` (v1) from canonical `IVFSPEA2V2`.
-- Document H1 (dissimilar father) and H2 (collective cycle criterion).
-- Replace old defaults with C26 only where the text is explicitly about v2:
-  `C=0.12`, `R=0.225`, `M=0.3`, `V=0.1`, and `Cycles=2`.
-- Preserve v1 parameters only for historical or baseline analyses.
+Superseded by the author's decision recorded in `REWRITE_SPEC.md` §1. The
+dissertation presents a **single** IVF/SPEA2 — the coupling proposed in the
+Springer Nature manuscript — and never versions it.
+
+- Do not write "v1" or "v2" in `tex/**` or `pre/**`. Distinguish prior work by its
+  **coupling**: which decisions bind the IVF operator to its host.
+- Document the two coupling decisions: dissimilar father selection, and the
+  collective cycle-continuation criterion.
+- State the promoted configuration once: `C=0.12`, `R=0.225`, `M=0.3`, `V=0.1`,
+  `Cycles=2`.
+- The prior formulation does not enter the text. Its cohort (`2001–2100`) is
+  absent from this checkout, so its tables have no reproducible producer. Where
+  evidence compares against it — the ablation, and the tuning baseline — write by
+  the absent mechanism, per `REWRITE_SPEC.md` §1.3.
 
 ## 3. Evidence synchronization
 
-- Rebuild the main synthetic comparison from the frozen 60-run v2 cohort.
+- Rebuild the main synthetic comparison from the frozen 60-run cohort
+  (IVF/SPEA2 `3001–3060` against SPEA2 `1–60`).
 - Report IGD and HV together.
 - Separate confirmatory, exploratory, engineering, tuning, and ablation roles.
 - Reconcile the historical 79-instance wording with the current 51-instance

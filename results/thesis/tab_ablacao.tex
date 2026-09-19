@@ -1,0 +1,23 @@
+% Gerado por src/python/thesis/build_tab_tuning_ablacao.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/ablation_v2/phase3/phase3_summary.json
+\begin{table}[!htb]
+    \centering
+    \caption{Ablação fatorial: o acoplamento completo frente ao SPEA2 canônico e à variante sem seleção de pai dissimilar e sem continuação coletiva.}
+    \label{tab:ablacao}
+    \begin{tabular}{|c|l|c|c|}
+        \hline
+        \textbf{Métrica} & \textbf{Comparador} & \textbf{V/E/D} & \textbf{Significativas} \\
+        \hline
+        IGD & Sem pai dissimilar e sem continuação coletiva & 0/50/1 & 1 \\
+         & SPEA2 canônico & 25/25/1 & 26 \\
+        \hline
+        HV & Sem pai dissimilar e sem continuação coletiva & 0/50/1 & 1 \\
+         & SPEA2 canônico & 28/21/2 & 30 \\
+        \hline
+    \end{tabular}
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Acoplamento completo contra cada comparador nas 51 instâncias sintéticas, $\alpha = 0{,}05$. A coluna final conta as instâncias com diferença significativa em qualquer direção. O acoplamento completo supera o SPEA2 canônico em metade da suíte, mas não se distingue da variante sem as duas decisões de acoplamento: o ganho vem da estrutura de interação entre elas e não de um efeito isolado de cada uma. Evidência de justificativa da implementação.
+    }
+\end{table}

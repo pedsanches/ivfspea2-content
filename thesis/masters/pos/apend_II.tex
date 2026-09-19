@@ -1,213 +1,43 @@
-\chapter{Exemplo de Outro Apêndice}
-\label{apend:2}
-Texto do Apêndice~\ref{apend:2}.
+\chapter{Recuperação dos Dados Brutos}
+\label{apend:recuperacao}
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+Parte das evidências de apoio desta dissertação repousa em artefatos processados cujos dados brutos não acompanham o repositório. Este apêndice registra quais são, por que não estão versionados e de onde se recuperam, de modo que a cadeia de produção possa ser refeita por terceiros.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+\section{O que não está versionado, e por quê}
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+Três categorias de dados ficam fora do controle de versão, por razões distintas:
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+\begin{itemize}
+\item \textbf{Saídas brutas da plataforma de otimização.} Cada execução produz um arquivo binário com a população final e o histórico de avaliações. Para as 51 instâncias sintéticas, com nove algoritmos e 60 execuções por configuração, esse conjunto excede em ordens de grandeza os limites práticos de um repositório de código.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+\item \textbf{Trajetórias por geração.} As execuções instrumentadas que registram observáveis a cada geração --- usadas na análise de dinâmica populacional --- somam alguns gigabytes.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+\item \textbf{Dados intermediários das fases de calibração e ablação.} As varreduras de configuração produziram milhares de execuções cujas saídas foram consolidadas em artefatos resumidos; os intermediários não foram preservados no repositório.
+\end{itemize}
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+O que \emph{está} versionado, em todos os casos, é o produto processado: as tabelas de métricas por execução, os resumos estatísticos e os artefatos de auditoria a partir dos quais as tabelas desta dissertação são geradas. As contagens reportadas foram conferidas contra esses artefatos.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+\section{Onde os dados brutos residem}
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+O repositório de código e os artefatos processados desta pesquisa estão depositados de forma permanente e citável. A Seção~\ref{sec:disponibilidade}, ao final deste apêndice, declara o identificador do depósito e o que ele contém.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+O depósito preserva, além do código, os arquivos de manifesto que associam cada conjunto de dados processados ao script que o produziu e à coorte de execuções que o originou. É esse encadeamento --- e não a presença dos dados brutos --- que permite verificar se um número reportado corresponde ao artefato que o sustenta.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+\section{Consequência para a reprodutibilidade}
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+A distinção entre reproduzir e regenerar é relevante aqui, e esta dissertação não a dissimula.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+As análises da família confirmatória são \textbf{regeneráveis} a partir dos dados processados versionados: os scripts declarados no Apêndice~\ref{apend:fontes} reconstroem as contagens e as tabelas a partir do repositório, sem depender de dados externos.
 
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
-Apêndices são iniciados com o comando \verb|\apendices|.
+As famílias de calibração, ablação, transferência para engenharia e do controlador são \textbf{verificáveis, mas não regeneráveis} no estado atual do repositório: os seus artefatos processados estão presentes e foram conferidos, mas os produtores não executam a partir de um clone limpo, porque os seus dados de entrada não estão versionados. Reexecutá-las exige recuperar os dados brutos do depósito arquivado.
+
+Essa assimetria está declarada nas ameaças à validade, no Capítulo~\ref{sec:threats}, e é registrada aqui para que o leitor possa distinguir, ao consultar cada resultado, qual dos dois níveis de garantia se aplica.
+
+\section{Declaração de disponibilidade de dados e código}
+\label{sec:disponibilidade}
+
+O código do algoritmo, os scripts de análise e os artefatos processados que sustentam as tabelas desta dissertação estão disponíveis no repositório público \url{https://github.com/pedsanches/ivfspea2-content} e depositados no Zenodo sob o DOI de conceito \texttt{10.5281/zenodo.19071253}~\cite{ivfspea2github}. O DOI de conceito resolve sempre para a versão mais recente do registro, e é por isso que ele --- e não o identificador de uma versão específica --- é o citado aqui.
+
+A implementação avaliada é a classe \texttt{IVFSPEA2V2}, no diretório de algoritmos multiobjetivo da distribuição do PlatEMO incluída no repositório. O identificador é nome de classe na implementação, e não designação de variante do método descrito no Capítulo~\ref{sec:Proposal}.
+
+O depósito não inclui as saídas brutas de execução, pelas razões registradas neste apêndice. Inclui os dados processados, os manifestos que associam cada conjunto ao script que o produziu e à coorte que o originou, e as tabelas geradas a partir deles. O Apêndice~\ref{apend:fontes} relaciona, fonte a fonte, qual artefato sustenta cada afirmação do texto.

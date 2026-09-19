@@ -116,9 +116,9 @@ Usar estas formas, salvo decisão explícita em contrário:
 | área | otimização multiobjetivo | Forma aglutinada. |
 | algoritmo | algoritmo evolutivo multiobjetivo | Definir MOEA na primeira ocorrência quando a sigla for útil. |
 | IVF | método de fertilização *in vitro* (IVF) | Usar IVF sem itálico depois da definição; preservar IVF/SPEA2 como rótulo. |
-| proposta atual | IVF/SPEA2 v2 | No texto de apresentação, pode-se usar IVF/SPEA2 após deixar claro que se trata da v2. |
-| implementação | `IVFSPEA2V2` | Nome de classe em fonte monoespaçada. |
-| versão histórica | IVF/SPEA2 v1 ou `IVFSPEA2` | Nunca fundir resultados ou parâmetros com a v2. |
+| proposta atual | IVF/SPEA2 | Forma única. Não versionar: ver §4.1. |
+| implementação | `IVFSPEA2V2` | Nome de classe em fonte monoespaçada, restrito ao apêndice de reprodutibilidade e à declaração de disponibilidade de código. |
+| formulações anteriores | acoplamentos anteriores do IVF | Identificar pelo mecanismo e pelo hospedeiro, nunca por número de versão. |
 | conjuntos de teste | suítes de problemas de teste | Usar *benchmark* apenas quando necessário; não alternar por elegância. |
 | busca | exploração e intensificação | Definir a correspondência com *exploration*/*exploitation* se ela for discutida. |
 | relação conflitante | equilíbrio ou compromisso entre X e Y | Reservar *trade-off* para casos em que o termo técnico acrescente precisão. |
@@ -127,6 +127,33 @@ Usar estas formas, salvo decisão explícita em contrário:
 
 Não trocar um termo técnico preciso por sinônimo apenas para evitar repetição.
 A repetição controlada preserva o referente.
+
+### 4.1 Proibição de versionamento
+
+Decisão do autor, precedente sobre este perfil conforme §1. A dissertação apresenta
+**um** IVF/SPEA2: o acoplamento proposto no manuscrito da Springer Nature. Não existe
+"v1" nem "v2" no texto. As formulações anteriores diferem pelo **acoplamento** — quais
+decisões ligam o operador IVF ao hospedeiro — e é assim que devem ser distinguidas.
+
+| Recusado | Aceito |
+|---|---|
+| "o IVF/SPEA2 v2 propõe" | "o IVF/SPEA2 propõe" |
+| "diferentemente da v1" | "diferentemente dos acoplamentos anteriores do IVF a algoritmos hospedeiros" |
+| "a versão anterior usava critério individual" | "as formulações anteriores condicionavam a continuação do ciclo a um único descendente" |
+| "parâmetros da v1 (`c=10%`, `r=10%`)" | "a configuração inicial não ajustada, herdada da literatura de IVF" |
+| "a v2 empata com a v1" | "a ablação não distingue o acoplamento completo da variante sem as duas decisões" |
+
+A proibição vale para `tex/**` e `pre/**`. Não vale para `REWRITE_SPEC.md`,
+`REVISION_PLAN.md`, `data-sources.toml` nem nomes de diretório, que são registro
+interno de posicionamento. IVF/NSGA-II e IVF/NSGA-III permanecem nomeáveis: são
+acoplamentos publicados por outros autores em outros hospedeiros, não versões desta
+proposta.
+
+Verificação ao fim de cada rodada de prosa:
+
+```bash
+grep -rniE "\bv1\b|\bv2\b|vers(ão|ao) (1|2|anterior do (nosso|presente))" thesis/masters/tex thesis/masters/pre
+```
 
 ## 5. Identidade científica atual
 
@@ -149,34 +176,50 @@ Identidade canônica:
 - implementação principal: `IVFSPEA2V2`;
 - rótulo de apresentação: IVF/SPEA2;
 - configuração promovida: C26;
-- parâmetros: `C=0.12`, `R=0.225`, `M=0.3`, `V=0.1`,
-  `Cycles=2`;
+- parâmetros, por identificador de implementação: `C=0.12`, `R=0.225`, `M=0.3`,
+  `V=0.1`, `Cycles=2`;
+- parâmetros, por símbolo no texto: $c=0{,}12$, $r=0{,}225$, $\ell=2$, $m=0{,}3$,
+  $v=0{,}1$. **No texto usar os símbolos em minúscula**, porque `M` está reservado
+  ao número de objetivos em todas as tabelas da dissertação e a colisão seria
+  ambígua. A Tabela de parâmetros do capítulo da proposta publica a
+  correspondência entre as duas formas, o que também quita `OQ-05`;
 - H1: seleção de pai dissimilar;
 - H2: critério coletivo de continuação dos ciclos;
 - escopo sintético principal: 51 instâncias ZDT, DTLZ, WFG e MaF;
-- coorte IVF/SPEA2 v2: execuções `3001–3060`;
+- coorte IVF/SPEA2: execuções `3001–3060`;
 - coorte dos baselines: execuções `1–60`;
 - orçamento sintético comum: 100.000 avaliações de função;
 - IGD: desfecho primário, menor é melhor;
 - HV: desfecho secundário obrigatório, maior é melhor.
 
-A v1 deve aparecer apenas em contexto histórico, reprodução da submissão
-original ou comparação explicitamente rotulada.
+No CSV consolidado, o rótulo `Algoritmo = IVFSPEA2` carrega 120 identificadores
+(`1–60` e `3001–3060`). Nenhuma análise pode lê-lo diretamente: `cohort_filter.py`
+é obrigatório.
+
+A formulação anterior não entra no texto. A coorte que a documentava (`2001–2100`)
+não existe neste checkout, verificado contra o CSV consolidado, de modo que suas
+tabelas não têm produtor reprodutível. Onde a evidência compara contra ela — a
+ablação e a linha de base do ajuste —, escrever pelo mecanismo ausente, conforme
+`REWRITE_SPEC.md` §1.3.
 
 ## 6. Famílias de evidência dos artigos
 
-Quatro manuscritos representam três famílias de evidência:
+Três manuscritos alimentam a reescrita, representando três famílias de evidência:
 
-| Família | Manuscrito(s) | Papel na dissertação |
+| Família | Manuscrito | Papel na dissertação |
 |---|---|---|
-| validação IVF/SPEA2 v2 | `paper/springer-nature/` | Evidência confirmatória principal contra SPEA2; posicionamento multibaseline, engenharia, tuning e ablação têm papéis auxiliares distintos. |
-| decisão de uso do operador | `paper/ppsn2026/` e `paper/clei2026/` | Uma única família sobre FLA, dinâmica inicial e controlador; as duas versões editoriais não são réplicas independentes. |
+| validação do IVF/SPEA2 | `paper/springer-nature/` | Evidência confirmatória principal contra SPEA2; posicionamento multibaseline, engenharia, tuning e ablação têm papéis auxiliares distintos. |
+| decisão de uso do operador | `paper/clei2026/` | FLA, dinâmica inicial e controlador. |
 | compatibilidade operador–host | `paper/ppsn2026-ivf-hosts/` | Comparação dos pipelines IVF/SPEA2, IVF/NSGA-II e IVF/NSGA-III; não isola causalmente apenas o efeito do host. |
+
+`paper/ppsn2026/` **fica fora da reescrita**: é a mesma família de evidência do
+CLEI em outra saída editorial, e é a versão cujo número de turnover em WFG não
+reproduz do artefato (`REWRITE_SPEC.md`, `OQ-01`). Quando as duas precisarem ser
+mencionadas, contam como uma só.
 
 O manifesto `data-sources.toml` apresenta quatro famílias no total porque
 registra também `ivfspea2-v1-history`, a família histórica da dissertação
-importada. As três famílias da tabela acima correspondem aos quatro manuscritos
-atuais que serão absorvidos.
+importada, que não alimenta o texto novo.
 
 Regras:
 
@@ -185,11 +228,15 @@ Regras:
   nova replicação da evidência principal;
 - não combinar evidências apenas porque algoritmo, problema ou métrica têm o
   mesmo nome;
-- manter como chave conceitual ao menos família de evidência, coorte, versão do
-  algoritmo, problema, número de objetivos, execução e métrica;
+- manter como chave conceitual ao menos família de evidência, coorte, acoplamento
+  e algoritmo, problema, número de objetivos, execução e métrica;
 - declarar sobreposição, pareamento e proveniência;
 - reconciliar a afirmação de 100 checkpoints do manuscrito Hosts com o
   `hosts_convergence.csv` atual, que contém dez checkpoints, antes de citá-la;
+- não citar contagem de significância de convergência para o par IVF/SPEA2 ×
+  SPEA2: `test_convergence_significance.py` pareia por identificador de execução,
+  e como as faixas são `3001–3030` e `1–30` o par é descartado sem aviso
+  (`REWRITE_SPEC.md`, `OQ-03`);
 - tratar `ppsn_trajectories.csv` como parcial/legado, não como fonte da suíte
   completa;
 - usar o controlador OOS congelado indicado em `data-sources.toml`, não um CSV
@@ -199,10 +246,10 @@ Regras:
 
 ### Confirmação principal
 
-Pergunta: sob orçamento fixo, o IVF/SPEA2 v2 melhora o SPEA2 canônico na suíte
+Pergunta: sob orçamento fixo, o IVF/SPEA2 melhora o SPEA2 canônico na suíte
 sintética declarada?
 
-- comparação principal: IVF/SPEA2 v2 × SPEA2;
+- comparação principal: IVF/SPEA2 × SPEA2;
 - 60 execuções por algoritmo;
 - 51 instâncias sintéticas, sem RWMOP;
 - 39 instâncias fora do ajuste e 12 usadas no tuning devem permanecer
@@ -261,7 +308,7 @@ Cada afirmação comparativa deve conter ou tornar recuperáveis:
 
 Formulações compatíveis:
 
-- “No escopo sintético avaliado e sob o mesmo orçamento, o IVF/SPEA2 v2
+- “No escopo sintético avaliado e sob o mesmo orçamento, o IVF/SPEA2
   apresentou melhora delimitada em relação ao SPEA2.”
 - “O HV fornece suporte secundário ao padrão observado no IGD.”
 - “A comparação com os demais baselines tem caráter exploratório.”

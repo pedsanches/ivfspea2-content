@@ -184,4 +184,69 @@ overlaps = ["IVF/SPEA2 runs 3001-3030 and SPEA2 runs 1-30 are a subset of the Me
 known_gaps = [
   "The manuscript's six-case 100-checkpoint rerun statement is not represented by the current ten-checkpoint hosts_convergence.csv and must be reconciled before thesis use.",
   "The comparison evaluates published pipelines and does not causally isolate host choice from implementation differences.",
+  "test_convergence_significance.py pairs on run ID, and IVFSPEA2 (3001-3030) does not intersect SPEA2 (1-30), so that pair is dropped without warning; convergence_significance.csv covers only the two NSGA pairs. See REWRITE_SPEC.md OQ-03.",
+]
+
+[[source]]
+id = "thesis-derived-tables"
+evidence_family = "thesis-synthesis"
+manuscripts = ["thesis/masters/main.tex"]
+role = "derived"
+algorithm_version = "IVFSPEA2V2 / C26"
+cohort = "No new runs. Renders the frozen artifacts of the three evidence families into pt-BR LaTeX tables; every count keeps the cohort and correction of its own family."
+metrics = ["IGD", "HV"]
+datasets = [
+  "results/tables/claims_summary_audit.csv",
+  "results/tables/claims_summary_instance_details.csv",
+  "results/tables/igd_per_instance_M2.csv",
+  "results/tables/igd_per_instance_M3.csv",
+  "results/tables/hv_per_instance_M2.csv",
+  "results/tables/hv_per_instance_M3.csv",
+  "results/tables/hosts_ivfspea2_igd_stats.csv",
+  "results/tables/hosts_geometry_summary.csv",
+  "results/tables/fla_model_comparison.csv",
+  "results/tables/dynamic_signal_main_tests.csv",
+  "results/tables/dynamic_signal_loocv.csv",
+  "results/tables/dynamic_signal_lofo.csv",
+  "results/tables/controller_wtl_oos_20260326_221909.csv",
+  "results/engineering_suite/engineering_suite_pairwise_main.csv",
+  "results/ablation_v2/phase3/phase3_summary.json",
+  "results/tuning_ivfspea2v2/head_to_head_c26_a43_v1_summary.json",
+]
+scripts = [
+  "src/python/thesis/build_all.py",
+  "src/python/thesis/build_tab_confirmatorio.py",
+  "src/python/thesis/build_tab_por_instancia.py",
+  "src/python/thesis/build_tab_hosts.py",
+  "src/python/thesis/build_tab_engenharia.py",
+  "src/python/thesis/build_tab_tuning_ablacao.py",
+  "src/python/thesis/build_tab_fla_dinamica.py",
+  "src/python/thesis/build_tab_controlador.py",
+  "src/python/thesis/build_apendice_fontes.py",
+  "src/python/thesis/ptbr_format.py",
+  "src/python/thesis/latex_table.py",
+]
+artifacts = [
+  "results/thesis/tab_confirmatorio_wtl.tex",
+  "results/thesis/tab_igd_por_instancia_M2.tex",
+  "results/thesis/tab_igd_por_instancia_M3.tex",
+  "results/thesis/tab_hv_por_instancia_M2.tex",
+  "results/thesis/tab_hv_por_instancia_M3.tex",
+  "results/thesis/tab_hosts_wtl.tex",
+  "results/thesis/tab_hosts_geometria.tex",
+  "results/thesis/tab_engenharia_wtl.tex",
+  "results/thesis/tab_tuning_c26.tex",
+  "results/thesis/tab_ablacao.tex",
+  "results/thesis/tab_fla_modelos.tex",
+  "results/thesis/tab_dinamica_separacao.tex",
+  "results/thesis/tab_dinamica_limiar.tex",
+  "results/thesis/tab_controlador_wtl.tex",
+  "results/thesis/apendice_fontes.tex",
+]
+notes = "Presentation layer only; it introduces no evidence. Regenerate with `make thesis-tables`; `make thesis-tables-check` fails if a committed table drifts from its artifact. Chapters input the mirrored copies under thesis/masters/generated/, which Git ignores."
+raw_status = "Not applicable: every input is a tracked processed artifact."
+overlaps = ["Renders the same artifacts the other sources declare; it is a view over them and never an additional observation."]
+known_gaps = [
+  "data/processed/classifier_comparison.csv is deliberately not an input: its Early-turnover threshold LOOCV row is an in-sample fit mislabelled as cross-validated. See REWRITE_SPEC.md OQ-13.",
+  "No table exists yet for the convergence family; it stays blocked on OQ-02, OQ-03 and OQ-04.",
 ]

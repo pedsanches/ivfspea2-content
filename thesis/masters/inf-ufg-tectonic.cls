@@ -118,12 +118,15 @@
 \def\departamento#1{\def\@departamento{#1}}     \departamento{}
 \def\unidadeco#1{\def\@unidadeco{#1}}           \unidadeco{Instituto de Inform\'atica}
 \def\programa#1{\def\@programa{#1}}             \programa{Computa\c{c}\~ao}
+\def\programasigla#1{\def\@programasigla{#1}}   \programasigla{}
 \def\unidade#1{\def\@unidade{#1}}               \unidade{Instituto de Inform\'atica}
+\def\unidadesigla#1{\def\@unidadesigla{#1}}     \unidadesigla{}
 \def\universidade#1{\def\@universidade{#1}}     \universidade{Universidade Federal de Goi\'as}
 \def\universidadeco#1{\def\@universidadeco{#1}} \universidadeco{Universidade Federal de Goi\'as}
 \def\uni#1{\def\@uni{#1}}                       \uni{UFG}
 \def\unico#1{\def\@unico{#1}}                   \unico{UFG}
 \def\concentracao#1{\def\@concentracao{#1}}     \concentracao{Otimiza\c c\~ao}
+\def\linhapesquisa#1{\def\@linhapesquisa{#1}}   \linhapesquisa{}
 
 
 %%======================================================================
@@ -456,12 +459,18 @@
 % \modelo%
  \singlespacing%
 %  \begin{titlepage}%
-  \textoC{1}{\Large \scshape \@universidade \normalsize \upshape}%
+  \textoC{1}{\normalsize \scshape \@universidade%
+   \ifthenelse{\equal{\@uni}{}}{}{ (\@uni)} \upshape}%
    \vspace*{\stretch{-0.8}}%
-  \textoC{1}{\Large \scshape \@unidade \normalsize \upshape}%
+  \textoC{1}{\normalsize \scshape \@unidade%
+   \ifthenelse{\equal{\@unidadesigla}{}}{}{ (\@unidadesigla)} \upshape}%
   \ifthenelse{\equal{\@departamento}{}}{}{%
    \vspace*{\stretch{-0.8}}%
-   \textoC{1}{\Large \scshape \@departamento\relax \normalsize \upshape} }%
+   \textoC{1}{\normalsize \scshape \@departamento\relax \upshape} }%
+  \vspace*{\stretch{-0.8}}%
+  \textoC{1}{\normalsize \scshape Programa de P\'os--Gradua\c c\~ao em \@programa%
+   \ifthenelse{\equal{\@programasigla}{}}{}{ (\@programasigla)}%
+   \upshape}%
   \vspace*{\stretch{.1}}%
   \textoC{1}{\Large \scshape \@autor \normalsize \upshape}%
   \vspace*{\stretch{8}}%
@@ -570,8 +579,10 @@
     do \@unidade\ da \@universidade, como requisito parcial %
     para obten\c c\~ao do t\'itulo de Doutor em \@programa.}{%
   \ifthenelse{\boolean{diss}}%
-   {Disserta\c{c}\~{a}o apresentada ao Programa de P\'os--Gradua\c c\~ao\ %
-    da \@unidade\ da \@universidade, como requisito parcial para %
+   {Disserta\c{c}\~{a}o apresentada ao Programa de P\'os--Gradua\c c\~ao em %
+    \@programa\ do \@unidade%
+    \ifthenelse{\equal{\@unidadesigla}{}}{}{ (\@unidadesigla)}%
+    \ da \@universidade\ (\@uni), como requisito parcial para %
     obten\c c\~ao do t\'itulo de Mestre em \@programa.}{%
   \ifthenelse{\boolean{mngr}}%
    {Monografia apresentada ao Programa de P\'os--Gradua\c c\~ao %
@@ -582,12 +593,16 @@
     t\'itulo de Bacharel em \@programa.}}}}%
  \vspace*{\stretch{.2}}%
  \par%
- \margemD{\textbf{\'Area de concentra\c c\~ao:} \@concentracao.}%
+ \margemD{\textbf{\'Area de concentra\c c\~ao:}~\@concentracao.}%
+ \ifthenelse{\equal{\@linhapesquisa}{}}{}{%
+  \vspace*{\stretch{.2}}%
+  \par%
+  \margemD{\textbf{Linha de Pesquisa:}~\@linhapesquisa.}}%
  \vspace*{\stretch{.2}}%
  \par%
  \ifthenelse{\equal{\@orientador}{}}
   {\margemD{\textbf{Orientadora:} Profa. \@orientadora}}%
-  {\margemD{\textbf{Orientador:} Prof. \@orientador}}%
+  {\margemD{\footnotesize \textbf{Orientador:} Professor Doutor \@orientador}}%
  \ifthenelse{\equal{\@coorientador}{}}
   {\ifthenelse{\equal{\@coorientadora}{}}
    {}
@@ -597,7 +612,7 @@
   }
   {\vspace*{\stretch{.2}}%
    \par%
-   \margemD{\textbf{Co-Orientador:} Prof. \@coorientador}}%
+   \margemD{\footnotesize \textbf{Coorientador:} Professor Doutor \@coorientador}}%
  \vspace*{\stretch{6}}%
  \par%
  \textoC{1}{\@cidade \\ \@ano}%

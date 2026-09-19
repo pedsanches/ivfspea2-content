@@ -3,6 +3,42 @@
 % com o motor XeTeX usado pelo Tectonic.
 \documentclass[dissertacao]{inf-ufg-tectonic}
 \usepackage{amsmath}
+% Incorpora uma página PDF externa em tamanho A4 sem depender de pdfpages,
+% que não integra o pacote Tectonic usado pelo projeto.
+\newcommand{\incluirpaginaexterna}[2][1]{%
+  \clearpage
+  \thispagestyle{empty}%
+  \begingroup
+  \noindent\makebox[0pt][l]{%
+    \ifodd\value{page}%
+      \hspace*{\dimexpr-1in-\hoffset-\oddsidemargin\relax}%
+    \else
+      \hspace*{\dimexpr-1in-\hoffset-\evensidemargin\relax}%
+    \fi
+    \raisebox{\dimexpr1in+\voffset+\topmargin+\headheight+\headsep+\topskip-\paperheight\relax}[0pt][0pt]{%
+      \includegraphics[page=#1,width=\paperwidth,height=\paperheight]{#2}}}%
+  \null
+  \endgroup
+  \clearpage
+}
+% Pseudocódigo do Capítulo da proposta. A classe não carrega estes pacotes.
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\floatname{algorithm}{Algoritmo}
+\renewcommand{\listalgorithmname}{Lista de Algoritmos}
+% A classe monta a lista via \listalgorithmcfname, macro do algorithm2e; o par
+% algorithm/algpseudocode escreve no mesmo .loa, entao basta definir o nome.
+\providecommand{\listalgorithmcfname}{Lista de Algoritmos}
+\algrenewcommand\algorithmicrequire{\textbf{Entrada:}}
+\algrenewcommand\algorithmicreturn{\textbf{Retorna}}
+% As palavras-chave do algpseudocode são em inglês por padrão.
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+\algrenewcommand\algorithmicfor{\textbf{para}}
+\algrenewcommand\algorithmicend{\textbf{fim}}
 % Opções da classe inf-ufg (ao usar mais de uma, separe por vírgulas)
 %   [tese]         -> Tese de doutorado.
 %   [dissertacao]  -> Dissertação de mestrado (padrão).
@@ -18,48 +54,57 @@
 %\selectlanguage{portuguese}
 
 %------------------------------------------ AUTOR, TÍTULO E DATA DE DEFESA %
-\autor{ Pedro Henrique Sanches} % (José da Silva)
-\autorR{ Sanches, Pedro Henrique} % (da Silva, José)
+\autor{Pedro Henrique Sanches Pelegrino Zambrano} % (José da Silva)
+\autorR{Sanches Pelegrino Zambrano, Pedro Henrique} % (da Silva, José)
 
 \titulo{IVF/SPEA2: Um algoritmo híbrido SPEA2 com Fertilização In Vitro para Otimização Multiobjetivo}
 % \subtitulo{ Subtítulo do Trabalho}
 
 \cidade{ Goiânia} % Nome da cidade em foi desenvolvido o trabalho
-\dia{} % Definir somente após confirmação da data de defesa.
-\mes{ 06} % Data da apresentação/defesa do trabalho
-\ano{ 2025} % Formato numérico: \dia{01}, \mes{01} e \ano{2009}
+\dia{08} % Data provisória da defesa; confirmar antes do depósito.
+\mes{11} % Data provisória da defesa; confirmar antes do depósito.
+\ano{2026} % Formato numérico: \dia{01}, \mes{01} e \ano{2009}
 
 %-------------------------------------------------------------- ORIENTADOR %
-\orientador{ Celso Gonçalves Camilo Junior }
-\orientadorR{ CAMILO-JUNIOR, CELSO}
+\orientador{Ronaldo Martins da Costa}
+\orientadorR{COSTA, RONALDO MARTINS DA}
 % Use os comandos a seguir se for Orientadora e nao Orientador.
 %\orientadora{ Nome da Orientadora}
 %\orientadoraR{ Nome Reverso da Orientadora}
 
-% \coorientador{ Nome do Co-orientador}
-% \coorientadorR{ Nome Reverso do Co-orientador}
+\coorientador{Celso Gonçalves Camilo Junior}
+\coorientadorR{CAMILO-JUNIOR, CELSO}
 % Use os comandos a seguir se for Co-orientadora e nao Coorientador.
 %\coorientadora{\textless Nome da Co-orientadora}
 %\coorientadoraR{\textless Nome Reverso da Co-orientadora}
 
 %-------------------------------------------------- INSTITUIÇÃO E PROGRAMA %
-\universidade{ Universidade Federal de Goiás} % {Universidade Federal de Goiás}
-\uni{ UFG }         % UFG
-\unidade{ Instituto de Informática} %Instituto de Informática
+\universidade{Universidade Federal de Goiás} % {Universidade Federal de Goiás}
+\uni{UFG}         % UFG
+\unidade{Instituto de Informática} %Instituto de Informática
+\unidadesigla{INF}
 % \departamento{ Nome do Departamento} %Unidades com mais de um depto.
 
-\universidadeco{ Nome da Universidade do Co-orientador}
-\unico{ Sigla da Universidade do Co-orientador}
-\unidadeco{ Nome da Unidade Acadêmica do Co-orientador}
+\universidadeco{Universidade Federal de Goiás}
+\unico{UFG}
+\unidadeco{Instituto de Informática}
 
-\programa{ Computação } % Computação
-\concentracao{ Sistemas Inteligentes}
+\programa{Ciência da Computação}
+\programasigla{PPGCC}
+\concentracao{Ciência da Computação}
+\linhapesquisa{Sistemas Inteligentes e Aplicações}
 
 %-------------------------------------------------- ELEMENTOS PRÉ-TEXTUAIS %
 \capa    % Gera o modelo da capa externa do trabalho
+% O TECA assinado original permanece em pre/teca.pdf para validação. Como as
+% assinaturas GOV.BR são anotações que o LaTeX não incorpora, esta cópia
+% estática preserva sua aparência na 2ª página da dissertação. A segunda página
+% do formulário contém somente o rodapé de versão e não é incorporada.
+\incluirpaginaexterna[1]{./pre/teca-inclusao.pdf}
 % A autorização depende da data definitiva de defesa.
 % \publica % Gera a autorização para publicação em formato eletrônico
 \rosto   % Primeira folha interna do trabalho
+\incluirpaginaexterna[1]{./pre/ficha-catalografica.pdf}
 
 % A folha de aprovação permanece desativada até a confirmação da banca.
 % \input{./pre/pre_aprovacao}
@@ -70,7 +115,7 @@
 \input{./pre/pre_resumo}
 \input{./pre/pre_abstract}
 
-\tabelas[figtab]
+\tabelas[figtabalg]
 %Opções:
 %nada [] -> Gera apenas o sumário
 %fig     -> Gera o sumário e a lista de figuras
@@ -94,6 +139,7 @@
 \input{./tex/cap_IV}
 \input{./tex/cap_V}
 \input{./tex/cap_VI}
+\input{./tex/cap_VII_complementares}
 \input{./tex/cap_VII}
 \input{./tex/cap_VIII}
 \input{./tex/cap_IX}
@@ -106,10 +152,10 @@
 \label{ref-bib}
 
 %--------------------------------------------------------------- APÊNDICES %
-% \apendices
+\apendices
 
-% \input{./pos/apend_I}
-% \input{./pos/apend_II}
+\input{./pos/apend_I}
+\input{./pos/apend_II}
 
 \end{document}
 

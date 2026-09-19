@@ -1,15 +1,83 @@
 \chapter{Experimentos}
 \label{sec:Experiments}
 
-Os experimentos foram conduzidos utilizando a plataforma PlatEMO~\cite{platemo} no MATLAB para comparar o algoritmo memético com os algoritmos estabelecidos SPEA2, MFO-SPEA2, SPEA2+SDE, NSGA-II, NSGA-III e MOEA/D. A avaliação englobou múltiplas suítes de benchmarks (ZDT, DTLZ, WFG e MaF), selecionadas por suas características complementares e níveis variados de complexidade:
+A pergunta confirmatória desta dissertação é delimitada: sob orçamento fixo de avaliações, o IVF/SPEA2 melhora o SPEA2 canônico nas instâncias sintéticas declaradas? O protocolo desta seção existe para responder a essa pergunta e para tornar recuperável o que cada afirmação subsequente pode e não pode sustentar. As demais famílias de evidência --- calibração, ablação, transferência para engenharia, compatibilidade entre hospedeiros e decisão de ativação do operador --- respondem a perguntas distintas, sob coortes e correções distintas, e a Seção~\ref{sec:familias} declara essas diferenças antes de qualquer resultado.
+
+\section{Plataforma e algoritmos}
+\label{sec:plataforma}
+
+Os experimentos usam a plataforma PlatEMO~\cite{platemo} em MATLAB, na versão 24.2.0.2923080, fixada no depósito público desta pesquisa~\cite{ivfspea2github}. O comparador principal é o SPEA2~\cite{zitzler2001spea2}. A avaliação inclui ainda sete comparadores de contexto, em três grupos. Duas variantes centradas no mesmo hospedeiro: o MFO-SPEA2~\cite{jiao2023multiform} e o SPEA2 com estimativa de densidade por deslocamento, ou SPEA2+SDE~\cite{li2014shift}. Três métodos canônicos de dominância e decomposição: NSGA-II~\cite{deb2002fast}, NSGA-III~\cite{deb2014nsga3} e MOEA/D~\cite{zhang2007moead}. E duas abordagens modernas de adaptação de geometria e de conjunto de referência: o AGE-MOEA-II~\cite{panichella2022agemoeaii} e o AR-MOEA~\cite{tian2018armoea}. O último grupo entra porque costuma ser competitivo quando a fronteira é irregular, ainda que nenhum dos dois implemente módulo de intensificação memética.
+
+Todos os algoritmos usam as configurações padrão distribuídas com essa versão da plataforma. A decisão é deliberada: ela evita recalibração por instância e mantém a comparação no nível das configurações publicadas. Uma exceção precisa ser declarada, porque afeta a comparabilidade. Para o NSGA-III e o MOEA/D, a plataforma sincroniza o tamanho da população com o número de pontos de referência de Das--Dennis~\cite{das1998normal}, o que resulta em $N = 100$ para $M = 2$ e $N = 91$ para $M = 3$; os demais algoritmos usam $N = 100$ em ambos os casos. Essa é uma diferença de política de população, não de orçamento: o total de avaliações é idêntico para todos.
+
+\section{Suítes e instâncias}
+\label{sec:suites}
+
+A avaliação cobre quatro suítes sintéticas, escolhidas por oferecerem geometrias de fronteira e propriedades de paisagem complementares:
+
 \begin{itemize}
-    \item \textbf{Benchmark ZDT}~\cite{zitzler2000comparison} oferece problemas com diferentes geometrias de fronteira de Pareto (convexa, côncava, desconectada).
-    \item \textbf{Benchmark DTLZ}~\cite{deb2005scalable} estende a avaliação para objetivos escaláveis e dimensionalidade crescente.
-    \item \textbf{Benchmark WFG}~\cite{huband2006review} introduz transformações criando geometrias complexas com características do mundo real (não-separabilidade, multimodalidade, assimetria).
-    \item \textbf{Benchmark MaF}~\cite{cheng2017benchmark} fornece problemas de otimização com muitos objetivos que desafiam abordagens tradicionais~\cite{li2015many}.
+    \item \textbf{ZDT}~\cite{zitzler2000comparison}, com problemas bi-objetivo de fronteiras convexas, côncavas e desconectadas;
+    \item \textbf{DTLZ}~\cite{deb2005scalable}, que escala o número de objetivos e a dimensionalidade;
+    \item \textbf{WFG}~\cite{huband2006review}, cujas transformações produzem geometrias complexas, com não separabilidade, multimodalidade e assimetria;
+    \item \textbf{MaF}~\cite{cheng2017benchmark}, com fronteiras de características diversas, usada aqui nas configurações tri-objetivo.
 \end{itemize}
-Para fazer uma comparação justa alinhada com os padrões de pesquisa estabelecidos, empregamos a métrica de Distância Geracional Invertida (IGD). Este indicador de desempenho amplamente adotado mede tanto a convergência quanto a diversidade, calculando a distância entre as soluções na fronteira de Pareto obtida e um conjunto de referência representando a verdadeira fronteira ótima de Pareto. Valores menores de IGD indicam melhor desempenho do algoritmo, refletindo soluções que são bem distribuídas e mais próximas da fronteira ótima~\cite{bosman2003balance}.
 
-Para validação estatística dos nossos resultados experimentais, implementamos o teste de soma de postos de Wilcoxon, um teste estatístico de hipótese não-paramétrico que avalia se duas amostras independentes provêm de populações com a mesma distribuição. Este teste é particularmente apropriado para comparar algoritmos de otimização, pois não faz suposições sobre a normalidade das distribuições dos dados. A significância estatística foi estabelecida no limiar convencional de $p < 0,05$, indicando que as diferenças observadas entre os desempenhos dos algoritmos eram improváveis de terem ocorrido apenas por acaso.
+O conjunto sintético totaliza \textbf{51 instâncias}: 28 com $M = 2$ objetivos e 23 com $M = 3$. Os problemas de engenharia com restrições da coleção RWMOP~\cite{kumar2021benchmark} constituem escopo separado e não são somados a esse total.
 
-Devido à natureza estocástica do método proposto, para cada configuração de teste, o IVF/SPEA2 proposto e os algoritmos comparados SPEA2, MFO-SPEA2, SPEA2+SDE, NSGA-II, NSGA-III e MOEA/D foram cada um executados 100 vezes, com os dados de desempenho coletados usando a métrica IGD. Os algoritmos de benchmark utilizaram suas configurações de parâmetros padrão conforme definidas no PlatEMO versão 24.2.0.2923080 \cite{platemo}. Para o módulo IVF dentro do IVF/SPEA2 proposto, foram adotadas configurações padrão baseadas em estudos anteriores e descobertas experimentais \cite{sampaio2017ivf, sampaio2019ivf}, especificamente um Tamanho de Coleção ``c'' de 10\% do tamanho da população e uma Taxa de Execução ``r'' de 10\%.
+\section{Conjuntos de referência e métricas}
+\label{sec:metricas}
+
+A distância geracional invertida (IGD) é o desfecho primário, fixado antes da análise. A IGD mede convergência e distribuição conjuntamente, calculando a distância média de um conjunto de referência da fronteira ótima até o conjunto de soluções não dominadas obtido; \textbf{valores menores indicam melhor aproximação}. O hipervolume (HV) é o desfecho secundário obrigatório: mede o volume do espaço de objetivos dominado pelo conjunto obtido em relação a um ponto de referência, e \textbf{valores maiores indicam melhor cobertura}. Reportar os dois é exigência do modelo de evidência desta pesquisa, e não uma escolha por conveniência: os indicadores discordam em casos identificáveis, e ocultar a discordância distorceria a conclusão.
+
+Para os problemas sintéticos, ambas as métricas vêm da saída da própria plataforma. Cada instância constrói o seu conjunto de referência por \texttt{Problem.\allowbreak{}GetOptimum(10000)} antes da otimização. A IGD é então a distância média desses 10.000 pontos de referência até a aproximação final, e o HV usa o mesmo conjunto para fixar os limites de normalização, após o que o ponto de referência é o vetor de uns no espaço normalizado.
+
+\section{Protocolo estatístico}
+\label{sec:estatistica}
+
+\textbf{Coorte.} A comparação principal usa 60 execuções independentes por configuração: o IVF/SPEA2 nas execuções 3001 a 3060 e cada comparador nas execuções 1 a 60, com orçamento de $FE_{\max} = 100.000$ avaliações. Após a filtragem de coorte, a comparação entre IVF/SPEA2 e SPEA2 mantém cobertura completa de 60 contra 60 em todas as 51 instâncias, e todas as contagens reportadas derivam apenas dessa coorte filtrada. A filtragem é necessária, e não protocolar: a base consolidada reúne execuções de faixas históricas distintas sob um mesmo rótulo de algoritmo, de modo que lê-la sem filtro misturaria coortes.
+
+\textbf{Teste par a par.} Para cada instância, os 60 valores do IVF/SPEA2 são comparados aos do comparador pelo teste de soma de postos de Wilcoxon~\cite{wilcoxon1945}, também chamado de Mann--Whitney U, bicaudal, com $\alpha = 0{,}05$. Um teste não paramétrico é apropriado porque as distribuições de IGD podem ser assimétricas e violar a suposição de normalidade.
+
+\textbf{Correção de multiplicidade.} A afirmação confirmatória envolve 28 hipóteses simultâneas para $M = 2$ e 23 para $M = 3$. Para controlar a taxa de erro por família, aplica-se o procedimento de Holm--Bonferroni~\cite{holm1979simple} separadamente para cada número de objetivos e para cada métrica. As contagens corrigidas são reportadas ao lado das não corrigidas, e a família foi definida antes de examinar os resultados.
+
+\textbf{Magnitude de efeito.} O tamanho de efeito $A_{12}$ de Vargha e Delaney~\cite{vargha2000critique} complementa a decisão binária dos testes. O $A_{12}$ estima a probabilidade de uma execução do IVF/SPEA2 produzir IGD menor que uma execução do comparador; $A_{12} = 0{,}5$ indica equivalência estocástica, e os limiares de $0{,}56$, $0{,}64$ e $0{,}71$ correspondem a efeitos pequeno, médio e grande em favor do IVF/SPEA2. O sentido do indicador é sempre declarado, porque a orientação se inverte entre IGD e HV.
+
+\textbf{Por que testes par a par e não um teste omnibus.} Ao comparar mais de dois algoritmos em várias instâncias, é comum recorrer a testes omnibus da família de Friedman seguidos de procedimentos post hoc~\cite{derrac2011practical}. Aqui a pergunta confirmatória é se a intensificação melhora o seu \emph{próprio} hospedeiro, e não qual algoritmo alcança o melhor posto global. Os demais comparadores têm papel contextual, não de hipóteses coequivalentes num único ordenamento. O protocolo usa, portanto, testes par a par com correção de Holm para a comparação contra o SPEA2, e reporta os testes não corrigidos contra os demais comparadores como evidência exploratória.
+
+\section{Partição de calibração e generalização}
+\label{sec:calibracao}
+
+Os parâmetros da Tabela~\ref{tab:parametros_ivf} não foram escolhidos por inspeção dos resultados finais. Um procedimento de calibração em três fases operou sobre um subconjunto de \textbf{12 configurações problema--objetivo}\footnote{ZDT1, ZDT6, WFG4 e WFG9 com $M = 2$; DTLZ1, DTLZ2, DTLZ4, DTLZ7, WFG2, WFG5, MaF1 e MaF5 com $M = 3$.}, com 30 execuções por configuração e orçamento reduzido de 50.000 avaliações, avaliando IGD e HV.
+
+A primeira fase varreu a taxa de execução, o tamanho da coleta e o número de ciclos sob recombinação assistida pura, com $m = 0$ e $v = 0$. A segunda comparou cinco perfis de manipulação genética no centro da região promovida pela primeira. A terceira refinou a vizinhança do melhor perfil e promoveu a configuração adotada.
+
+A consequência dessa partição para a leitura dos resultados é direta e precisa ser respeitada: 12 das 51 instâncias participaram da escolha dos parâmetros. As \textbf{39 instâncias restantes} constituem a partição fora do ajuste, e é nela que reside a evidência de generalização. O Capítulo~\ref{sec:results} reporta as contagens nos dois escopos, sempre identificando qual é qual, e a correção de Holm é aplicada à família completa antes do recorte fora do ajuste --- e não à partição recortada, o que produziria uma família diferente da declarada.
+
+\section{Famílias de evidência e seus protocolos}
+\label{sec:familias}
+
+Cinco famílias de evidência sustentam esta dissertação, e elas não compartilham protocolo. A Tabela~\ref{tab:familias_evidencia} declara as diferenças. Duas regras derivam dela e valem para todo o texto: contagens de famílias distintas não são somadas, e coortes que se sobrepõem não constituem replicação independente.
+
+\begin{table}[!htb]
+    \centering
+    \caption{Protocolo por família de evidência. As diferenças de coorte, correção e versão de plataforma são reportadas, não harmonizadas.}
+    \label{tab:familias_evidencia}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|c|l|c|}
+        \hline
+        \textbf{Família} & \textbf{Coorte} & \textbf{Execuções} & \textbf{Correção} & \textbf{Papel} \\
+        \hline
+        Confirmatória & IVF 3001--3060 contra SPEA2 1--60; 51 instâncias & 60 & Holm & confirmatório \\
+        Calibração e ablação & subconjunto de 12 problemas; 51 instâncias na ablação & 30 & Holm & apoio \\
+        Engenharia & RWMOP9, RWMOP21 e RWMOP8 & 60 & --- & apoio externo \\
+        Hospedeiros & IVF 3001--3030, 4001--4030 e 5001--5030 & 30 & Benjamini--Hochberg & comparativo \\
+        Ativação do operador & 60 para rótulos; 30 pareadas por semente & 60 e 30 & Benjamini--Hochberg & diagnóstico \\
+        \hline
+    \end{tabular}
+    }
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Todas as famílias reportam IGD e HV. Todas usam a plataforma na versão 24.2.0.2923080, exceto a comparação entre hospedeiros, que usa a versão 4.6 sob MATLAB R2025b; a diferença é declarada onde os resultados são apresentados. Na família de ativação do operador, o HV é o desfecho primário declarado, porque os rótulos de instância derivam do desfecho confirmatório em IGD. As execuções 3001--3030 e 1--30 da família de hospedeiros são um subconjunto da coorte confirmatória.}
+\end{table}
+
+O orçamento de 60 execuções por configuração na família confirmatória é uma escolha conservadora para experimentação com algoritmos estocásticos, em que o número de execuções afeta materialmente a confiabilidade das estimativas~\cite{eftimov2025adaptive}, e estabiliza conjuntamente o teste de Wilcoxon e as estimativas de mediana e amplitude interquartil.

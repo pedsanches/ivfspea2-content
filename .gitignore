@@ -51,6 +51,11 @@ src/matlab/lib/PlatEMO/Data/
 # Exclude large artifact tables (exceeds GitHub 100MB limit)
 artifact/ppsn2026-ivf-hosts-rev1/tables/hosts_dynamic_normalized_traces.csv
 
+# Thesis build-ready copies. Canonical generated tables are committed under
+# results/thesis/; these are the mirrored copies Tectonic reads at compile time.
+thesis/masters/generated/*
+!thesis/masters/generated/README.md
+
 # Exclude large results tables (exceeds GitHub 100MB limit)
 results/tables/hosts_dynamic_normalized_traces.csv
 

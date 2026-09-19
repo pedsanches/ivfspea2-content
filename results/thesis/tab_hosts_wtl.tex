@@ -1,0 +1,31 @@
+% Gerado por src/python/thesis/build_tab_hosts.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/hosts_ivfspea2_igd_stats.csv
+% Fonte: results/tables/hosts_ivfspea2_hv_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaiii_igd_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaiii_hv_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaii_igd_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaii_hv_stats.csv
+\begin{table}[!htb]
+    \centering
+    \caption{Compatibilidade entre o operador IVF e três hospedeiros: contagens de vitórias, empates e derrotas de cada acoplamento contra o seu hospedeiro.}
+    \label{tab:hosts_wtl}
+    \begin{tabular}{|l|l|c|c|c|c|}
+        \hline
+        \textbf{Acoplamento} & \textbf{Hospedeiro} & \textbf{Métrica} & \textbf{$M=2$} & \textbf{$M=3$} & \textbf{Total (V/E/D)} \\
+        \hline
+        IVF/SPEA2 & SPEA2 & IGD & 21/5/2 & 12/10/1 & \textbf{33/15/3} \\
+         &  & HV & 21/4/3 & 16/6/1 & \textbf{37/10/4} \\
+        \hline
+        IVF/NSGA-III & NSGA-III & IGD & 18/10/0 & 4/19/0 & \textbf{22/29/0} \\
+         &  & HV & 15/12/1 & 6/16/1 & \textbf{21/28/2} \\
+        \hline
+        IVF/NSGA-II & NSGA-II & IGD & 1/25/2 & 0/23/0 & \textbf{1/48/2} \\
+         &  & HV & 4/21/3 & 1/22/0 & \textbf{5/43/3} \\
+        \hline
+    \end{tabular}
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Vitórias/empates/derrotas de cada realização do IVF contra o seu próprio hospedeiro, nas 51 instâncias sintéticas. Wilcoxon pareado com correção de Benjamini--Hochberg, $\alpha = 0{,}05$, 30 execuções por configuração, orçamento de 100.000 avaliações, PlatEMO 4.6. A unidade de comparação é o par hospedeiro mais realização do operador, e não um módulo único transplantado sem alteração: a comparação não isola causalmente o efeito do hospedeiro. As execuções 3001--3030 e 1--30 do par IVF/SPEA2 são um subconjunto da coorte confirmatória e não constituem replicação independente.
+    }
+\end{table}

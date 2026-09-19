@@ -66,6 +66,10 @@ DATA_PROCESSED: Path = DATA / "processed"
 RESULTS: Path = PROJECT_ROOT / "results"
 RESULTS_TABLES: Path = RESULTS / "tables"
 RESULTS_FIGURES: Path = RESULTS / "figures"
+RESULTS_THESIS: Path = RESULTS / "thesis"
+
+THESIS: Path = PROJECT_ROOT / "thesis" / "masters"
+THESIS_GENERATED: Path = THESIS / "generated"
 
 CONFIG: Path = PROJECT_ROOT / "config"
 PAPER: Path = PROJECT_ROOT / "paper"
@@ -104,6 +108,9 @@ __all__ = [
     "RESULTS",
     "RESULTS_FIGURES",
     "RESULTS_TABLES",
+    "RESULTS_THESIS",
+    "THESIS",
+    "THESIS_GENERATED",
     "ensure_dir",
     "find_root",
     "paper_figures",

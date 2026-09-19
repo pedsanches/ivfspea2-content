@@ -1,0 +1,21 @@
+% Gerado por src/python/thesis/build_tab_fla_dinamica.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/dynamic_signal_loocv.csv
+% Fonte: results/tables/dynamic_signal_lofo.csv
+\begin{table}[!htb]
+    \centering
+    \caption{Regra de limiar sobre a renovação do arquivo na fase inicial, como critério binário de ativação do operador.}
+    \label{tab:dinamica_limiar}
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        \textbf{Validação} & \textbf{BA} & \textbf{MCC} & \textbf{Sensibilidade} & \textbf{Especificidade} & \textbf{Limiar} \\
+        \hline
+        Deixa-uma-instância & $0{,}691$ & $0{,}311$ & $0{,}683$ & $0{,}700$ & $0{,}223$ \\
+        Deixa-uma-família & $0{,}754$ & $0{,}413$ & $0{,}707$ & $0{,}800$ & $0{,}216$ \\
+        \hline
+    \end{tabular}
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Regra de limiar único sobre a renovação média do arquivo nos primeiros 20\% das gerações. O limiar é buscado exaustivamente entre os pontos médios de valores adjacentes, maximizando a acurácia balanceada. A acurácia é maior sob validação deixa-uma-família do que sob deixa-uma-instância porque o limiar é reajustado para cada família retida, e as famílias diferem no nível de renovação. O limiar exibido é a mediana dos limiares ajustados. Este resultado exige conhecer a família da instância; um limiar global único seria mais fraco.
+    }
+\end{table}

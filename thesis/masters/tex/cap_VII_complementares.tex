@@ -1,0 +1,102 @@
+\chapter{Estudos Complementares}
+\label{sec:complementares}
+
+O Capítulo~\ref{sec:results} respondeu à pergunta confirmatória. Este capítulo reúne as quatro famílias de evidência que a apoiam sem substituí-la: a calibração e a ablação, que justificam a configuração e as decisões de acoplamento; a transferência para problemas de engenharia; a comparação entre hospedeiros; e a análise de quando vale ativar o operador.
+
+Cada uma responde a uma pergunta distinta, sob a coorte e a correção declaradas na Tabela~\ref{tab:familias_evidencia}. Duas regras valem em todas as seções: as contagens de famílias diferentes não são somadas, e coortes que se sobrepõem não constituem replicação independente. Onde há sobreposição, ela é declarada na abertura da seção.
+
+\section{Calibração e ablação}
+\label{sec:calibracao_ablacao}
+
+Duas perguntas separam-se aqui. A primeira é se a configuração adotada foi escolhida por um procedimento defensável. A segunda é quanto cada decisão de acoplamento contribui para o resultado.
+
+A Tabela~\ref{tab:tuning_c26} apresenta as comparações par a par sobre o subconjunto de calibração descrito na Seção~\ref{sec:calibracao}.
+
+\input{generated/tab_tuning_c26}
+
+A leitura é menos triunfal do que a existência de um procedimento de calibração poderia sugerir. A configuração promovida não se distingue da melhor configuração da fase inicial em nenhuma das 12 instâncias, em IGD, e vence em apenas uma delas em HV. O que a calibração de fato estabelece é mais modesto e mais útil: as duas configurações superam a configuração inicial não ajustada em quatro instâncias, sem perder em nenhuma no indicador primário, e escolher entre elas não introduz prejuízo. A promoção de uma delas é, portanto, uma decisão entre alternativas equivalentes dentro de uma região ampla de bom desempenho, e não a identificação de um ponto ótimo isolado.
+
+A ablação fatorial, na Tabela~\ref{tab:ablacao}, avalia o acoplamento completo contra o SPEA2 canônico e contra a variante sem as duas decisões descritas nas Seções~\ref{sec:pai_dissimilar} e~\ref{sec:critério_coletivo}, agora sobre as 51 instâncias sintéticas.
+
+\input{generated/tab_ablacao}
+
+O resultado contra o SPEA2 canônico é o esperado: 25 vitórias em IGD e 28 em HV, com uma e duas derrotas. O resultado contra a variante ablacionada não é. Nas 51 instâncias, o acoplamento completo empata em 50 e perde em uma, nos dois indicadores; não há separação detectável entre ter e não ter as duas decisões.
+
+Esse é um resultado negativo e precisa ser lido como tal. Ele não autoriza a afirmação de que a seleção de pai dissimilar e o critério coletivo produzem, isoladamente, ganho mensurável na suíte completa. O que a evidência sustenta é que as duas decisões, adotadas em conjunto, mantêm o desempenho enquanto alinham o módulo à lógica de aptidão do hospedeiro --- e que o ganho do acoplamento sobre o SPEA2, esse sim, aparece em metade da suíte e sobrevive à correção de multiplicidade. A justificativa das duas decisões é mecanicista, apresentada no Capítulo~\ref{sec:Proposal}, e não repousa nesta comparação.
+
+Uma ressalva de reprodutibilidade acompanha as duas tabelas: os dados brutos que as originaram não estão presentes nesta árvore, e os artefatos processados são congelados. O Apêndice de recuperação indica de qual depósito eles se restauram.
+
+\section{Transferência para problemas de engenharia}
+\label{sec:engenharia}
+
+Esta seção avalia se o ganho observado na suíte sintética se transfere para problemas com restrições. A evidência é de apoio externo e tem força inferior à confirmatória: são três problemas, e não uma suíte.
+
+Os problemas foram fixados antes de observar os resultados, por um protocolo de seleção que exigia viabilidade, disponibilidade das duas métricas e cobertura de execuções comuns. O conjunto final inclui deliberadamente um caso desfavorável ao IVF/SPEA2, o que limita o viés de seleção positiva.
+
+\input{generated/tab_engenharia_wtl}
+
+Os resultados são mistos, e a Tabela~\ref{tab:engenharia_wtl} mostra também um caso de discordância entre indicadores que merece registro. No RWMOP9 o IVF/SPEA2 vence todos os oito comparadores em IGD, mas em HV vence cinco e perde três: proximidade e cobertura não concordam nesse problema. O RWMOP21 apresenta perfil equilibrado, com três vitórias e três derrotas nos dois indicadores. O RWMOP8 é adverso, com uma vitória e cinco derrotas, e tem ainda cobertura heterogênea de execuções válidas entre algoritmos, o que reduz o peso da sua linha.
+
+A conclusão que essa família sustenta é limitada: a transferência para problemas de engenharia produziu resultados mistos. Ela não amplia nem confirma a afirmação confirmatória, e as suas contagens não se somam às da suíte sintética.
+
+A ressalva de reprodutibilidade da Seção~\ref{sec:calibracao_ablacao} também se aplica a esta família: a análise que originou a Tabela~\ref{tab:engenharia_wtl} não se reexecuta a partir de um clone limpo, porque os seus dados de entrada não estão versionados. O artefato processado está presente e foi conferido, e o Apêndice~\ref{apend:recuperacao} indica de qual depósito o bruto se recupera.
+
+\section{Compatibilidade entre o operador e o hospedeiro}
+\label{sec:hospedeiros}
+
+A pergunta desta seção é se o benefício do IVF depende do algoritmo que o hospeda. Ela compara três acoplamentos publicados --- IVF/SPEA2, IVF/NSGA-II e IVF/NSGA-III --- cada um contra o seu próprio hospedeiro, sob protocolo comum de 30 execuções e correção de Benjamini--Hochberg.
+
+Duas ressalvas precedem os números. Primeiro, a sobreposição: as execuções 3001--3030 e 1--30 usadas aqui para o par IVF/SPEA2 são um subconjunto da coorte confirmatória do Capítulo~\ref{sec:results}. A coluna correspondente não é replicação independente, e apenas as execuções 4001--4030 e 5001--5030 acrescentam observações novas. Segundo, a unidade de comparação: cada coluna é o par formado por um hospedeiro e pela realização do operador que os seus autores publicaram para ele, com diferenças de seleção de pai, de operador de recombinação e de critério de continuação. A comparação é entre pipelines, e não isola causalmente o efeito do hospedeiro.
+
+\input{generated/tab_hosts_wtl}
+
+A ordenação é nítida e consistente entre os dois indicadores. O IVF/SPEA2 melhora o seu hospedeiro em 33 das 51 instâncias em IGD e em 37 em HV. O IVF/NSGA-III melhora em 22 e 21, sem derrota em IGD, mas com uma proporção alta de empates. O IVF/NSGA-II permanece próximo da neutralidade, com uma vitória e 48 empates em IGD.
+
+A Tabela~\ref{tab:hosts_geometria} estratifica essas contagens pela geometria da fronteira de Pareto.
+
+\input{generated/tab_hosts_geometria}
+
+O padrão observado no Capítulo~\ref{sec:results} reaparece aqui e se estende aos outros hospedeiros: os três acoplamentos rendem mais em fronteiras regulares do que em irregulares, e a diferença é maior justamente no acoplamento que mais ganha. Para o IVF/SPEA2, o tamanho de efeito mediano cai de $0{,}781$ para $0{,}642$ em IGD quando se passa das 40 instâncias regulares às 11 irregulares.
+
+Essa estratificação é descritiva. Os testes de interação entre hospedeiro e geometria não atingiram significância, de modo que os dados são consistentes com a leitura de que a geometria modula o benefício, mas não a estabelecem. O número de instâncias irregulares, onze, é pequeno para sustentar mais do que isso.
+
+\section{Quando ativar o operador}
+\label{sec:ativacao}
+
+As seções anteriores tratam o operador como sempre ativo. Esta pergunta se é possível decidir, cedo na execução, se vale mantê-lo --- e usa como base os mesmos resultados confirmatórios, o que impõe uma restrição metodológica que precisa ser declarada antes dos números.
+
+As instâncias foram rotuladas conforme o operador ajude ou não, e esses rótulos derivam do desfecho confirmatório em IGD. Avaliar um controlador em IGD reutilizaria os rótulos como sua própria validação. Por isso o HV é o desfecho primário declarado desta família. Dos 52 casos disponíveis, um problema de engenharia não recebeu rótulo e ficou fora; as contagens são sobre as \textbf{51 instâncias rotuladas}, das quais 41 se beneficiam do operador e 10 não.
+
+\subsection{Descritores estáticos de paisagem}
+
+A primeira hipótese testada foi a de que características estáticas da paisagem, medidas antes da execução, permitiriam prever o benefício.
+
+\input{generated/tab_fla_modelos}
+
+A Tabela~\ref{tab:fla_modelos} separa duas capacidades distintas. Ordenar instâncias por ganho esperado funciona de forma moderada e estável: a correlação de postos fica em torno de $0{,}37$ e não se degrada quando a validação retira uma família inteira de problemas do treino. Classificar binariamente, ao contrário, não generaliza: sob validação deixa-uma-família todos os classificadores caem para a vizinhança do acaso, três deles com coeficiente de correlação de Matthews negativo. O desempenho aparentemente bom sob validação deixa-uma-instância vinha de instâncias da mesma família presentes no treino.
+
+Descritores estáticos servem, portanto, como \emph{prior} sobre a magnitude do ganho, e não como regra de decisão.
+
+\subsection{Dinâmica inicial da população}
+
+A segunda hipótese substitui a medição estática por observáveis colhidos nos primeiros 20\% das gerações.
+
+\input{generated/tab_dinamica_separacao}
+
+Entre os cinco observáveis avaliados, apenas a renovação do arquivo separa as classes de forma que sobrevive à correção de multiplicidade, com tamanho de efeito grande. As diferenças finais de IGD e de HV, que seriam as candidatas naturais, não sobrevivem --- o que é coerente, porque medi-las exige deixar a execução terminar, e a decisão que interessa é tomada cedo. O número de ciclos de IVF na fase inicial é praticamente idêntico nas duas classes, o que descarta a explicação mais simples, a de que o operador simplesmente atua mais onde ajuda.
+
+\input{generated/tab_dinamica_limiar}
+
+Uma regra de limiar único sobre esse observável atinge acurácia balanceada de $0{,}754$ sob validação deixa-uma-família. O valor é maior que o obtido sob validação deixa-uma-instância, o que à primeira vista surpreende. A explicação está no procedimento: sob deixa-uma-família o limiar é reajustado para cada família retida, e as famílias diferem no seu nível característico de renovação. A contrapartida é prática e limita o uso da regra --- ela pressupõe conhecer a família da instância, e um limiar global único seria mais fraco.
+
+\subsection{Controlador de aquecimento}
+
+A regra anterior foi implementada como controlador: após a fase inicial, o operador é desativado de forma irreversível nas instâncias cuja renovação fique abaixo do limiar da família.
+
+\input{generated/tab_controlador_wtl}
+
+O controlador vence o SPEA2 canônico em 34 das 51 instâncias em HV e iguala ou supera em 48. Comparado ao IVF/SPEA2 sempre ativo, iguala ou supera em 42 das 51.
+
+O que a Tabela~\ref{tab:controlador_wtl} torna visível é a natureza do compromisso. Nas 10 instâncias em que o operador não ajuda, o controlador elimina integralmente as derrotas contra o IVF sempre ativo: iguala ou supera em todas as dez. Nas 41 em que o operador ajuda, abre mão de ganho em nove. O controlador troca ganho onde o operador é útil por proteção onde ele é nocivo, e essa troca é favorável quando o custo de uma degradação importa mais que o benefício de um ganho marginal.
+
+Como as coortes desta seção e as do Capítulo~\ref{sec:results} são as mesmas, este resultado não constitui validação independente da proposta. Ele responde a uma pergunta diferente: não se o operador melhora o hospedeiro, mas se é possível saber cedo quando ele não vai melhorar.

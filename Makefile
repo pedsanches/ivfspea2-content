@@ -145,6 +145,12 @@ paper-clean: ## Clean LaTeX build artifacts
 # targets at the root; they simply never existed. Delegating is cheaper than
 # correcting both documents, and matches how the paper targets already work.
 
+thesis-tables: ## Regenerate the dissertation's tables into results/thesis/
+	$(ACTIVATE) && $(PYTHON) src/python/thesis/build_all.py
+
+thesis-tables-check: ## Fail if any committed dissertation table is out of sync
+	$(ACTIVATE) && $(PYTHON) src/python/thesis/build_all.py --check
+
 thesis: ## Compile the master's dissertation (offline; needs thesis-bootstrap once)
 	$(MAKE) -C thesis/masters all
 

@@ -1,0 +1,29 @@
+% Gerado por src/python/thesis/build_tab_confirmatorio.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/claims_summary_audit.csv
+\begin{table}[!htb]
+    \centering
+    \caption{Desempenho do IVF/SPEA2 em relação ao SPEA2 canônico na suíte sintética, por métrica, correção de multiplicidade e escopo de instâncias.}
+    \label{tab:confirmatorio_wtl}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|l|c|c|c|c|}
+        \hline
+        \textbf{Métrica} & \textbf{Correção} & \textbf{Escopo} & \textbf{$M=2$ (V/E/D)} & \textbf{$n$} & \textbf{$M=3$ (V/E/D)} & \textbf{$n$} \\
+        \hline
+        IGD & Sem correção & Suíte completa & 23/2/3 & 28 & 18/4/1 & 23 \\
+         & Sem correção & Fora do ajuste & 20/2/2 & 24 & 13/2/0 & 15 \\
+         & Holm & Suíte completa & 22/3/3 & 28 & 15/7/1 & 23 \\
+         & Holm & Fora do ajuste & 19/3/2 & 24 & 12/3/0 & 15 \\
+        \hline
+        HV & Sem correção & Suíte completa & 23/2/3 & 28 & 17/5/1 & 23 \\
+         & Sem correção & Fora do ajuste & 20/2/2 & 24 & 11/4/0 & 15 \\
+         & Holm & Suíte completa & 22/3/3 & 28 & 17/5/1 & 23 \\
+         & Holm & Fora do ajuste & 19/3/2 & 24 & 11/4/0 & 15 \\
+        \hline
+    \end{tabular}
+    }
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Contagens de vitórias/empates/derrotas do IVF/SPEA2 contra o SPEA2 canônico. Teste bicaudal de Mann--Whitney, $\alpha = 0{,}05$, correção de Holm aplicada separadamente por número de objetivos e por métrica. IGD: menor é melhor; HV: maior é melhor. Coorte: execuções 3001--3060 contra 1--60, 60 execuções por configuração, orçamento de 100.000 avaliações. O recorte fora do ajuste exclui as 12 instâncias usadas na calibração e é obtido após a correção da família completa.
+    }
+\end{table}

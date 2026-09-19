@@ -14,8 +14,10 @@ SOURCES := $(MAIN) inf-ufg-tectonic.cls inf-ufg.cls abnt-alf.bst inf-ufg.bst \
            tocloft.sty data-sources.toml \
            $(wildcard bib/*.bib) \
            $(wildcard pre/*.tex) \
+           $(wildcard pre/*.pdf) \
            $(wildcard tex/*.tex) \
            $(wildcard pos/*.tex) \
+           $(wildcard generated/*.tex) \
            $(wildcard fig/*.pdf)
 
 .PHONY: all bootstrap doctor render clean

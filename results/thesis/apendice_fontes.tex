@@ -1,0 +1,116 @@
+% Gerado por data-sources.toml via src/python/thesis/build_apendice_fontes.py
+% Regenerar com: make thesis-tables -- nao editar a mao.
+
+Cada família de evidência desta dissertação é declarada no manifesto \texttt{thesis/masters/data-sources.toml}, que fixa o conjunto de dados, o script produtor, a coorte de execuções e as lacunas conhecidas de cada uma. As entradas abaixo são geradas diretamente desse manifesto, de modo que o apêndice não pode divergir do que o repositório declara.
+
+\subsection*{Registro histórico da formulação anterior}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} registro histórico da formulação anterior.
+    \item \textbf{Papel:} histórica.
+    \item \textbf{Implementação:} formulação anterior do operador (registro histórico).
+    \item \textbf{Coorte:} Coorte do manuscrito de 2025; os identificadores de execução estão misturados e exigiriam reconciliação antes de qualquer reúso.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} \texttt{data/\allowbreak{}processed/\allowbreak{}metrica\_\allowbreak{}IGD.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}metrica\_\allowbreak{}HV.csv}
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}consolidate\_\allowbreak{}ivfspea2.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}compute\_\allowbreak{}iqr\_\allowbreak{}tables.py}
+    \item \textbf{Artefatos:} ---
+    \item \textbf{Dados brutos:} O protocolo isolado usa as execuções 2001--2100, faixa que não está presente na base consolidada atual.
+    \item \textbf{Lacunas conhecidas:} As afirmações do manuscrito histórico precisariam ser reconciliadas contra esse protocolo antes de serem reutilizadas.
+    \item \textbf{Uso nesta dissertação:} nenhum. A coorte correspondente não está presente no repositório e nenhuma afirmação do texto se apoia nela.
+\end{itemize}
+
+\subsection*{Evidência confirmatória: IVF/SPEA2 contra SPEA2}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} validação do IVF/SPEA2.
+    \item \textbf{Papel:} confirmatória.
+    \item \textbf{Implementação:} \texttt{IVFSPEA2V2}, configuração C26.
+    \item \textbf{Coorte:} 51 instâncias sintéticas; IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60; orçamento fixo de 100.000 avaliações.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} \texttt{data/\allowbreak{}processed/\allowbreak{}todas\_\allowbreak{}metricas\_\allowbreak{}consolidado\_\allowbreak{}with\_\allowbreak{}modern.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}hosts\_\allowbreak{}convergence.csv}
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}cohort\_\allowbreak{}filter.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}compute\_\allowbreak{}claims\_\allowbreak{}summary.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}generate\_\allowbreak{}per\_\allowbreak{}instance\_\allowbreak{}tables.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}compute\_\allowbreak{}convergence\_\allowbreak{}summaries.py}
+    \item \textbf{Artefatos:} \texttt{results/\allowbreak{}tables/\allowbreak{}claims\_\allowbreak{}summary\_\allowbreak{}audit.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}claims\_\allowbreak{}summary\_\allowbreak{}instance\_\allowbreak{}details.csv}
+    \item \textbf{Dados brutos:} As saídas brutas da plataforma não são versionadas; recuperam-se do depósito arquivado.
+    \item \textbf{Lacunas conhecidas:} A base consolidada é mista e precisa sempre ser lida através do filtro de coorte.
+\end{itemize}
+
+\subsection*{Calibração de parâmetros e ablação fatorial}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} validação do IVF/SPEA2.
+    \item \textbf{Papel:} de apoio.
+    \item \textbf{Implementação:} \texttt{IVFSPEA2V2} e suas variantes de ablação.
+    \item \textbf{Coorte:} Coortes da calibração em três fases e da ablação fatorial, mantidas separadas do teste confirmatório.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} ---
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}analyze\_\allowbreak{}ivfspea2v2\_\allowbreak{}tuning.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}analyze\_\allowbreak{}ablation\_\allowbreak{}v2\_\allowbreak{}phase1.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}analyze\_\allowbreak{}ablation\_\allowbreak{}v2\_\allowbreak{}phase2.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}analyze\_\allowbreak{}ablation\_\allowbreak{}v2\_\allowbreak{}phase3.py}
+    \item \textbf{Artefatos:} \texttt{results/\allowbreak{}tuning\_\allowbreak{}ivfspea2v2/\allowbreak{}tuning\_\allowbreak{}phase\_\allowbreak{}ranking.csv}, \texttt{results/\allowbreak{}ablation\_\allowbreak{}v2/\allowbreak{}phase1/\allowbreak{}phase1\_\allowbreak{}summary.csv}, \texttt{results/\allowbreak{}ablation\_\allowbreak{}v2/\allowbreak{}phase2/\allowbreak{}phase2\_\allowbreak{}pairwise\_\allowbreak{}adjusted.csv}, \texttt{results/\allowbreak{}ablation\_\allowbreak{}v2/\allowbreak{}phase3/\allowbreak{}phase3\_\allowbreak{}raw\_\allowbreak{}metrics.csv}
+    \item \textbf{Dados brutos:} Os artefatos processados estão congelados; a disponibilidade do bruto varia por fase.
+\end{itemize}
+
+\subsection*{Transferência para problemas de engenharia}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} validação do IVF/SPEA2.
+    \item \textbf{Papel:} de apoio externo.
+    \item \textbf{Implementação:} \texttt{IVFSPEA2V2}, configuração C26.
+    \item \textbf{Coorte:} RWMOP9, RWMOP21 e RWMOP8, com processamento estrito de execuções comuns.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} \texttt{data/\allowbreak{}processed/\allowbreak{}todas\_\allowbreak{}metricas\_\allowbreak{}consolidado\_\allowbreak{}with\_\allowbreak{}modern.csv}
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}analyze\_\allowbreak{}engineering.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}plot\_\allowbreak{}engineering\_\allowbreak{}metric\_\allowbreak{}profiles.py}
+    \item \textbf{Artefatos:} \texttt{results/\allowbreak{}engineering\_\allowbreak{}suite/\allowbreak{}engineering\_\allowbreak{}suite\_\allowbreak{}pairwise\_\allowbreak{}main.csv}, \texttt{results/\allowbreak{}engineering\_\allowbreak{}suite/\allowbreak{}engineering\_\allowbreak{}suite\_\allowbreak{}summary\_\allowbreak{}main.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}engineering\_\allowbreak{}metric\_\allowbreak{}profiles\_\allowbreak{}summary.csv}
+    \item \textbf{Dados brutos:} Os dados brutos de engenharia são locais ou arquivados e não estão versionados de forma uniforme.
+    \item \textbf{Lacunas conhecidas:} O RWMOP8 tem cobertura heterogênea de execuções válidas e força probatória menor.
+\end{itemize}
+
+\subsection*{Paisagem de aptidão, dinâmica inicial e controlador}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} decisão de ativação do operador.
+    \item \textbf{Papel:} diagnóstica.
+    \item \textbf{Implementação:} \texttt{IVFSPEA2V2} e o controlador de aquecimento.
+    \item \textbf{Coorte:} Coorte de 60 execuções independentes para os rótulos, mais 30 execuções pareadas por semente para a dinâmica e o controlador.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} \texttt{data/\allowbreak{}processed/\allowbreak{}fla\_\allowbreak{}dataset.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}fla\_\allowbreak{}response.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}landscape\_\allowbreak{}features.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}landscape\_\allowbreak{}features\_\allowbreak{}cv.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}dynamic\_\allowbreak{}signal\_\allowbreak{}test.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}ppsn\_\allowbreak{}controller\_\allowbreak{}comparison\_\allowbreak{}oos\_\allowbreak{}20260326\_\allowbreak{}221909.csv}
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}fla/\allowbreak{}build\_\allowbreak{}dataset.py}, \texttt{src/\allowbreak{}python/\allowbreak{}fla/\allowbreak{}train\_\allowbreak{}models.py}, \texttt{src/\allowbreak{}python/\allowbreak{}fla/\allowbreak{}test\_\allowbreak{}dynamic\_\allowbreak{}signal.py}, \texttt{src/\allowbreak{}python/\allowbreak{}dynamics/\allowbreak{}extract\_\allowbreak{}trajectories.py}, \texttt{src/\allowbreak{}python/\allowbreak{}dynamics/\allowbreak{}analyze\_\allowbreak{}dynamics.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}compare\_\allowbreak{}controller.py}
+    \item \textbf{Artefatos:} ---
+    \item \textbf{Dados brutos:} Os arquivos brutos de dinâmica são locais; o bruto do controlador está ausente, e o seu processado congelado está presente.
+    \item \textbf{Lacunas conhecidas:} Os rótulos derivados em IGD não constituem desfecho independente para o controlador, cujo desfecho primário declarado é o hipervolume.
+\end{itemize}
+
+\subsection*{Trajetórias parciais (registro histórico)}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} decisão de ativação do operador.
+    \item \textbf{Papel:} histórica.
+    \item \textbf{Implementação:} \texttt{IVFSPEA2V2}, subconjunto de trajetórias.
+    \item \textbf{Coorte:} Apenas cinco casos selecionados; não é a fonte da suíte completa de dinâmica.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} \texttt{data/\allowbreak{}processed/\allowbreak{}ppsn\_\allowbreak{}trajectories.csv}
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}dynamics/\allowbreak{}extract\_\allowbreak{}trajectories.py}
+    \item \textbf{Artefatos:} ---
+    \item \textbf{Dados brutos:} Processado parcial disponível.
+    \item \textbf{Lacunas conhecidas:} Contém somente cinco casos e não substitui a fonte principal de dinâmica.
+\end{itemize}
+
+\subsection*{Compatibilidade entre o operador e o hospedeiro}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} compatibilidade operador--hospedeiro.
+    \item \textbf{Papel:} comparativa.
+    \item \textbf{Implementação:} pipelines publicados IVF/SPEA2, IVF/NSGA-II e IVF/NSGA-III.
+    \item \textbf{Coorte:} 51 instâncias sintéticas com 30 execuções por configuração; a situação de pareamento difere conforme o hospedeiro.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} \texttt{data/\allowbreak{}processed/\allowbreak{}hosts\_\allowbreak{}paper.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}nsga\_\allowbreak{}experiments.csv}, \texttt{data/\allowbreak{}processed/\allowbreak{}hosts\_\allowbreak{}convergence.csv}
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}build\_\allowbreak{}hosts\_\allowbreak{}paper\_\allowbreak{}csv.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}build\_\allowbreak{}hosts\_\allowbreak{}convergence\_\allowbreak{}csv.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}compute\_\allowbreak{}hosts\_\allowbreak{}tables.py}, \texttt{src/\allowbreak{}python/\allowbreak{}analysis/\allowbreak{}compute\_\allowbreak{}hosts\_\allowbreak{}pairing\_\allowbreak{}robustness.py}
+    \item \textbf{Artefatos:} \texttt{results/\allowbreak{}tables/\allowbreak{}hosts\_\allowbreak{}rep\_\allowbreak{}endpoint\_\allowbreak{}igd.tex}, \texttt{results/\allowbreak{}tables/\allowbreak{}hosts\_\allowbreak{}summary.tex}
+    \item \textbf{Dados brutos:} Os processados de desfecho estão presentes; as saídas brutas não são versionadas.
+    \item \textbf{Lacunas conhecidas:} A comparação avalia pipelines publicados e não isola causalmente a escolha do hospedeiro das diferenças de implementação que a acompanham.
+\end{itemize}
+
+\subsection*{Tabelas desta dissertação}
+\begin{itemize}[nosep]\raggedright
+    \item \textbf{Família:} thesis-synthesis.
+    \item \textbf{Papel:} derived.
+    \item \textbf{Implementação:} \texttt{IVFSPEA2V2}, configuração C26.
+    \item \textbf{Coorte:} Não há execuções novas. Esta fonte apenas converte os artefatos congelados das demais famílias em tabelas, preservando a coorte e a correção de cada uma.
+    \item \textbf{Métricas:} IGD, HV.
+    \item \textbf{Dados:} \texttt{results/\allowbreak{}tables/\allowbreak{}claims\_\allowbreak{}summary\_\allowbreak{}audit.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}claims\_\allowbreak{}summary\_\allowbreak{}instance\_\allowbreak{}details.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}igd\_\allowbreak{}per\_\allowbreak{}instance\_\allowbreak{}M2.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}igd\_\allowbreak{}per\_\allowbreak{}instance\_\allowbreak{}M3.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}hv\_\allowbreak{}per\_\allowbreak{}instance\_\allowbreak{}M2.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}hv\_\allowbreak{}per\_\allowbreak{}instance\_\allowbreak{}M3.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}hosts\_\allowbreak{}ivfspea2\_\allowbreak{}igd\_\allowbreak{}stats.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}hosts\_\allowbreak{}geometry\_\allowbreak{}summary.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}fla\_\allowbreak{}model\_\allowbreak{}comparison.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}dynamic\_\allowbreak{}signal\_\allowbreak{}main\_\allowbreak{}tests.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}dynamic\_\allowbreak{}signal\_\allowbreak{}loocv.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}dynamic\_\allowbreak{}signal\_\allowbreak{}lofo.csv}, \texttt{results/\allowbreak{}tables/\allowbreak{}controller\_\allowbreak{}wtl\_\allowbreak{}oos\_\allowbreak{}20260326\_\allowbreak{}221909.csv}, \texttt{results/\allowbreak{}engineering\_\allowbreak{}suite/\allowbreak{}engineering\_\allowbreak{}suite\_\allowbreak{}pairwise\_\allowbreak{}main.csv}, \texttt{results/\allowbreak{}ablation\_\allowbreak{}v2/\allowbreak{}phase3/\allowbreak{}phase3\_\allowbreak{}summary.json}, \texttt{results/\allowbreak{}tuning\_\allowbreak{}ivfspea2v2/\allowbreak{}head\_\allowbreak{}to\_\allowbreak{}head\_\allowbreak{}c26\_\allowbreak{}a43\_\allowbreak{}v1\_\allowbreak{}summary.json}
+    \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}all.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}confirmatorio.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}por\_\allowbreak{}instancia.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}hosts.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}engenharia.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}tuning\_\allowbreak{}ablacao.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}fla\_\allowbreak{}dinamica.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}controlador.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}apendice\_\allowbreak{}fontes.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}ptbr\_\allowbreak{}format.py}, \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}latex\_\allowbreak{}table.py}
+    \item \textbf{Artefatos:} \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}confirmatorio\_\allowbreak{}wtl.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}igd\_\allowbreak{}por\_\allowbreak{}instancia\_\allowbreak{}M2.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}igd\_\allowbreak{}por\_\allowbreak{}instancia\_\allowbreak{}M3.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}hv\_\allowbreak{}por\_\allowbreak{}instancia\_\allowbreak{}M2.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}hv\_\allowbreak{}por\_\allowbreak{}instancia\_\allowbreak{}M3.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}hosts\_\allowbreak{}wtl.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}hosts\_\allowbreak{}geometria.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}engenharia\_\allowbreak{}wtl.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}tuning\_\allowbreak{}c26.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}ablacao.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}fla\_\allowbreak{}modelos.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}dinamica\_\allowbreak{}separacao.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}dinamica\_\allowbreak{}limiar.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}controlador\_\allowbreak{}wtl.tex}, \texttt{results/\allowbreak{}thesis/\allowbreak{}apendice\_\allowbreak{}fontes.tex}
+    \item \textbf{Dados brutos:} Não se aplica: todas as entradas são artefatos processados e versionados.
+    \item \textbf{Lacunas conhecidas:} Não há tabela para a família de convergência, cuja análise foi omitida da dissertação.
+\end{itemize}

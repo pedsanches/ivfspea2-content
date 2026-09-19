@@ -1,0 +1,34 @@
+% Gerado por src/python/thesis/build_tab_fla_dinamica.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/fla_model_comparison.csv
+\begin{table}[!htb]
+    \centering
+    \caption{Capacidade preditiva dos descritores estáticos de paisagem sob validação deixa-uma-instância e deixa-uma-família.}
+    \label{tab:fla_modelos}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|l|c|c|c|c|}
+        \hline
+        \textbf{Modelo} & \textbf{Validação} & \textbf{$r_s$} & \textbf{$R^2$} & \textbf{BA} & \textbf{MCC} \\
+        \hline
+        Floresta aleatória (regressão) & Deixa-uma-instância & $0{,}374$ & $0{,}160$ & --- & --- \\
+         & Deixa-uma-família & $0{,}380$ & --- & --- & --- \\
+        \hline
+        Floresta aleatória (classificação) & Deixa-uma-instância & --- & --- & $0{,}527$ & $0{,}059$ \\
+         & Deixa-uma-família & --- & --- & $0{,}488$ & $-0{,}070$ \\
+        \hline
+        Regressão logística & Deixa-uma-instância & --- & --- & $0{,}728$ & $0{,}384$ \\
+         & Deixa-uma-família & --- & --- & $0{,}439$ & $-0{,}163$ \\
+        \hline
+        SVC com núcleo RBF & Deixa-uma-instância & --- & --- & $0{,}690$ & $0{,}332$ \\
+         & Deixa-uma-família & --- & --- & $0{,}488$ & $-0{,}070$ \\
+        \hline
+        $k$-vizinhos ($k=5$) & Deixa-uma-instância & --- & --- & $0{,}613$ & $0{,}280$ \\
+         & Deixa-uma-família & --- & --- & $0{,}488$ & $-0{,}070$ \\
+        \hline
+    \end{tabular}
+    }
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Modelos treinados sobre os 14 descritores estáticos de paisagem retidos, nas 51 instâncias rotuladas. $r_s$ é a correlação de Spearman entre ganho previsto e observado; BA é a acurácia balanceada e MCC o coeficiente de correlação de Matthews. A validação deixa-uma-família retira uma suíte inteira do treino, e é sob ela que a classificação binária deixa de generalizar: todos os modelos caem para a vizinhança do acaso, enquanto a regressão preserva o sinal. Os descritores estáticos servem, portanto, como prior sobre a magnitude do ganho, não como regra de decisão.
+    }
+\end{table}
