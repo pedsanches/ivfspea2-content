@@ -1,7 +1,7 @@
-\chapter{Recuperação dos Dados Brutos}
+\chapter{Disponibilidade dos Dados e Recomposição da Evidência}
 \label{apend:recuperacao}
 
-Parte das evidências de apoio desta dissertação repousa em artefatos processados cujos dados brutos não acompanham o repositório. Este apêndice registra quais são, por que não estão versionados e de onde se recuperam, de modo que a cadeia de produção possa ser refeita por terceiros.
+Parte das evidências de apoio desta dissertação repousa em artefatos processados cujos dados brutos não acompanham o repositório. Este apêndice registra quais são, por que não estão versionados, e o que é --- e o que não é --- possível refazer a partir do que está distribuído.
 
 \section{O que não está versionado, e por quê}
 
@@ -17,27 +17,37 @@ Três categorias de dados ficam fora do controle de versão, por razões distint
 
 O que \emph{está} versionado, em todos os casos, é o produto processado: as tabelas de métricas por execução, os resumos estatísticos e os artefatos de auditoria a partir dos quais as tabelas desta dissertação são geradas. As contagens reportadas foram conferidas contra esses artefatos.
 
-\section{Onde os dados brutos residem}
+\section{Três estados distintos, e por que a distinção importa}
 
-O repositório de código e os artefatos processados desta pesquisa estão depositados de forma permanente e citável. A Seção~\ref{sec:disponibilidade}, ao final deste apêndice, declara o identificador do depósito e o que ele contém.
+Trabalhos que declaram disponibilidade de dados costumam tratar repositório e depósito como sinônimos. Aqui eles não são, e confundi-los produziria uma promessa que esta pesquisa não pode cumprir. Três estados precisam ser separados:
 
-O depósito preserva, além do código, os arquivos de manifesto que associam cada conjunto de dados processados ao script que o produziu e à coorte de execuções que o originou. É esse encadeamento --- e não a presença dos dados brutos --- que permite verificar se um número reportado corresponde ao artefato que o sustenta.
+\begin{itemize}
+\item \textbf{Repositório de código.} Mantém a implementação do algoritmo, os roteiros de experimento, os scripts de análise, os dados processados e os geradores das tabelas desta dissertação. É o estado vivo, e é dele que a Seção~\ref{sec:disponibilidade} dá o endereço.
+
+\item \textbf{Registro de arquivamento.} Preserva instantâneos versionados desse repositório, cada um com identificador próprio e permanente. As versões publicadas até a redação desta dissertação correspondem aos manuscritos derivados da pesquisa; o identificador de conceito resolve sempre para a mais recente.
+
+\item \textbf{Fora de ambos.} As saídas brutas de execução. Nenhuma versão publicada do registro as contém, e o repositório as exclui deliberadamente pelos motivos da seção anterior.
+\end{itemize}
+
+A consequência é direta e é registrada aqui em vez de ser deixada para o leitor descobrir: \textbf{não há depósito de onde recuperar os dados brutos}. O que está arquivado é a cadeia processada, não a sua origem.
 
 \section{Consequência para a reprodutibilidade}
 
-A distinção entre reproduzir e regenerar é relevante aqui, e esta dissertação não a dissimula.
+A distinção entre reproduzir, regenerar e reexecutar é relevante aqui, e esta dissertação não a dissimula.
 
 As análises da família confirmatória são \textbf{regeneráveis} a partir dos dados processados versionados: os scripts declarados no Apêndice~\ref{apend:fontes} reconstroem as contagens e as tabelas a partir do repositório, sem depender de dados externos.
 
-As famílias de calibração, ablação, transferência para engenharia e do controlador são \textbf{verificáveis, mas não regeneráveis} no estado atual do repositório: os seus artefatos processados estão presentes e foram conferidos, mas os produtores não executam a partir de um clone limpo, porque os seus dados de entrada não estão versionados. Reexecutá-las exige recuperar os dados brutos do depósito arquivado.
+As famílias de calibração, ablação, transferência para engenharia e do controlador são \textbf{verificáveis, mas não regeneráveis} no estado atual do repositório: os seus artefatos processados estão presentes e foram conferidos, mas os produtores não executam a partir de um clone limpo, porque os seus dados de entrada não estão versionados.
 
-Essa assimetria está declarada nas ameaças à validade, no Capítulo~\ref{sec:threats}, e é registrada aqui para que o leitor possa distinguir, ao consultar cada resultado, qual dos dois níveis de garantia se aplica.
+Para essas famílias, a via disponível não é recuperar, é \textbf{reexecutar}. Os roteiros de experimento que produziram as execuções originais estão versionados, e reconstruir os dados de entrada exige rodá-los novamente sob a mesma plataforma, com os mesmos identificadores de execução e a mesma configuração declarada no Capítulo~\ref{sec:Experiments}. O custo é o da campanha experimental original, e não o de um download. O repositório distribui o que é necessário para refazer o percurso; não distribui um atalho para o seu resultado intermediário.
+
+Essa assimetria está declarada nas ameaças à validade, no Capítulo~\ref{sec:threats}, e é registrada aqui para que o leitor possa distinguir, ao consultar cada resultado, qual dos três níveis de garantia se aplica.
 
 \section{Declaração de disponibilidade de dados e código}
 \label{sec:disponibilidade}
 
-O código do algoritmo, os scripts de análise e os artefatos processados que sustentam as tabelas desta dissertação estão disponíveis no repositório público \url{https://github.com/pedsanches/ivfspea2-content} e depositados no Zenodo sob o DOI de conceito \texttt{10.5281/zenodo.19071253}~\cite{ivfspea2github}. O DOI de conceito resolve sempre para a versão mais recente do registro, e é por isso que ele --- e não o identificador de uma versão específica --- é o citado aqui.
+O código do algoritmo, os roteiros de experimento, os scripts de análise, os dados processados e os geradores das tabelas desta dissertação são mantidos no repositório público \url{https://github.com/pedsanches/ivfspea2-content} e arquivados no Zenodo sob o DOI de conceito \texttt{10.5281/zenodo.19071253}~\cite{ivfspea2github}. O DOI de conceito resolve sempre para a versão mais recente do registro, e é por isso que ele --- e não o identificador de uma versão específica --- é o citado aqui.
 
 A implementação avaliada é a classe \texttt{IVFSPEA2V2}, no diretório de algoritmos multiobjetivo da distribuição do PlatEMO incluída no repositório. O identificador é nome de classe na implementação, e não designação de variante do método descrito no Capítulo~\ref{sec:Proposal}.
 
-O depósito não inclui as saídas brutas de execução, pelas razões registradas neste apêndice. Inclui os dados processados, os manifestos que associam cada conjunto ao script que o produziu e à coorte que o originou, e as tabelas geradas a partir deles. O Apêndice~\ref{apend:fontes} relaciona, fonte a fonte, qual artefato sustenta cada afirmação do texto.
+O registro arquiva, além do código, os manifestos que associam cada conjunto de dados processados ao script que o produziu e à coorte de execuções que o originou. É esse encadeamento --- e não a presença dos dados brutos, que o registro não contém --- que permite verificar se um número reportado corresponde ao artefato que o sustenta. O Apêndice~\ref{apend:fontes} relaciona, fonte a fonte, qual artefato sustenta cada afirmação do texto.
