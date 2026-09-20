@@ -412,3 +412,58 @@ ou informação que amplie indevidamente a exposição de material inédito.
   data de defesa, folha da banca, `\publica`, divergência da ficha catalográfica
   e a declaração de formato monográfico exigida pela Resolução INF nº 02/2023/PPGCC,
   que não existe no documento.
+
+### 2026-09-20 — figuras de resultado, Capítulo 3 e limpeza bibliográfica
+
+- **Ferramenta:** Claude, da Anthropic. O modelo/versão exato deve ser
+  confirmado na interface antes de uma declaração formal.
+- **Fase:** rodada R7, decidida pelo autor após a auditoria de estado.
+- **Finalidade:** dar à dissertação figuras de resultado espelhando as dos três
+  manuscritos-fonte, aprofundar o Capítulo 3 e remover uma entrada
+  bibliográfica com autoria não verificada.
+- **Arquivos afetados:** `src/python/thesis/build_fig_resultados.py` e
+  `build_fig_complementares.py` (novos), `src/python/thesis/build_all.py`,
+  `thesis/masters/Makefile`, `data-sources.toml`, `main.tex`, `tex/cap_III.tex`,
+  `tex/cap_VI.tex`, `tex/cap_VII_complementares.tex`,
+  `bib/modelo-tese.bib` e este registro. Sete PDFs novos em
+  `results/thesis/figures/`. O PDF em `build/main.pdf` foi regenerado.
+- **Texto científico inserido:** o Capítulo 3 foi reescrito de 812 para 1.672
+  palavras, mantendo as 15 obras já citadas e incorporando `li2015many` e
+  `coello2007evolutionary`, que estavam definidas no `.bib` e nunca citadas.
+  Cada obra passou a ter método, resultado e relação com a proposta, em vez de
+  uma frase de atribuição. A antiga seção "Decidir quando aplicar um operador"
+  foi dividida em duas — paisagem de aptidão aplicada a algoritmos
+  multiobjetivo, e controle adaptativo de operadores — porque misturava
+  linhagens distintas. Três obras (`talbi2009metaheuristics`,
+  `zhou2011multiobjective`, `wolpert1997no`) **não foram aprofundadas**: nenhum
+  dos três manuscritos-fonte as cita, e caracterizá-las além do que o texto
+  original já dizia exigiria afirmar o que não foi verificado. Os capítulos 6 e
+  7 ganharam uma frase de introdução por figura; nenhum número foi alterado.
+- **Entradas inspecionadas:** as figuras dos três manuscritos-fonte e os seus
+  scripts produtores em `src/python/analysis/`, `figures/` e `fla/`;
+  `results/tables/`, `results/tuning_ivfspea2v2/`, `results/engineering_suite/`,
+  `data/processed/dynamic_signal_test.csv` e o CSV consolidado.
+- **Verificação humana/técnica:** as sete figuras foram geradas sob
+  `.venv/bin/python` com matplotlib 3.10.8, o que preserva os PDFs versionados
+  do repositório, e `apply_paper_style()` fixa `pdf.fonttype = 42` — nenhuma
+  delas usa fonte Type 3, e o PDF final também não. Cada figura foi renderizada
+  e **inspecionada visualmente página a página**: três reprovaram na primeira
+  tentativa e foram refeitas. A distribuição de IGD estava ilegível e com as 51
+  instâncias espremidas numa faixa; passou a boxplots horizontais, uma linha por
+  instância, em página própria. O posto médio e os perfis de engenharia traziam
+  título interno duplicando a legenda LaTeX; foi removido. Nos perfis de
+  engenharia, o rótulo do eixo de HV ficava cortado na borda direita e os
+  rótulos `n=` colidiam com os marcadores; ambos corrigidos, com o `n=18` do
+  RWMOP8 preservado. `make thesis-tables-check` confirma que tabelas e figuras
+  são byte-estáveis; `make thesis-doctor` valida as oito fontes e os 116
+  caminhos declarados; `make verify-release` aprova; `make test` passa nos 40
+  testes; e `make thesis` compila 87 páginas com zero referências indefinidas,
+  zero citações indefinidas, zero avisos do LaTeX e zero linhas *overfull*.
+- **Limitações e pendências:** a entrada `Chen2021` foi removida do `.bib` por
+  carregar nota interna de autoria não verificada; quatro entradas legítimas
+  seguem sem citação. A declaração de formato monográfico exigida pela Resolução
+  INF nº 02/2023/PPGCC **continua ausente por decisão do autor**, que optou por
+  confirmar a redação com a secretaria antes de inseri-la; a pendência está
+  registrada em `REVISION_PLAN.md`. Permanecem a data de defesa, a folha da
+  banca, o `\publica` e a divergência da ficha catalográfica, agora com 87
+  páginas contra as 72 folhas que a ficha registra.

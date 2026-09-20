@@ -31,6 +31,8 @@ BUILDERS = [
     "build_tab_fla_dinamica.py",
     "build_tab_controlador.py",
     "build_apendice_fontes.py",
+    "build_fig_resultados.py",
+    "build_fig_complementares.py",
 ]
 
 HERE = Path(__file__).resolve().parent
@@ -53,35 +55,49 @@ def run_builders() -> list[str]:
 
 
 def mirror() -> int:
-    """Copy generated tables into the thesis build directory."""
+    """Copy generated tables and figures into the thesis build directory."""
     ensure_dir(THESIS_GENERATED)
     count = 0
     for source in sorted(RESULTS_THESIS.glob("*.tex")):
         shutil.copyfile(source, THESIS_GENERATED / source.name)
         count += 1
+    figures = RESULTS_THESIS / "figures"
+    if figures.is_dir():
+        target = ensure_dir(THESIS_GENERATED / "figures")
+        for source in sorted(figures.glob("*.pdf")):
+            shutil.copyfile(source, target / source.name)
+            count += 1
     print(f"espelhados {count} arquivos em thesis/masters/generated/")
     return count
 
 
+def _snapshot() -> dict[str, bytes]:
+    """Bytes of every canonical artifact, tables and figures alike."""
+    snapshot = {p.name: p.read_bytes() for p in RESULTS_THESIS.glob("*.tex")}
+    for path in (RESULTS_THESIS / "figures").glob("*.pdf"):
+        snapshot[f"figures/{path.name}"] = path.read_bytes()
+    return snapshot
+
+
 def check_drift() -> int:
-    """Rebuild and report any table whose bytes changed. Returns exit code."""
-    before = {p.name: p.read_bytes() for p in RESULTS_THESIS.glob("*.tex")}
+    """Rebuild and report any artifact whose bytes changed. Returns exit code."""
+    before = _snapshot()
     failed = run_builders()
     if failed:
         print(f"\nERRO: construtores falharam: {', '.join(failed)}", file=sys.stderr)
         return 1
 
-    after = {p.name: p.read_bytes() for p in RESULTS_THESIS.glob("*.tex")}
+    after = _snapshot()
     drifted = sorted(
         name for name in set(before) | set(after) if before.get(name) != after.get(name)
     )
     if drifted:
-        print("\nERRO: tabelas fora de sincronia com os artefatos:", file=sys.stderr)
+        print("\nERRO: artefatos fora de sincronia com os dados:", file=sys.stderr)
         for name in drifted:
             print(f"  {name}", file=sys.stderr)
         print("Rode: make thesis-tables", file=sys.stderr)
         return 1
-    print("\nOK: todas as tabelas estão sincronizadas com os artefatos.")
+    print("\nOK: tabelas e figuras estão sincronizadas com os artefatos.")
     return 0
 
 

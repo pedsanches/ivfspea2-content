@@ -14,7 +14,14 @@ A Tabela~\ref{tab:tuning_c26} apresenta as comparações par a par sobre o subco
 
 \input{generated/tab_tuning_c26}
 
-A leitura é menos triunfal do que a existência de um procedimento de calibração poderia sugerir. A configuração promovida não se distingue da melhor configuração da fase inicial em nenhuma das 12 instâncias, em IGD, e vence em apenas uma delas em HV. O que a calibração de fato estabelece é mais modesto e mais útil: as duas configurações superam a configuração inicial não ajustada em quatro instâncias, sem perder em nenhuma no indicador primário, e escolher entre elas não introduz prejuízo. A promoção de uma delas é, portanto, uma decisão entre alternativas equivalentes dentro de uma região ampla de bom desempenho, e não a identificação de um ponto ótimo isolado.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\textwidth]{generated/figures/fig_calibracao.pdf}
+    \caption{Panorama da varredura de calibração em três fases (família SUP; subconjunto de 12 problemas; $n=30$ execuções por configuração). Cada célula é o posto médio combinado de IGD e HV entre os candidatos da fase --- quanto menor (mais escuro/amarelo), melhor --- e a estrela marca a configuração vencedora de cada fase. A vizinhança da configuração promovida (C26, painel c) reúne várias células de posto próximo, evidenciando uma região ampla de bom desempenho, e não um ponto ótimo isolado.}
+    \label{fig:calibracao}
+\end{figure}
+
+A leitura é menos triunfal do que a existência de um procedimento de calibração poderia sugerir. A configuração promovida não se distingue da melhor configuração da fase inicial em nenhuma das 12 instâncias, em IGD, e vence em apenas uma delas em HV. O que a calibração de fato estabelece é mais modesto e mais útil: as duas configurações superam a configuração inicial não ajustada em quatro instâncias, sem perder em nenhuma no indicador primário, e escolher entre elas não introduz prejuízo. A promoção de uma delas é, portanto, uma decisão entre alternativas equivalentes dentro de uma região ampla de bom desempenho, como mostra a Figura~\ref{fig:calibracao}, e não a identificação de um ponto ótimo isolado.
 
 A ablação fatorial, na Tabela~\ref{tab:ablacao}, avalia o acoplamento completo contra o SPEA2 canônico e contra a variante sem as duas decisões descritas nas Seções~\ref{sec:pai_dissimilar} e~\ref{sec:critério_coletivo}, agora sobre as 51 instâncias sintéticas.
 
@@ -35,7 +42,14 @@ Os problemas foram fixados antes de observar os resultados, por um protocolo de 
 
 \input{generated/tab_engenharia_wtl}
 
-Os resultados são mistos, e a Tabela~\ref{tab:engenharia_wtl} mostra também um caso de discordância entre indicadores que merece registro. No RWMOP9 o IVF/SPEA2 vence todos os oito comparadores em IGD, mas em HV vence cinco e perde três: proximidade e cobertura não concordam nesse problema. O RWMOP21 apresenta perfil equilibrado, com três vitórias e três derrotas nos dois indicadores. O RWMOP8 é adverso, com uma vitória e cinco derrotas, e tem ainda cobertura heterogênea de execuções válidas entre algoritmos, o que reduz o peso da sua linha.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\textwidth]{generated/figures/fig_engenharia.pdf}
+    \caption{Perfis de IGD (menor é melhor) e HV (maior é melhor) nos três problemas de engenharia (família ENG; $n=60$ execuções por algoritmo). Pontos são medianas, barras são o intervalo interquartil, e os rótulos indicam o número de execuções válidas por algoritmo. No RWMOP9 o IVF/SPEA2 (destacado) ocupa a melhor posição em IGD mas não em HV, o que evidencia a discordância entre os dois indicadores.}
+    \label{fig:engenharia}
+\end{figure}
+
+Os resultados são mistos, e a Tabela~\ref{tab:engenharia_wtl} mostra também um caso de discordância entre indicadores que merece registro, ilustrado na Figura~\ref{fig:engenharia}. No RWMOP9 o IVF/SPEA2 vence todos os oito comparadores em IGD, mas em HV vence cinco e perde três: proximidade e cobertura não concordam nesse problema. O RWMOP21 apresenta perfil equilibrado, com três vitórias e três derrotas nos dois indicadores. O RWMOP8 é adverso, com uma vitória e cinco derrotas, e tem ainda cobertura heterogênea de execuções válidas entre algoritmos, o que reduz o peso da sua linha.
 
 A conclusão que essa família sustenta é limitada: a transferência para problemas de engenharia produziu resultados mistos. Ela não amplia nem confirma a afirmação confirmatória, e as suas contagens não se somam às da suíte sintética.
 
@@ -50,7 +64,14 @@ Duas ressalvas precedem os números. Primeiro, a sobreposição: as execuções 
 
 \input{generated/tab_hosts_wtl}
 
-A ordenação é nítida e consistente entre os dois indicadores. O IVF/SPEA2 melhora o seu hospedeiro em 33 das 51 instâncias em IGD e em 37 em HV. O IVF/NSGA-III melhora em 22 e 21, sem derrota em IGD, mas com uma proporção alta de empates. O IVF/NSGA-II permanece próximo da neutralidade, com uma vitória e 48 empates em IGD.
+A ordenação é nítida e consistente entre os dois indicadores, e a Figura~\ref{fig:hospedeiros_a12} a exibe instância a instância. O IVF/SPEA2 melhora o seu hospedeiro em 33 das 51 instâncias em IGD e em 37 em HV. O IVF/NSGA-III melhora em 22 e 21, sem derrota em IGD, mas com uma proporção alta de empates. O IVF/NSGA-II permanece próximo da neutralidade, com uma vitória e 48 empates em IGD.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.92\textwidth]{generated/figures/fig_hospedeiros_a12.pdf}
+    \caption{Tamanho de efeito orientado de Vargha--Delaney ($A_{12}$) do IGD, instância a instância, entre cada acoplamento IVF e o seu hospedeiro (família HOST; 51 instâncias sintéticas; $n=30$ execuções; valores acima de 0,5 favorecem o IVF). Cada ponto é uma instância; o traço horizontal é a mediana por hospedeiro.}
+    \label{fig:hospedeiros_a12}
+\end{figure}
 
 A Tabela~\ref{tab:hosts_geometria} estratifica essas contagens pela geometria da fronteira de Pareto.
 
@@ -87,7 +108,14 @@ Entre os cinco observáveis avaliados, apenas a renovação do arquivo separa as
 
 \input{generated/tab_dinamica_limiar}
 
-Uma regra de limiar único sobre esse observável atinge acurácia balanceada de $0{,}754$ sob validação deixa-uma-família. O valor é maior que o obtido sob validação deixa-uma-instância, o que à primeira vista surpreende. A explicação está no procedimento: sob deixa-uma-família o limiar é reajustado para cada família retida, e as famílias diferem no seu nível característico de renovação. A contrapartida é prática e limita o uso da regra --- ela pressupõe conhecer a família da instância, e um limiar global único seria mais fraco.
+Uma regra de limiar único sobre esse observável atinge acurácia balanceada de $0{,}754$ sob validação deixa-uma-família --- o teto imposto pela sobreposição entre as duas distribuições, visível na Figura~\ref{fig:ativacao_turnover}. O valor é maior que o obtido sob validação deixa-uma-instância, o que à primeira vista surpreende. A explicação está no procedimento: sob deixa-uma-família o limiar é reajustado para cada família retida, e as famílias diferem no seu nível característico de renovação. A contrapartida é prática e limita o uso da regra --- ela pressupõe conhecer a família da instância, e um limiar global único seria mais fraco.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\textwidth]{generated/figures/fig_ativacao_turnover.pdf}
+    \caption{Distribuição da renovação do arquivo na fase inicial da execução, separada pelas 51 instâncias rotuladas em HELPS ($n=41$) e NOT\_HELPS ($n=10$) (família DEC; medianas calculadas sobre 30 execuções pareadas por semente). A linha tracejada marca o limiar promovido ($0{,}216$, Tabela~\ref{tab:dinamica_limiar}). As duas distribuições se sobrepõem de forma substancial, o que explica por que a acurácia balanceada da regra de limiar fica em $0{,}754$ e não mais alta.}
+    \label{fig:ativacao_turnover}
+\end{figure}
 
 \subsection{Controlador de aquecimento}
 

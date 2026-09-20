@@ -21,7 +21,14 @@ O HV sustenta o mesmo padrão. Com $M = 2$ as contagens corrigidas coincidem com
 \section{Resultados por instância}
 \label{sec:por_instancia}
 
-As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apresentam as medianas de IGD por instância, e as Tabelas~\ref{tab:hv_por_instancia_m2} e~\ref{tab:hv_por_instancia_m3} fazem o mesmo para o HV. As instâncias usadas na calibração estão marcadas, de modo que os dois escopos permanecem distinguíveis linha a linha.
+As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apresentam as medianas de IGD por instância, e as Tabelas~\ref{tab:hv_por_instancia_m2} e~\ref{tab:hv_por_instancia_m3} fazem o mesmo para o HV. As instâncias usadas na calibração estão marcadas, de modo que os dois escopos permanecem distinguíveis linha a linha. A Figura~\ref{fig:dist_igd} acompanha essas tabelas com a distribuição completa de IGD por instância, nos dois grupos de $M$.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{generated/figures/fig_dist_igd.pdf}
+    \caption{Distribuição de IGD por instância, IVF/SPEA2 (execuções 3001--3060) contra SPEA2 canônico (execuções 1--60); família CONF, 51 instâncias sintéticas, $n=60$ execuções por instância e algoritmo. IGD: menor é melhor. Os marcadores ``$+$''/``$-$'' sinalizam o teste de Mann--Whitney U \emph{não corrigido}, como orientação visual; a leitura confirmatória corrigida por Holm é a da Tabela~\ref{tab:confirmatorio_wtl}.}
+    \label{fig:dist_igd}
+\end{figure}
 
 \input{generated/tab_igd_por_instancia_M2}
 
@@ -31,7 +38,14 @@ O ganho não está distribuído de maneira uniforme, e a sua concentração é i
 
 Essa concentração tem uma leitura estrutural: as instâncias em que o acoplamento perde envolvem fronteiras desconectadas ou irregulares. A interpretação dessa associação, e o seu limite, ficam para o Capítulo~\ref{sec:discussion_conclusions}; aqui basta registrar que as derrotas não estão espalhadas pelas suítes, mas agrupadas por uma característica geométrica identificável.
 
-Duas instâncias merecem menção porque a mediana as descreve mal. Em DTLZ4 com $M = 3$, a amplitude interquartil do IVF/SPEA2 é ordens de grandeza maior que a mediana, sinal de um regime de convergência com dois modos: parte das execuções converge e parte estagna. Em MaF5 a dispersão é igualmente alta. Nesses casos, a ausência de diferença detectável reflete variabilidade entre execuções, e não equivalência de desempenho --- distinção que a Seção~\ref{sec:estatistica} exige manter e que um valor-$p$ acima do limiar não autoriza a apagar.
+Duas instâncias merecem menção porque a mediana as descreve mal. Em DTLZ4 com $M = 3$, a amplitude interquartil do IVF/SPEA2 é ordens de grandeza maior que a mediana, sinal de um regime de convergência com dois modos: parte das execuções converge e parte estagna. Em MaF5 a dispersão é igualmente alta. Nesses casos, a ausência de diferença detectável reflete variabilidade entre execuções, e não equivalência de desempenho --- distinção que a Seção~\ref{sec:estatistica} exige manter e que um valor-$p$ acima do limiar não autoriza a apagar. A Figura~\ref{fig:dtlz4_bimodal} mostra as fronteiras obtidas nas execuções do IVF/SPEA2 mais próximas de cada extremo em DTLZ4 ($M=3$).
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\textwidth]{generated/figures/fig_dtlz4_bimodal.pdf}
+    \caption{DTLZ4 ($M=3$), família confirmatória (CONF), coorte de submissão do IVF/SPEA2 (execuções 3001--3060, $n=60$ execuções da instância): fronteiras obtidas ao final (a) da execução mais próxima do primeiro quartil de IGD (execução 3019, IGD$=0{,}0538$), regime de convergência, e (b) da execução mais próxima do terceiro quartil com IGD$>0{,}1$ (execução 3049, IGD$=0{,}541$), regime de estagnação. IGD: menor é melhor. Pontos finais por execução, não trajetória de convergência por geração.}
+    \label{fig:dtlz4_bimodal}
+\end{figure}
 
 \input{generated/tab_hv_por_instancia_M2}
 
@@ -44,7 +58,14 @@ Esta seção é exploratória. As comparações contra os sete comparadores de c
 
 No agregado por suíte e em $M = 2$, o registro do IVF/SPEA2 contra o SPEA2 é de cinco vitórias em cinco instâncias ZDT e sete em sete DTLZ; contra a suíte WFG o registro é de 4 vitórias, 3 empates e 2 derrotas, e em MaF de sete vitórias em sete. Em $M = 3$, os registros correspondentes são de 6 vitórias, nenhum empate e 1 derrota em DTLZ; 6, 1 e 2 em WFG; e 6, nenhum e 1 em MaF.
 
-Uma análise de posto médio entre os nove algoritmos coloca o IVF/SPEA2 em segundo lugar com $M = 2$ e em primeiro com $M = 3$. Esse resultado tem valor de navegação, não de conclusão: o posto médio agrega instâncias heterogêneas, não corrige multiplicidade e responde à pergunta de qual algoritmo ordena melhor no conjunto avaliado --- que não é a pergunta desta dissertação. O modelo de evidência desta pesquisa não sustenta afirmação de superioridade geral a partir dessas contagens.
+Uma análise de posto médio entre os nove algoritmos coloca o IVF/SPEA2 em segundo lugar com $M = 2$ e em primeiro com $M = 3$. Esse resultado tem valor de navegação, não de conclusão: o posto médio agrega instâncias heterogêneas, não corrige multiplicidade e responde à pergunta de qual algoritmo ordena melhor no conjunto avaliado --- que não é a pergunta desta dissertação. O modelo de evidência desta pesquisa não sustenta afirmação de superioridade geral a partir dessas contagens. A Figura~\ref{fig:posto_medio} apresenta esse posto médio, com desvio padrão entre instâncias, para $M=2$ e $M=3$.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\textwidth]{generated/figures/fig_posto_medio.pdf}
+    \caption{Posto médio exploratório de IGD entre os nove algoritmos avaliados, por instância e por $M$ (28 instâncias em $M=2$; 23 em $M=3$), mesma coorte de submissão da Seção~\ref{sec:estatistica}, $n=60$ execuções por algoritmo e instância. IGD: menor é melhor, logo menor posto é melhor; barras horizontais são o desvio padrão do posto entre instâncias. Posicionamento exploratório: testes não corrigidos, sem correção de multiplicidade, não substitui a comparação confirmatória da Seção~\ref{sec:confirmatorio}.}
+    \label{fig:posto_medio}
+\end{figure}
 
 \section{Síntese}
 \label{sec:sintese_resultados}

@@ -21,6 +21,19 @@
   \endgroup
   \clearpage
 }
+% Posicionamento de floats. Os capítulos de resultados carregam 16 tabelas e 7
+% figuras, e com os padrões do LaTeX o acúmulo produzia uma página só de floats
+% ("Text page N contains only floats"). Estes valores dão mais espaço a floats
+% no topo e exigem um mínimo de texto por página, mantendo cada float perto do
+% parágrafo que o discute.
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.70}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
 % Pseudocódigo do Capítulo da proposta. A classe não carrega estes pacotes.
 \usepackage{algorithm}
 \usepackage{algpseudocode}

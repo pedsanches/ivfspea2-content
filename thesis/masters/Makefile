@@ -18,6 +18,7 @@ SOURCES := $(MAIN) inf-ufg-tectonic.cls inf-ufg.cls abnt-alf.bst inf-ufg.bst \
            $(wildcard tex/*.tex) \
            $(wildcard pos/*.tex) \
            $(wildcard generated/*.tex) \
+           $(wildcard generated/figures/*.pdf) \
            $(wildcard fig/*.pdf)
 
 .PHONY: all bootstrap doctor render clean

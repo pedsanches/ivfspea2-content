@@ -212,6 +212,12 @@ datasets = [
   "results/engineering_suite/engineering_suite_pairwise_main.csv",
   "results/ablation_v2/phase3/phase3_summary.json",
   "results/tuning_ivfspea2v2/head_to_head_c26_a43_v1_summary.json",
+  "results/tuning_ivfspea2v2/tuning_phase_ranking.csv",
+  "results/engineering_suite/engineering_suite_raw_main.csv",
+  "results/tables/hosts_ivfnsgaii_igd_stats.csv",
+  "results/tables/hosts_ivfnsgaiii_igd_stats.csv",
+  "data/processed/dynamic_signal_test.csv",
+  "data/processed/todas_metricas_consolidado_with_modern.csv",
 ]
 scripts = [
   "src/python/thesis/build_all.py",
@@ -225,6 +231,8 @@ scripts = [
   "src/python/thesis/build_apendice_fontes.py",
   "src/python/thesis/ptbr_format.py",
   "src/python/thesis/latex_table.py",
+  "src/python/thesis/build_fig_resultados.py",
+  "src/python/thesis/build_fig_complementares.py",
 ]
 artifacts = [
   "results/thesis/tab_confirmatorio_wtl.tex",
@@ -242,8 +250,15 @@ artifacts = [
   "results/thesis/tab_dinamica_limiar.tex",
   "results/thesis/tab_controlador_wtl.tex",
   "results/thesis/apendice_fontes.tex",
+  "results/thesis/figures/fig_dist_igd.pdf",
+  "results/thesis/figures/fig_dtlz4_bimodal.pdf",
+  "results/thesis/figures/fig_posto_medio.pdf",
+  "results/thesis/figures/fig_calibracao.pdf",
+  "results/thesis/figures/fig_engenharia.pdf",
+  "results/thesis/figures/fig_hospedeiros_a12.pdf",
+  "results/thesis/figures/fig_ativacao_turnover.pdf",
 ]
-notes = "Presentation layer only; it introduces no evidence. Regenerate with `make thesis-tables`; `make thesis-tables-check` fails if a committed table drifts from its artifact. Chapters input the mirrored copies under thesis/masters/generated/, which Git ignores."
+notes = "Presentation layer only; it introduces no evidence. Regenerate tables and figures with `make thesis-tables`; `make thesis-tables-check` fails if a committed table or figure drifts from its artifact. Chapters input the mirrored copies under thesis/masters/generated/, which Git ignores. The figures read the consolidated CSV only through `filter_submission_synthetic_cohort`, because the `IVFSPEA2` label there carries both the historical and the submission run ranges."
 raw_status = "Not applicable: every input is a tracked processed artifact."
 overlaps = ["Renders the same artifacts the other sources declare; it is a view over them and never an additional observation."]
 known_gaps = [
