@@ -36,6 +36,8 @@ As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apres
 
 O ganho não está distribuído de maneira uniforme, e a sua concentração é informativa. Em $M = 2$, o IVF/SPEA2 vence em todas as instâncias das suítes ZDT e DTLZ, e também em todas as instâncias MaF avaliadas. As três derrotas concentram-se na suíte WFG, em WFG2, WFG3 e WFG9. Em $M = 3$, a derrota remanescente é WFG2.
 
+A distribuição por suíte, sem correção de multiplicidade, quantifica essa concentração. Com $M = 2$ o registro é de 5 vitórias em 5 instâncias ZDT, 7 em 7 DTLZ, 7 em 7 MaF, e de 4 vitórias, 2 empates e 3 derrotas nas 9 instâncias WFG. Com $M = 3$ é de 6 vitórias, 1 empate e nenhuma derrota em DTLZ, o mesmo em MaF, e de 6 vitórias, 2 empates e 1 derrota em WFG. As duas linhas somam 23/2/3 e 18/4/1, que são exatamente as contagens não corrigidas da Tabela~\ref{tab:confirmatorio_wtl}; toda derrota detectável da suíte está na WFG.
+
 Essa concentração tem uma leitura estrutural: as instâncias em que o acoplamento perde envolvem fronteiras desconectadas ou irregulares. A interpretação dessa associação, e o seu limite, ficam para o Capítulo~\ref{sec:discussion_conclusions}; aqui basta registrar que as derrotas não estão espalhadas pelas suítes, mas agrupadas por uma característica geométrica identificável.
 
 Duas instâncias merecem menção porque a mediana as descreve mal. Em DTLZ4 com $M = 3$, a amplitude interquartil do IVF/SPEA2 é ordens de grandeza maior que a mediana, sinal de um regime de convergência com dois modos: parte das execuções converge e parte estagna. Em MaF5 a dispersão é igualmente alta. Nesses casos, a ausência de diferença detectável reflete variabilidade entre execuções, e não equivalência de desempenho --- distinção que a Seção~\ref{sec:estatistica} exige manter e que um valor-$p$ acima do limiar não autoriza a apagar. A Figura~\ref{fig:dtlz4_bimodal} mostra as fronteiras obtidas nas execuções do IVF/SPEA2 mais próximas de cada extremo em DTLZ4 ($M=3$).
@@ -55,8 +57,6 @@ Duas instâncias merecem menção porque a mediana as descreve mal. Em DTLZ4 com
 \label{sec:exploratorio}
 
 Esta seção é exploratória. As comparações contra os sete comparadores de contexto usam testes par a par não corrigidos, a família de hipóteses não foi declarada antes da análise e o seu papel é interpretativo, não confirmatório. Elas não substituem, nem reforçam, a comparação da Seção~\ref{sec:confirmatorio}.
-
-No agregado por suíte e em $M = 2$, o registro do IVF/SPEA2 contra o SPEA2 é de cinco vitórias em cinco instâncias ZDT e sete em sete DTLZ; contra a suíte WFG o registro é de 4 vitórias, 3 empates e 2 derrotas, e em MaF de sete vitórias em sete. Em $M = 3$, os registros correspondentes são de 6 vitórias, nenhum empate e 1 derrota em DTLZ; 6, 1 e 2 em WFG; e 6, nenhum e 1 em MaF.
 
 Uma análise de posto médio entre os nove algoritmos coloca o IVF/SPEA2 em segundo lugar com $M = 2$ e em primeiro com $M = 3$. Esse resultado tem valor de navegação, não de conclusão: o posto médio agrega instâncias heterogêneas, não corrige multiplicidade e responde à pergunta de qual algoritmo ordena melhor no conjunto avaliado --- que não é a pergunta desta dissertação. O modelo de evidência desta pesquisa não sustenta afirmação de superioridade geral a partir dessas contagens. A Figura~\ref{fig:posto_medio} apresenta esse posto médio, com desvio padrão entre instâncias, para $M=2$ e $M=3$.
 

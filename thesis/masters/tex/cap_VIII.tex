@@ -15,7 +15,7 @@ Esta dissertação reúne cinco famílias de evidência produzidas em condiçõe
 
 \section{Validade Externa}
 
-\textbf{O escopo sintético é declarado e limitado.} As 51 instâncias cobrem quatro suítes com dois e três objetivos. Nada aqui sustenta extrapolação para muitos objetivos, para problemas de grande dimensionalidade no espaço de decisão ou para orçamentos substancialmente diferentes de 100.000 avaliações.
+\textbf{O escopo sintético é declarado e limitado.} As 51 instâncias cobrem quatro suítes com dois e três objetivos. Nada aqui sustenta extrapolação para muitos objetivos, cujo regime de dominância degradada exige mecanismos próprios~\cite{li2015many}, para problemas de grande dimensionalidade no espaço de decisão ou para orçamentos substancialmente diferentes de 100.000 avaliações. A ausência de garantia de transferência entre classes de problemas não é uma limitação acidental desta avaliação: é o que os teoremas da inexistência de almoço grátis~\cite{wolpert1997no} formalizam para qualquer operador de busca.
 
 \textbf{A transferência para problemas reais foi avaliada em três casos.} A suíte de engenharia da Seção~\ref{sec:engenharia} contém três problemas, com resultados mistos e um deles adverso. Três casos não caracterizam uma classe de problemas, e um deles apresenta cobertura heterogênea de execuções válidas entre algoritmos.
 
@@ -25,7 +25,7 @@ Esta dissertação reúne cinco famílias de evidência produzidas em condiçõe
 
 \section{Validade de Construto}
 
-\textbf{Dois indicadores, e nem sempre concordantes.} A IGD é o desfecho primário e o HV o secundário obrigatório. Os dois medem propriedades diferentes, e a Seção~\ref{sec:engenharia} registra um caso em que discordam. Reportar apenas o indicador favorável seria seleção pós-hoc; reportar ambos não elimina a ambiguidade quando eles apontam em direções opostas, apenas a expõe.
+\textbf{Dois indicadores, e nem sempre concordantes.} A IGD é o desfecho primário e o HV o secundário obrigatório. Nenhum indicador isolado ordena aproximações de forma compatível com a relação de dominância em todos os casos~\cite{zitzler2004performance}, e os dois medem propriedades diferentes: a Seção~\ref{sec:engenharia} registra um caso em que discordam. Reportar apenas o indicador favorável seria seleção pós-hoc; reportar ambos não elimina a ambiguidade quando eles apontam em direções opostas, apenas a expõe.
 
 \textbf{A IGD depende do conjunto de referência.} Os valores são comparáveis entre algoritmos porque todos usam o mesmo conjunto de referência por instância, gerado pela plataforma. Eles não são comparáveis entre instâncias, nem com valores publicados sob outro conjunto de referência.
 
@@ -33,7 +33,7 @@ Esta dissertação reúne cinco famílias de evidência produzidas em condiçõe
 
 \section{Validade da Conclusão}
 
-\textbf{Os protocolos estatísticos diferem entre famílias.} A família confirmatória usa correção de Holm, que controla a taxa de erro por família; as famílias de hospedeiros e de ativação usam Benjamini--Hochberg, que controla a taxa de falsas descobertas. Os procedimentos foram herdados dos veículos em que cada análise foi publicada e não foram harmonizados retroativamente. Isso significa que as contagens de famílias diferentes não são diretamente comparáveis, e o texto não as compara.
+\textbf{Os protocolos estatísticos diferem entre famílias.} A família confirmatória usa correção de Holm~\cite{holm1979simple}, que controla a taxa de erro por família; as famílias de hospedeiros e de ativação usam Benjamini--Hochberg~\cite{benjamini1995controlling}, que controla a taxa de falsas descobertas. Os dois procedimentos respondem a perguntas distintas e não são intercambiáveis. Eles foram herdados dos veículos em que cada análise foi publicada e não foram harmonizados retroativamente. Isso significa que as contagens de famílias diferentes não são diretamente comparáveis, e o texto não as compara.
 
 \textbf{As versões da plataforma diferem entre famílias.} A família confirmatória e a de calibração usam a versão 24.2.0.2923080; a comparação entre hospedeiros usa a versão 4.6. A diferença é declarada na Tabela~\ref{tab:familias_evidencia} e impede tratar as duas como produzidas sob condições idênticas.
 

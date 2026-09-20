@@ -467,3 +467,56 @@ ou informação que amplie indevidamente a exposição de material inédito.
   registrada em `REVISION_PLAN.md`. Permanecem a data de defesa, a folha da
   banca, o `\publica` e a divergência da ficha catalográfica, agora com 87
   páginas contra as 72 folhas que a ficha registra.
+
+### 2026-09-20 — contagens por suíte trocadas e ancoragem das ameaças
+
+- **Ferramenta:** Claude, da Anthropic. O modelo/versão exato deve ser
+  confirmado na interface antes de uma declaração formal.
+- **Fase:** fechamento da R7, a partir das lacunas que a própria auditoria
+  havia registrado como não resolvidas.
+- **Finalidade:** eliminar o último número sem lastro do Capítulo 6 e dar
+  ancoragem bibliográfica ao capítulo de ameaças à validade.
+- **Arquivos afetados:** `tex/cap_VI.tex`, `tex/cap_VIII.tex`,
+  `bib/modelo-tese.bib` e este registro. O PDF foi regenerado.
+- **Texto científico inserido:** três intervenções.
+  (i) O parágrafo de contagens por suíte tinha **empates e derrotas trocados
+  nas quatro linhas não triviais**: o texto dizia WFG $M{=}2$ igual a 4/3/2 e
+  DTLZ, WFG e MaF em $M{=}3$ iguais a 6/0/1, 6/1/2 e 6/0/1, enquanto
+  `claims_summary_instance_details.csv` dá 4/2/3, 6/1/0, 6/2/1 e 6/1/0. É a
+  armadilha de convenção que o `REWRITE_SPEC.md` §3.1 adverte — os manuscritos
+  ordenam vitórias/derrotas/empates e a dissertação declara
+  vitórias/empates/derrotas em `cap_VI.tex:6`. O erro contradizia o próprio
+  capítulo, que afirma três derrotas em WFG com $M{=}2$ e uma única derrota
+  remanescente em $M{=}3$. Corrigido, e o parágrafo passou a declarar que as
+  linhas somam 23/2/3 e 18/4/1, reconciliando com as linhas não corrigidas da
+  Tabela 6.1.
+  (ii) O mesmo parágrafo estava na seção de posicionamento exploratório, que se
+  anuncia como comparação contra sete comparadores de contexto, mas reportava o
+  par IVF/SPEA2 — o mesmo da seção confirmatória. Foi movido para a seção de
+  resultados por instância, onde a concentração das derrotas já é discutida.
+  (iii) O capítulo de ameaças à validade não tinha nenhuma citação. Três
+  afirmações passaram a apontar a literatura que já as sustenta no Capítulo 2:
+  a incompatibilidade de qualquer indicador isolado com a dominância
+  (`zitzler2004performance`), a distinção entre Holm e Benjamini--Hochberg
+  (`holm1979simple`, `benjamini1995controlling`) e o limite de generalização
+  entre classes de problemas (`li2015many`, `wolpert1997no`). Nenhuma
+  referência nova foi introduzida.
+- **Entradas inspecionadas:** `results/tables/claims_summary_instance_details.csv`
+  (102 linhas), `results/tables/claims_summary_audit.csv` e as entradas do `.bib`
+  citadas acima.
+- **Verificação humana/técnica:** as contagens por suíte foram recomputadas a
+  partir do artefato por instância e conferem com as linhas não corrigidas do
+  resumo de auditoria nos dois valores de $M$. O parágrafo corrigido foi lido no
+  PDF compilado. A bibliografia ficou **balanceada em 47 entradas definidas e 47
+  citadas**, sem entrada morta, após remover `Cremene2016` e `Lopez2005`, que
+  nunca foram citadas. `make thesis-tables-check`, `make thesis-doctor`,
+  `make verify-release` e `make test` passam; `make thesis` compila 88 páginas
+  com zero referências indefinidas, zero citações indefinidas, zero avisos do
+  LaTeX e zero linhas *overfull*.
+- **Limitações e pendências:** as pendências institucionais seguem inalteradas
+  e dependem do autor — data de defesa, folha da banca, `\publica`, ficha
+  catalográfica e a declaração de formato monográfico da Resolução INF
+  nº 02/2023/PPGCC. Três obras do Capítulo 3 permanecem sem aprofundamento por
+  falta de fonte verificável. Nenhum dado bruto da campanha do Memetic Computing
+  está nesta máquina: `data/raw/` contém apenas a campanha de dinâmica, não há
+  nenhum `.mat` do projeto e `src/matlab/lib/PlatEMO/Data` não existe.
