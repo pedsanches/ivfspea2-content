@@ -22,7 +22,7 @@ O módulo IVF é invocado antes da geração de descendentes do SPEA2 e se compo
 FE_{\text{IVF}} \leq r \cdot FE,
 \label{eq:gatilho_ivf}
 \end{equation}
-em que $FE_{\text{IVF}}$ é o total de avaliações já consumidas pelo módulo e $FE$ o total de avaliações consumidas pela execução. O SPEA2 então gera os $N - n_{\text{ivf}}$ descendentes restantes com seus operadores padrão. Se o módulo não é ativado, ou termina antes de consumir qualquer avaliação, $n_{\text{ivf}} = 0$ e a geração é idêntica à do SPEA2 canônico.
+em que $FE_{\text{IVF}}$ é o total de avaliações já consumidas pelo módulo e $FE$ o total de avaliações consumidas pela execução. O SPEA2 então gera os $N - n_{\text{ivf}}$ descendentes restantes com seus operadores padrão; no caso limite em que o módulo consome a cota inteira, $n_{\text{ivf}} = N$ e o hospedeiro não gera descendente algum naquela geração. Se o módulo não é ativado, ou termina antes de consumir qualquer avaliação, $n_{\text{ivf}} = 0$ e a geração é idêntica à do SPEA2 canônico.
 
 A Equação~\ref{eq:gatilho_ivf} tem uma consequência que importa para a interpretação dos resultados: como $FE$ cresce a cada geração enquanto $FE_{\text{IVF}}$ só cresce quando o módulo é ativado, a condição fica progressivamente mais difícil de satisfazer. A intensificação concentra-se, portanto, na fase inicial da execução, e o algoritmo converge para o comportamento do hospedeiro à medida que o orçamento se esgota. Esse não é um efeito colateral: é o mecanismo pelo qual o parâmetro $r$ controla a influência do módulo sem exigir intervenção por instância.
 

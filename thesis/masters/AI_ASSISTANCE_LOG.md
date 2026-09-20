@@ -520,3 +520,59 @@ ou informação que amplie indevidamente a exposição de material inédito.
   falta de fonte verificável. Nenhum dado bruto da campanha do Memetic Computing
   está nesta máquina: `data/raw/` contém apenas a campanha de dinâmica, não há
   nenhum `.mat` do projeto e `src/matlab/lib/PlatEMO/Data` não existe.
+
+### 2026-09-20 — a leitura geométrica não se sustentava na família confirmatória
+
+- **Ferramenta:** Claude, da Anthropic. O modelo/versão exato deve ser
+  confirmado na interface antes de uma declaração formal.
+- **Fase:** auditoria de consistência de argumentação, a pedido do autor.
+- **Finalidade:** procurar contradição entre capítulos, promessa não cumprida e
+  conclusão além da evidência. Não eram defeitos mecânicos: o documento já
+  compilava limpo.
+- **Arquivos afetados:** `tex/cap_VI.tex`, `tex/cap_VII.tex`, `tex/cap_IV.tex`,
+  `tex/cap_V.tex`, `pre/pre_resumo.tex`, `pre/pre_abstract.tex` e este registro.
+- **Texto científico inserido:** a correção principal desfaz a afirmação
+  interpretativa central do Capítulo 6. O texto dizia que as instâncias em que o
+  acoplamento perde "envolvem fronteiras desconectadas ou irregulares", e a
+  Discussão chamava a distribuição do ganho de achado mais informativo da
+  dissertação, dizendo que a comparação entre hospedeiros "reforça essa
+  associação". O cruzamento das quatro derrotas com
+  `config/hosts_front_geometry.csv`, que é a classificação geométrica adotada
+  pelo próprio projeto, mostra o contrário: **duas das quatro ocorrem em
+  fronteiras classificadas como regulares** --- WFG3 com $M{=}2$, linear, e WFG9
+  com $M{=}2$, côncava --- e o acoplamento **vence em 8 das 11 instâncias
+  irregulares**, incluindo ZDT3, DTLZ7 e MaF7, desconectadas, e DTLZ5, DTLZ6 e
+  MaF6, degeneradas. Sob correção de Holm as taxas de vitória dos dois grupos
+  são praticamente iguais, 29 de 40 contra 8 de 11: na família confirmatória a
+  geometria **não separa nada**. O que as quatro derrotas compartilham é a
+  suíte, não a forma da fronteira. A família de hospedeiros, por outro lado,
+  mostra gradiente real --- 28/11/1 contra 5/4/2, com $A_{12}$ mediano caindo de
+  0,781 para 0,642. As duas famílias discordam, e o texto passou a **reportar a
+  divergência em vez de harmonizá-la**, como a regra da própria dissertação já
+  exigia. A conclusão de destaque, o resumo e o abstract deixaram de afirmar
+  dependência da geometria e passaram a dizer que o fator discriminante
+  permanece em aberto.
+  Três correções menores acompanham: o parágrafo de contagens por suíte usava
+  valores não corrigidos logo abaixo de tabelas corrigidas por Holm, e passou a
+  usar Holm (WFG com $M{=}2$ é 3/3/3, não 4/2/3), somando 22/3/3 e 15/7/1; a
+  Discussão afirmava vitória em **todas** as instâncias de ZDT, DTLZ e MaF, o
+  que é falso com $M{=}3$, onde há empates, e passou a afirmar ausência de
+  derrota fora da WFG; e o Capítulo 5 não dizia como o $A_{12}$ é orientado para
+  o HV, onde maior é melhor.
+- **Entradas inspecionadas:** `results/tables/claims_summary_instance_details.csv`,
+  `claims_summary_audit.csv`, `results/tables/hosts_geometry_summary.csv`,
+  `config/hosts_front_geometry.csv` e as tabelas geradas por instância.
+- **Verificação humana/técnica:** o cruzamento entre resultado e geometria foi
+  computado das duas formas, com e sem correção de multiplicidade, e a
+  conclusão não muda. Confirmou-se que as tabelas por instância publicam
+  p-valores corrigidos por Holm, e não brutos, o que determinou qual conjunto de
+  contagens o texto deve citar. O abstract precisou voltar a caber na caixa da
+  classe: a versão corrigida estourava o quadro em 1,7pt e empurrava as
+  palavras-chave, e foi enxugada de 368 para 350 palavras. O arranjo dos
+  pré-textuais foi comparado com o do último commit e é idêntico.
+  `make thesis-tables-check`, `make thesis-doctor`, `make verify-release` e
+  `make test` passam; `make thesis` compila 89 páginas com zero referências
+  indefinidas, zero citações indefinidas, zero avisos e zero linhas *overfull*.
+- **Limitações e pendências:** o fator que discrimina as instâncias favoráveis
+  passa a ser uma questão explicitamente em aberto no texto, e não uma
+  conclusão. As pendências institucionais seguem inalteradas.
