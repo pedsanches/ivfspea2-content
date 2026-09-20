@@ -1,0 +1,26 @@
+% Gerado por src/python/thesis/build_tab_geometria_confirmatoria.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/claims_summary_instance_details.csv
+% Fonte: data/processed/todas_metricas_consolidado_with_modern.csv
+% Fonte: config/hosts_front_geometry.csv
+% Fonte: results/tables/hosts_geometry_summary.csv
+\begin{table}[!htb]
+    \centering
+    \caption{A geometria da fronteira frente ao desfecho, nas duas famílias que a testam. As derrotas do acoplamento não se concentram nas fronteiras irregulares.}
+    \label{tab:geometria_confirmatoria}
+    \begin{tabular}{|l|l|c|c|c|}
+        \hline
+        \textbf{Família} & \textbf{Geometria} & \textbf{$n$} & \textbf{V/E/D (IGD)} & \textbf{$A_{12}$ mediano} \\
+        \hline
+        Confirmatória & Regular & 40 & 29/9/2 & $0{,}775$ \\
+        Confirmatória & Irregular & 11 & 8/1/2 & $0{,}664$ \\
+        \hline
+        Hospedeiros & Regular & 40 & 28/11/1 & $0{,}781$ \\
+        Hospedeiros & Irregular & 11 & 5/4/2 & $0{,}642$ \\
+        \hline
+    \end{tabular}
+    \par\smallskip
+    \parbox{0.95\textwidth}{\footnotesize
+    Famílias com protocolos distintos: a confirmatória usa 60 execuções por configuração e correção de Holm; a de hospedeiros usa 30 e Benjamini--Hochberg, e a sua coluna IVF/SPEA2 é um subconjunto da coorte confirmatória. As contagens das duas famílias não se somam. O $A_{12}$ é orientado de modo que valores acima de $0{,}5$ favoreçam o IVF/SPEA2. As duas famílias concordam na magnitude do efeito e diferem apenas na decisão binária do teste: com 60 execuções a taxa de vitória satura nos dois grupos de geometria, enquanto com 30 ela cai mais no grupo de efeito menor. A diferença de $A_{12}$ entre geometrias não atinge significância na família confirmatória ($0{,}092$, Mann--Whitney), e a estratificação é descritiva nas duas.
+    }
+\end{table}

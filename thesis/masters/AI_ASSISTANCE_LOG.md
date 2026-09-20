@@ -576,3 +576,60 @@ ou informação que amplie indevidamente a exposição de material inédito.
 - **Limitações e pendências:** o fator que discrimina as instâncias favoráveis
   passa a ser uma questão explicitamente em aberto no texto, e não uma
   conclusão. As pendências institucionais seguem inalteradas.
+
+### 2026-09-20 — a sobrecorreção da leitura geométrica, desfeita e tabulada
+
+- **Ferramenta:** Claude, da Anthropic. O modelo/versão exato deve ser
+  confirmado na interface antes de uma declaração formal.
+- **Fase:** segunda passagem da auditoria de argumentação, revisando a
+  correção feita na passagem anterior.
+- **Finalidade:** verificar se o gradiente por geometria da família de
+  hospedeiros sobrevive ao mesmo escrutínio que derrubou a leitura geométrica
+  do Capítulo 6, e corrigir o texto conforme o resultado.
+- **Arquivos afetados:** `src/python/thesis/build_tab_geometria_confirmatoria.py`
+  (novo), `build_all.py`, `data-sources.toml`, `tex/cap_VI.tex`,
+  `tex/cap_VII.tex` e este registro. Nova tabela em
+  `results/thesis/tab_geometria_confirmatoria.tex`.
+- **Texto científico inserido:** a entrada anterior deste registro afirmava que
+  as duas famílias **divergiam** quanto à associação entre geometria e
+  benefício. **Isso estava errado, e a correção anterior foi excessiva.** O
+  $A_{12}$ mediano por grupo de geometria foi recalculado na coorte
+  confirmatória completa, com as 60 execuções, e comparado ao da família de
+  hospedeiros: $0{,}775$ contra $0{,}664$ na primeira, $0{,}781$ contra
+  $0{,}642$ na segunda. A direção e a magnitude da queda são praticamente
+  idênticas, e em nenhuma das duas a diferença atinge significância
+  ($p = 0{,}092$ e $p = 0{,}065$, Mann--Whitney). As famílias **concordam** no
+  efeito. O que difere é a decisão binária do teste: com 60 execuções e Holm a
+  taxa de vitória satura nos dois grupos, 29 de 40 contra 8 de 11, e a diferença
+  de magnitude não vira diferença de contagem; com 30 execuções e
+  Benjamini--Hochberg a detecção cai mais no grupo de efeito menor, produzindo
+  28/11/1 contra 5/4/2. A aparente discordância é diferença de poder
+  estatístico sobre o mesmo fenômeno. O texto passou a dizer isso, em vez de
+  declarar divergência entre famílias.
+  O que permanece da correção anterior: a leitura de que as derrotas ocorrem em
+  fronteiras irregulares continua falsa --- duas das quatro são em fronteiras
+  regulares --- e o fator discriminante continua em aberto. O gradiente existe,
+  é modesto, é consistente e não é significativo; ele não explica as derrotas.
+- **Entradas inspecionadas:** `results/tables/hosts_ivfspea2_igd_stats.csv`,
+  `hosts_geometry_summary.csv`, `claims_summary_instance_details.csv`,
+  `config/hosts_front_geometry.csv` e a coorte confirmatória do CSV
+  consolidado, lida através de `filter_submission_synthetic_cohort`.
+- **Verificação humana/técnica:** a análise deixou de ser cálculo de sessão e
+  virou artefato. O novo gerador produz a Tabela 6.4 a partir das quatro fontes
+  declaradas e entra no portão de deriva, de modo que a afirmação mais
+  contestável da dissertação passa a ter produtor executável. Dois defeitos
+  foram encontrados e corrigidos no próprio gerador antes do uso: a coluna
+  `median_a12_ivf` do resumo de hospedeiros **já vem orientada**, e aplicar a
+  inversão publicava $0{,}219$ e $0{,}358$ ao lado de $0{,}775$ e $0{,}664$, ou
+  seja duas convenções na mesma tabela; e uma edição na lista de construtores
+  chegou a remover `build_apendice_fontes.py` e duplicar `build_tab_hosts.py`,
+  o que foi detectado e desfeito antes de qualquer execução. A tabela foi
+  renderizada e inspecionada. Um rebuild limpo, com `make thesis-clean`,
+  confirmou que o *overfull* da rodada anterior estava de fato resolvido e não
+  era artefato de cache. `make thesis-tables-check`, `make thesis-doctor`,
+  `make verify-release` e `make test` passam; `make thesis` compila 89 páginas,
+  17 tabelas e 10 figuras, com zero referências indefinidas, zero citações
+  indefinidas, zero avisos e zero linhas *overfull*.
+- **Limitações e pendências:** o gradiente por geometria é descritivo nas duas
+  famílias e não sustenta afirmação causal. As pendências institucionais seguem
+  inalteradas.

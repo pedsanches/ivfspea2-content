@@ -231,6 +231,7 @@ scripts = [
   "src/python/thesis/build_apendice_fontes.py",
   "src/python/thesis/ptbr_format.py",
   "src/python/thesis/latex_table.py",
+  "src/python/thesis/build_tab_geometria_confirmatoria.py",
   "src/python/thesis/build_fig_resultados.py",
   "src/python/thesis/build_fig_complementares.py",
 ]
@@ -250,6 +251,7 @@ artifacts = [
   "results/thesis/tab_dinamica_limiar.tex",
   "results/thesis/tab_controlador_wtl.tex",
   "results/thesis/apendice_fontes.tex",
+  "results/thesis/tab_geometria_confirmatoria.tex",
   "results/thesis/figures/fig_dist_igd.pdf",
   "results/thesis/figures/fig_dtlz4_bimodal.pdf",
   "results/thesis/figures/fig_posto_medio.pdf",
