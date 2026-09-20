@@ -31,6 +31,10 @@ Lê:
 Escreve: results/thesis/tab_geometria_confirmatoria.tex
 """
 
+from __future__ import annotations
+
+import sys
+
 import numpy as np
 import pandas as pd
 from scipy.stats import mannwhitneyu

@@ -77,9 +77,9 @@ A Tabela~\ref{tab:hosts_geometria} estratifica essas contagens pela geometria da
 
 \input{generated/tab_hosts_geometria}
 
-O padrão observado no Capítulo~\ref{sec:results} reaparece aqui e se estende aos outros hospedeiros: os três acoplamentos rendem mais em fronteiras regulares do que em irregulares, e a diferença é maior justamente no acoplamento que mais ganha. Para o IVF/SPEA2, o tamanho de efeito mediano cai de $0{,}781$ para $0{,}642$ em IGD quando se passa das 40 instâncias regulares às 11 irregulares.
+A estratificação é consistente entre os três hospedeiros no sentido do efeito: todos rendem mais em fronteiras regulares do que em irregulares. Para o IVF/SPEA2, o tamanho de efeito mediano cai de $0{,}781$ para $0{,}642$ em IGD quando se passa das 40 instâncias regulares às 11 irregulares. A magnitude da queda, porém, não acompanha a magnitude do ganho: a maior é a do IVF/NSGA-III, de $0{,}687$ para $0{,}529$ em IGD, e não a do IVF/SPEA2, que é o acoplamento que mais ganha. A menor é a do IVF/NSGA-II, que quase não ganha em nenhum dos dois grupos.
 
-Essa estratificação é descritiva. Os testes de interação entre hospedeiro e geometria não atingiram significância, de modo que os dados são consistentes com a leitura de que a geometria modula o benefício, mas não a estabelecem. O número de instâncias irregulares, onze, é pequeno para sustentar mais do que isso.
+Essa estratificação é descritiva, e o Capítulo~\ref{sec:results} mostra o seu limite. Lá, sobre a mesma classificação geométrica e com o dobro de execuções, a geometria não separa vitórias de derrotas: as taxas de vitória dos dois grupos são praticamente iguais e duas das quatro derrotas ocorrem em fronteiras regulares. O gradiente de magnitude aqui observado reaparece lá, com valores próximos, mas em nenhuma das duas famílias a diferença entre geometrias atinge significância. Os testes de interação entre hospedeiro e geometria também não. Os dados são consistentes com a leitura de que a geometria modula o benefício, e não a estabelecem; onze instâncias irregulares são poucas para sustentar mais do que isso.
 
 \section{Quando ativar o operador}
 \label{sec:ativacao}

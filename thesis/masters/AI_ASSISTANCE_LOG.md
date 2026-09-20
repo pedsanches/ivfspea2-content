@@ -633,3 +633,49 @@ ou informação que amplie indevidamente a exposição de material inédito.
 - **Limitações e pendências:** o gradiente por geometria é descritivo nas duas
   famílias e não sustenta afirmação causal. As pendências institucionais seguem
   inalteradas.
+
+### 2026-09-20 — a maior queda não é a do acoplamento que mais ganha
+
+- **Ferramenta:** Claude, da Anthropic. O modelo/versão exato deve ser
+  confirmado na interface antes de uma declaração formal.
+- **Fase:** terceira passagem da auditoria de argumentação, varrendo o que a
+  correção da cadeia geométrica deixou para trás.
+- **Finalidade:** fechar as duas pontas soltas da seção de hospedeiros e um
+  defeito latente no gerador criado na passagem anterior.
+- **Arquivos afetados:** `tex/cap_VII_complementares.tex`,
+  `src/python/thesis/build_tab_geometria_confirmatoria.py` e este registro.
+- **Texto científico inserido:** duas correções na seção de compatibilidade
+  entre hospedeiros. A primeira é factual: o texto afirmava que a diferença
+  entre geometrias "é maior justamente no acoplamento que mais ganha", e
+  `results/tables/hosts_geometry_summary.csv` diz o contrário. A maior queda de
+  $A_{12}$ é a do IVF/NSGA-III --- $0{,}687$ para $0{,}529$ em IGD, e $0{,}676$
+  para $0{,}501$ em HV --- e não a do IVF/SPEA2, cujas quedas são $0{,}139$ e
+  $0{,}148$ contra $0{,}158$ e $0{,}175$. O IVF/SPEA2 é de fato o que mais
+  ganha, mas não é o que mais perde com a irregularidade da fronteira. A
+  segunda é de coerência: a seção abria dizendo que "o padrão observado no
+  Capítulo 6 reaparece aqui", quando o Capítulo 6 passou a reportar que na
+  família confirmatória a geometria **não** separa vitórias de derrotas. A
+  passagem agora declara o que as duas famílias de fato compartilham, o
+  gradiente de magnitude, e o que as separa, a decisão binária do teste.
+- **Entradas inspecionadas:** `results/tables/hosts_geometry_summary.csv`, com
+  as seis linhas de grupo de geometria dos três acoplamentos nos dois
+  indicadores.
+- **Verificação humana/técnica:** o gerador criado na passagem anterior tinha
+  um **defeito latente** que o teste bem-sucedido não revelou: a reordenação de
+  importações removera `import sys`, usado apenas nos dois caminhos de erro, que
+  não disparam quando todos os artefatos existem. O script teria falhado com
+  `NameError` exatamente quando precisasse reportar artefato ausente. As
+  importações foram restauradas e **os dois caminhos foram exercitados**: o
+  feliz escreve a tabela, e o de erro imprime a mensagem e retorna código 1.
+  Confirmou-se também que o novo gerador e a nova tabela estão declarados em
+  `data-sources.toml`, nas listas de scripts e de artefatos, e não apenas
+  presentes no disco --- `make thesis-doctor` valida caminhos declarados, e não
+  detectaria a omissão. Os quatro portões passam e `make thesis` compila 89
+  páginas com zero referências indefinidas, zero citações indefinidas, zero
+  avisos e zero linhas *overfull*.
+- **Limitações e pendências:** as pendências institucionais seguem inalteradas.
+  Registre-se, para a revisão do autor, que os três defeitos de argumentação
+  encontrados nesta e nas duas passagens anteriores estavam todos na mesma
+  cadeia interpretativa --- a que liga geometria da fronteira a desempenho ---
+  e nenhum deles era detectável por compilação ou por conferência de número
+  isolado. Todos exigiram confrontar a prosa com o artefato.
