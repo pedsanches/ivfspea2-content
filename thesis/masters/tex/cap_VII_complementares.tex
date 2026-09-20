@@ -94,7 +94,7 @@ A primeira hipótese testada foi a de que características estáticas da paisage
 
 \input{generated/tab_fla_modelos}
 
-A Tabela~\ref{tab:fla_modelos} separa duas capacidades distintas. Ordenar instâncias por ganho esperado funciona de forma moderada e estável: a correlação de postos fica em torno de $0{,}37$ e não se degrada quando a validação retira uma família inteira de problemas do treino. Classificar binariamente, ao contrário, não generaliza: sob validação deixa-uma-família todos os classificadores caem para a vizinhança do acaso, três deles com coeficiente de correlação de Matthews negativo. O desempenho aparentemente bom sob validação deixa-uma-instância vinha de instâncias da mesma família presentes no treino.
+A Tabela~\ref{tab:fla_modelos} separa duas capacidades distintas. Ordenar instâncias por ganho esperado funciona de forma moderada e estável: a correlação de postos fica em torno de $0{,}37$ e não se degrada quando a validação retira uma família inteira de problemas do treino. Classificar binariamente, ao contrário, não generaliza: sob validação deixa-uma-família os quatro classificadores caem para a vizinhança do acaso, e todos passam a exibir coeficiente de correlação de Matthews negativo. O desempenho aparentemente bom sob validação deixa-uma-instância vinha de instâncias da mesma família presentes no treino.
 
 Descritores estáticos servem, portanto, como \emph{prior} sobre a magnitude do ganho, e não como regra de decisão.
 

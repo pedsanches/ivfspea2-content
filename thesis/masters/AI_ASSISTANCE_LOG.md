@@ -679,3 +679,58 @@ ou informação que amplie indevidamente a exposição de material inédito.
   cadeia interpretativa --- a que liga geometria da fronteira a desempenho ---
   e nenhum deles era detectável por compilação ou por conferência de número
   isolado. Todos exigiram confrontar a prosa com o artefato.
+
+### 2026-09-20 — mecanismo atribuído a um capítulo que não o formula
+
+- **Ferramenta:** Claude, da Anthropic. O modelo/versão exato deve ser
+  confirmado na interface antes de uma declaração formal.
+- **Fase:** quarta passagem da auditoria de argumentação, dirigida ao padrão
+  que produziu todos os defeitos anteriores.
+- **Finalidade:** varrer as remissões entre capítulos e auditar a família de
+  ativação do operador, que era a menos conferida.
+- **Arquivos afetados:** `tex/cap_VII.tex`, `tex/cap_VII_complementares.tex`,
+  `tex/cap_IX.tex` e este registro.
+- **Texto científico inserido:** três intervenções.
+  (i) A Discussão atribuía ao Capítulo 4 uma interpretação mecanicista
+  diferenciada por geometria --- descendentes retidos em fronteiras regulares,
+  adensamento penalizado em fronteiras desconectadas. O Capítulo 4 **não
+  menciona geometria de fronteira em nenhuma linha**; ele argumenta apenas que
+  descendentes de um progenitor comum se penalizam pela componente de
+  densidade. A conjectura foi construída na Discussão e atribuída
+  retroativamente à Proposta. O texto agora a apresenta como conjectura da
+  própria Discussão, derivada do argumento de densidade, e diz que o capítulo
+  de origem não a formula.
+  (ii) A seção de paisagem afirmava que, sob validação deixa-uma-família,
+  "três" classificadores exibiam coeficiente de Matthews negativo. São
+  **quatro**, e são todos os que a tabela apresenta: $-0{,}070$, $-0{,}163$,
+  $-0{,}070$ e $-0{,}070$. A afirmação errava por defeito, enfraquecendo um
+  resultado negativo que é mais forte do que o texto dizia.
+  (iii) A correção da cadeia geométrica deixou uma lacuna: a Discussão passou a
+  declarar o fator discriminante como questão em aberto, mas os Trabalhos
+  Futuros só propunham testar a geometria. Foi acrescentado o item que a
+  evidência de fato sugere --- as quatro derrotas estão todas na WFG, cujas
+  transformações são não separabilidade, multimodalidade, engano e assimetria,
+  manipuláveis de forma independente nos geradores da suíte, o que admite
+  desenho fatorial.
+- **Entradas inspecionadas:** as 54 remissões entre capítulos; `tex/cap_IV.tex`
+  integralmente, para confirmar a ausência de qualquer menção a geometria;
+  `results/tables/fla_model_comparison.csv`,
+  `dynamic_signal_{main_tests,loocv,lofo}.csv` e
+  `controller_wtl_oos_20260326_221909.csv`.
+- **Verificação humana/técnica:** das 54 remissões, 53 conferem. A família de
+  ativação foi conferida número a número contra os cinco artefatos que a
+  sustentam e só o erro de contagem do MCC apareceu; a aritmética do
+  controlador fecha nas quatro afirmações que o texto encadeia
+  ($10 + 32 = 42$ e $41 - 32 = 9$), e não há uso de IGD como evidência de
+  sucesso do controlador, o que preservaria a circularidade que a seção declara
+  evitar. `make thesis-tables-check`, `make thesis-doctor`,
+  `make verify-release` e `make test` passam; `make thesis` compila 90 páginas
+  com zero referências indefinidas, zero citações indefinidas, zero avisos e
+  zero linhas *overfull*.
+- **Limitações e pendências:** os quatro defeitos de argumentação encontrados
+  nas quatro passagens têm a mesma forma --- um trecho afirma que outro
+  capítulo, tabela ou família "mostra", "confirma" ou "reforça" algo, e o alvo
+  não diz aquilo. Três estavam na cadeia da geometria e o quarto na atribuição
+  do mecanismo. Nenhum era detectável por compilação. Recomenda-se que a
+  revisão do autor priorize exatamente essas construções. As pendências
+  institucionais seguem inalteradas.
