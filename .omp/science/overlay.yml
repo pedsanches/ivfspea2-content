@@ -1,0 +1,78 @@
+# Overlay do perfil científico. Carregado só por scripts/omp-science (--config); não é lido
+# por sessões comuns do OMP. Precedência: padrões < perfil scientific-writing <
+# .omp/config.yml < este overlay < flags da linha de comando. Arrays substituem, não somam.
+
+# 1. Descoberta. Ids de *discovery providers*: impedem que configurações de outros harnesses
+#    (skills, comandos, hooks, MCP, contexto) entrem no ambiente. Nenhum *model provider*
+#    (anthropic, openai-codex, ...) é listado aqui; os modelos continuam disponíveis.
+enabledProviders: []
+disabledProviders:
+  - claude          # .claude/ do projeto: skills, comandos, hooks, MCP, settings.json
+  - claude-md       # CLAUDE.md avulso (o AGENTS.md da raiz carrega o mesmo conteúdo)
+  - claude-plugins
+  - codex
+  - gemini
+  - opencode
+  - cursor
+  - windsurf
+  - cline
+  - github          # .github/: copilot-instructions, instructions, skills
+  - vscode
+  - agents          # .agent/ e .agents/, inclusive ~/.agents/skills
+  - agent-plugins
+  - skillshare
+  - mcp-json        # .mcp.json avulso
+# Continuam ativos: native (.omp/ e o perfil), agents-md (AGENTS.md da raiz), omp-plugins.
+
+# 2. Papéis. /model neste perfil grava papéis em .omp/config.yml (versionado, auditável).
+modelRoleStorage: project
+
+# Papéis embutidos usados pelo harness no perfil científico (título, scout, tarefa genérica).
+# Os papéis científicos (writer, editor, revisores) ficam em .omp/config.yml.
+modelRoles:
+  tiny: openai-codex/gpt-6-luna:low
+  smol: openai-codex/gpt-6-luna:low
+  commit: openai-codex/gpt-6-luna:low
+  task: anthropic/claude-sonnet-5:medium
+  vision: anthropic/claude-sonnet-5:medium
+
+# 3. Independência e integridade da escrita: sem advisor misturando revisor e redação, sem
+#    troca para modelo barato na primeira edição, subagentes sem netos.
+advisor:
+  enabled: false
+prewalk:
+  enabled: false
+task:
+  prewalk: false
+  maxRecursionDepth: 1
+
+# 4. Sem memória entre sessões: cada sessão parte dos arquivos versionados.
+memories:
+  enabled: false
+memory:
+  backend: "off"
+autolearn:
+  enabled: false
+
+# 5. Proteção das alterações não commitadas do autor (vale para subagentes, que rodam sem
+#    prompt de aprovação). Commit e push ficam com o autor.
+bash:
+  patterns:
+    - match: "git reset*"
+      approval: deny
+    - match: "git checkout*"
+      approval: deny
+    - match: "git restore*"
+      approval: deny
+    - match: "git clean*"
+      approval: deny
+    - match: "git stash*"
+      approval: deny
+    - match: "git rm*"
+      approval: deny
+    - match: "git commit*"
+      approval: deny
+    - match: "git push*"
+      approval: deny
+    - match: "rm -rf*"
+      approval: deny

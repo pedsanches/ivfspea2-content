@@ -1,0 +1,38 @@
+# Configuração de projeto do OMP (lida só quando o cwd é a raiz do repositório).
+#
+# Aqui ficam apenas os papéis de modelo do ambiente de escrita científica. Os nomes são
+# próprios (não sobrescrevem papéis embutidos como default, smol ou task), então sessões
+# comuns neste repositório não mudam de comportamento. As regras de isolamento do perfil
+# científico ficam em .omp/science/overlay.yml, carregado só por scripts/omp-science.
+#
+# Trocar um modelo: editar o selector abaixo (ou /model → Roles dentro do perfil científico,
+# que grava aqui porque o overlay define modelRoleStorage: project). Os agentes em
+# .omp/agents/ referenciam só os papéis (@writer, @scientific_review, ...).
+#
+# Os revisores ficam em família de modelo diferente da do escritor, e os fallbacks preservam
+# essa separação.
+
+modelRoles:
+  writer: anthropic/claude-opus-5-5:high
+  editor: anthropic/claude-opus-5-5:high
+  scientific_review: openai-codex/gpt-6-astra:high
+  evidence_review: openai-codex/gpt-6-astra:medium
+  quant_audit: openai-codex/gpt-6-sol:medium
+
+retry:
+  fallbackChains:
+    writer:
+      - anthropic/claude-opus-5:high
+      - anthropic/claude-sonnet-5:high
+    editor:
+      - anthropic/claude-opus-5:high
+      - anthropic/claude-sonnet-5:high
+    scientific_review:
+      - openai-codex/gpt-6-sol:high
+      - openai-codex/gpt-5.6-sol:high
+    evidence_review:
+      - openai-codex/gpt-6-sol:high
+      - openai-codex/gpt-5.6-sol:high
+    quant_audit:
+      - openai-codex/gpt-5.6-terra:medium
+      - anthropic/claude-sonnet-5:medium

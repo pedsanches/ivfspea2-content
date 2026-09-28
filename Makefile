@@ -17,7 +17,7 @@ ACTIVATE   := source $(VENV_DIR)/bin/activate
         analysis-nsga analysis-hosts-supplementary \
         verify-release write-checksums \
         paper paper-ppsn paper-hosts paper-clei paper-all paper-clean \
-        thesis thesis-bootstrap thesis-doctor thesis-render thesis-clean clean
+        thesis thesis-bootstrap thesis-doctor thesis-render thesis-clean thesis-lint clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -165,6 +165,11 @@ thesis-render: ## Rasterize every thesis page for visual QA
 
 thesis-clean: ## Remove thesis build artifacts only
 	$(MAKE) -C thesis/masters clean
+
+thesis-lint: ## Prose signals, LaTeX log and bibliography checks of the last thesis build
+	$(PYTHON) scripts/science/prose_audit.py thesis/masters/tex thesis/masters/pre
+	$(PYTHON) scripts/science/latex_check.py
+	$(PYTHON) scripts/science/bib_check.py
 
 # ---- Cleanup ----
 

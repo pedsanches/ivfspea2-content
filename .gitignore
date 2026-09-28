@@ -120,6 +120,9 @@ Claude.md
 # Agent / editor local state
 .claude/
 .qwen/settings.json.orig
+# Oh My Pi science environment: gate reports, snapshots and LaTeX baselines are
+# per-session scratch. Configuration under .omp/ stays versioned.
+/.omp/runs/
 
 # Project output that was committed inside the vendored PlatEMO tree (10 MB).
 # Untracked in the modernization pass; regenerate from a run rather than

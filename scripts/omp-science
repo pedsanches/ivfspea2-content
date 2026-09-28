@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Launcher do ambiente de escrita científica no Oh My Pi (OMP).
+#
+#   scripts/omp-science [argumentos do omp]   sessão (prompt, -p, --resume, ...)
+#   scripts/omp-science --check               diagnóstico do ambiente, sem chamar modelo
+#   scripts/omp-science config|models|token|usage|stats ...   subcomando no mesmo perfil
+#
+# Login: nenhum no perfil científico. Ele usa as credenciais do OMP normal por meio do
+# models.yml do perfil, instalado abaixo a partir de .omp/science/models.yml.
+#
+# Garante o que a configuração do OMP não garante sozinha: cwd na raiz do repositório
+# (.omp/config.yml e .omp/commands só são lidos no cwd), o perfil isolado e o overlay.
+# Documentação: docs/ai-scientific-writing/README.md.
+set -euo pipefail
+
+PROFILE="${OMP_SCIENCE_PROFILE:-scientific-writing}"
+
+# Resolve o diretório real do script, seguindo links simbólicos (ex.: ~/bin/omp-science).
+source_path="${BASH_SOURCE[0]}"
+while [ -L "$source_path" ]; do
+  link_dir="$(cd -P "$(dirname "$source_path")" && pwd)"
+  source_path="$(readlink "$source_path")"
+  case "$source_path" in /*) ;; *) source_path="$link_dir/$source_path" ;; esac
+done
+script_dir="$(cd -P "$(dirname "$source_path")" && pwd)"
+
+die() { printf 'omp-science: %s\n' "$*" >&2; exit 1; }
+
+root="$(git -C "$script_dir" rev-parse --show-toplevel 2>/dev/null)" \
+  || die "o script não está dentro de um repositório Git ($script_dir)"
+overlay="$root/.omp/science/overlay.yml"
+context="$root/.omp/science/CONTEXT.md"
+models="$root/.omp/science/models.yml"
+for required in "$overlay" "$context" "$models" "$root/.omp/config.yml" "$root/thesis/masters/main.tex"; do
+  [ -f "$required" ] || die "arquivo esperado ausente: ${required#"$root"/} (repositório errado?)"
+done
+command -v omp >/dev/null 2>&1 || die "omp não encontrado no PATH"
+
+cd "$root"
+# Só o overlay científico: overlays herdados do shell (ex.: tiers) não entram.
+export PI_CONFIG_FILES="$overlay"
+
+# Credenciais emprestadas do perfil padrão (ver .omp/science/models.yml).
+profile_models="$HOME/${PI_CONFIG_DIR:-.omp}/profiles/$PROFILE/agent/models.yml"
+if ! cmp -s "$models" "$profile_models"; then
+  mkdir -p "$(dirname "$profile_models")"
+  cp "$models" "$profile_models"
+fi
+
+if [ "${1:-}" = "--check" ]; then
+  shift
+  exec python3 "$root/scripts/science/omp_env_check.py" --profile "$PROFILE" "$@"
+fi
+
+case "${1:-}" in
+  login|logout)
+    die "o perfil científico usa o login do OMP normal; rode \`omp $*\` sem o launcher"
+    ;;
+  config|models|token|usage|stats)
+    exec omp --profile "$PROFILE" "$@"
+    ;;
+esac
+
+missing=()
+for provider in anthropic openai-codex; do
+  omp --profile "$PROFILE" token "$provider" >/dev/null 2>&1 || missing+=("$provider")
+done
+if [ "${#missing[@]}" -gt 0 ]; then
+  printf 'omp-science: sem credencial para: %s\n' "${missing[*]}" >&2
+  printf '  O perfil científico usa o login do OMP normal: rode `omp login <provedor>` fora do launcher.\n' >&2
+fi
+
+exec omp --profile "$PROFILE" \
+  --append-system-prompt "$context" \
+  --model @writer \
+  "$@"

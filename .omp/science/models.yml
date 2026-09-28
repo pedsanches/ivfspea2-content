@@ -1,0 +1,16 @@
+# models.yml do perfil scientific-writing. scripts/omp-science copia este arquivo para
+# ~/.omp/profiles/scientific-writing/agent/models.yml quando ele difere; edite aqui.
+#
+# O perfil científico não guarda login: usa as credenciais do perfil padrão do OMP. Quando
+# precisa de token, o OMP roda o comando abaixo (`!` = saída de comando, models.md) e
+# `omp token` devolve o token do perfil padrão, renovando-o lá se venceu. Só o perfil
+# padrão renova. Copiar as credenciais não serviria: a Anthropic troca o refresh token a
+# cada renovação (packages/ai/src/auth/refresh.ts, OMP v18.3.0), e duas cópias divergem.
+#
+# `env -u` remove as variáveis que o OMP exporta ao ativar o perfil (utils/src/dirs.ts);
+# sem isso, `omp token` consultaria o próprio perfil científico, em recursão.
+providers:
+  anthropic:
+    apiKey: "!env -u OMP_PROFILE -u PI_PROFILE -u PI_CODING_AGENT_DIR -u PI_CONFIG_FILES omp token anthropic"
+  openai-codex:
+    apiKey: "!env -u OMP_PROFILE -u PI_PROFILE -u PI_CODING_AGENT_DIR -u PI_CONFIG_FILES omp token openai-codex"
