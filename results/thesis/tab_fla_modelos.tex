@@ -3,32 +3,31 @@
 % Fonte: results/tables/fla_model_comparison.csv
 \begin{table}[!htb]
     \centering
+    \small
     \caption{Capacidade preditiva dos descritores estáticos de paisagem sob validação deixa-uma-instância e deixa-uma-família.}
     \label{tab:fla_modelos}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|l|c|c|c|c|}
-        \hline
-        \textbf{Modelo} & \textbf{Validação} & \textbf{$r_s$} & \textbf{$R^2$} & \textbf{BA} & \textbf{MCC} \\
-        \hline
-        Floresta aleatória (regressão) & Deixa-uma-instância & $0{,}374$ & $0{,}160$ & --- & --- \\
-         & Deixa-uma-família & $0{,}380$ & --- & --- & --- \\
-        \hline
-        Floresta aleatória (classificação) & Deixa-uma-instância & --- & --- & $0{,}527$ & $0{,}059$ \\
-         & Deixa-uma-família & --- & --- & $0{,}488$ & $-0{,}070$ \\
-        \hline
-        Regressão logística & Deixa-uma-instância & --- & --- & $0{,}728$ & $0{,}384$ \\
-         & Deixa-uma-família & --- & --- & $0{,}439$ & $-0{,}163$ \\
-        \hline
-        SVC com núcleo RBF & Deixa-uma-instância & --- & --- & $0{,}690$ & $0{,}332$ \\
-         & Deixa-uma-família & --- & --- & $0{,}488$ & $-0{,}070$ \\
-        \hline
-        $k$-vizinhos ($k=5$) & Deixa-uma-instância & --- & --- & $0{,}613$ & $0{,}280$ \\
-         & Deixa-uma-família & --- & --- & $0{,}488$ & $-0{,}070$ \\
-        \hline
-    \end{tabular}
-    }
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrr@{}}
+        \toprule
+        \textbf{Modelo} & \textbf{Medida} & \textbf{Deixa-uma-instância} & \textbf{Deixa-uma-família} \\
+        \midrule
+        Floresta aleatória (regressão) & $r_s$ & $0{,}374$ & $0{,}380$ \\
+         & $R^2$ & $0{,}160$ & --- \\
+        \midrule
+        Floresta aleatória (classificação) & BA & $0{,}527$ & $0{,}488$ \\
+         & MCC & $0{,}059$ & $-0{,}070$ \\
+        \addlinespace
+        Regressão logística & BA & $0{,}728$ & $0{,}439$ \\
+         & MCC & $0{,}384$ & $-0{,}163$ \\
+        \addlinespace
+        SVC com núcleo RBF & BA & $0{,}690$ & $0{,}488$ \\
+         & MCC & $0{,}332$ & $-0{,}070$ \\
+        \addlinespace
+        $k$-vizinhos ($k=5$) & BA & $0{,}613$ & $0{,}488$ \\
+         & MCC & $0{,}280$ & $-0{,}070$ \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Modelos treinados sobre os 14 descritores estáticos de paisagem retidos, nas 51 instâncias rotuladas. $r_s$ é a correlação de Spearman entre ganho previsto e observado; BA é a acurácia balanceada e MCC o coeficiente de correlação de Matthews. A validação deixa-uma-família retira uma suíte inteira do treino, e é sob ela que a classificação binária deixa de generalizar: todos os modelos caem para a vizinhança do acaso, enquanto a regressão preserva o sinal. Os descritores estáticos servem, portanto, como prior sobre a magnitude do ganho, não como regra de decisão.
+    \parbox{\textwidth}{\footnotesize
+    Modelos treinados sobre 14 descritores estáticos de paisagem nas 51 instâncias rotuladas. $r_s$ é a correlação de Spearman entre ganho previsto e observado, e $R^2$, o coeficiente de determinação da regressão; BA é a acurácia balanceada e MCC o coeficiente de correlação de Matthews da classificação em ajuda e não ajuda. A validação deixa-uma-família retira uma suíte inteira do treino, mas a regressão original calculou os postos da resposta nas 51 instâncias antes das dobras; MaF7 e DTLZ7 também têm implementação funcional coincidente e podem cruzar dobras por suíte. As correlações da regressão nesta tabela são históricas e exploratórias; a Tabela~\ref{tab:ativacao_robustez} reestima o desfecho com pré-processamento da resposta dentro da dobra e retém DTLZ e MaF juntos. ---: valor não registrado no artefato.
     }
 \end{table}

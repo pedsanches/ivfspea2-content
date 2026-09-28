@@ -1,4 +1,4 @@
-"""Brazilian-Portuguese number formatting for dissertation tables.
+"""Brazilian-Portuguese number formatting for dissertation tables and figures.
 
 Every number in the imported manuscript was typed by hand. That is the root
 cause of the two defects the rewrite inherits: Table 6.3 used decimal commas
@@ -19,10 +19,13 @@ from __future__ import annotations
 import math
 
 __all__ = [
+    "axis_formatter",
     "decimal",
+    "exponent",
     "integer",
-    "median_iqr",
     "percent",
+    "plain",
+    "power_of_ten",
     "pvalue",
     "sci",
     "signed",
@@ -84,32 +87,25 @@ def smart(value: float, sig: int = 3, places: int = 3) -> str:
     return decimal(value, places=places)
 
 
-def median_iqr(median: float, iqr: float, sig: int = 3) -> str:
-    r"""Median with its IQR in parentheses, sharing one exponent.
+def exponent(*values: float, sig: int = 4) -> int:
+    """Power of ten that puts the largest ``|value|`` in ``[1, 10)`` at ``sig`` digits.
 
-    ``3,88(0,09) \times 10^{-3}``. Sharing the exponent is what makes a column
-    of these comparable at a glance; formatting the IQR independently would
-    print two different powers of ten in the same cell.
+    A per-instance row prints both algorithms' medians and spreads against one
+    power of ten, so the row is read in one scale. The power is taken from the
+    largest value, after rounding, so a mantissa never prints as ``10,000``.
     """
-    nan = (median is None or (isinstance(median, float) and math.isnan(median)))
-    if nan:
-        return "---"
-    if median == 0:
-        return f"$0({_comma(f'{iqr:.{sig - 1}f}')})$"
+    largest = max(abs(value) for value in values)
+    if largest == 0:
+        return 0
+    power = math.floor(math.log10(largest))
+    if round(largest / 10.0**power, sig - 1) >= 10.0:
+        power += 1
+    return power
 
-    exponent = math.floor(math.log10(abs(median)))
-    m = median / (10.0**exponent)
-    q = (iqr or 0.0) / (10.0**exponent)
 
-    rounded = round(m, sig - 1)
-    if abs(rounded) >= 10.0:
-        rounded /= 10.0
-        q /= 10.0
-        exponent += 1
-
-    body = _comma(f"{rounded:.{sig - 1}f}")
-    spread = _comma(f"{q:.{sig - 1}f}")
-    return rf"${body}({spread}) \times 10^{{{exponent}}}$"
+def power_of_ten(power: int) -> str:
+    """``$10^{-3}$``: the scale printed beside a row of mantissas."""
+    return rf"$10^{{{power}}}$"
 
 
 def percent(value: float, places: int = 1) -> str:
@@ -119,25 +115,60 @@ def percent(value: float, places: int = 1) -> str:
     return f"${_comma(f'{value:.{places}f}')}$\\%"
 
 
-def pvalue(p: float, threshold: float = 1e-3) -> str:
-    """p-value, collapsing anything below ``threshold``."""
+def pvalue(p: float, threshold: float = 1e-3, places: int = 3) -> str:
+    """p-value in fixed point, three decimals by default, floored at ``threshold``.
+
+    One notation per column: the scientific form this used below 0,01 put
+    ``2,0 \\times 10^{-3}`` between ``< 0,001`` and ``0,042`` in the same column,
+    so the decimal commas no longer lined up. Three decimals resolve every
+    decision at 0,05; a table that also prints adjusted values from the same
+    p-values asks for four, so the adjustment can be followed digit by digit.
+    Anything below ``threshold`` prints as ``< 0,001``.
+    """
     if p is None or (isinstance(p, float) and math.isnan(p)):
         return "---"
     if p < threshold:
         return f"$<{_comma(f'{threshold:g}')}$"
-    if p < 0.01:
-        return sci(p, sig=2)
-    return decimal(p, places=3)
+    return decimal(p, places=places)
 
 
 def signed(value: float, places: int = 3) -> str:
-    """Fixed-point carrying an explicit sign, for deltas."""
+    """Fixed-point carrying an explicit sign, for deltas.
+
+    A value that rounds to zero prints unsigned: ``+0,00`` or ``-0,00`` would
+    claim a direction the printed digits do not show.
+    """
     if value is None or (isinstance(value, float) and math.isnan(value)):
         return "---"
-    sign = "+" if value >= 0 else "-"
-    return f"${sign}{_comma(f'{abs(value):.{places}f}')}$"
+    digits = f"{abs(value):.{places}f}"
+    if float(digits) == 0:
+        return f"${_comma(digits)}$"
+    sign = "+" if value > 0 else "-"
+    return f"${sign}{_comma(digits)}$"
 
 
 def wtl(wins: int, ties: int, losses: int) -> str:
     """Win/tie/loss triple in the fixed order used throughout the text."""
     return f"{int(wins)}/{int(ties)}/{int(losses)}"
+
+
+def plain(value: float, places: int = 2) -> str:
+    """Fixed-point text for figure labels, outside math mode: ``0,216``."""
+    return f"{value:.{places}f}".replace(".", ",")
+
+
+def axis_formatter():
+    """Matplotlib tick formatter that prints the pt-BR decimal comma.
+
+    It keeps ``ScalarFormatter``'s choice of ticks and decimals and only swaps
+    the separator, so every figure axis agrees with the tables and the text.
+    Matplotlib is imported lazily: the table builders share this module and
+    never need it.
+    """
+    from matplotlib.ticker import ScalarFormatter
+
+    class _CommaFormatter(ScalarFormatter):
+        def __call__(self, x, pos=None):
+            return super().__call__(x, pos).replace(".", ",")
+
+    return _CommaFormatter()

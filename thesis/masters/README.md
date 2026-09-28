@@ -6,11 +6,15 @@ The source snapshot in `Downloads` was not modified or deleted.
 
 ## Current status
 
-The document compiles, but its scientific content is still the 2025 baseline.
-It must not yet be treated as synchronized with the repository's current
-evidence. In particular, the current canonical implementation is
-`IVFSPEA2V2`, IGD and HV are both mandatory, and claims must follow
-`docs/IVFSPEA2_EVIDENCE_MODEL.md`.
+The dissertation is synchronized with the repository's current evidence through
+revision round R12: ten chapters and three appendices, with every table and
+every results figure generated from versioned artifacts by `src/python/thesis/`
+and guarded by `make thesis-tables-check` (the three flowcharts in `fig/` are
+static drawings). The canonical implementation is `IVFSPEA2V2`, IGD
+and HV are both mandatory, and claims must follow
+`docs/IVFSPEA2_EVIDENCE_MODEL.md`. `REWRITE_SPEC.md` holds the claim ledger and
+the open questions (`OQ-*`); `REVISION_PLAN.md` holds the decisions still
+pending before deposit.
 
 See `REVISION_PLAN.md` before changing results or conclusions.
 

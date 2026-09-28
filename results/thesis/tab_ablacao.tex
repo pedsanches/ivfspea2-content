@@ -1,23 +1,24 @@
 % Gerado por src/python/thesis/build_tab_tuning_ablacao.py -- nao editar a mao.
 % Regenerar com: make thesis-tables
 % Fonte: results/ablation_v2/phase3/phase3_summary.json
+% Fonte: results/ablation_v2/phase2/phase2_summary.json
 \begin{table}[!htb]
     \centering
-    \caption{Ablação fatorial: o acoplamento completo frente ao SPEA2 canônico e à variante sem seleção de pai dissimilar e sem continuação coletiva.}
+    \small
+    \caption{Ablação na configuração inicial não ajustada: a variante com seleção de pai dissimilar e continuação coletiva frente ao SPEA2 canônico e à formulação sem as duas decisões.}
     \label{tab:ablacao}
-    \begin{tabular}{|c|l|c|c|}
-        \hline
-        \textbf{Métrica} & \textbf{Comparador} & \textbf{V/E/D} & \textbf{Significativas} \\
-        \hline
-        IGD & Sem pai dissimilar e sem continuação coletiva & 0/50/1 & 1 \\
-         & SPEA2 canônico & 25/25/1 & 26 \\
-        \hline
-        HV & Sem pai dissimilar e sem continuação coletiva & 0/50/1 & 1 \\
-         & SPEA2 canônico & 28/21/2 & 30 \\
-        \hline
-    \end{tabular}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc@{}}
+        \toprule
+        \multicolumn{1}{@{}c}{} & \multicolumn{2}{c@{}}{\textbf{V/E/D}} \\
+        \cmidrule(l){2-3}
+        \textbf{Comparador} & \textbf{IGD} & \textbf{HV} \\
+        \midrule
+        SPEA2 canônico & 25/25/1 & 28/21/2 \\
+        Sem pai dissimilar e sem continuação coletiva & 0/50/1 & 0/50/1 \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Acoplamento completo contra cada comparador nas 51 instâncias sintéticas, $\alpha = 0{,}05$. A coluna final conta as instâncias com diferença significativa em qualquer direção. O acoplamento completo supera o SPEA2 canônico em metade da suíte, mas não se distingue da variante sem as duas decisões de acoplamento: o ganho vem da estrutura de interação entre elas e não de um efeito isolado de cada uma. Evidência de justificativa da implementação.
+    \parbox{\textwidth}{\footnotesize
+    Fase final da ablação fatorial: vitórias/empates/derrotas (V/E/D) da variante com as duas decisões de acoplamento contra cada comparador, nas 51 instâncias sintéticas, 60 execuções, teste de Mann--Whitney com correção de Holm, $\alpha = 0{,}05$. A variante foi a de melhor posto médio entre as 16 combinações da fase fatorial, que não se distinguiram entre si (Friedman, $p = 0{,}485$). Limites do desenho: a ablação foi executada na configuração inicial não ajustada ($c = 0{,}11$, $r = 0{,}10$, $m = 0$, $v = 0$, $\ell = 3$), e não na configuração promovida avaliada no Capítulo~\ref{sec:results}; o comparador sem as duas decisões corresponde às execuções 1--60 da formulação anterior presentes na base consolidada, produzidas em outra campanha. Evidência de justificativa da implementação, não da comparação principal.
     }
 \end{table}

@@ -32,6 +32,15 @@ aprovando 7 fontes e 58 caminhos.
    do CLEI em outra saída editorial, e é a versão cujo número de turnover em WFG não
    reproduz do artefato (`OQ-01`).
 5. **Ordem:** esta especificação primeiro, reescrita capítulo a capítulo depois.
+6. **Sem re-execução (2026-09-22).** A dissertação é montada apenas com os artefatos
+   existentes. Análises novas são admitidas quando recalculam a partir de artefatos
+   versionados, por um gerador em `src/python/thesis/` coberto pelo portão de deriva. O que
+   só uma nova campanha responderia — a ablação na configuração promovida (`OQ-14`) — é
+   declarado como limite e vai para os trabalhos futuros.
+7. **Artefato precede leitura.** Os números vêm dos manuscritos; quando a *leitura* que um
+   manuscrito faz deles não sobrevive ao artefato que a sustenta, o texto segue o artefato
+   e a divergência vira questão aberta, para decisão sobre errata. Precedentes: `OQ-01`,
+   `OQ-13`, `OQ-16`, `OQ-17`.
 
 ### 1.2 A proibição de versionamento, na prática
 
@@ -82,6 +91,24 @@ Aplicadas nesta mesma rodada, porque toda a reescrita se apoia neles:
   fixam "IVF/SPEA2 v2" e "IVF/SPEA2 v1" como vocabulário canônico.
 - `REVISION_PLAN.md` §2 — hoje manda separar `IVFSPEA2` (v1) de `IVFSPEA2V2` e
   preservar parâmetros da v1.
+
+### 1.5 Questões de pesquisa (R8)
+
+A dissertação responde a quatro questões; só a QP1 é confirmatória. Numeração de capítulo
+conforme o PDF compilado (o Cap. VII é `cap_VII_complementares.tex`; o Cap. VIII é
+`cap_VII.tex`).
+
+| QP | Pergunta | Onde | Família | Afirmações |
+|---|---|---|---|---|
+| QP1 | O IVF/SPEA2 supera o SPEA2 sob orçamento idêntico, e com que magnitude? | Cap. VI; §7.1 | `CONF`; `ENG` | `C-CONF-*`, `C-MAG-*`; `C-ENG-04` |
+| QP2 | O ganho decorre das duas decisões de acoplamento ou da configuração? | §7.2 | `SUP` | `C-TUN-01`, `C-ABL-*` |
+| QP3 | O benefício depende do hospedeiro? | §7.3 | `HOST` | `C-HOST-*` |
+| QP4 | É possível decidir cedo quando usar o operador, e isso compensa? | §7.4 | `DEC` | `C-FLA-*`, `C-DYN-*`, `C-CTRL-*` |
+
+Cada questão é **respondida num único lugar**, a seção correspondente do Cap. VIII; os
+demais capítulos remetem a ela. Os quatro defeitos de argumentação das auditorias de 20/09
+tinham a mesma forma — um trecho reenunciava o resultado de outro e o alterava —, e esta
+regra existe para impedi-los.
 
 ---
 
@@ -136,13 +163,13 @@ dizer de qual depósito o bruto se recupera.
 
 As linhas de afirmação abaixo referenciam esta tabela em vez de repetir o protocolo.
 
-| Família | Coorte | n | Correção | Métricas | PlatEMO | `id_fonte` |
+| Família | Coorte | n | Correção | Métricas | Ambiente registrado (`OQ-15`) | `id_fonte` |
 |---|---|---|---|---|---|---|
-| `CONF` confirmatória | IVF `3001–3060` × SPEA2 `1–60`, 51 instâncias, FE = 100 000, N = 100 | 60 | Holm, por `M` e por métrica | IGD primária (menor melhor), HV secundária obrigatória (maior melhor) | 24.2.0.2923080 | `memetic-computing-v2-confirmatory` |
-| `SUP` tuning e ablação | subconjunto de 12 problemas, FE = 50 000 (tuning); 51 instâncias (ablação) | 30 | Mann–Whitney + Holm | IGD, HV | 24.2.0.2923080 | `memetic-computing-tuning-ablation` |
-| `ENG` engenharia | RWMOP9, RWMOP21, RWMOP8 | 60 | — | IGD, HV | 24.2.0.2923080 | `memetic-computing-engineering` |
-| `HOST` hospedeiros | IVF/SPEA2 `3001–3030` × SPEA2 `1–30`; IVF/NSGA-II `4001–4030`; IVF/NSGA-III `5001–5030`; 51 instâncias | 30 | Benjamini–Hochberg | IGD, HV | 4.6 (MATLAB R2025b) | `ppsn-operator-host-compatibility` |
-| `DEC` decisão de ativação | 60 execuções para rótulos; 30 pareadas por semente para dinâmica e controlador | 60 / 30 | BH | IGD para rótulos; **HV primária para o controlador** | 24.2.0.2923080 | `ppsn-clei-landscape-dynamics-controller` |
+| `CONF` confirmatória | IVF `3001–3060` × SPEA2 `1–60`, 51 instâncias, FE = 100 000, N = 100 | 60 | Holm, por `M` e por métrica | IGD primária (menor melhor), HV secundária obrigatória (maior melhor) | Springer: "24.2.0.2923080", formato de versão do MATLAB (R2024b) | `memetic-computing-v2-confirmatory` |
+| `SUP` tuning e ablação | subconjunto de 12 problemas, FE = 50 000 (tuning); 51 instâncias, FE = 100 000, na **configuração inicial não ajustada** (ablação, fase final; `OQ-14`) | 30 / 60 | Mann–Whitney + Holm | IGD, HV | Springer: idem | `memetic-computing-tuning-ablation` |
+| `ENG` engenharia | RWMOP9, RWMOP21, RWMOP8 | 60 | — | IGD, HV | Springer: idem | `memetic-computing-engineering` |
+| `HOST` hospedeiros | IVF/SPEA2 `3001–3030` × SPEA2 `1–30`; IVF/NSGA-II `4001–4030`; IVF/NSGA-III `5001–5030`; 51 instâncias | 30 | Benjamini–Hochberg | IGD, HV | PPSN: MATLAB R2025b + PlatEMO 4.6, incompatível com `CONF` nas execuções `3001–3030` (`OV-01`) | `ppsn-operator-host-compatibility` |
+| `DEC` decisão de ativação | 60 execuções para rótulos; 30 pareadas por semente para dinâmica e controlador | 60 / 30 | BH | IGD para rótulos; **HV primária para o controlador** | CLEI: não registrado | `ppsn-clei-landscape-dynamics-controller` |
 
 Divergências de protocolo entre famílias são **reportadas, não harmonizadas**
 (`OQ-06`, `OQ-07`, `OQ-08`).
@@ -163,10 +190,17 @@ divergência de evidência; ao transpor um número de manuscrito, reordenar.
 | `C-CONF-02` | IGD, Holm, fora do ajuste | M=2 **19/3/2** (n=24); M=3 **12/3/0** (n=15) |
 | `C-CONF-03` | HV, Holm, suíte completa | M=2 **22/3/3**; M=3 **17/5/1** |
 | `C-CONF-04` | HV, Holm, fora do ajuste | M=2 **19/3/2**; M=3 **11/4/0** |
+| `C-MAG-01` | Magnitude em IGD por desfecho corrigido (R13) | todas n=51, sem seleção por significância: Â₁₂ mediano **0,756**, Δ mediano **+1,15%**; vitórias n=37: Â₁₂ mediano **0,804**, 29 com Â₁₂ ≥ 0,71, Δ mediano **+1,27%** (+0,28% a +10,23%); derrotas n=4: Â₁₂ mediano **0,265** (0,101 no WFG2/M3 a 0,344 no WFG9/M2), Δ **−2,21% a −6,41%** (mediana −4,01%). Leitura permitida: as derrotas deslocam a mediana mais que a vitória típica, mas a mediana do seu Â₁₂ fica mais perto de 0,5 que a das vitórias (não cada derrota: WFG2/M3 é mais unilateral que a vitória típica); os resumos condicionados descrevem as instâncias em que a diferença foi detectada. Leitura **proibida**: "custam mais", saldo líquido entre problemas, relevância prática, probabilidade de benefício em problema novo |
+| `C-MAG-02` | Magnitude em HV | vitórias n=39: Â₁₂ mediano 0,863, Δ mediano **+0,06%**; derrotas n=4: Δ −0,11% a −0,33% |
 
 Fora do ajuste = 24 + 15 = **39 instâncias**; ajuste = 4 + 8 = **12**; total 51.
 Discriminador por instância: coluna `is_full12` de `claims_summary_instance_details.csv`
 (102 linhas = 2 métricas × 51 instâncias).
+
+Produtor de `C-MAG-*`: `src/python/thesis/build_tab_magnitude_confirmatoria.py` →
+`results/thesis/tab_magnitude_confirmatoria.tex` (Seção `sec:magnitude`). Agrupa as
+instâncias pelo `indicator_holm` da auditoria canônica e lê a coorte só por
+`filter_submission_synthetic_cohort`.
 
 Limite de generalização em todas as quatro: escopo sintético declarado, mesmo
 orçamento, comparação contra SPEA2 canônico. Posicionamento multibaseline entra no
@@ -177,15 +211,20 @@ mesmo capítulo em seção **explicitamente rotulada como exploratória**.
 | `claim_id` | Enunciado | Valor verificado | Artefato |
 |---|---|---|---|
 | `C-TUN-01` | O ajuste em três fases promove C26 (`C=0.12, R=0.225, M=0.3, V=0.1, Cycles=2`) | C26 × A43 = 0/12/0 | `results/tuning_ivfspea2v2/` |
-| `C-ABL-01` | O acoplamento completo supera o SPEA2 canônico | IGD **25/25/1**; HV **28/21/2** | `results/ablation_v2/phase3/phase3_summary.json` |
-| `C-ABL-02` | A ablação não distingue o acoplamento completo da variante sem as duas decisões | IGD e HV **0/50/1** | idem |
+| `C-ABL-01` | Na configuração inicial não ajustada, a variante com as duas decisões supera o SPEA2 canônico | IGD **25/25/1**; HV **28/21/2** | `results/ablation_v2/phase3/phase3_summary.json` |
+| `C-ABL-02` | Na configuração inicial não ajustada, a variante com as duas decisões não se distingue da formulação sem elas | IGD e HV **0/50/1** | idem |
+| `C-ABL-03` | Na fase fatorial, as 16 combinações não se distinguem entre si | Friedman p = **0,485**; a variante com as duas decisões tem o melhor posto médio | `results/ablation_v2/phase2/phase2_summary.json` |
 | `C-ENG-01` | RWMOP9 | IGD **8/0/0**; HV **5/0/3** | `results/engineering_suite/engineering_suite_pairwise_main.csv` |
 | `C-ENG-02` | RWMOP21 | IGD e HV **3/2/3** | idem |
 | `C-ENG-03` | RWMOP8 | IGD e HV **1/1/5** | idem |
+| `C-ENG-04` | IVF/SPEA2 × SPEA2 (hospedeiro), por problema | RWMOP9: vitória em IGD (p = 0,0018; Holm 0,005; Δ +1,17%) e em HV (p = 0,0035; Holm 0,010; Δ +0,01%); RWMOP21 e RWMOP8: empate nos dois | `results/engineering_suite/engineering_suite_summary_main.csv` |
 
-`C-ABL-02` é a linha que a §1.3 reenquadra: escrever pelo mecanismo ausente, nunca
-por rótulo de versão. `C-ENG-*` tem peso probatório menor (transferência externa,
-resultados mistos) e `RWMOP8` tem cobertura heterogênea de execuções válidas.
+`C-ABL-*` é a linha que a §1.3 reenquadra: escrever pelo mecanismo ausente, nunca por
+rótulo de versão — e declarar a configuração em que a ablação rodou (`OQ-14`).
+`C-ENG-01..03` são **posicionamento** entre nove algoritmos, de resultados mistos;
+`C-ENG-04` é a comparação com o hospedeiro, a única que responde à QP1 fora da suíte
+sintética (`OQ-17`). O `RWMOP8` tem cobertura heterogênea de execuções válidas
+(SPEA2+SDE 18/60, MOEA/D 0/60), e por isso a sua contagem soma sete comparadores.
 
 Nenhuma dessas linhas tem produtor executável neste checkout. O capítulo declara isso.
 
@@ -200,6 +239,9 @@ Artefato: `results/tables/hosts_summary.tex` (+ `hosts_a12_summary.tex`,
 | `C-HOST-02` | IVF/NSGA-III × NSGA-III | IGD 18/10/0 + 4/19/0 = **22/29/0**; HV 15/12/1 + 6/16/1 = **21/28/2** |
 | `C-HOST-03` | IVF/NSGA-II × NSGA-II | IGD 1/25/2 + 0/23/0 = **1/48/2**; HV 4/21/3 + 1/22/0 = **5/43/3** |
 | `C-HOST-04` | Estratificação por geometria da fronteira | regular n = 40, irregular n = 11, de `config/hosts_front_geometry.csv` |
+| `C-HOST-05` | Estratificação por suíte (R9; descritiva, sem teste de interação) | IGD: IVF/SPEA2 WFG **9/6/3** × demais 24/9/0, Â₁₂ mediano 0,644 × 0,769; IVF/NSGA-III WFG **3/15/0** × demais 19/14/0, Â₁₂ 0,537 × 0,687. HV: todas as derrotas dos dois acoplamentos na WFG (4 e 2); menor taxa de vitória do IVF/NSGA-III em HV é a da ZDT (1/4/0), WFG em seguida (5/11/2), Â₁₂ WFG 0,439. IVF/NSGA-II **não segue o padrão**: única vitória em IGD e 4 das 5 vitórias em HV na WFG. Produtor: `build_tab_hosts.py` → `results/thesis/tab_hosts_suite.tex`, que falha se as somas por suíte divergirem de `C-HOST-01..03` ou se a orientação do Â₁₂ não reproduzir `median_a12_ivf` de `hosts_geometry_summary.csv` |
+| `C-HOST-06` | Pareamento da família (R9) | Os pares NSGA compartilham a faixa com o hospedeiro e são pareados por execução: os quatro `hosts_ivfnsga*_{igd,hv}_stats.csv` reproduzem o Wilcoxon por identificador, com 30 pares por instância. O par IVF/SPEA2 (`3001–3030` × `1–30`) é **alinhado por ordem**, como declara o PPSN (`paper/ppsn2026-ivf-hosts/main.tex:142-143`). Sem pareamento (Mann–Whitney + BH): IGD **33/15/3**, igual; HV **38/9/4**, uma mudança (DTLZ4, M = 3, empate → vitória); por suíte, só a DTLZ em HV muda, e a WFG fica em 9/6/3 e 10/4/4. As 408 decisões recomputadas de `data/processed/hosts_paper.csv` coincidem com o depósito congelado `artifact/ppsn2026-ivf-hosts-rev1/tables/hosts_pairing_robustness.csv`. Produtor: `build_tab_hosts.py`, que chama `compute_hosts_pairing_robustness.build_rows` e falha se a recomputação não reproduzir os CSVs que as tabelas contam |
+| `C-HOST-07` | Configuração e ajuste dos pipelines (R13) | IVF/SPEA2: C26, calibrada em 12 das 51 instâncias com 50.000 avaliações. IVF/NSGA-II: `R=0.5, C=0.07, Cycles=5`; IVF/NSGA-III: `ivf_rate=0.10, C=0.10, Cycles=5` (`experiments/run_ivfnsgaii_submission.m`, `run_ivfnsgaiii_submission.m`), fixos, sem registro de ajuste nesta suíte. Os valores do NSGA-II pertencem à grade de Sampaio e Camilo-Junior (2017), mas não são as configurações vencedoras relatadas; os cinco ciclos do NSGA-III divergem dos três (sem *steady state*) do experimento ampliado da tese de 2024. Leitura permitida: o esforço de ajuste não foi demonstrado como simétrico. Leitura **proibida**: "configuração canônica publicada", "nenhum pipeline NSGA foi calibrado" (as publicações de origem exploraram parâmetros) | runners e classes MATLAB; `results/tuning_ivfspea2v2/`; `references/ivfnsga2.pdf`; tese de Sampaio (2024), §4.7 |
 
 O capítulo **abre** declarando `OV-01`. A subseção de convergência reporta **apenas** o
 que o artefato de 10 checkpoints sustenta, e declara `OQ-02`, `OQ-03` e `OQ-04` como
@@ -214,19 +256,34 @@ Família `DEC`. Fonte editorial: `paper/clei2026/`.
 | `C-FLA-01` | Descritores estáticos de paisagem ordenam o ganho esperado com sinal moderado | r_s = 0,374 (p = 0,0068), R² = 0,160; deixa-uma-família 0,380 | `results/tables/fla_model_comparison.csv` |
 | `C-FLA-02` | A classificação binária não generaliza entre famílias de problemas | LOOCV: floresta 0,527, logística 0,728, SVC 0,690; deixa-uma-família cai a 0,439–0,488 | idem |
 | `C-DYN-01` | A renovação média do arquivo nos primeiros 20% das gerações separa as classes | q_BH = 0,013; Â₁₂ = 0,849; medianas 0,250 e 0,209 | `results/tables/dynamic_signal_main_tests.csv` |
-| `C-DYN-02` | Regra de limiar único | LOOCV BA 0,691 / MCC 0,311; deixa-uma-família BA **0,754** / MCC 0,413, limiar 0,216 | `results/tables/dynamic_signal_{loocv,lofo}.csv` |
+| `C-DYN-02` | Regra de limiar único; em cada dobra da deixa-uma-família o limiar é ajustado **sem** a família retida | LOOCV BA 0,691 / MCC 0,311; deixa-uma-família BA **0,754** / MCC 0,413; limiares por dobra 0,216 (DTLZ, MaF ou ZDT retida) e 0,248 (WFG retida) | `results/tables/dynamic_signal_{loocv,lofo}.csv` |
 | `C-CTRL-01` | O controlador contra o SPEA2, em HV | **34/14/3** em 51 casos | `results/tables/controller_wtl_oos_20260326_221909.csv` |
-| `C-CTRL-02` | O controlador iguala ou supera o IVF sempre ativo, em HV | **42/51** | idem |
+| `C-CTRL-02` | O controlador contra o IVF/SPEA2 sempre ativo, em HV | **2/40/9** (iguala ou supera em 42/51): saldo desfavorável | idem |
+| `C-CTRL-03` | Decomposição pelo rótulo de três classes, em HV | contra o sempre ativo: ajuda 0/32/9, neutro 0/6/0, prejudica 2/2/0; contra o SPEA2, nas quatro em que o operador prejudica: 0/1/3 | `results/thesis/tab_controlador_wtl.tex`, recalculado de `ppsn_controller_comparison_oos_20260326_221909.csv` e `fla_response.csv`; o gerador falha se não reproduzir as três linhas congeladas |
+| `C-CTRL-04` | Onde o limiar age | todas as diferenças em HV contra o sempre ativo estão na WFG (2/7/9; fora dela 0/33/0); a renovação inicial mediana fica abaixo do limiar aplicado nas 18 instâncias WFG e, fora delas, só em DTLZ6 (M = 2 e 3); mediana por suíte 0,215 na WFG contra 0,244–0,342 nas demais | `data/processed/dynamic_signal_test.csv`, `results/tables/dynamic_signal_lofo.csv` |
+| `C-DYN-03` | A regra de limiar aberta por suíte (R9; descritiva) | 8 dos 10 `NOT_HELPS` são WFG; a WFG tem a menor renovação inicial mediana nas execuções do IVF/SPEA2 (0,215) e do SPEA2 (0,222); os limiares deixa-uma-família desligam o operador nas 18 instâncias WFG e, fora dela, só em DTLZ6 (M = 2 e 3, ambos `HELPS`); decisões da regra = partição "desligar na WFG e só nela" em **49/51**; toda decisão correta da regra é também correta na partição. Leitura permitida: a amostra não separa renovação de suíte, e BA 0,754 não mede discriminação dentro de uma suíte. Leitura **proibida**: "a renovação é só um marcador de suíte" | `results/thesis/tab_dinamica_suite.tex`, produzida por `build_tab_fla_dinamica.py` a partir de `dynamic_signal_test.csv` e `dynamic_signal_lofo.csv`; o gerador falha se tp/tn/fp/fn não reproduzirem o artefato LOFO (29/8/2/12) ou se alguma decisão correta da regra não for correta na partição. Passa a ser também o produtor de `C-CTRL-04` |
+| `C-DYN-04` | Partição WFG/demais como referência retrospectiva (R13) | aplicada aos 51 rótulos, sem ajuste: BA **0,778**, MCC **0,462** (tp 31, tn 8, fp 2, fn 10), contra BA 0,754 da regra de renovação; as duas discordâncias são DTLZ6 M = 2 e M = 3. Formulada depois de observada a concentração dos `NOT_HELPS` na WFG. Leitura permitida: nesta amostra, a regra de renovação não discrimina melhor que a identidade da suíte. Leitura **proibida**: partição como controlador validado ou superior fora da amostra | `results/thesis/tab_ativacao_robustez.tex`, produzida por `build_tab_ativacao_robustez.py` (`wfg_partition_posthoc`) a partir de `dynamic_signal_test.csv` |
+| `C-WFG-01` | Exploração descritiva da WFG (R13; pós-hoc) | Holm da família completa, sem recorreção: IGD WFG **3/3/3** com M = 2 e **5/3/1** com M = 3; WFG3 e WFG9 passam de derrota (M = 2, D = 11, K = 1) a vitória (M = 3, D = 12, K = 2), L = 10 nos dois; WFG9/M2 e WFG2/M3 são instâncias da calibração. Por separabilidade (Huband et al., 2006, tabela de propriedades): separáveis WFG1, 4, 5, 7 com IGD 3/1/0 e 3/1/0; não separáveis WFG2, 3, 6, 8, 9 com 0/2/3 e 2/2/1. Leitura permitida: restringe a hipótese; vitórias em funções multimodal (WFG4), enganosa (WFG5) e com viés dependente de parâmetro (WFG7) excluem explicações deterministas simples por essas propriedades isoladas. Leitura **proibida**: "a não separabilidade é a candidata que sobra", 18 configurações como 18 funções independentes, reversão atribuída só a M | `results/thesis/tab_wfg_exploratoria.tex`, produzida por `build_tab_wfg_exploratoria.py` a partir de `claims_summary_instance_details.csv`, `igd_per_instance_M{2,3}.csv` e `config/wfg_properties.csv`; o gerador falha se D divergir de 11/12 ou se L diferir entre as configurações |
+| `C-SYN-01` | Concentração de resultados menos favoráveis na WFG (Cap. VIII, `sec:padrao_familias`) | **Hipótese, não conclusão.** A WFG já concentra as derrotas corrigidas na família confirmatória (`C-CONF-01`); a recorrência como suíte de menor taxa de vitória em IGD do IVF/SPEA2 e do IVF/NSGA-III (`C-HOST-05`) e em 8 dos 10 `NOT_HELPS` (`C-DYN-03`) não é replicação: para o IVF/SPEA2 as famílias leem a mesma coorte (`OV-01`, `OV-02`). Das duas colunas com execuções novas, só a do IVF/NSGA-III repete o padrão, e compara pipelines; o IVF/NSGA-II é contraexemplo declarado e concentra na WFG diferenças nos dois sentidos (1 das 2 derrotas em IGD, 2 das 3 em HV). `C-WFG-01` restringe a hipótese. A WFG também reúne 8 vitórias corrigidas em 18 configurações. Leitura **proibida** (R13): "regularidade que nenhuma família formula sozinha", "marcador das instâncias desfavoráveis", "todas as derrotas em IGD" do IVF/NSGA-III (não há nenhuma), "só o IVF/NSGA-III acrescenta execuções". Teste proposto: desenho fatorial sobre as transformações da WFG com M e K/L controlados (`sec:fw_isolar`) | composição de `C-CONF-01`, `C-HOST-05`, `C-DYN-03`, `C-WFG-01` |
 
 **Fonte proibida para este capítulo:** `data/processed/classifier_comparison.csv`.
 A linha da regra de limiar sob `LOOCV` ali é um ajuste dentro da amostra, não uma
 estimativa validada — ver `OQ-13`. Os artefatos acima são os que se sustentam.
 
 Rótulos: **41 HELPS / 10 NOT_HELPS**. O capítulo **abre** declarando `OV-02`: os rótulos
-derivam do desfecho confirmatório e não constituem desfecho independente — por isso o
-desfecho primário declarado do controlador é HV, não IGD.
+derivam da comparação em IGD da coorte confirmatória **sem correção de multiplicidade**
+(`src/python/fla/compute_response.py:16`: Mann–Whitney p < 0,05 e Â₁₂ > 0,56), o que põe
+entre os HELPS quatro empates de Holm (WFG1 M = 2; DTLZ4, DTLZ7 e WFG8 M = 3), e não
+constituem desfecho independente — por isso o desfecho primário declarado do controlador é
+HV, não IGD.
 
 `C-DYN-01` é a linha atingida por `OQ-01`; usar os valores do CLEI, que reproduzem.
+
+`C-CTRL-02` mudou de enquadramento na R8: a contagem 42/51 continua certa, mas o texto a
+lê pelo saldo contra o operador sempre ativo (2/40/9), e não pela proteção nas instâncias
+`NOT_HELPS`. A Discussão anterior dizia que o controlador "elimina as perdas" sem o
+qualificador "contra o IVF sempre ativo"; nas quatro instâncias em que o operador
+prejudica, o controlador continua a perder para o SPEA2 em três.
 
 ### 3.5 Afirmações bloqueadas
 
@@ -258,6 +315,18 @@ Não entram no texto enquanto a questão correspondente estiver aberta.
 | `OQ-10` | Autoria: manuscritos com 5, 4 e 3 autores; dissertação individual | perfil §10 | **ABERTA, decisão do autor e do orientador:** declaração de contribuição e permissões de reúso de texto e figuras |
 | `OQ-12` | `rwmop9_m2` é o 52º caso de `dynamic_signal_test.csv` e não tem `response_label` | `dynamic_signal_test.csv` | **Verificado e RESOLVIDA:** todas as contagens são sobre 51 casos rotulados; documentar a exclusão |
 | `OQ-13` | A linha `Early-turnover threshold / LOOCV` de `data/processed/classifier_comparison.csv` reporta BA 0,791 e MCC 0,467, onde o CLEI (`main.tex:530`) reporta 0,691 e 0,311 | `dynamic_signal_loocv.csv` × `compute_classifier_comparison.py:164` | **Verificado. O manuscrito está certo; o CSV está mal rotulado.** `compute_classifier_comparison.py` chama `fit_best_threshold` sobre o quadro inteiro e grava o resultado como se fosse validação cruzada: é um ajuste dentro da amostra. O valor inflado inverte a ordenação que o CLEI argumenta em `main.tex:548-549` (deixa-uma-família acima de deixa-uma-instância). `dynamic_signal_loocv.csv` traz a estimativa genuína, 0,691/0,311, idêntica ao manuscrito. Esse CSV alimenta `fig7_classifier_comparison.pdf`, figura do CLEI → **ESCALAR:** verificar se a figura publicada exibe o valor inflado |
+| `OQ-14` | A ablação não testa a configuração promovida | `scripts/experiments/run_ablation_v2_phase3_batch_common.m:81,94-98`; `src/python/analysis/analyze_ablation_v2_phase3.py:47-50`; `sn-article.tex:566` | **Verificado.** A fase final rodou com `c=0.11, r=0.10, m=0, v=0, ℓ=3` (a configuração inicial não ajustada), 60 execuções `300001–300060`. O braço "sem as duas decisões" são as execuções históricas `IVFSPEA2` `1–60` da base consolidada: outra campanha, sem pareamento por semente, com configuração não registrada no artefato. A dissertação chamava a variante de "acoplamento completo" e não declarava a configuração; o Springer declara (o vencedor fatorial foi o ponto de partida da calibração), logo **não há risco de errata no artigo**. **Texto RESOLVIDO na R8** (nota da Tabela de ablação; Caps. I, VII, VIII, IX e X). **Lacuna de evidência ABERTA**: fechá-la exige nova campanha, recusada pela decisão 6 |
+| `OQ-15` | Versão da plataforma | `sn-article.tex:285`; `src/matlab/lib/PlatEMO/VENDOR.md:9`; `paper/ppsn2026-ivf-hosts/main.tex:134`; `docs/REPRODUCIBILITY_ENVIRONMENT.md:128`; logs MATLAB (ausentes) | **Texto da dissertação corrigido na R10; ABERTA quanto aos manuscritos.** "24.2.0.2923080" tem o formato do número de versão do **MATLAB** (24.2 = R2024b), e não do PlatEMO. A cópia vendorizada do PlatEMO é identificada como 4.6 em `VENDOR.md:9`, por inferência a partir do README e sem SHA; a versão executada em cada campanha **permanece por confirmar**, porque os logs não estão no checkout. O PPSN registra MATLAB R2025b e PlatEMO 4.6 para a família `HOST`, o que é incompatível com o registro do Springer nas execuções `3001–3030` e `1–30` (`OV-01`); o CLEI não registra versão. A dissertação deixou de afirmar qualquer versão de campanha: a §5.1 diz o que a cópia distribuída é, a nota da Tabela 5.1 remete à §9.4, e a §9.4 ("O ambiente de execução não é verificável") expõe os três registros e a incompatibilidade. Pendente, sem afirmação falsa no texto: localizar os logs dos runners, que imprimem `version`, e decidir errata do Springer (legenda da tabela de parâmetros) e do PPSN (ambiente da coluna IVF/SPEA2) |
+| `OQ-16` | Leitura da validação deixa-uma-família | `src/python/fla/test_dynamic_signal.py:739-750`; `dynamic_signal_lofo.csv`; CLEI `main.tex:548-550, 620-624` | **Verificado.** Cada dobra ajusta o limiar **sem** a família retida, de modo que 0,754 é uma estimativa fora da família, e o ajuste não depende de conhecer a família da instância. A dissertação afirmava o contrário ("pressupõe conhecer a família"), herdando o CLEI, que também atribui a vantagem sobre a LOOCV ao reajuste por família. **Texto RESOLVIDO na R8**: a ordem entre as duas validações deixou de ser interpretada (10 negativos em 51). Na R10, a divergência passou a ser **declarada** no texto (§7.4, com citação do CLEI). Números inalterados; a divergência é de **leitura** com o CLEI → decisão do autor sobre revisar o manuscrito, se ainda houver oportunidade |
+| `OQ-17` | "Transferência mista" confundia hospedeiro e posicionamento | `engineering_suite_summary_main.csv` | **Verificado e RESOLVIDA na R8.** Os "resultados mistos" são o posicionamento contra oito comparadores; contra o SPEA2 o registro é 1/2/0, e a vitória do RWMOP9 sobrevive a Holm entre os três problemas. O Springer não afirma o contrário; a confusão estava na dissertação |
+| `OQ-18` | Limiar do controlador congelado | `IVFSPEA2V2CTRLTRACE.m:7,21`; `experiments/run_ppsn_controller.m:47`; `experiments/launch_ppsn_controller_oos_lofo_parallel.sh:24-25,101-103` | **Verificado por cadeia de proveniência.** O padrão `TurnoverThreshold = 0.232437` da classe **não** produziu o artefato OOS: os lançadores passam 0,2158 (lotes A e B) e 0,2479 (lote C, WFG) por `CTRL_TURNOVER_THRESHOLD`, e a raiz de saída `controller_oos_lofo_parallel_20260326_221909` coincide com o nome do artefato congelado. Logs e bruto do controlador não estão no checkout: a verificação é de proveniência, não de reexecução. O padrão da classe é resíduo de uma rodada anterior e pode confundir quem ler o código |
+| `OQ-19` | Leitura do sinal de renovação como regra de decisão binária | `results/thesis/tab_dinamica_suite.tex` (`C-DYN-03`); CLEI `main.tex:42-53`, `572-581`, `710-714` | **Verificado na R9.** Os números do CLEI se mantêm (BA 0,754 deixa-uma-família). O CLEI já reconhece que o sinal depende da família e que, na WFG, a separação é mais fraca (`main.tex:577-581`: Â₁₂ 0,775, p = 0,055), mas não registra que as decisões da regra coincidem com a partição "desligar na WFG e só nela" em 49 das 51 instâncias, nem que toda decisão correta da regra é também correta nessa partição; o resumo e a conclusão apresentam a dinâmica inicial como mais acionável para a decisão binária. A dissertação passou a ler o 0,754 como separação entre a WFG e as demais suítes, e não como capacidade de distinguir instâncias de uma mesma suíte (Caps. VII, VIII e IX); na R10, a divergência passou a ser declarada no texto (§7.4). Divergência de **leitura**, não de número → decisão do autor sobre revisar o manuscrito, como em `OQ-16` |
+| `OQ-20` | "Wilcoxon pareado" descrevia mal o par IVF/SPEA2 na família de hospedeiros | `src/python/analysis/compute_hosts_tables.py:142-165`; `compute_hosts_pairing_robustness.py`; PPSN `main.tex:142-143`; `data-sources.toml` (fonte de hospedeiros, `notes`) | **Verificado e RESOLVIDA na R9.** `compute_hosts_tables.py` alinha as execuções pela ordem dos identificadores. Nos pares NSGA isso coincide com o pareamento por semente; no par IVF/SPEA2 as faixas não se intersectam e o alinhamento é arbitrário. O artigo declara o tratamento; a nota das tabelas da dissertação dizia apenas "Wilcoxon pareado". As notas agora declaram o pareamento por par e a sensibilidade sem pareamento (`C-HOST-06`), e a §7.3 ganhou a terceira ressalva. Nenhum número muda. Sem risco de errata no artigo |
+| `OQ-21` | MaF: uso e duplicata do DTLZ7 | `src/matlab/lib/PlatEMO/Problems/Multi-objective optimization/MaF/MaF7.m`; `.../DTLZ/DTLZ7.m`; `sn-article.tex:345`; `results/tables/claims_summary_instance_details.csv` | **Verificado na R10.** (i) A MaF entra com M = 2 **e** M = 3 (MaF1–MaF7 nos dois); o Springer (`sn-article.tex:345`) e a dissertação diziam "configurações tri-objetivo". (ii) Na plataforma, `MaF7` tem `CalObj`, `GetOptimum` e padrões idênticos aos do `DTLZ7`: as 51 instâncias são 49 funções, e as execuções dos dois são réplicas independentes (valores diferentes execução a execução). (iii) O DTLZ7 com M = 3 integra a calibração e o MaF7 com M = 3 está no recorte fora do ajuste: sem ele, o recorte com M = 3 fica em IGD 11/3/0 e HV 10/4/0 (Holm). (iv) Com M = 3, os vereditos dos dois divergem (DTLZ7 empate, MaF7 vitória), o que ilustra a sensibilidade de instâncias próximas do limiar. **Texto RESOLVIDO na R10** (§5.2, §5.5, §6.1, §6.3, §8.1, §9.1, notas das Tabelas 6.1 e 6.5). Errata do Springer quanto a (i) e à declaração de (ii) e (iii) → decisão do autor |
+| `OQ-22` | Leitura geométrica do manuscrito de origem | preprint `10.21203/rs.3.rs-9431034/v1` (resumo); `sn-article.tex:575` | **Verificado na R10.** O resumo e a discussão do Springer associam o ganho às fronteiras regulares e tomam a compatibilidade geométrica como principal moderador. Na família confirmatória, as taxas de vitória são iguais nos dois grupos (29/40 e 8/11), duas das quatro derrotas são em fronteiras regulares e as duas irregulares são o mesmo problema (WFG2); só a magnitude (Â₁₂ 0,775 contra 0,664) segue a geometria, sem significância. A dissertação declara a divergência (§6.3) e lê a concentração como de suíte. Divergência de **leitura** → decisão do autor sobre errata |
+| `OQ-23` | Propriedade do gatilho de ativação | `src/matlab/lib/PlatEMO/Algorithms/Multi-objective optimization/IVF-SPEA2-V2/IVF_V2.m:27`; `IVFSPEA2V2.m:39-56`; `sn-article.tex:252` | **Verificado na R12.** A regra implementada salta o módulo quando `IVF_Total_FE > ivf_rate * Problem.FE`: o gatilho limita a fração acumulada das avaliações do módulo e fica **mais fácil** de satisfazer depois de uma geração sem ativação; ao fim de cada geração, `FE_IVF` excede `r·FE` no máximo pelo consumo de uma ativação. Simulação exata da regra (N = 100, r = 0,225, 999 gerações): com 12 avaliações por ativação o módulo nunca é suspenso (fração final 0,120); com 24 em toda ativação é suspenso em 62 gerações, uma a cada 16 a partir da 17ª, 31 em cada metade da execução (fração final 0,225). O Springer afirma que o gatilho "becomes harder to satisfy as the run progresses" e deduz custo amortizado "strictly smaller than ℓ times the baseline"; a dissertação herdara a leitura (§2.3.2, §4.1, §4.5) e acrescentava que a intensificação se concentrava na fase inicial. **Texto corrigido na R12**, com a divergência declarada na §4.1. Divergência de **leitura** → decisão do autor sobre errata |
+| `OQ-24` | O laço do hospedeiro do IVF/SPEA2 não é o do SPEA2 da plataforma | `IVF-SPEA2-V2/IVFSPEA2V2.m:46-52`; `SPEA2/SPEA2.m:23-29`; `IVF-SPEA2/IVFSPEA2.m:51-54`; `IVFSPEA2-P2-COMBINED/IVFSPEA2_P2.m:71-75`; `sn-article.tex:206,247` | **Verificado na R12.** Antes do torneio de reprodução, o IVF/SPEA2 recalcula `CalFitness` sobre a população corrente (k = 10 com N = 100); o `SPEA2.m` da plataforma, inalterado desde o commit inicial, usa a aptidão devolvida pela seleção ambiental anterior, calculada sobre a união (k = 14 com 200 indivíduos). As funções de aptidão e de seleção ambiental das duas classes são equivalentes: o `diff` mostra apenas vetorização da dominância, saídas auxiliares e uma invalidação de linhas sem efeito na truncagem. A diferença está no laço, e existe também em gerações sem ativação, o que contradiz "the generation is identical to canonical SPEA2" (`sn-article.tex:247`) e a frase correspondente da dissertação. O pseudocódigo do Springer (`sn-article.tex:206`) calcula a aptidão sobre `P_t` no início da geração, mas o módulo usa a da última seleção ambiental, e é dela que sai `F̄_antes`. A variante da ablação e a implementação versionada da formulação anterior recalculam da mesma forma: a ablação não separa a diferença, nem a comparação confirmatória. Efeito não medido. **Texto declara na R12** (§4.1, Algoritmo 4.1, §4.2.2, §8.2, §8.6, §9.1, §10.1, resumo e abstract). O controle que a fecharia, o SPEA2 com o mesmo recálculo, exige campanha nova (decisão 6) → decisão do autor sobre errata e sobre a campanha |
+| `OQ-25` | Configuração dos pipelines NSGA na família `HOST` | `paper/ppsn2026-ivf-hosts/main.tex:148-149`; `experiments/run_ivfnsgaii_submission.m`; `experiments/run_ivfnsgaiii_submission.m`; `references/ivfnsga2.pdf`; tese de Sampaio (2024), §4.7 | **Verificado na R13.** O PPSN afirma que cada pipeline usou "the fixed parameter setting of its cited canonical implementation". Os runners fixam `R=0.5, C=0.07, Cycles=5` (IVF/NSGA-II) e `ivf_rate=0.10, C=0.10, Cycles=5` (IVF/NSGA-III): valores da grade de 2017 que não são as configurações vencedoras relatadas, e cinco ciclos contra três (sem *steady state*) no experimento ampliado de 2024. Não há registro de ajuste nesta suíte equivalente ao do IVF/SPEA2. A dissertação declara a assimetria (`C-HOST-07`; §7.3, §8.3, §9.2) sem alterar números. Divergência de **leitura** com o PPSN → decisão do autor sobre errata |
 
 ---
 
@@ -266,7 +335,7 @@ Não entram no texto enquanto a questão correspondente estiver aberta.
 | id | Relação | Consequência para o texto |
 |---|---|---|
 | `OV-01` | Hospedeiros `3001–3030` e `1–30` ⊂ coorte confirmatória `3001–3060` e `1–60` | a coluna IVF/SPEA2 do Cap. VIII **não replica** o Cap. VI; só `4001–4030` e `5001–5030` acrescentam execuções novas |
-| `OV-02` | Coorte de rótulos do Cap. IX ≡ coorte de desfecho do Cap. VI | os rótulos HELPS/NOT_HELPS são **derivados** do desfecho confirmatório, não desfecho independente |
+| `OV-02` | Coorte de rótulos do Cap. IX ≡ coorte de desfecho do Cap. VI | os rótulos HELPS/NOT_HELPS são **derivados** da comparação confirmatória em IGD, **sem correção** (41 HELPS contra 37 vitórias de Holm), não desfecho independente |
 | `OV-03` | `paper/clei2026/` e `paper/ppsn2026/` são uma família em duas saídas editoriais | citar como uma; a dissertação adota o CLEI (`OQ-01`) |
 | `OV-04` | 12 problemas de ajuste ⊂ 51 instâncias | só as linhas `Holm_OOS` sustentam contagem fora do ajuste |
 | `OV-05` | Controlador e dinâmica compartilham as 30 sementes | HV é o desfecho primário declarado do controlador |
@@ -301,6 +370,14 @@ declara família, coorte, faixa de execuções, n, correção e direção da mé
 | Ap. B | Recuperação dos dados brutos ignorados | `docs/RELEASE_IDENTITY.md` |
 
 Toda `\ref{}` precisa de reauditoria depois da renumeração.
+
+**Arquitetura efetiva (R4–R9).** Dez capítulos e três apêndices: I Introdução · II
+Embasamento · III Trabalhos relacionados · IV Proposta · V Experimentos · VI Resultados
+(QP1, só confirmatório desde a R9) · VII Estudos complementares, uma seção por questão
+(QP1 em engenharia, QP2, QP3, QP4) · VIII Discussão e Conclusões, uma resposta por
+questão, mais a seção de regularidade entre famílias (`C-SYN-01`, R9) · IX Ameaças · X
+Trabalhos futuros · Ap. A, B e C (posicionamento exploratório, retirado do Cap. VI na R9).
+A tabela acima é o alvo original, anterior à consolidação da R4.
 
 ### 6.2 Rodadas
 
@@ -357,6 +434,139 @@ Toda `\ref{}` precisa de reauditoria depois da renumeração.
 - **R7** — figuras e validação final. Regenerar as cinco figuras com fontes Type 3 usando
   `pdf.fonttype = 42` **dentro do `.venv`, com matplotlib 3.10.8**; qualquer outra versão
   reescreve todos os PDFs versionados do repositório.
+  **Situação (R8): resolvido por obsolescência.** Nenhum capítulo inclui mais as cinco
+  figuras estatísticas legadas: `fig/` só é usado pelos três fluxogramas, que já embutem
+  TrueType, e `pdffonts build/main.pdf` não lista fonte Type 3. As cinco figuras continuam
+  em `fig/` sem uso; removê-las é limpeza opcional, a critério do autor.
+- **R8 (concluída) — questões de pesquisa, sem re-execução.** Decisões 6 e 7 da §1.1 e
+  §1.5. O Cap. I ganhou objetivos, questões e contribuições reescritas a partir das
+  respostas; o Cap. VI, a seção de magnitude (`C-MAG-*`); o Cap. VII passou a ter uma
+  seção por questão, na ordem QP1–QP4; o Cap. VIII responde a uma questão por seção; os
+  Caps. IX e X foram sincronizados; resumo e abstract foram derivados das respostas. Um
+  gerador novo (`build_tab_magnitude_confirmatoria.py`) e quatro estendidos: engenharia
+  com a comparação contra o hospedeiro; controlador com a decomposição em três classes e
+  conferência contra o artefato congelado; limiar com os valores por dobra; ablação com a
+  configuração e o Friedman da fase fatorial. Leituras corrigidas: `OQ-14`, `OQ-16`,
+  `OQ-17`; a afirmação de que as famílias "divergem" quanto à geometria (Conclusões e
+  resumo) foi removida, porque contradizia a própria Discussão. Portões
+  `thesis-tables-check`, `thesis-doctor`, `verify-release` e `make test` aprovados;
+  `make thesis` compila 92 páginas sem aviso LaTeX e sem *overfull*. A inspeção visual
+  achou um defeito anterior à R8: o resumo e o abstract ficam numa `minipage` que não
+  quebra página, e os textos de HEAD transbordavam — o corpo do resumo caía na página
+  seguinte, e as palavras-chave do abstract também. Os dois textos foram reduzidos a
+  cerca de 21 linhas e cabem, com as palavras-chave, numa página cada.
+- **R9 (concluída) — a regularidade da WFG entre famílias, como hipótese.** Motivada por
+  uma auditoria da linha narrativa: a abertura pelo argumento de densidade não sustenta
+  conclusão alguma, e a concentração dos casos desfavoráveis na WFG aparecia em três
+  famílias sem que o texto a juntasse. Geradores estendidos (`build_tab_hosts.py`,
+  `build_tab_fla_dinamica.py`), com duas tabelas novas, `tab_hosts_suite` (`C-HOST-05`) e
+  `tab_dinamica_suite` (`C-DYN-03`), ambas com autoverificação contra artefatos;
+  `build_tab_hosts.py` também declara e recomputa o pareamento (`C-HOST-06`, `OQ-20`). O
+  Cap. VIII ganhou a §8.5, `sec:padrao_familias` (`C-SYN-01`), que formula a regularidade
+  como **hipótese**, com quatro ressalvas (sobreposição de coortes, contraexemplo do
+  IVF/NSGA-II, renovação e suíte não separáveis nesta amostra, propriedades da WFG não
+  separadas); a §8.1.1 foi condensada, e a QP4 e as Conclusões, recalibradas. A leitura da
+  regra de renovação mudou (`OQ-19`): as suas decisões coincidem com a partição WFG/demais
+  em 49 das 51 instâncias, e o 0,754 não mede discriminação dentro de uma suíte. O
+  posicionamento exploratório saiu do Cap. VI para o Apêndice C (`apend:exploratorio`). O
+  Cap. II foi corrigido contra Zitzler et al. (2001) e contra `SPEA2.m` e
+  `EnvironmentalSelection.m` da plataforma: o texto dizia que o arquivo começa com tamanho
+  $N$, que duplicatas são removidas e que o arquivo é completado com dominados do arquivo
+  anterior, e calculava a aptidão depois da seleção ambiental; a §2.1.5 passou a contrastar
+  a ordenação dos três hospedeiros; a §2.3 deixou de chamar de paralelo um arranjo que a
+  §2.2 classifica como integrativo. Os argumentos de projeto das duas decisões passaram a
+  ser apresentados como argumentos, e não como fatos (Caps. I, II e IV). Seis entradas
+  bibliográficas sem citação foram removidas. Resumo e abstract foram reescritos, e o
+  abstract, composto em inglês, e não traduzido. Portões `thesis-tables-check`,
+  `thesis-doctor`, `verify-release` e `make test` aprovados; `make thesis` compila 96
+  páginas sem aviso LaTeX e sem *overfull*, e as quatro linhas *underfull* são as da R8.
+- **R10 (concluída) — correções de fato, de coerência e de fundamentação.** Motivada por
+  uma avaliação da dissertação (nota 8,0/10) que listou vinte defeitos verificados contra
+  código, artefatos e manuscritos. Fato: a versão de plataforma deixou de ser afirmada
+  (`OQ-15`); a MaF passou a constar com M = 2 e 3, e a duplicata MaF7/DTLZ7, com o seu efeito
+  sobre o recorte fora do ajuste, foi declarada (`OQ-21`); a Tabela 7.8 passou a dizer que
+  exibe 5 dos 18 observáveis testados, e o gerador falha se deixarem de ser os de menor
+  valor-p; a regra dos rótulos (sem correção) e a diferença 41 × 37 foram explicitadas
+  (`OV-02`); a amplitude do DTLZ4 foi medida (quase nove vezes a mediana); o custo de relógio
+  deixou de ser dito "quantificado". Coerência: o critério de continuação dos acoplamentos
+  anteriores foi alinhado ao código do IVF/NSGA-II e do IVF/NSGA-III; o protocolo de seleção
+  dos RWMOP, ao do Springer (critérios fixados antes, RWMOP8 mantido apesar de adverso); o
+  Apêndice C e a §5.4 passaram a dizer a mesma coisa; a conclusão deixou de chamar a vantagem
+  de "específica" do SPEA2; a legenda da Tabela 6.5 deixou de negar a concentração de
+  derrotas irregulares, que agora é explicada (um único problema). Fundamentação: definições
+  de dominância, conjunto e fronteira de Pareto (Cap. I, com `M` para o número de objetivos);
+  §3.5 ampliada com controle de parâmetros, seleção adaptativa de operadores e seleção de
+  algoritmos; citações de SBX, mutação polinomial, Mann–Whitney e Friedman; §1.4 com os três
+  manuscritos derivados, citados onde o texto os invoca, e divergências de leitura
+  declaradas no ponto em que ocorrem (§6.3, §7.4; `OQ-22`); referência da IGD nos RWMOP
+  descrita (§5.3). Forma: códigos internos (CONF, ENG, SUP, HOST, DEC, HELPS, C26) fora das
+  legendas; legendas curtas na Lista de Figuras; vírgula decimal em todas as figuras;
+  Figura 6.1 refeita, relativa à mediana do SPEA2 e com vereditos de Holm; contraste do texto
+  na Figura 7.2 corrigido. Portões `thesis-tables-check`, `thesis-doctor`, `verify-release`
+  e `make test` aprovados; `make thesis` compila 98 páginas sem aviso LaTeX, sem *overfull* e
+  sem página de texto só com *floats*.
+- **R11 (concluída) — conferência da R10 e correções residuais.** Os vinte defeitos da
+  avaliação foram conferidos no texto, nas tabelas e nas figuras regeneradas: catorze
+  estavam resolvidos e seis tinham resto. A generalização do critério de continuação
+  estendia ao IVF/GDE3, sem fonte, o que só vale para o IVF/NSGA-II e o IVF/NSGA-III (Caps.
+  1 e 3). A §5.4, o Cap. 6 e o Apêndice C diziam "sem correção de multiplicidade" de um posto
+  médio que não envolve teste. A §9.1 atribuía a execução a "uma versão específica da
+  plataforma", que a §9.4 declara não verificável, e a §9.4 dizia que nenhuma contagem
+  "depende da versão". A entrada `maturana2009adaptive`, copiada do PPSN-dinâmica, trazia ano
+  e autoria errados (Crossref: 2011, seis autores). A §1.4 dizia que a dissertação
+  "recalcula" as tabelas, o que só vale para a família confirmatória, e a §3.4 afirmava
+  lacuna na literatura sem levantamento. A §6.3 lia "reflete variabilidade, e não
+  equivalência", onde o teste só permite "não indica equivalência". Além dos vinte: a
+  discordância entre famílias passou a "compatível com" diferença de poder (§8.1.1);
+  "Problemas caros" (§10.2) deixou de afirmar a troca como favorável; frases de
+  metacomentário foram cortadas (§7.2, §8.2, Apêndice B); o rótulo do eixo da Figura 7.3,
+  cortado no PDF, foi encurtado no gerador, e só essa figura mudou na regeneração. Portões
+  `thesis-tables-check`, `thesis-doctor`, `verify-release` e `make test` aprovados; `make
+  thesis` compila 98 páginas sem aviso LaTeX, sem *overfull* e sem página só com *floats*.
+- **R12 (concluída) — calibração da linha argumentativa e dois fatos da proposta.** A pedido do
+  autor, depois de uma avaliação que apontou objetivo mais amplo do que a evidência responde,
+  mecanismos de projeto afirmados como fatos, ressalvas repetidas e Conclusões que terminavam
+  no que falta. Objetivo: "determinar se, por que e em que condições" passou a avaliar
+  eficácia, magnitude e instâncias e a investigar atribuição, dependência do hospedeiro e
+  decisão de uso (Cap. 1, resumo, abstract, `REVISION_PLAN.md` §2). Fato, contra o código: o
+  gatilho limita a fração acumulada e não concentra a intensificação no início (`OQ-23`;
+  §2.3.2, §4.1, §4.5); o IVF/SPEA2 recalcula a aptidão antes do torneio, o que o SPEA2 da
+  plataforma não faz (`OQ-24`; nova ameaça na §9.1, candidato de atribuição na §8.2, controle
+  na §10.1); o critério coletivo passou a definir as duas médias pelo contexto em que são
+  calculadas, a declarar que um ciclo sem melhora não é desfeito e a delimitar o que a média
+  de F registra; "pai distinto" passou a pai escolhido para cada mãe, com K = min(3, n_c) e
+  sorteio de dois candidatos; o Algoritmo 4.1 foi alinhado a `IVF_V2.m`. Calibração: a
+  motivação por densidade passou a hipótese de projeto (Caps. 1 e 4); "o ganho não é
+  atribuível" passou a "a evidência disponível não permite atribuir"; a WFG passou a marcador
+  empírico (§8.5); saíram a afirmação "autolimitante" do critério coletivo, não medida, e a
+  conjectura mecanicista da §8.1.1. Desenvolvimento: as Conclusões distinguem eficácia,
+  atribuição e decisão de uso e terminam na contribuição; a §8.4 trata o controlador como
+  problema de decisão sob custos assimétricos. Enxugamento: os Caps. 6 e 7 deixaram de
+  reenunciar respostas às QP (§1.5), e as ressalvas de reprodutibilidade, sobreposição,
+  ablação e renovação–suíte ficaram num lugar canônico, com remissão. Nenhum número de
+  resultado mudou. Portões `thesis-tables-check`, `thesis-doctor`, `verify-release` e `make
+  test` aprovados; `make thesis` compila 98 páginas sem aviso LaTeX, sem *overfull* e sem
+  página só com *floats*; resumo e abstract cabem numa página cada.
+- **R13 (concluída) — revisão científica da Discussão, sem novas campanhas.** A pedido do
+  autor, a partir de um diagnóstico da Discussão (C1–C8, A1–A7), usado como lista de
+  problemas e não como fonte. Cap. VIII: títulos das QP alinhados ao Cap. I; QP1 com resumo
+  não condicionado (`C-MAG-01`), Â₁₂ e Δ distinguidos e sem leitura de custo; QP2 com o
+  orçamento de calibração e a hipótese de densidade como justificativa de projeto; QP3 em
+  dois níveis, sem "Sim", com a assimetria de ajuste (`C-HOST-07`, `OQ-25`) e o contraste com
+  os estudos de origem conferido nas fontes primárias; QP4 com veredito, três níveis e a
+  partição pós-hoc WFG/demais (`C-DYN-04`); §8.5 reescrita como concentração de resultados
+  menos favoráveis, restringida por `C-WFG-01`; Conclusões com escopo e remissão ao Cap. IX.
+  Dois cálculos novos por gerador (`build_tab_ativacao_robustez.py`, estendido;
+  `build_tab_wfg_exploratoria.py`, novo, com `config/wfg_properties.csv` transcrito da tabela
+  de propriedades de Huband et al., 2006). Coerência nos Caps. III (linhagem IVF, Zhou,
+  Liefooghe), IV (custo), VI (geometria, síntese), VII (hospedeiros, reanálise estática,
+  partição, controlador), IX (orçamento de calibração, assimetria de ajuste, tempo,
+  protocolos, análises pós-hoc, convergência) e X (hospedeiro, WFG, decisão reversível),
+  resumo e abstract (magnitude não condicionada). Nenhum número de resultado preexistente
+  mudou. Auditorias independentes quantitativa, científica e fonte→afirmação; achados
+  aceitos incorporados. Portões `thesis-tables-check`, `thesis-doctor`, `verify-release` e
+  `make test` aprovados; `make thesis` compila 108 páginas sem aviso LaTeX novo, sem
+  *overfull*, com as quatro linhas *underfull* da linha de base.
 
 Portões por rodada: `make thesis-doctor` → `make thesis` → `make thesis-render` quando
 houver mudança de layout. Por perfil §11: invocar `$write-scientific-manuscripts` antes
@@ -369,7 +579,9 @@ de editar prosa, auditoria editorial nos `.tex` alterados depois, e entrada em
 para a realidade de 10 checkpoints declarando as afirmações dos manuscritos como não
 verificadas em árvore · `OQ-03` — corrigir o pareamento em
 `test_convergence_significance.py`, o que altera artefato por trás de artigo aceito, ou
-documentar a exclusão · `OQ-09` · `OQ-10` · data de defesa, banca, `\publica`, campos de
-coorientador e a declaração de formato exigida pela Resolução INF nº 02/2023/PPGCC ·
-confirmar com o programa se 13 capítulos e 2 apêndices são aceitáveis, ou se VII–IX
-devem formar um único capítulo de estudos complementares.
+documentar a exclusão · `OQ-09` · `OQ-10` · `OQ-15` (texto corrigido na R10; restam os logs
+e a errata dos manuscritos) · `OQ-16`, `OQ-19`, `OQ-21`, `OQ-22` e `OQ-23` (errata ou revisão dos
+manuscritos, se ainda houver oportunidade) · `OQ-24` (errata e campanha de controle) · `OQ-25` (errata do PPSN quanto à configuração dos pipelines NSGA) · data de defesa — a provisória, 08/11/2026, cai num **domingo** —,
+banca, `\publica`, campos de coorientador e a declaração de formato exigida pela
+Resolução INF nº 02/2023/PPGCC. A estrutura em dez capítulos e três apêndices (o terceiro desde a R9) resulta da
+decisão da R4, que consolidou os estudos complementares num único capítulo.

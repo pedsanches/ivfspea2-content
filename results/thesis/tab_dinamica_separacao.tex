@@ -3,23 +3,24 @@
 % Fonte: results/tables/dynamic_signal_main_tests.csv
 \begin{table}[!htb]
     \centering
+    \small
     \caption{Separação entre as classes de instância pelos observáveis da dinâmica inicial da população.}
     \label{tab:dinamica_separacao}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|c|c|c|c|c|}
-        \hline
-        \textbf{Observável} & \textbf{Mediana (ajuda)} & \textbf{Mediana (não ajuda)} & \textbf{$A_{12}$} & \textbf{$q$} & \textbf{Sobrevive a BH} \\
-        \hline
-        Renovação do arquivo (IVF/SPEA2) & $0{,}250$ & $0{,}209$ & $0{,}849$ & $0{,}013$ & sim \\
-        Renovação do arquivo (SPEA2) & $0{,}261$ & $0{,}206$ & $0{,}824$ & $0{,}015$ & sim \\
-        Diferença final de HV & $2{,}34 \times 10^{-4}$ & $-3{,}96 \times 10^{-5}$ & $0{,}727$ & $0{,}169$ & não \\
-        Diferença final de IGD & $1{,}84 \times 10^{-4}$ & $1{,}31 \times 10^{-5}$ & $0{,}685$ & $0{,}295$ & não \\
-        Ciclos de IVF na fase inicial & $1{,}879$ & $1{,}881$ & $0{,}335$ & $0{,}295$ & não \\
-        \hline
-    \end{tabular}
-    }
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccr@{}}
+        \toprule
+        \multicolumn{1}{@{}c}{} & \multicolumn{2}{c}{\textbf{Mediana}} & \multicolumn{2}{c@{}}{} \\
+        \cmidrule(lr){2-3}
+        \textbf{Observável} & \textbf{Ajuda ($n=41$)} & \textbf{Não ajuda ($n=10$)} & \textbf{$A_{12}$} & \textbf{$q$} \\
+        \midrule
+        Renovação do arquivo (IVF/SPEA2) & $0{,}250$ & $0{,}209$ & $0{,}849$ & $0{,}013$ \\
+        Renovação do arquivo (SPEA2) & $0{,}261$ & $0{,}206$ & $0{,}824$ & $0{,}015$ \\
+        Diferença final de HV & $2{,}34 \times 10^{-4}$ & $-3{,}96 \times 10^{-5}$ & $0{,}727$ & $0{,}169$ \\
+        Diferença final de IGD & $1{,}84 \times 10^{-4}$ & $1{,}31 \times 10^{-5}$ & $0{,}685$ & $0{,}295$ \\
+        Ciclos de IVF na fase inicial & $1{,}879$ & $1{,}881$ & $0{,}335$ & $0{,}295$ \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Observáveis medidos nos primeiros 20\% das gerações, sobre 51 instâncias rotuladas (41 em que o operador ajuda e 10 em que não ajuda), com 30 execuções pareadas por semente. $A_{12}$ é o tamanho de efeito de Vargha--Delaney e $q$ o valor-$p$ após correção de Benjamini--Hochberg. Apenas a renovação do arquivo sobrevive à correção. Os rótulos derivam do desfecho confirmatório em IGD e não constituem desfecho independente, razão pela qual a avaliação do controlador adota o HV.
+    \parbox{\textwidth}{\footnotesize
+    A tabela reproduz 5 dos 18 observáveis testados, os de menor valor-$p$ no teste de Mann--Whitney entre as classes, e $q$ é o valor-$p$ após correção de Benjamini--Hochberg sobre os 18, com $\alpha = 0{,}05$. As diferenças finais de IGD e de HV são medidas ao fim da execução; os demais observáveis, nos primeiros 20\% das gerações. São 51 instâncias rotuladas, com 30 execuções pareadas por semente; $A_{12}$ é o tamanho de efeito de Vargha--Delaney. Os rótulos derivam da comparação em IGD da coorte confirmatória, sem correção de multiplicidade, e não constituem desfecho independente.
     }
 \end{table}

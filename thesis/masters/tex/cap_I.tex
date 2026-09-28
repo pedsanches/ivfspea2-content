@@ -8,34 +8,75 @@ Formalmente, um problema de otimização multiobjetivo consiste em otimizar simu
 
 \begin{align}
 \label{eq:mop_definition}
-\min \quad & \mathbf{F}(\mathbf{x}) = [f_1(\mathbf{x}), f_2(\mathbf{x}), \ldots, f_m(\mathbf{x})]^T \\
+\min \quad & \mathbf{F}(\mathbf{x}) = [f_1(\mathbf{x}), f_2(\mathbf{x}), \ldots, f_M(\mathbf{x})]^T \\
 \text{sujeito a} \quad & \mathbf{x} \in \Omega \nonumber
 \end{align}
 
-\noindent em que $\Omega$ é o espaço de soluções viáveis, $\mathbf{x}$ é um vetor de decisão e $\mathbf{F}(\mathbf{x})$ reúne as $m$ funções objetivo. O conjunto de soluções não dominadas de $\Omega$ forma a fronteira de Pareto, e é a ela que os algoritmos evolutivos multiobjetivo procuram convergir mantendo, ao mesmo tempo, uma distribuição adequada ao longo dela.
+\noindent em que $\Omega$ é o espaço de soluções viáveis, $\mathbf{x}$ é um vetor de decisão e $\mathbf{F}(\mathbf{x})$ reúne as $M$ funções objetivo, todas minimizadas. Como os objetivos conflitam, as soluções são comparadas pela dominância de Pareto~\cite{coello2007evolutionary}: uma solução $\mathbf{x}$ domina uma solução $\mathbf{y}$, o que se denota por $\mathbf{x} \succ \mathbf{y}$, quando
+\begin{equation}
+\label{eq:dominancia}
+f_j(\mathbf{x}) \leq f_j(\mathbf{y}) \ \text{para todo}\ j \in \{1, \ldots, M\} \quad \text{e} \quad f_k(\mathbf{x}) < f_k(\mathbf{y}) \ \text{para algum}\ k.
+\end{equation}
+Uma solução de $\Omega$ que nenhuma outra solução de $\Omega$ domina é ótima de Pareto. O conjunto dessas soluções é o conjunto ótimo de Pareto, no espaço de decisão, e a sua imagem por $\mathbf{F}$ é a fronteira de Pareto, no espaço de objetivos. É dessa fronteira que os algoritmos evolutivos multiobjetivo procuram se aproximar, mantendo ao mesmo tempo uma distribuição adequada ao longo dela.
 
 Essa dupla exigência --- aproximar-se da fronteira e cobri-la --- é o que torna o problema difícil. Um algoritmo que intensifica a busca em torno das melhores soluções converge mais rápido, mas concentra a população; um que preserva diversidade cobre melhor a fronteira, mas converge mais devagar. Os algoritmos evolutivos multiobjetivo tratam essa tensão por meio dos seus mecanismos de seleção, e é aí que eles diferem entre si.
 
-O SPEA2~\cite{zitzler2001spea2} resolve a tensão de uma forma particular: atribui a cada indivíduo uma aptidão que soma a força de dominância acumulada a um termo de densidade calculado pela distância ao $k$-ésimo vizinho mais próximo. A seleção ambiental usa essa aptidão combinada, o que dá ao algoritmo boa distribuição de soluções e um arquivo elitista estável. O mesmo mecanismo, porém, cria uma dificuldade específica para qualquer tentativa de acelerar a sua convergência por intensificação local: uma solução gerada por busca local nasce próxima dos seus progenitores, portanto numa região densa, e o termo de densidade penaliza exatamente essa proximidade.
+O SPEA2~\cite{zitzler2001spea2} resolve a tensão de uma forma particular: atribui a cada indivíduo uma aptidão que soma a força de dominância acumulada a um termo de densidade calculado pela distância ao $k$-ésimo vizinho mais próximo. A seleção ambiental admite primeiro as soluções não dominadas e, quando elas excedem o arquivo, remove uma a uma as mais próximas das vizinhas, o que favorece a distribuição das soluções ao longo da fronteira. O mesmo mecanismo cria uma dificuldade potencial para quem procura acelerar a convergência por intensificação local: descendentes gerados perto dos progenitores tendem a ocupar regiões já povoadas, e a seleção desconta justamente a proximidade entre soluções.
 
 O método de Fertilização \textit{In Vitro}~\cite{camilo-junior2011} é um mecanismo de intensificação seletiva projetado para acoplar-se a um algoritmo hospedeiro: coleta material genético de qualidade da população, submete-o a manipulação intensiva num módulo separado e devolve ao hospedeiro apenas os descendentes que sobrevivem a um critério de continuação. O método foi acoplado a algoritmos genéticos e, em otimização multiobjetivo, ao NSGA-II~\cite{sampaio2017ivf}, ao GDE3~\cite{sampaio2019ivf} e ao NSGA-III~\cite{Sampaio2024}. Nenhum desses trabalhos o acoplou ao SPEA2.
 
-A lacuna não é apenas de cobertura. Os acoplamentos anteriores herdaram da formulação original duas decisões que dependem de como o hospedeiro ordena soluções: as mães coletadas compartilham um mesmo progenitor, e um novo ciclo de intensificação é iniciado quando um descendente individual supera esse progenitor. Sob a aptidão do SPEA2, ambas são contraproducentes --- a primeira concentra descendentes numa mesma vizinhança, onde o termo de densidade os penaliza mutuamente; a segunda aprova ciclos que ganham proximidade ao custo da distribuição, que é justamente o que a aptidão do hospedeiro desconta.
+A lacuna não é apenas de cobertura. A formulação original e os acoplamentos ao NSGA-II e ao NSGA-III compartilham duas decisões que dependem de como o hospedeiro ordena soluções: as mães coletadas recebem um mesmo pai, e um novo ciclo de intensificação é iniciado quando um único descendente supera esse pai. Sob a aptidão do SPEA2, há razões para esperar que ambas sejam inadequadas: a primeira tende a concentrar os descendentes de um ciclo numa mesma vizinhança, onde a seleção os desfavorece uns em relação aos outros; a segunda condiciona a continuação a um ganho individual, que não registra o adensamento que a aptidão do hospedeiro desconta.
 
-Esta dissertação investiga, portanto, uma pergunta delimitada: sob orçamento fixo de avaliações, é possível acoplar o método IVF ao SPEA2 de modo que a intensificação sobreviva à seleção do hospedeiro e melhore o seu desempenho? A proposta, denominada IVF/SPEA2, responde substituindo aquelas duas decisões por outras alinhadas à lógica de aptidão do SPEA2, e submetendo o módulo a um gatilho de orçamento que preserva exatamente o número de avaliações por geração.
+A proposta desta dissertação, denominada IVF/SPEA2, substitui aquelas duas decisões por outras alinhadas à lógica de aptidão do SPEA2, submete o módulo a um gatilho que limita a fração acumulada de avaliações que ele consome e reparte com o hospedeiro a cota de avaliações de cada geração, que permanece inalterada. Se essa substituição é o que produz o ganho observado é uma das perguntas que a dissertação investiga, e não uma premissa dela.
+
+\section{Objetivos}
+\label{sec:objetivos}
+
+O objetivo geral desta dissertação é avaliar se o acoplamento do método IVF ao SPEA2 melhora o hospedeiro sob orçamento fixo de avaliações, com que magnitude e em que instâncias, e investigar a que o benefício pode ser atribuído, se ele depende do algoritmo hospedeiro e se é possível decidir, durante a execução, quando usar o operador. Os objetivos específicos são:
+
+\begin{enumerate}
+    \item propor e implementar o acoplamento IVF/SPEA2, com gatilho de ativação por orçamento acumulado e repartição da cota de avaliações de cada geração entre o módulo e o hospedeiro;
+    \item avaliar confirmatoriamente o acoplamento contra o SPEA2 canônico, com a IGD como desfecho primário e o HV como secundário, e medir a magnitude da diferença;
+    \item verificar se o ganho se deve às duas decisões de acoplamento ou à configuração do operador;
+    \item verificar se o benefício do operador depende do algoritmo que o hospeda;
+    \item investigar se é possível decidir cedo, com informação colhida na própria execução, quando manter o operador ativo.
+\end{enumerate}
+
+\section{Questões de pesquisa}
+\label{sec:questoes}
+
+Os quatro últimos objetivos correspondem a quatro questões de pesquisa. Cada uma tem família de evidência, protocolo e força inferencial próprios, declarados no Capítulo~\ref{sec:Experiments}, e é respondida no Capítulo~\ref{sec:discussion_conclusions}; apenas a primeira é confirmatória.
+
+\begin{description}
+    \item[QP1 --- Eficácia.] Sob orçamento idêntico de avaliações, o IVF/SPEA2 supera o SPEA2 canônico, e com que magnitude? A evidência confirmatória vem da suíte sintética, no Capítulo~\ref{sec:results}, e a de apoio, de três problemas de engenharia com restrições, na Seção~\ref{sec:engenharia}.
+    \item[QP2 --- Atribuição.] O ganho decorre das duas decisões de acoplamento --- a seleção de pai dissimilar e o critério coletivo de continuação --- ou da configuração do operador? A evidência vem da calibração e da ablação, na Seção~\ref{sec:calibracao_ablacao}.
+    \item[QP3 --- Dependência do hospedeiro.] O benefício do operador IVF depende do algoritmo que o hospeda? A Seção~\ref{sec:hospedeiros} compara o acoplamento proposto aos acoplamentos do IVF ao NSGA-II e ao NSGA-III.
+    \item[QP4 --- Ativação.] É possível saber, antes da execução ou no seu início, se o operador vai ajudar --- e essa informação produz ganho quando usada para controlá-lo? A Seção~\ref{sec:ativacao} contrasta descritores de paisagem, observáveis da dinâmica inicial e um controlador construído sobre eles.
+\end{description}
+
+\section{Contribuições}
+\label{sec:contribuicoes}
 
 As contribuições desta dissertação são as seguintes:
 
 \begin{enumerate}
-    \item \textbf{O acoplamento IVF/SPEA2.} Um acoplamento inédito do método IVF ao SPEA2, definido por duas decisões específicas do hospedeiro --- a seleção de pai dissimilar e o critério coletivo de continuação --- e por um gatilho de ativação baseado em orçamento acumulado, que mantém a comparação normalizada por avaliações.
+    \item \textbf{O acoplamento IVF/SPEA2.} Um acoplamento inédito do método IVF ao SPEA2, com duas decisões de projeto motivadas pela aptidão do hospedeiro --- a seleção de pai dissimilar e o critério coletivo de continuação --- e um gatilho de ativação que limita a fração acumulada de avaliações do módulo, com a cota de cada geração repartida entre módulo e hospedeiro, o que mantém a comparação normalizada por avaliações.
 
-    \item \textbf{Evidência confirmatória delimitada.} Uma comparação contra o SPEA2 canônico em 51 instâncias sintéticas, com 60 execuções por configuração, reportando IGD como desfecho primário e HV como secundário obrigatório, com correção de multiplicidade de Holm e separação explícita entre as instâncias usadas na calibração e as 39 reservadas à generalização.
+    \item \textbf{Evidência confirmatória com magnitude (QP1).} Uma comparação contra o SPEA2 canônico em 51 instâncias sintéticas, com 60 execuções por configuração, IGD como desfecho primário e HV como secundário obrigatório, correção de Holm e separação entre as 12 instâncias usadas na calibração e as 39 fora do ajuste. A análise distingue frequência de vitórias, frequência de pares favoráveis de execuções e deslocamento das medianas, inclusive no recorte fora do ajuste, com intervalos exploratórios para quatro instâncias sem alegar incerteza global.
 
-    \item \textbf{Justificativa da configuração e das decisões de acoplamento.} Uma calibração em três fases e uma ablação fatorial que sustentam a configuração adotada --- e cujo resultado, reportado sem atenuação, mostra que a ablação não separa o acoplamento completo da variante sem as duas decisões na suíte completa.
+    \item \textbf{Um limite de atribuição (QP2).} Uma calibração em três fases e uma ablação fatorial: o contraste com a configuração histórica inicial não isola o efeito dos parâmetros; na ablação da configuração inicial, as duas decisões de acoplamento registram 50 comparações sem diferença detectável e uma derrota frente à sua ausência em cada métrica. Na configuração promovida, a contribuição delas não foi isolada.
 
-    \item \textbf{Delimitação do alcance.} Uma avaliação de transferência para problemas de engenharia com restrições, de resultados mistos, e uma comparação entre o acoplamento proposto e os acoplamentos do IVF a outros hospedeiros, que mostra que o benefício do operador depende do algoritmo que o hospeda.
+    \item \textbf{Dependência do pipeline e alcance (QP1 e QP3).} Uma comparação entre acoplamentos publicados que mostra que o benefício do IVF varia com o pipeline, sem isolar causalmente o hospedeiro, e uma verificação em três problemas de engenharia com restrições: há uma vitória detectável diante do hospedeiro e duas comparações sem diferença detectável, não uma garantia de ausência de prejuízo.
 
-    \item \textbf{Critério de ativação do operador.} Uma análise que contrasta descritores estáticos de paisagem de aptidão com observáveis da dinâmica inicial da população, mostrando que apenas os segundos sustentam uma regra binária de ativação, e a avaliação de um controlador construído sobre essa regra.
+    \item \textbf{Diagnóstico precoce e seu limite (QP4).} Uma reanálise com transformação da resposta dentro das dobras e retenção conjunta de famílias funcionalmente duplicadas qualifica a predição pelos descritores estáticos. Na dinâmica inicial, a renovação do arquivo permite uma regra binária cujo ajuste do limiar por família atinge BA $0{,}754$, mas o sinal e a janela não foram selecionados dentro dessas dobras; suas decisões por instância coincidem em 49 de 51 casos com a partição WFG/demais, e o controlador por execução não supera o operador sempre ativo.
 \end{enumerate}
 
-O restante do texto está organizado da seguinte forma. O Capítulo~\ref{sec:Background} apresenta o SPEA2, a hibridização de algoritmos evolutivos, o método IVF na sua formulação original e o instrumental de avaliação e de análise de paisagem usado adiante. O Capítulo~\ref{sec:RW} posiciona a proposta em relação à linhagem do IVF, aos aprimoramentos do SPEA2 e à literatura de decisão sobre operadores. O Capítulo~\ref{sec:Proposal} define o acoplamento proposto. O Capítulo~\ref{sec:Experiments} declara o protocolo experimental de cada família de evidência, e o Capítulo~\ref{sec:results} reporta a comparação confirmatória. O Capítulo~\ref{sec:complementares} reúne a calibração, a ablação, a transferência para engenharia, a comparação entre hospedeiros e a análise de ativação do operador. O Capítulo~\ref{sec:discussion_conclusions} discute os resultados e conclui, o Capítulo~\ref{sec:threats} examina as ameaças à validade e o Capítulo~\ref{sec:future_work} indica as direções que permanecem abertas.
+\section{Publicações derivadas}
+\label{sec:publicacoes}
+
+As famílias de evidência desta dissertação foram relatadas originalmente em três manuscritos: a avaliação do IVF/SPEA2 contra o SPEA2 e os demais comparadores, com a calibração, a ablação e os problemas de engenharia, disponível como \textit{preprint}~\cite{zambrano2026ivfspea2}; a comparação entre hospedeiros, aceita no PPSN 2026~\cite{zambrano2026hosts}; e a análise de ativação do operador, submetida ao CLEI 2026~\cite{zambrano2026clei}. A dissertação não os transcreve: gera as suas tabelas diretamente dos artefatos versionados e, quando a leitura de um manuscrito não sobrevive ao artefato que a sustenta, segue o artefato e declara a divergência no ponto em que ela ocorre.
+
+\section{Organização do texto}
+\label{sec:organizacao}
+
+O Capítulo~\ref{sec:Background} apresenta o SPEA2, a hibridização de algoritmos evolutivos, o método IVF na sua formulação original e o instrumental de avaliação e de análise de paisagem usado adiante. O Capítulo~\ref{sec:RW} posiciona a proposta em relação à linhagem do IVF, aos aprimoramentos do SPEA2 e à literatura de decisão sobre operadores. O Capítulo~\ref{sec:Proposal} define o acoplamento proposto. O Capítulo~\ref{sec:Experiments} declara o protocolo experimental de cada família de evidência, e o Capítulo~\ref{sec:results} reporta a comparação confirmatória da QP1 na suíte sintética. O Capítulo~\ref{sec:complementares} reúne as famílias de apoio, uma seção por questão: a transferência para engenharia (QP1), a calibração e a ablação (QP2), a comparação entre hospedeiros (QP3) e a análise de ativação do operador (QP4). O Capítulo~\ref{sec:discussion_conclusions} responde às quatro questões, examina a regularidade que as respostas compartilham e conclui; o Capítulo~\ref{sec:threats} examina as ameaças à validade, e o Capítulo~\ref{sec:future_work} indica as direções que permanecem abertas. Os apêndices documentam as fontes de evidência, a disponibilidade dos dados e o posicionamento exploratório contra os demais comparadores.

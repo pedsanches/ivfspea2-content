@@ -1,26 +1,30 @@
 % Gerado por src/python/thesis/build_tab_engenharia.py -- nao editar a mao.
 % Regenerar com: make thesis-tables
+% Fonte: results/engineering_suite/engineering_suite_summary_main.csv
 % Fonte: results/engineering_suite/engineering_suite_pairwise_main.csv
 \begin{table}[!htb]
     \centering
-    \caption{Transferência do IVF/SPEA2 para problemas de engenharia com restrições: contagens por problema e métrica.}
+    \small
+    \caption{Transferência do IVF/SPEA2 para problemas de engenharia com restrições: comparação contra o hospedeiro e posicionamento frente aos demais comparadores.}
     \label{tab:engenharia_wtl}
-    \begin{tabular}{|l|c|c|c|}
-        \hline
-        \textbf{Problema} & \textbf{$M$} & \textbf{Métrica} & \textbf{V/E/D} \\
-        \hline
-        RWMOP9 & 2 & IGD & 8/0/0 \\
-         &  & HV & 5/0/3 \\
-        \hline
-        RWMOP21 & 2 & IGD & 3/2/3 \\
-         &  & HV & 3/2/3 \\
-        \hline
-        RWMOP8 & 3 & IGD & 1/1/5 \\
-         &  & HV & 1/1/5 \\
-        \hline
-    \end{tabular}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccrrcc@{}}
+        \toprule
+        \multicolumn{3}{@{}c}{} & \multicolumn{3}{c}{\textbf{Contra o SPEA2}} & \multicolumn{1}{c@{}}{\textbf{Contra os comparadores}} \\
+        \cmidrule(lr){4-6}\cmidrule(l){7-7}
+        \textbf{Problema} & \textbf{$M$} & \textbf{Métrica} & \textbf{$\Delta$ (\%)} & \textbf{$p$} & \textbf{Resultado} & \textbf{V/E/D} \\
+        \midrule
+        RWMOP9 & 2 & IGD & $+1{,}17$ & $0{,}0018$ & Vitória & 8/0/0 \\
+         &  & HV & $+0{,}01$ & $0{,}0035$ & Vitória & 5/0/3 \\
+        \midrule
+        RWMOP21 & 2 & IGD & $+0{,}27$ & $0{,}8604$ & Empate & 3/2/3 \\
+         &  & HV & $0{,}00$ & $0{,}1749$ & Empate & 3/2/3 \\
+        \midrule
+        RWMOP8 & 3 & IGD & $+4{,}96$ & $0{,}8563$ & Empate & 1/1/5 \\
+         &  & HV & $+0{,}31$ & $0{,}5444$ & Empate & 1/1/5 \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Vitórias/empates/derrotas do IVF/SPEA2 contra cada comparador nos problemas de engenharia com restrições, sob processamento estrito de execuções comuns. Esta é evidência de transferência externa, com força inferior à da suíte sintética e resultados mistos; ela não sustenta a afirmação confirmatória e não pode ser somada às contagens sintéticas. O RWMOP8 tem cobertura heterogênea de execuções válidas entre algoritmos, o que reduz ainda mais o peso probatório da sua linha. Os problemas foram fixados antes da observação dos resultados.
+    \parbox{\textwidth}{\footnotesize
+    Contra o SPEA2: $\Delta$ é a diferença relativa entre as medianas, orientada de modo que valores positivos favoreçam o IVF/SPEA2, e $p$ é o do teste de soma de postos de Wilcoxon bicaudal sobre 60 execuções de cada algoritmo, sem correção e com $\alpha = 0{,}05$, como no processamento da família. Com correção de Holm entre os três problemas de cada métrica, nenhuma decisão muda; os valores-$p$ ajustados das diferenças significativas são: RWMOP9 em IGD, $0{,}0053$; RWMOP9 em HV, $0{,}0105$. Contra os comparadores: vitórias/empates/derrotas (V/E/D) do IVF/SPEA2 frente a cada um dos 8 algoritmos restantes, incluído o SPEA2, sob o mesmo teste. No RWMOP8, a cobertura de execuções válidas é heterogênea (SPEA2+SDE tem 18 de 60; MOEA/D, nenhuma), e a contagem soma 7 comparadores. As contagens não se somam às da suíte sintética.
     }
 \end{table}

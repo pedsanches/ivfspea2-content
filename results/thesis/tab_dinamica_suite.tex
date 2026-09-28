@@ -1,0 +1,29 @@
+% Gerado por src/python/thesis/build_tab_fla_dinamica.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: data/processed/dynamic_signal_test.csv
+% Fonte: results/tables/dynamic_signal_lofo.csv
+\begin{table}[!htb]
+    \centering
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \caption{Regra de limiar sobre a renovação do arquivo, aberta por suíte de problemas de teste.}
+    \label{tab:dinamica_suite}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccccc@{}}
+        \toprule
+        \multicolumn{1}{@{}c}{} & \multicolumn{3}{c}{\textbf{Instâncias}} & \multicolumn{2}{c}{\textbf{Renovação mediana}} & \multicolumn{1}{c}{} & \multicolumn{2}{c@{}}{\textbf{Desligadas pela regra}} \\
+        \cmidrule(lr){2-4}\cmidrule(lr){5-6}\cmidrule(l){8-9}
+        \textbf{Suíte} & \textbf{Total} & \textbf{Ajuda} & \textbf{Não ajuda} & \textbf{IVF/SPEA2} & \textbf{SPEA2} & \textbf{Limiar} & \textbf{Total} & \textbf{Ajuda} \\
+        \midrule
+        DTLZ & 14 & 13 & 1 & $0{,}244$ & $0{,}245$ & $0{,}216$ & 2 & 2 \\
+        MaF & 14 & 13 & 1 & $0{,}252$ & $0{,}267$ & $0{,}216$ & 0 & 0 \\
+        WFG & 18 & 10 & 8 & $0{,}215$ & $0{,}222$ & $0{,}248$ & 18 & 10 \\
+        ZDT & 5 & 5 & 0 & $0{,}342$ & $0{,}339$ & $0{,}216$ & 0 & 0 \\
+        \midrule
+        Total & 51 & 41 & 10 & $0{,}238$ & $0{,}243$ & --- & 20 & 12 \\
+        \bottomrule
+    \end{tabular*}
+    \par\smallskip
+    \parbox{\textwidth}{\footnotesize
+    Decisão no nível da instância: a regra desliga o operador quando a renovação do arquivo nos primeiros 20\% das gerações (mediana de 30 execuções pareadas por semente, tal como registrada no artefato de origem) fica abaixo do limiar da suíte da instância. Cada limiar vem da validação deixa-uma-família da renovação do arquivo do IVF/SPEA2 (Tabela~\ref{tab:dinamica_limiar}) e é ajustado sem a suíte que avalia. Renovação mediana: mediana, entre as instâncias da suíte, da renovação de cada instância. Desligadas pela regra: total de instâncias classificadas pela mediana e, entre elas, aquelas em que o operador ajuda; não são decisões por execução do controlador. Os rótulos derivam da comparação em IGD da coorte confirmatória, sem correção de multiplicidade, e não constituem desfecho independente.
+    }
+\end{table}

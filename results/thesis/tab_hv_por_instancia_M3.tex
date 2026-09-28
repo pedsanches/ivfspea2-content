@@ -4,41 +4,45 @@
 % Fonte: results/tables/claims_summary_instance_details.csv
 \begin{table}[!htb]
     \centering
-    \caption{HV por instância com $M=3$ objetivos: IVF/SPEA2 contra SPEA2 canônico.}
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \caption[HV por instância com $M=3$ objetivos]{HV por instância com $M=3$ objetivos: mediana e dispersão do IVF/SPEA2 e do SPEA2 canônico, diferença relativa e veredito corrigido por Holm.}
     \label{tab:hv_por_instancia_m3}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|c|c|c|c|c|}
-        \hline
-        \textbf{Problema} & \textbf{$D$} & \textbf{IVF/SPEA2} & \textbf{SPEA2} & \textbf{$p$ (Holm)} & \textbf{Veredito} \\
-        \hline
-        DTLZ1$^{\dagger}$ & 7 & $8{,}427(0{,}003) \times 10^{-1}$ & $8{,}425(0{,}005) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        DTLZ2$^{\dagger}$ & 12 & $5{,}580(0{,}016) \times 10^{-1}$ & $5{,}553(0{,}014) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        DTLZ3 & 12 & $5{,}613(0{,}010) \times 10^{-1}$ & $5{,}584(0{,}031) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        DTLZ4$^{\dagger}$ & 12 & $5{,}562(2{,}105) \times 10^{-1}$ & $5{,}535(2{,}072) \times 10^{-1}$ & $6{,}2 \times 10^{-3}$ & $+$ \\
-        DTLZ5 & 12 & $1{,}998(0{,}001) \times 10^{-1}$ & $1{,}996(0{,}001) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        DTLZ6 & 12 & $2{,}001(0{,}000) \times 10^{-1}$ & $2{,}001(0{,}001) \times 10^{-1}$ & $0{,}378$ & $=$ \\
-        DTLZ7$^{\dagger}$ & 22 & $2{,}774(0{,}010) \times 10^{-1}$ & $2{,}767(0{,}010) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        WFG1 & 12 & $9{,}450(0{,}015) \times 10^{-1}$ & $9{,}445(0{,}018) \times 10^{-1}$ & $0{,}378$ & $=$ \\
-        WFG2$^{\dagger}$ & 12 & $9{,}289(0{,}017) \times 10^{-1}$ & $9{,}304(0{,}018) \times 10^{-1}$ & $<0{,}001$ & $-$ \\
-        WFG3 & 12 & $3{,}958(0{,}045) \times 10^{-1}$ & $3{,}891(0{,}034) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        WFG4 & 12 & $5{,}510(0{,}023) \times 10^{-1}$ & $5{,}432(0{,}026) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        WFG5$^{\dagger}$ & 12 & $5{,}164(0{,}016) \times 10^{-1}$ & $5{,}139(0{,}019) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        WFG6 & 12 & $4{,}990(0{,}211) \times 10^{-1}$ & $4{,}987(0{,}162) \times 10^{-1}$ & $0{,}739$ & $=$ \\
-        WFG7 & 12 & $5{,}489(0{,}023) \times 10^{-1}$ & $5{,}432(0{,}035) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        WFG8 & 12 & $4{,}624(0{,}039) \times 10^{-1}$ & $4{,}593(0{,}040) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        WFG9 & 12 & $5{,}350(0{,}102) \times 10^{-1}$ & $5{,}144(0{,}060) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        MaF1$^{\dagger}$ & 12 & $2{,}202(0{,}009) \times 10^{-1}$ & $2{,}185(0{,}011) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        MaF2 & 12 & $2{,}407(0{,}016) \times 10^{-1}$ & $2{,}392(0{,}018) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        MaF3 & 12 & $9{,}633(0{,}002) \times 10^{-1}$ & $9{,}624(0{,}013) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        MaF4 & 12 & $5{,}329(0{,}011) \times 10^{-1}$ & $5{,}303(0{,}026) \times 10^{-1}$ & $<0{,}001$ & $+$ \\
-        MaF5$^{\dagger}$ & 12 & $5{,}550(2{,}098) \times 10^{-1}$ & $5{,}539(2{,}078) \times 10^{-1}$ & $0{,}378$ & $=$ \\
-        MaF6 & 12 & $2{,}001(0{,}001) \times 10^{-1}$ & $2{,}001(0{,}001) \times 10^{-1}$ & $0{,}337$ & $=$ \\
-        MaF7 & 22 & $2{,}777(0{,}009) \times 10^{-1}$ & $2{,}772(0{,}009) \times 10^{-1}$ & $2{,}3 \times 10^{-3}$ & $+$ \\
-        \hline
-    \end{tabular}
-    }
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrrc@{}}
+        \toprule
+        \multicolumn{2}{@{}c}{} & \multicolumn{2}{c}{\textbf{IVF/SPEA2}} & \multicolumn{2}{c}{\textbf{SPEA2}} & \multicolumn{3}{c@{}}{} \\
+        \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+        \textbf{Problema} & \textbf{$D$} & \textbf{Mediana} & \textbf{AIQ} & \textbf{Mediana} & \textbf{AIQ} & \textbf{$\Delta$ (\%)} & \textbf{$p$ (Holm)} & \textbf{Veredito} \\
+        \midrule
+        DTLZ1$^{\dagger}$ & 7 & $0{,}84271$ & $0{,}00028$ & $0{,}84246$ & $0{,}00049$ & $+0{,}03$ & $<0{,}001$ & $+$ \\
+        DTLZ2$^{\dagger}$ & 12 & $0{,}55796$ & $0{,}00157$ & $0{,}55531$ & $0{,}00143$ & $+0{,}48$ & $<0{,}001$ & $+$ \\
+        DTLZ3 & 12 & $0{,}56132$ & $0{,}00098$ & $0{,}55842$ & $0{,}00305$ & $+0{,}52$ & $<0{,}001$ & $+$ \\
+        DTLZ4$^{\dagger}$ & 12 & $0{,}55623$ & $0{,}21053$ & $0{,}55348$ & $0{,}20720$ & $+0{,}50$ & $0{,}006$ & $+$ \\
+        DTLZ5 & 12 & $0{,}19977$ & $0{,}00012$ & $0{,}19960$ & $0{,}00014$ & $+0{,}09$ & $<0{,}001$ & $+$ \\
+        DTLZ6 & 12 & $0{,}20008$ & $0{,}00005$ & $0{,}20007$ & $0{,}00006$ & $0{,}00$ & $0{,}378$ & $=$ \\
+        DTLZ7$^{\dagger}$ & 22 & $0{,}27737$ & $0{,}00099$ & $0{,}27668$ & $0{,}00103$ & $+0{,}25$ & $<0{,}001$ & $+$ \\
+        \addlinespace
+        WFG1 & 12 & $0{,}94500$ & $0{,}00147$ & $0{,}94446$ & $0{,}00180$ & $+0{,}06$ & $0{,}378$ & $=$ \\
+        WFG2$^{\dagger}$ & 12 & $0{,}92894$ & $0{,}00168$ & $0{,}93044$ & $0{,}00184$ & $-0{,}16$ & $<0{,}001$ & $-$ \\
+        WFG3 & 12 & $0{,}39581$ & $0{,}00447$ & $0{,}38913$ & $0{,}00340$ & $+1{,}72$ & $<0{,}001$ & $+$ \\
+        WFG4 & 12 & $0{,}55103$ & $0{,}00230$ & $0{,}54321$ & $0{,}00261$ & $+1{,}44$ & $<0{,}001$ & $+$ \\
+        WFG5$^{\dagger}$ & 12 & $0{,}51639$ & $0{,}00156$ & $0{,}51392$ & $0{,}00191$ & $+0{,}48$ & $<0{,}001$ & $+$ \\
+        WFG6 & 12 & $0{,}49903$ & $0{,}02112$ & $0{,}49869$ & $0{,}01618$ & $+0{,}07$ & $0{,}739$ & $=$ \\
+        WFG7 & 12 & $0{,}54889$ & $0{,}00233$ & $0{,}54323$ & $0{,}00354$ & $+1{,}04$ & $<0{,}001$ & $+$ \\
+        WFG8 & 12 & $0{,}46236$ & $0{,}00393$ & $0{,}45927$ & $0{,}00397$ & $+0{,}67$ & $<0{,}001$ & $+$ \\
+        WFG9 & 12 & $0{,}53504$ & $0{,}01023$ & $0{,}51438$ & $0{,}00596$ & $+4{,}01$ & $<0{,}001$ & $+$ \\
+        \addlinespace
+        MaF1$^{\dagger}$ & 12 & $0{,}22017$ & $0{,}00090$ & $0{,}21848$ & $0{,}00106$ & $+0{,}77$ & $<0{,}001$ & $+$ \\
+        MaF2 & 12 & $0{,}24074$ & $0{,}00158$ & $0{,}23916$ & $0{,}00182$ & $+0{,}66$ & $<0{,}001$ & $+$ \\
+        MaF3 & 12 & $0{,}96331$ & $0{,}00018$ & $0{,}96244$ & $0{,}00135$ & $+0{,}09$ & $<0{,}001$ & $+$ \\
+        MaF4 & 12 & $0{,}53289$ & $0{,}00106$ & $0{,}53034$ & $0{,}00260$ & $+0{,}48$ & $<0{,}001$ & $+$ \\
+        MaF5$^{\dagger}$ & 12 & $0{,}55497$ & $0{,}20985$ & $0{,}55393$ & $0{,}20777$ & $+0{,}19$ & $0{,}378$ & $=$ \\
+        MaF6 & 12 & $0{,}20008$ & $0{,}00006$ & $0{,}20006$ & $0{,}00008$ & $+0{,}01$ & $0{,}337$ & $=$ \\
+        MaF7 & 22 & $0{,}27774$ & $0{,}00091$ & $0{,}27721$ & $0{,}00091$ & $+0{,}19$ & $0{,}002$ & $+$ \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Mediana (amplitude interquartil) de HV sobre 60 execuções por configuração; maior é melhor. O valor-$p$ é o de Mann--Whitney após correção de Holm dentro da família de todas as instâncias deste número de objetivos e desta métrica. O veredito compara o IVF/SPEA2 ao SPEA2 canônico: $+$ favorece o IVF/SPEA2, $-$ favorece o SPEA2 e $=$ indica ausência de diferença significativa. $^{\dagger}$ instância usada na calibração de parâmetros, portanto fora do recorte de generalização.
+    \parbox{\textwidth}{\footnotesize
+    Mediana e amplitude interquartil (AIQ) de HV sobre 60 execuções por algoritmo; maior é melhor. $D$: número de variáveis de decisão. $\Delta$: diferença entre as medianas, em porcentagem da mediana do SPEA2, orientada de modo que valores positivos favoreçam o IVF/SPEA2, como na Tabela~\ref{tab:magnitude_confirmatoria}. O valor-$p$ é o de Mann--Whitney após correção de Holm dentro da família de todas as instâncias deste número de objetivos e desta métrica. O veredito compara o IVF/SPEA2 ao SPEA2 canônico: $+$ favorece o IVF/SPEA2, $-$ favorece o SPEA2 e $=$ indica ausência de diferença significativa. $^{\dagger}$ instância usada na calibração de parâmetros, portanto fora do recorte de generalização.
     }
 \end{table}

@@ -1,0 +1,38 @@
+% Gerado por src/python/thesis/build_tab_wfg_exploratoria.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/claims_summary_instance_details.csv
+% Fonte: results/tables/igd_per_instance_M2.csv
+% Fonte: results/tables/igd_per_instance_M3.csv
+% Fonte: config/wfg_properties.csv
+\begin{table}[!htb]
+    \centering
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \caption[Exploração descritiva da suíte WFG]{Exploração descritiva da suíte WFG: propriedades das funções e desfecho corrigido do IVF/SPEA2 contra o SPEA2 em cada configuração.}
+    \label{tab:wfg_exploratoria}
+    \begin{tabularx}{\textwidth}{@{}llLLccrccr@{}}
+        \toprule
+        \multicolumn{4}{@{}c}{} & \multicolumn{3}{c}{\textbf{$M=2$}} & \multicolumn{3}{c@{}}{\textbf{$M=3$}} \\
+        \cmidrule(lr){5-7}\cmidrule(l){8-10}
+        \textbf{Função} & \textbf{Separável} & \textbf{Modalidade} & \textbf{Viés} & \textbf{IGD} & \textbf{HV} & \textbf{$\Delta$ (\%)} & \textbf{IGD} & \textbf{HV} & \textbf{$\Delta$ (\%)} \\
+        \midrule
+        WFG1 & Sim & Unimodal & Polinomial, plano & $=$ & $=$ & $+24{,}07$ & $=$ & $=$ & $+0{,}37$ \\
+        WFG2 & Não & Unimodal ($f_M$ multimodal) & --- & $-$ & $-$ & $-2{,}70$ & $-$$^{\dagger}$ & $-$ & $-5{,}31$ \\
+        WFG3 & Não & Unimodal & --- & $-$ & $-$ & $-2{,}21$ & $+$ & $+$ & $+9{,}10$ \\
+        WFG4 & Sim & Multimodal & --- & $+$$^{\dagger}$ & $+$ & $+2{,}05$ & $+$ & $+$ & $+1{,}26$ \\
+        WFG5 & Sim & Enganosa & --- & $+$ & $+$ & $+0{,}28$ & $+$$^{\dagger}$ & $+$ & $+0{,}99$ \\
+        WFG6 & Não & Unimodal & --- & $=$ & $=$ & $-8{,}87$ & $=$ & $=$ & $+0{,}28$ \\
+        WFG7 & Sim & Unimodal & Dependente de parâmetro & $+$ & $+$ & $+3{,}86$ & $+$ & $+$ & $+1{,}51$ \\
+        WFG8 & Não & Unimodal & Dependente de parâmetro & $=$ & $=$ & $+0{,}08$ & $=$ & $+$ & $+0{,}68$ \\
+        WFG9 & Não & Multimodal, enganosa & Dependente de parâmetro & $-$$^{\dagger}$ & $-$ & $-6{,}41$ & $+$ & $+$ & $+3{,}03$ \\
+        \midrule
+        \multicolumn{4}{@{}l}{Separáveis (4 funções)} & 3/1/0 & 3/1/0 &  & 3/1/0 & 3/1/0 &  \\
+        \multicolumn{4}{@{}l}{Não separáveis (5 funções)} & 0/2/3 & 0/2/3 &  & 2/2/1 & 3/1/1 &  \\
+        \multicolumn{4}{@{}l}{WFG (9 funções)} & 3/3/3 & 3/3/3 &  & 5/3/1 & 6/2/1 &  \\
+        \bottomrule
+    \end{tabularx}
+    \par\smallskip
+    \parbox{\textwidth}{\footnotesize
+    Exploração descritiva, formulada depois de se observar a concentração das derrotas na WFG; não é teste de hipótese. Vereditos do IVF/SPEA2 contra o SPEA2 canônico: os das Tabelas por instância (Mann--Whitney bicaudal, Holm por número de objetivos e por métrica na família completa, coorte confirmatória de 60 execuções por algoritmo); $+$ favorece o IVF/SPEA2, $-$ favorece o SPEA2 e $=$ indica ausência de diferença detectável. Nenhuma correção é reaplicada aos grupos. $\Delta$: diferença relativa das medianas de IGD, positiva quando favorece o IVF/SPEA2. $^{\dagger}$ configuração usada na calibração de parâmetros. Propriedades das funções segundo a tabela dos autores da suíte~\cite{huband2006review}. Cada função aparece em duas configurações: $M=2$ com $D=11$ e $M=3$ com $D=12$; na plataforma, o parâmetro de posição é $K=M-1$ (1 e 2) e o de distância, $L=D-K=10$ nos dois casos. As linhas de resumo contam configurações, e não funções independentes, e as propriedades variam juntas entre as funções.
+    }
+\end{table}

@@ -734,3 +734,451 @@ ou informação que amplie indevidamente a exposição de material inédito.
   do mecanismo. Nenhum era detectável por compilação. Recomenda-se que a
   revisão do autor priorize exatamente essas construções. As pendências
   institucionais seguem inalteradas.
+
+### 2026-09-22 — a dissertação organizada por questões de pesquisa, sem re-execução
+
+- **Ferramenta:** Claude, da Anthropic. O modelo/versão exato deve ser
+  confirmado na interface antes de uma declaração formal.
+- **Fase:** reestruturação argumentativa (rodada R8 de `REWRITE_SPEC.md`), sob a
+  decisão do autor de não reexecutar experimentos.
+- **Finalidade:** organizar a dissertação em torno de quatro questões de
+  pesquisa e conferir cada resposta contra o artefato que a sustenta, usando
+  apenas artefatos versionados.
+- **Arquivos afetados:** `tex/cap_I.tex`, `cap_V.tex`, `cap_VI.tex`,
+  `cap_VII_complementares.tex`, `cap_VII.tex`, `cap_VIII.tex`, `cap_IX.tex`;
+  `pre/pre_resumo.tex` e `pre/pre_abstract.tex`;
+  `src/python/thesis/build_tab_magnitude_confirmatoria.py` (novo),
+  `build_tab_engenharia.py`, `build_tab_controlador.py`,
+  `build_tab_fla_dinamica.py`, `build_tab_tuning_ablacao.py` e `build_all.py`;
+  `data-sources.toml`; `REWRITE_SPEC.md`; `REVISION_PLAN.md`, reescrito; e este
+  registro. Tabelas regeneradas em `results/thesis/`.
+- **Texto científico inserido:** objetivos, quatro questões de pesquisa e
+  contribuições reescritas a partir das respostas (Cap. 1); uma seção de
+  magnitude (Cap. 6); uma seção por questão no Cap. 7 e uma resposta por
+  questão no Cap. 8; resumo e abstract derivados das respostas. Quatro leituras
+  foram corrigidas contra os artefatos. (i) A ablação rodou na configuração
+  inicial não ajustada, e não na promovida, e o braço sem as duas decisões veio
+  de outra campanha; o texto chamava a variante de "acoplamento completo" sem
+  dizer isso (`OQ-14`). (ii) A transferência para engenharia é 1/2/0 contra o
+  hospedeiro, com a vitória do RWMOP9 sobrevivendo a Holm; os "resultados
+  mistos" eram o posicionamento contra oito comparadores (`OQ-17`). (iii) A
+  validação deixa-uma-família ajusta o limiar sem a família retida; o texto
+  dizia que a regra pressupunha conhecer a família (`OQ-16`). (iv) O
+  controlador perde para o operador sempre ativo (HV 2/40/9); a Discussão dizia
+  que ele "elimina as perdas", sem o qualificador, e nas quatro instâncias em
+  que o operador prejudica ele ainda perde para o SPEA2 em três. Além disso, a
+  afirmação de que as duas famílias "divergem" quanto à geometria, que restava
+  nas Conclusões e no resumo, foi removida, porque contradizia a Discussão
+  corrigida em 20/09.
+- **Entradas inspecionadas:** `claims_summary_instance_details.csv`; o CSV
+  consolidado, lido por `filter_submission_synthetic_cohort`;
+  `engineering_suite_summary_main.csv` e `engineering_suite_pairwise_main.csv`;
+  `ppsn_controller_comparison_oos_20260326_221909.csv`; `fla_response.csv`;
+  `dynamic_signal_test.csv`; `dynamic_signal_lofo.csv`; `phase2_summary.json` e
+  `phase3_summary.json`; os roteiros `run_ablation_v2_phase3_batch_common.m`,
+  `analyze_ablation_v2_phase3.py`, `test_dynamic_signal.py`,
+  `launch_ppsn_controller_oos_lofo_parallel.sh`, `run_ppsn_controller.m` e
+  `process_engineering_suite.m`; `sn-article.tex` (linhas 285 e 566); o CLEI
+  (linhas 548--550, 613--626 e 673--683); o regulamento CEPEC nº 1622/2018 e as
+  perguntas frequentes do PPGCC. São artefatos do próprio repositório e
+  documentos públicos; nenhum dado pessoal foi fornecido à ferramenta.
+- **Verificação humana/técnica:** os números novos vêm de geradores cobertos
+  pelo portão de deriva, e não de cálculo de sessão. O gerador do controlador
+  recalcula a decomposição em três classes e **falha** se não reproduzir as três
+  linhas do artefato congelado com a regra do produtor original (valor-$p$
+  ajustado abaixo de 0,05 e $A_{12}$ fora de $[0{,}44;\,0{,}56]$); reproduziu
+  todas. O gerador de engenharia confere o símbolo do artefato contra o valor-$p$
+  e as medianas. O limiar aplicado pelo controlador (0,216 e 0,248, e não o
+  padrão 0,232437 da classe) foi confirmado pela cadeia de proveniência dos
+  lançadores (`OQ-18`), e não por reexecução. A inspeção visual das páginas
+  alteradas achou um defeito anterior a esta rodada: o resumo e o abstract ficam
+  numa `minipage` que não quebra página, e os textos de HEAD transbordavam ---
+  o corpo do resumo caía na página seguinte, e as palavras-chave do abstract
+  também. Os dois textos foram reduzidos e cabem numa página cada. Os portões
+  `make thesis-tables-check`, `make thesis-doctor`, `make verify-release` e
+  `make test` (40 testes) passam; `make thesis` compila 92 páginas sem aviso
+  LaTeX e sem linha *overfull*, e as quatro linhas *underfull* que restam
+  existem também na compilação anterior.
+- **Limitações e pendências:** a QP2 continua sem resposta na configuração
+  promovida, por decisão de não reexecutar. A versão da plataforma (`OQ-15`) não
+  foi alterada no texto e bloqueia o depósito até decisão do autor e do
+  orientador. A divergência de leitura com o CLEI (`OQ-16`) é decisão do autor.
+  As pendências institucionais estão em `REVISION_PLAN.md` §5, inclusive a data
+  provisória de defesa, que cai num domingo.
+
+### 2026-09-23 — a regularidade da WFG como hipótese e a revisão da linha narrativa (rodada R9)
+
+- **Ferramenta:** Claude Code, da Anthropic, com subagentes de edição e de revisão;
+  a interface informa o modelo `claude-opus-5-5`, o que deve ser confirmado antes de
+  uma declaração formal.
+- **Fase:** revisão argumentativa e editorial, a pedido do autor, depois de uma
+  avaliação da espinha dorsal da dissertação.
+- **Finalidade:** tornar visível, como hipótese descritiva, a regularidade que três
+  famílias de evidência compartilham (a suíte WFG concentra os casos em que o operador
+  não rende), corrigir leituras que os artefatos não sustentam e melhorar a qualidade
+  do texto.
+- **Arquivos afetados:** `tex/cap_I.tex`, `cap_II.tex`, `cap_III.tex`, `cap_IV.tex`,
+  `cap_V.tex`, `cap_VI.tex`, `cap_VII_complementares.tex`, `cap_VII.tex`,
+  `cap_VIII.tex`, `cap_IX.tex`; `pos/apend_III.tex` (novo); `main.tex`;
+  `pre/pre_resumo.tex` e `pre/pre_abstract.tex`; `bib/modelo-tese.bib`;
+  `src/python/thesis/build_tab_hosts.py` e `build_tab_fla_dinamica.py`;
+  `data-sources.toml`; `REWRITE_SPEC.md`; `REVISION_PLAN.md`; `README.md`; e este
+  registro. Tabelas novas `results/thesis/tab_hosts_suite.tex` e
+  `tab_dinamica_suite.tex`; notas regeneradas em `tab_hosts_wtl.tex` e
+  `tab_hosts_geometria.tex`.
+- **Texto científico inserido:** (i) a §8.5 formula a concentração na WFG como
+  hipótese, com quatro ressalvas: para o IVF/SPEA2, as três famílias leem a mesma
+  coorte; o IVF/NSGA-II não segue o padrão; renovação e suíte não se separam nesta
+  amostra; e as propriedades da WFG não foram separadas. (ii) A leitura da regra de
+  renovação mudou: as suas decisões coincidem com a partição WFG/demais em 49 das 51
+  instâncias, de modo que a acurácia balanceada de 0,754 não mede discriminação
+  dentro de uma suíte (`OQ-19`). (iii) As tabelas da família de hospedeiros diziam
+  "Wilcoxon pareado", mas o par IVF/SPEA2 é alinhado por ordem, porque as faixas de
+  execução não coincidem; as notas passaram a declarar o pareamento por par e a
+  sensibilidade sem pareamento, que muda uma única contagem, em HV (`OQ-20`). (iv) O
+  Cap. 2 descrevia o SPEA2 com o arquivo inicial de tamanho $N$, remoção de
+  duplicatas, preenchimento a partir do arquivo anterior e aptidão calculada depois da
+  seleção ambiental; o texto foi corrigido contra Zitzler et al. (2001) e contra a
+  implementação da plataforma. A descrição da distância de aglomeração do NSGA-II era
+  imprecisa, e não errada: falava em densidade entre os dois vizinhos mais próximos no
+  espaço de objetivos, e não na soma, por objetivo, das distâncias normalizadas entre
+  os vizinhos adjacentes na frente ordenada. (v) Os argumentos que motivam
+  as duas decisões de acoplamento passaram a ser apresentados como argumentos de
+  projeto, e não como fatos, porque a ablação não os confirma. (vi) O posicionamento
+  exploratório foi para o Apêndice C, e o Cap. 6 ficou só confirmatório.
+- **Entradas inspecionadas:** `data/processed/dynamic_signal_test.csv`,
+  `data/processed/hosts_paper.csv`, `results/tables/hosts_*_stats.csv`,
+  `results/tables/dynamic_signal_{main_tests,lofo}.csv`,
+  `results/tables/hosts_geometry_summary.csv`, `config/hosts_front_geometry.csv`,
+  `artifact/ppsn2026-ivf-hosts-rev1/tables/hosts_pairing_robustness.csv`,
+  `src/python/analysis/compute_hosts_tables.py`,
+  `compute_hosts_pairing_robustness.py`, os arquivos `SPEA2.m`,
+  `EnvironmentalSelection.m` e `CalFitness.m` da plataforma vendorizada, os
+  fluxogramas de `fig/`, e os manuscritos Springer, PPSN-hospedeiros e CLEI. São
+  artefatos do próprio repositório; nenhum dado pessoal foi fornecido à ferramenta.
+- **Verificação humana/técnica:** os números novos vêm de geradores cobertos pelo
+  portão de deriva. O gerador da tabela de renovação falha se não reproduzir
+  tp/tn/fp/fn do artefato deixa-uma-família; o de hospedeiros falha se as somas por
+  suíte divergirem dos totais, se a orientação do $A_{12}$ não reproduzir o resumo por
+  geometria, ou se a recomputação do pareamento não reproduzir os CSVs que as tabelas
+  contam. Os caminhos de erro dos três controles foram exercitados. Uma nota gerada
+  chegou a inverter o sentido da divergência em DTLZ6 (dizia que a regra mantinha o
+  operador ligado, quando o desliga); o gerador passou a derivar o sentido dos dados.
+  Três revisões independentes, uma por grupo de capítulos, conferiram remissões,
+  números e calibração; os achados foram aplicados. `make thesis-tables-check`,
+  `make thesis-doctor`, `make verify-release` e `make test` (40 testes) passam;
+  `make thesis` compila 96 páginas sem aviso LaTeX e sem linha *overfull*, e as quatro
+  linhas *underfull* são as da rodada anterior. Resumo, abstract e as páginas das
+  tabelas novas foram inspecionados renderizados. Uma última passagem qualificou com
+  "em 49 de 51 instâncias" as menções curtas à coincidência entre a regra e a partição
+  WFG/demais (resumo, abstract, contribuição 5, §8.4 e a ameaça correspondente), que a
+  apresentavam como igualdade e apagavam as duas exceções em DTLZ6.
+- **Limitações e pendências:** a regularidade da WFG é hipótese; o teste proposto é o
+  desenho fatorial da §10.1, que exige nova campanha. A leitura da regra de renovação
+  vai além da do CLEI, que reconhece a dependência da família, mas não a coincidência
+  de 49 em 51 decisões com a partição WFG/demais (`OQ-19`); revisar o manuscrito é
+  decisão do autor. `OQ-15` continua bloqueando o
+  depósito. O fluxograma do SPEA2 (`fig/fluxo_spea2_pt.pdf`) ainda diz que o arquivo é
+  completado com dominados do arquivo anterior; o texto registra a formulação correta,
+  e a figura, sem fonte editável no repositório, precisa ser redesenhada pelo autor.
+
+### 2026-09-23 — correções de fato, coerência e fundamentação após a avaliação (rodada R10)
+
+- **Ferramenta:** Claude Code, da Anthropic; a interface informa o modelo
+  `claude-opus-5-5`, o que deve ser confirmado antes de uma declaração formal. A skill
+  `$write-scientific-manuscripts` não está disponível neste ambiente; o perfil
+  `SCIENTIFIC_WRITING_PROFILE.md` foi aplicado diretamente.
+- **Fase:** avaliação da dissertação (nota 8,0/10, com vinte defeitos listados) e, a
+  pedido do autor, correção desses defeitos com prioridade para a coerência entre
+  capítulos, tabelas, figuras e fontes.
+- **Finalidade:** eliminar afirmações que os artefatos, o código ou os manuscritos
+  desmentem; alinhar descrições divergentes entre capítulos; completar a fundamentação
+  (definições de Pareto, literatura de controle de operadores, citações de métodos e dos
+  manuscritos derivados); corrigir legendas e figuras.
+- **Arquivos afetados:** `tex/cap_I.tex` a `cap_IX.tex` e `cap_VII_complementares.tex`;
+  `pos/apend_II.tex` e `apend_III.tex`; `bib/modelo-tese.bib`; os geradores
+  `src/python/thesis/build_fig_resultados.py`, `build_fig_complementares.py`,
+  `build_tab_geometria_confirmatoria.py`, `build_tab_fla_dinamica.py`,
+  `build_tab_controlador.py`, `build_tab_hosts.py`, `build_tab_engenharia.py`,
+  `build_tab_confirmatorio.py` e `ptbr_format.py`; tabelas e figuras regeneradas em
+  `results/thesis/`; `REWRITE_SPEC.md`, `REVISION_PLAN.md`, `README.md` e este registro.
+- **Texto científico inserido:** definições de dominância, conjunto e fronteira de Pareto
+  (Cap. I), com `M` para o número de objetivos, como no restante do texto; §1.4 com os
+  três manuscritos derivados e a sua situação editorial; parágrafo da §3.5 sobre controle
+  de parâmetros, seleção adaptativa de operadores e seleção de algoritmos; descrição da
+  referência da IGD nos RWMOP (§5.3); declaração da duplicata MaF7/DTLZ7 e do seu efeito
+  sobre o recorte fora do ajuste (§5.2, §5.5, §6.1, §8.1, §9.1); regra dos rótulos de
+  ativação e a diferença 41 × 37 (§7.4, §8.5, §9.3); ameaça "O ambiente de execução não é
+  verificável" (§9.4) no lugar da afirmação de versões; divergências de leitura com os
+  manuscritos declaradas onde ocorrem (§6.3, §7.4). Correções de coerência: critério de
+  continuação dos acoplamentos anteriores (Caps. III e IV), protocolo de seleção dos
+  RWMOP, Apêndice C × §5.4, conclusão sobre a especificidade da vantagem, legenda da
+  Tabela 6.5, amplitude do DTLZ4, custo de relógio, lista de propriedades da WFG.
+- **Entradas inspecionadas:** `MaF7.m`, `DTLZ7.m` e `MaF6.m` da plataforma;
+  `IVF_NSGAII.m`, `IVF_NSGAIII.m` e `IVF.m` (acoplamentos anteriores);
+  `experiments/process_engineering_suite.m`; `src/python/fla/compute_response.py`;
+  `src/python/fla/test_dynamic_signal.py`; `results/tables/dynamic_signal_main_tests.csv`;
+  `claims_summary_instance_details.csv`; `fla_response.csv`; o CSV consolidado, pelo filtro
+  de coorte; `config/hosts_front_geometry.csv`; `sn-article.tex`, o PPSN-hospedeiros e o
+  CLEI; `docs/RELEASE_IDENTITY.md`, `docs/REPRODUCIBILITY_ENVIRONMENT.md` e `VENDOR.md`.
+  Metadados bibliográficos novos conferidos no Crossref pelo DOI (Eiben et al. 1999,
+  Friedman 1937, Rice 1976, Deb e Deb 2014 e o preprint); as demais entradas novas foram
+  copiadas das bibliografias dos manuscritos. O Crossref registra um coautor do preprint
+  como "Sávio Menezes"; a entrada usa o nome do manuscrito, Sávio Menezes Sampaio. São
+  artefatos do repositório e metadados públicos; nenhum dado pessoal foi fornecido.
+- **Verificação humana/técnica:** os números novos do texto foram recalculados a partir
+  dos artefatos (recorte com M = 3 sem o MaF7: IGD 11/3/0 e HV 10/4/0; os quatro empates
+  de Holm rotulados como "ajuda"; 18 observáveis testados; amplitudes do DTLZ4 e do MaF5).
+  Os geradores ganharam verificações que falham se as notas deixarem de valer (observáveis
+  exibidos = os de menor valor-p; derrotas irregulares = um único problema). A identidade
+  MaF7/DTLZ7 foi conferida no código, e a independência das execuções, valor a valor.
+  `make thesis-tables-check`, `make thesis-doctor`, `make verify-release` e `make test`
+  (40 testes) passam; `make thesis` compila 98 páginas sem aviso LaTeX, sem *overfull* e
+  sem página de texto só com *floats*; as sete figuras regeneradas e as páginas alteradas
+  foram inspecionadas renderizadas; o PDF não tem fonte Type 3.
+- **Limitações e pendências:** a correção da avaliação anterior quanto ao MaF7 e ao
+  DTLZ7: as medianas arredondadas coincidem com M = 2, mas as execuções não são idênticas
+  (réplicas independentes da mesma função). `OQ-15` deixou de bloquear o texto, que não
+  afirma mais versão, mas os registros de execução continuam ausentes e a errata dos
+  manuscritos é decisão do autor, como em `OQ-21` e `OQ-22`. A declaração de contribuição
+  (`OQ-10`) não foi redigida. O fluxograma do SPEA2 continua pendente de redesenho.
+
+### 2026-09-24 — conferência da R10 e correções residuais (rodada R11)
+
+- **Ferramenta:** Claude Code, da Anthropic; a interface informa o modelo
+  `claude-opus-5-5`, o que deve ser confirmado antes de uma declaração formal. A skill
+  `$write-scientific-manuscripts` foi localizada em
+  `~/.codex/skills/write-scientific-manuscripts/` e aplicada (instruções, referências de
+  estilo em português e de integridade de citações, script de auditoria editorial); a
+  entrada da R10 a registrava como indisponível.
+- **Fase:** revisão de linha e correção de fatos, a pedido do autor, com a instrução de
+  que o texto fosse contido, direto e restrito ao seu objetivo.
+- **Finalidade:** conferir, um a um, os vinte defeitos da avaliação de 2026-09-23 contra o
+  estado deixado pela R10 e corrigir o que restava, sem ampliar o escopo.
+- **Arquivos afetados:** `tex/cap_I.tex`, `cap_III.tex`, `cap_IV.tex`, `cap_V.tex`,
+  `cap_VI.tex`, `cap_VII.tex`, `cap_VII_complementares.tex`, `cap_VIII.tex`,
+  `cap_IX.tex`; `pos/apend_II.tex` e `apend_III.tex`; `bib/modelo-tese.bib`;
+  `src/python/thesis/build_fig_complementares.py` (rótulo do eixo da Figura 7.3) e
+  `build_fig_resultados.py` (docstring); `results/thesis/figures/fig_hospedeiros_a12.pdf`,
+  regenerada; `REWRITE_SPEC.md`, `REVISION_PLAN.md` e este registro.
+- **Texto científico alterado:** nenhuma afirmação nova de resultado. Escopo: o pai
+  compartilhado e o critério individual de continuação passaram a ser atribuídos à
+  formulação original e aos acoplamentos ao NSGA-II e ao NSGA-III, os únicos cujo critério
+  o texto descreve com fonte; o IVF/GDE3 saiu da generalização (Caps. 1 e 3). Categoria: o
+  posto médio do Apêndice C é descritivo e não envolve teste, e deixou de ser dito "sem
+  correção de multiplicidade" (§5.4, Cap. 6, Apêndice C). Calibração: "reflete
+  variabilidade, e não equivalência" passou a "não indica equivalência" (§6.3); "é diferença
+  de poder", a "é compatível com diferença de poder" (§8.1.1); "é contraproducente", a
+  "tende a ser contraproducente" (§4.2.1), como no Cap. 2; a §3.4 deixou de afirmar lacuna
+  na literatura; a §9.1 e a §9.4 ficaram coerentes com a indeterminação do ambiente; a
+  §10.2 ("Problemas caros") deixou de afirmar a troca como favorável; a §1.4 diz "gera" em
+  vez de "recalcula". Cortes: frases de metacomentário (§7.2, §8.2, Apêndice B) e o
+  quantificador "em ordens de grandeza" do Apêndice B, não verificável.
+- **Entradas inspecionadas:** os capítulos, apêndices e tabelas geradas no estado da R10;
+  `experiments/process_engineering_suite.m` (IGD dos RWMOP contra a fronteira empírica
+  viável das execuções comuns; HV com `GetOptimum`); `src/python/thesis/build_fig_resultados.py`
+  (posto médio sobre as medianas por instância); `paper/springer-nature/src/sn-article.tex:165`
+  (sem descrição do critério do IVF/GDE3); `docs/RELEASE_IDENTITY.md` e o histórico de
+  `paper/clei2026/` (situação editorial); registros Crossref de
+  `10.1007/978-3-642-21434-9_7`, `10.1214/aoms/1177730491`, `10.1007/978-3-540-87700-4_18`
+  e `10.1162/evco_a_00236`, e a página do periódico Complex Systems para Deb e Agrawal
+  (1995), sem DOI. São artefatos do repositório e metadados públicos; nenhum dado pessoal
+  foi fornecido.
+- **Verificação humana/técnica:** a regeneração completa (`make thesis-tables`) alterou
+  apenas `fig_hospedeiros_a12.pdf`, conferido por checksum antes e depois; o rótulo do eixo,
+  antes cortado na borda superior, cabe na figura renderizada. `make thesis-tables-check`,
+  `make thesis-doctor`, `make verify-release` e `make test` (40 testes) passam; `make
+  thesis` compila 98 páginas sem aviso LaTeX, sem *overfull*, sem referência indefinida e
+  sem página só com *floats*; as quatro linhas *underfull* são as das rodadas anteriores. A
+  primeira compilação da rodada foi interrompida por um `head` no *pipe*; a conferência
+  final usa o PDF recompilado, e as páginas alteradas foram inspecionadas renderizadas. A
+  auditoria editorial acusou três "placeholders" que são a palavra "todo" do português e
+  frases longas já existentes; nenhuma alteração decorreu dela.
+- **Limitações e pendências:** o critério de continuação do IVF/GDE3 continua sem
+  descrição, por falta de fonte examinada. A entrada `maturana2009adaptive` segue errada nos
+  manuscritos CLEI e PPSN-dinâmica (`REVISION_PLAN.md` §4). As decisões de autor e
+  orientador (`OQ-09`, `OQ-10`, `OQ-15`, `OQ-21`, `OQ-22`) não mudaram.
+
+### 2026-09-24 — calibração da linha argumentativa e dois fatos da proposta (rodada R12)
+
+- **Ferramenta:** Claude Code, da Anthropic; a interface informa o modelo
+  `claude-opus-5-5`, o que deve ser confirmado antes de uma declaração formal. A skill
+  `$write-scientific-manuscripts` foi aplicada: instruções, referências de estilo em
+  português, argumentação, relato quantitativo, arquitetura e integridade, e script de
+  auditoria editorial.
+- **Fase:** revisão substantiva, a pedido do autor, depois de uma avaliação da linha
+  argumentativa que apontou objetivo geral mais amplo do que a evidência responde,
+  mecanismos de projeto afirmados como fatos, ressalvas repetidas entre capítulos e
+  Conclusões que terminavam no que falta.
+- **Finalidade:** executar esses pontos com precisão, sem ampliar alegações nem acrescentar
+  resultados.
+- **Arquivos afetados:** `tex/cap_I.tex`, `cap_II.tex`, `cap_IV.tex`, `cap_VI.tex`,
+  `cap_VII.tex`, `cap_VII_complementares.tex`, `cap_VIII.tex` e `cap_IX.tex`;
+  `pre/pre_resumo.tex` e `pre_abstract.tex`; `REWRITE_SPEC.md`, `REVISION_PLAN.md`,
+  `README.md` e este registro. Nenhum gerador, tabela, figura ou código MATLAB foi alterado.
+- **Texto científico alterado:** (i) objetivo geral, contribuições, resumo e abstract:
+  "determinar se, por que e em que condições" passou a avaliar eficácia, magnitude e
+  instâncias e a investigar atribuição, dependência do hospedeiro e decisão de uso. (ii)
+  Gatilho (§2.3.2, §4.1, §4.5): o texto dizia, como o Springer, que a condição fica mais
+  difícil de satisfazer e que a intensificação se concentra no início; a regra implementada
+  limita a fração acumulada e fica mais fácil de satisfazer depois de uma geração sem
+  ativação (`OQ-23`). (iii) Laço do hospedeiro (§4.1, Algoritmo 4.1, §8.2, §8.6, §9.1, §10.1,
+  resumo e abstract): o texto dizia que uma geração sem ativação é idêntica à do SPEA2
+  canônico; o IVF/SPEA2 recalcula a aptidão antes do torneio, e o SPEA2 da plataforma não
+  (`OQ-24`), diferença que nem a comparação confirmatória nem a ablação separam. (iv)
+  Critério coletivo (§4.2.2): as duas médias passaram a ser definidas pelo contexto em que
+  são calculadas; o texto declara que um ciclo sem melhora não é desfeito, o que a média de
+  F registra e as duas propriedades que limitam essa leitura; a afirmação "autolimitante",
+  não medida, saiu. (v) Pai dissimilar (§4.2.1, resumo): "pai distinto" passou a pai
+  escolhido para cada mãe, com a exclusão da própria mãe, K = min(3, n_c), o sorteio de dois
+  candidatos e o vetor de objetivos anterior à perturbação; a motivação passou a hipótese
+  explícita. (vi) Discussão e Conclusões: a QP2 delimita o alcance do resultado nulo; a QP4
+  distingue separar ajuda de não ajuda de detectar prejuízo; a §8.5 trata a WFG como
+  marcador empírico; a conjectura mecanicista da §8.1.1 saiu; as Conclusões distinguem
+  eficácia, atribuição e decisão de uso e terminam na contribuição. (vii) Enxugamento: as
+  respostas às QP saíram dos Caps. 6 e 7, pela regra do `REVISION_PLAN.md` §2, e as
+  ressalvas de reprodutibilidade, sobreposição, ablação e renovação–suíte ficaram num lugar
+  canônico, com remissão.
+- **Entradas inspecionadas:** `IVFSPEA2V2.m`, `IVF_V2.m`, `CalFitness.m` e
+  `EnvironmentalSelection.m` do acoplamento; `SPEA2.m`, `CalFitness.m` e
+  `EnvironmentalSelection.m` da plataforma; `IVFSPEA2.m` da formulação anterior;
+  `IVFSPEA2_P2.m` e `scripts/experiments/run_ablation_v2_phase3_batch_common.m` da ablação;
+  `sn-article.tex:190-254`; a descrição do gatilho nos manuscritos PPSN-hospedeiros e CLEI;
+  `docs/IVFSPEA2_EVIDENCE_MODEL.md`. São artefatos do repositório; nenhum dado pessoal foi
+  fornecido.
+- **Verificação humana/técnica:** a propriedade do gatilho foi verificada por simulação
+  exata da regra de `IVF_V2.m:27` (N = 100, r = 0,225, 999 gerações): nenhuma suspensão com
+  12 avaliações por ativação; 62 suspensões com 24, uma a cada 16 gerações, 31 em cada
+  metade. O recálculo de aptidão foi conferido nas quatro classes, e a equivalência das
+  funções de aptidão e de seleção, por `diff`. Nenhum número de resultado mudou; os números
+  citados vêm das tabelas geradas. `make thesis-tables-check`, `make thesis-doctor`, `make
+  verify-release` e `make test` (40 testes) passam; `make thesis` compila 98 páginas, sem
+  aviso LaTeX e sem *overfull*, com as quatro linhas *underfull* das rodadas anteriores. A
+  paginação foi comparada capítulo a capítulo com uma compilação da versão anterior, e as
+  páginas do resumo, do abstract, do Algoritmo 4.1 e dos Caps. 4 e 6 a 10 foram
+  inspecionadas renderizadas; um deslocamento de *floats* no Cap. 6 e uma página com duas
+  linhas no Cap. 9 foram corrigidos pelo texto. A auditoria editorial acusou frases longas;
+  as que a rodada introduziu foram divididas, e o único item alto é a palavra "todo" da
+  definição de dominância.
+- **Limitações e pendências:** o efeito do recálculo de aptidão sobre a vantagem medida não
+  é conhecido, e a campanha de controle depende de decisão do autor (`OQ-24`). A errata do
+  Springer quanto ao gatilho e ao laço do hospedeiro é decisão do autor (`OQ-23`, `OQ-24`).
+  O comentário de `IVFSPEA2V2.m` que descreve `R` como "fraction of total FE budget" continua
+  impreciso: a rodada não alterou código.
+
+### 2026-09-27 — revisão científica e reanálise da dissertação
+
+- **Ferramenta:** OMP/Codex, da OpenAI; a interface informa o modelo
+  `openai-codex/gpt-6-sol`, a confirmar antes da declaração formal. Revisores
+  auxiliares configurados examinaram separadamente ciência, números e fontes;
+  seus modelos não foram informados.
+- **Fase:** revisão científica e reanálise de resultados já produzidos.
+- **Finalidade:** executar o plano de revisão sem novas campanhas experimentais,
+  distinguindo evidência confirmatória, análise exploratória e limites de
+  validação e de atribuição.
+- **Arquivos afetados:** `tex/cap_I.tex`, `cap_II.tex`, `cap_V.tex`, `cap_VI.tex`,
+  `cap_VII.tex`, `cap_VII_complementares.tex`, `cap_VIII.tex`,
+  `pre/pre_resumo.tex` e `pre/pre_abstract.tex`; geradores em
+  `src/python/thesis/` e tabelas geradas em `results/thesis/`;
+  `data-sources.toml`, `REVISION_PLAN.md`, `bib/modelo-tese.bib`,
+  `paper/springer-nature/bib/sn-bibliography.bib` e
+  `paper/springer-nature/Makefile`. Nenhum dado bruto, artefato congelado ou
+  código MATLAB foi alterado.
+- **Texto científico alterado:** métodos, resultados, discussão, conclusões,
+  resumo e abstract passaram a delimitar o alcance da correção de Holm, das
+  magnitudes e do bootstrap, da calibração histórica, da ablação, da suíte de
+  engenharia e da validação da regra de ativação. As tabelas novas descrevem
+  magnitude fora do ajuste, sensibilidade exploratória e robustez por grupos;
+  a validação após escolha de sinal e janela não foi apresentada como
+  prospectiva. Metadados bibliográficos foram corrigidos sem criar fonte nova.
+- **Entradas inspecionadas:** manuscritos e artefatos locais versionados,
+  geradores, tabelas, scripts e documentos de evidência do repositório;
+  consultas externas limitaram-se a metadados bibliográficos públicos.
+  O material da dissertação pode ser inédito; sua classificação de
+  confidencialidade deve ser confirmada pelo autor. Não foram fornecidos
+  dados pessoais sensíveis ao registro nem enviados trechos do manuscrito
+  a serviços externos além dos modelos configurados.
+- **Verificação humana/técnica:** houve auditorias independentes de números,
+  argumentos e referências, com correção dos achados aceitos. Passaram
+  `make thesis-tables-check`, `make thesis-doctor`, `make thesis`,
+  `make paper`, `make verify-release` e `make test` (58 testes Python);
+  a comparação de avisos LaTeX não apontou novos bloqueios e as páginas
+  afetadas foram inspecionadas renderizadas. A conferência e aprovação
+  humana do conteúdo ainda cabem ao autor e ao orientador.
+- **Limitações e pendências:** não houve campanha nova nem validação
+  prospectiva da regra selecionada. O texto integral da fonte primária de
+  Holm não foi conferido; o DOI inválido foi removido sem substituição.
+  Divergências de triagem e proveniência da suíte de engenharia no artigo
+  Springer exigem decisão editorial do autor. A declaração de uso de IA
+  deve especificar ferramenta e finalidade no texto e na exposição
+  eletrônica pertinentes, no local exigido pela UFG, pelo PPGCC e pelo
+  veículo, após definição do autor e do orientador.
+
+### 2026-09-28 — revisão científica da Discussão (rodada R13)
+
+- **Ferramenta:** omp; a interface desta sessão informa o modelo
+  `anthropic/claude-opus-5-5`, a confirmar antes da declaração formal. A entrada de
+  2026-09-27 registra outro modelo (`openai-codex/gpt-6-sol`); o autor deve conferir
+  na interface qual modelo produziu cada sessão. Revisores auxiliares configurados
+  (quantitativo, científico e de fontes) atuaram separadamente; seus modelos não foram
+  informados. Foram aplicadas as skills de argumentação científica, escrita em
+  português, auditoria quantitativa, verificação de evidência, estrutura da tese e
+  qualidade LaTeX.
+- **Fase:** revisão científica substantiva, sem novas campanhas experimentais.
+- **Finalidade:** corrigir inferências, respostas às QP, diálogo com a literatura e
+  fechamento do Cap. 8, a partir de um diagnóstico anterior (C1–C8, A1–A7) usado como
+  lista de problemas, e não como fonte, segundo decisões editoriais do autor para a
+  rodada.
+- **Arquivos afetados:** `tex/cap_VII.tex` (Cap. 8, reescrito); `tex/cap_III.tex`,
+  `cap_IV.tex`, `cap_VI.tex`, `cap_VII_complementares.tex`, `cap_VIII.tex`,
+  `cap_IX.tex`, `pre/pre_resumo.tex` e `pre/pre_abstract.tex` (coerência);
+  `src/python/thesis/build_tab_wfg_exploratoria.py` (novo),
+  `build_tab_ativacao_robustez.py`, `build_all.py`, `build_apendice_fontes.py` e a
+  documentação de `build_tab_geometria_confirmatoria.py`; `config/wfg_properties.csv`
+  (novo); tabelas geradas `tab_wfg_exploratoria`, `tab_ativacao_robustez` e
+  `apendice_fontes`; `REVISION_PLAN.md`, `REWRITE_SPEC.md`, `data-sources.toml` e este
+  registro. Nenhum dado bruto, artefato congelado, parâmetro experimental, protocolo
+  estatístico ou artigo de origem foi alterado; nenhum número de resultado preexistente
+  mudou.
+- **Texto científico alterado:** (i) QP1: títulos das QP alinhados ao Cap. 1; eficácia
+  atribuída à implementação completa, que também recalcula a aptidão; magnitude sem
+  seleção pelo teste ($A_{12}$ mediano 0,756, $\Delta$ +1,15%) separada dos resumos de
+  vitórias e derrotas; $A_{12}$ e $\Delta$ tratados como medidas distintas, sem leitura
+  de custo, saldo ou relevância prática; saíram "custam mais" e a generalização a
+  operadores de intensificação. (ii) QP2: orçamento de calibração (50.000 contra
+  100.000 avaliações); hipótese de densidade como justificativa de projeto; a retenção
+  de descendentes registrada numa variante instrumentada, em outra coorte, foi descrita
+  como fora da evidência de atribuição, e não como não medida. (iii) QP3 em dois níveis,
+  sem "Sim", com a assimetria de ajuste entre pipelines (`OQ-25`) e contraste com os
+  estudos de origem do IVF/NSGA-II e do IVF/NSGA-III sem tratá-los como replicação.
+  (iv) QP4 com veredito explícito, três níveis de evidência e a partição WFG/demais
+  rotulada como pós-hoc. (v) §8.5 reescrita como concentração de resultados menos
+  favoráveis, restringida por tabulação descritiva por função, configuração e
+  separabilidade. (vi) Conclusões com escopo e remissão ao Cap. 9. (vii) Cap. 9 com
+  novas ameaças: orçamento de calibração, assimetria de ajuste e análises formuladas
+  depois dos resultados; linguagem de custo computacional uniformizada nos Caps. 4, 8,
+  9 e 10; resumo e abstract com a magnitude não condicionada.
+- **Entradas inspecionadas:** artefatos, código MATLAB e Python, tabelas geradas e
+  manuscritos do repositório; fontes bibliográficas públicas: `references/ivfnsga2.pdf`
+  (IVF/NSGA-II, 2017), PDF público da tese de Sampaio (UFG, 2024), Zhou et al. (2011),
+  Liefooghe et al. (versão HAL), Kerschke e Trautmann (arXiv), cópia de Huband et al.
+  (2006) no Academia.edu, resumos de Fialho et al. e de Maturana et al., e registros
+  Crossref. As consultas externas levaram apenas metadados bibliográficos; nenhum trecho
+  do manuscrito foi enviado a serviço externo além dos modelos configurados, e nenhum
+  dado pessoal foi fornecido.
+- **Verificação humana/técnica:** cálculos novos produzidos por gerador e conferidos por
+  código; `make thesis-tables-check`, `make thesis-doctor` (8 fontes, 141 caminhos),
+  `make verify-release` e `make test` (58 testes) aprovados; `make thesis` compila 108
+  páginas sem item bloqueante novo em relação à linha de base, sem *overfull*, com as
+  quatro linhas *underfull* preexistentes; páginas afetadas, sumário, lista de tabelas e
+  bibliografia inspecionados renderizados. Auditorias independentes quantitativa (sem
+  divergência), científica e fonte→afirmação; os achados aceitos foram incorporados. A
+  conferência e a aprovação humanas do conteúdo cabem ao autor e ao orientador.
+- **Limitações e pendências:** a tabela de propriedades de Huband et al. foi conferida
+  em cópia não editorial; Fialho et al. e Maturana et al. só pelos resumos; a frase do
+  Cap. 3 sobre o IVF/GDE3 não foi conferida na fonte primária. Os ajustes feitos depois
+  das auditorias não foram reauditados de forma independente. Ficam com o autor:
+  `OQ-24`, `OQ-25` (errata do PPSN), `OQ-03` (eventual análise descritiva de
+  convergência), inclusão do artigo CEC 2023 no `.bib` e normalização de metadados
+  bibliográficos. A declaração de uso de IA deve especificar ferramenta e finalidade no
+  local exigido pela UFG, pelo PPGCC e pelo veículo.

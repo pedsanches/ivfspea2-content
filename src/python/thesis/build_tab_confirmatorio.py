@@ -6,6 +6,12 @@ Reads the Holm-corrected audit produced by
 artifact allowed to back Holm-corrected counting language: the per-instance
 generators run uncorrected tests and are descriptive only.
 
+Layout: one row per instance scope and number of objectives, one column per
+metric and correction level. The uncorrected and Holm counts of a metric sit
+side by side, which is the comparison the text makes, and ``n`` appears once
+per row: it depends on the scope and on ``M``, never on metric or correction,
+and the builder fails if the audit says otherwise.
+
 Writes: results/thesis/tab_confirmatorio_wtl.tex
 """
 
@@ -23,15 +29,12 @@ import ptbr_format as fmt
 AUDIT = RESULTS_TABLES / "claims_summary_audit.csv"
 OUT = RESULTS_THESIS / "tab_confirmatorio_wtl.tex"
 
-# Display order, and how each audit condition is named in Portuguese.
-CONDITIONS = [
-    ("unadjusted", "Sem correção", "Suíte completa"),
-    ("unadjusted_OOS", "Sem correção", "Fora do ajuste"),
-    ("Holm", "Holm", "Suíte completa"),
-    ("Holm_OOS", "Holm", "Fora do ajuste"),
-]
-
-METRICS = [("IGD", "IGD"), ("HV", "HV")]
+# Row blocks: audit-condition suffix and the scope's name in Portuguese.
+SCOPES = [("", "Suíte completa"), ("_OOS", "Fora do ajuste")]
+OBJECTIVES = [("M2", "2"), ("M3", "3")]
+METRICS = ["IGD", "HV"]
+# Column order inside each metric: audit-condition prefix, header label.
+CORRECTIONS = [("unadjusted", "Sem correção"), ("Holm", "Holm")]
 
 
 def main() -> int:
@@ -43,58 +46,69 @@ def main() -> int:
     audit = pd.read_csv(AUDIT)
 
     rows: list[list[str] | object] = []
-    for m_index, (metric, metric_label) in enumerate(METRICS):
-        if m_index:
+    for scope_index, (suffix, scope) in enumerate(SCOPES):
+        if scope_index:
             rows.append(lt.Rule)
-        for cond_index, (condition, correction, scope) in enumerate(CONDITIONS):
-            # The metric name is printed once per block; the rule between
-            # blocks is what separates them visually.
-            cells = [metric_label if cond_index == 0 else "", correction, scope]
-            for objectives in ("M2", "M3"):
-                hit = audit[
-                    (audit["metric"] == metric)
-                    & (audit["condition"] == condition)
-                    & (audit["M"] == objectives)
-                ]
-                if len(hit) != 1:
-                    print(
-                        f"ERRO: esperava 1 linha para {metric}/{condition}/{objectives}, "
-                        f"encontrei {len(hit)}",
-                        file=sys.stderr,
-                    )
-                    return 1
-                row = hit.iloc[0]
-                cells.append(fmt.wtl(row["wins"], row["ties"], row["losses"]))
-                cells.append(str(int(row["n"])))
-            rows.append(cells)
+        for objectives_index, (objectives, m_label) in enumerate(OBJECTIVES):
+            counts: list[str] = []
+            sizes: set[int] = set()
+            for metric in METRICS:
+                for prefix, _ in CORRECTIONS:
+                    condition = f"{prefix}{suffix}"
+                    hit = audit[
+                        (audit["metric"] == metric)
+                        & (audit["condition"] == condition)
+                        & (audit["M"] == objectives)
+                    ]
+                    if len(hit) != 1:
+                        print(
+                            f"ERRO: esperava 1 linha para {metric}/{condition}/{objectives}, "
+                            f"encontrei {len(hit)}",
+                            file=sys.stderr,
+                        )
+                        return 1
+                    row = hit.iloc[0]
+                    counts.append(fmt.wtl(row["wins"], row["ties"], row["losses"]))
+                    sizes.add(int(row["n"]))
+            if len(sizes) != 1:
+                print(
+                    f"ERRO: {scope}/{objectives}: n difere entre métricas e correções: {sorted(sizes)}",
+                    file=sys.stderr,
+                )
+                return 1
+            # The scope is printed once per block; the rule between blocks
+            # is what separates them visually.
+            label = scope if objectives_index == 0 else ""
+            rows.append([label, m_label, str(sizes.pop()), *counts])
 
     note = (
-        "Contagens de vitórias/empates/derrotas do IVF/SPEA2 contra o SPEA2 canônico. "
-        "Teste bicaudal de Mann--Whitney, $\\alpha = 0{,}05$, correção de Holm aplicada "
-        "separadamente por número de objetivos e por métrica. IGD: menor é melhor; "
-        "HV: maior é melhor. Coorte: execuções 3001--3060 contra 1--60, 60 execuções por "
-        "configuração, orçamento de 100.000 avaliações. O recorte fora do ajuste exclui "
-        "as 12 instâncias usadas na calibração e é obtido após a correção da família completa."
+        "V/E/D: vitórias/empates/derrotas do IVF/SPEA2 contra o SPEA2 canônico; $n$: número "
+        "de instâncias do escopo. Teste bicaudal de Mann--Whitney, $\\alpha = 0{,}05$; a "
+        "correção de Holm é aplicada separadamente por número de objetivos e por métrica. "
+        "IGD: menor é melhor; HV: maior é melhor. Coorte: execuções 3001--3060 contra 1--60, "
+        "60 execuções por configuração, orçamento de 100.000 avaliações. O recorte fora do "
+        "ajuste exclui as 12 instâncias usadas na calibração e é obtido após a correção da "
+        "família completa; ele inclui o MaF7 com $M = 3$, mesma função do DTLZ7 com $M = 3$, "
+        "usado na calibração (Seção~\\ref{sec:suites})."
     )
 
+    corrections = [label for _, label in CORRECTIONS]
     content = lt.render(
         header=[
-            "Métrica", "Correção", "Escopo",
-            "$M=2$ (V/E/D)", "$n$", "$M=3$ (V/E/D)", "$n$",
+            [lt.Span("", 3), *(lt.Span(f"{metric} (V/E/D)", 2) for metric in METRICS)],
+            ["Escopo", "$M$", "$n$", *corrections * len(METRICS)],
         ],
         rows=rows,
-        colspec="|l|l|l|c|c|c|c|",
+        colspec="lcc" + "c" * (len(METRICS) * len(CORRECTIONS)),
         caption=(
             "Desempenho do IVF/SPEA2 em relação ao SPEA2 canônico na suíte sintética, "
-            "por métrica, correção de multiplicidade e escopo de instâncias."
+            "por escopo de instâncias, número de objetivos, métrica e correção de "
+            "multiplicidade."
         ),
         label="tab:confirmatorio_wtl",
         producer=__file__,
         sources=[AUDIT],
         note=note,
-        # Seven columns overrun the thesis text block by a few points at full
-        # size; scaling to the block keeps it inside the margin.
-        resize=True,
     )
     lt.write(OUT, content)
     return 0

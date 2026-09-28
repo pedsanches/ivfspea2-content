@@ -1,20 +1,14 @@
 \chapter{Embasamento Teórico}
 \label{sec:Background}
 
-A busca por soluções ótimas em problemas de otimização multi-objetivo é um desafio de alta complexidade. Métodos clássicos de otimização frequentemente necessitam de auxílio ao lidar com tais problemas, especialmente em cenários de otimização multimodal caracterizados pela presença de múltiplos ótimos locais. Técnicas de computação evolutiva surgiram como uma das abordagens usadas para contornar essas limitações~\cite{tang2012hybrid}.
+Este capítulo reúne o que os capítulos seguintes pressupõem: o funcionamento do SPEA2 e a forma como ele e os outros dois hospedeiros comparados ordenam soluções para a sobrevivência (Seção~\ref{sec:spea2}); os arranjos de hibridização em que a proposta se enquadra (Seção~\ref{sec:hibridizacao}); o método IVF na sua formulação original (Seção~\ref{sec:ivf}); os indicadores de desempenho e o instrumental estatístico da avaliação (Seções~\ref{sec:indicadores} e~\ref{sec:inferencia}); e os descritores de paisagem e de dinâmica usados na análise de ativação (Seção~\ref{sec:paisagem}).
 
 \section{SPEA2}
 \label{sec:spea2}
 
-Segundo seus autores, o algoritmo SPEA2~\cite{zitzler2001spea2} revisa três pontos do SPEA original --- a atribuição de aptidão, a estimativa de densidade e a truncagem do arquivo --- em relação ao pioneiro SPEA~\cite{zitzler1998evolutionary}, projetado para exibir melhor desempenho na resolução de problemas de otimização multi-objetivo. O algoritmo apresenta avanços fundamentais em três aspectos principais:
+O SPEA2~\cite{zitzler2001spea2} revisa o SPEA~\cite{zitzler1998evolutionary} em três pontos, segundo os seus autores: uma atribuição de aptidão que considera, para cada indivíduo, quantos ele domina e por quantos é dominado; uma estimativa de densidade pelo $k$-ésimo vizinho mais próximo; e um método de truncagem do arquivo que preserva as soluções extremas da fronteira.
 
-\begin{itemize}
-    \item A introdução de uma nova técnica de seleção de sobreviventes, que utiliza o conceito de dominância de Pareto para selecionar indivíduos para a próxima geração;
-    \item O uso de um método refinado de atribuição de aptidão (\textit{fitness}), que incorpora tanto a força de Pareto quanto uma estimativa de densidade;
-    \item A adição de um mecanismo aprimorado de nicho populacional, através da estimativa de densidade, garantindo que a população permaneça bem distribuída ao longo da fronteira Pareto-ótima.
-\end{itemize}
-
-Um Conjunto Arquivo é empregado para armazenar as soluções não dominadas encontradas em cada geração, conferindo uma característica elitista ao algoritmo. Para o cálculo da aptidão, seja $P_t$ a população atual na geração $t$ e $\bar{P}_t$ a população do Conjunto Arquivo na mesma geração.
+Além da população $P_t$, de tamanho $N$, o algoritmo mantém um conjunto arquivo $\bar{P}_t$, de tamanho fixo $\bar{N}$, que guarda as melhores soluções encontradas até a geração $t$ e confere caráter elitista à busca. As grandezas definidas a seguir são calculadas sobre a união $P_t \cup \bar{P}_t$.
 
 \subsection{Cálculo da Força e Aptidão Bruta}
 
@@ -25,7 +19,7 @@ O valor de força $S(i)$ de um indivíduo $i$ é definido como o número de indi
 S(i) = |\{j \mid j \in P_t \cup \bar{P}_t \land i \succ j\}|
 \end{equation}
 
-\noindent onde $i \succ j$ significa que o indivíduo $i$ domina o indivíduo $j$ no sentido de Pareto, e $|\cdot|$ denota a cardinalidade do conjunto.
+\noindent em que $i \succ j$ indica que o indivíduo $i$ domina o indivíduo $j$ no sentido de Pareto (Equação~\ref{eq:dominancia}), e $|\cdot|$ denota a cardinalidade do conjunto.
 
 A aptidão bruta $R(i)$ de um indivíduo $i$ é calculada como a soma dos valores de força de todos os indivíduos em $P_t \cup \bar{P}_t$ que dominam $i$:
 
@@ -34,18 +28,18 @@ A aptidão bruta $R(i)$ de um indivíduo $i$ é calculada como a soma dos valore
 R(i) = \sum_{j \in P_t \cup \bar{P}_t, \, j \succ i} S(j)
 \end{equation}
 
-Note que indivíduos não dominados possuem $R(i) = 0$, enquanto indivíduos dominados apresentam valores de $R(i) > 0$.
+Indivíduos não dominados têm $R(i) = 0$; os dominados têm $R(i) > 0$, tanto maior quanto mais numerosos e mais fortes forem os indivíduos que os dominam.
 
 \subsection{Estimativa de Densidade}
 
-Para manter a diversidade na população, uma estimativa de densidade $D(i)$ é calculada para cada indivíduo $i$. Esta medida é baseada na distância para o $k$-ésimo vizinho mais próximo no espaço objetivo. Seja $\sigma_i^k$ a distância Euclidiana do indivíduo $i$ ao seu $k$-ésimo vizinho mais próximo, onde tipicamente $k = \lfloor\sqrt{|P_t| + |\bar{P}_t|}\rfloor$. A densidade é então definida como:
+A estimativa de densidade $D(i)$ usa a distância ao $k$-ésimo vizinho mais próximo no espaço de objetivos. Seja $\sigma_i^k$ a distância euclidiana do indivíduo $i$ ao seu $k$-ésimo vizinho mais próximo na união, com $k = \lfloor\sqrt{|P_t| + |\bar{P}_t|}\rfloor$, a raiz quadrada do tamanho da amostra. A densidade é:
 
 \begin{equation}
 \label{eq:density_estimation}
 D(i) = \frac{1}{\sigma_i^k + 2}
 \end{equation}
 
-Um valor menor de $\sigma_i^k$ resulta em um valor maior de $D(i)$, indicando uma região mais densa no espaço objetivo. A constante 2 no denominador evita divisão por zero quando $\sigma_i^k = 0$.
+Quanto menor $\sigma_i^k$, mais densa a região em torno de $i$ e maior $D(i)$. A constante 2 no denominador mantém $D(i)$ positivo e no máximo igual a $1/2$, portanto sempre menor que 1.
 
 \subsection{Aptidão Final}
 
@@ -56,11 +50,11 @@ O valor final de aptidão $F(i)$ de um indivíduo $i$ é obtido pela soma de sua
 F(i) = R(i) + D(i)
 \end{equation}
 
-Indivíduos com valores menores de $F(i)$ são considerados superiores, uma vez que apresentam menor dominância (menor $R(i)$) e/ou estão em regiões menos densas (menor $D(i)$).
+Menor $F(i)$ indica indivíduo preferível. Como $R(i)$ é inteiro e $D(i) < 1$, a aptidão ordena primeiro pela aptidão bruta e usa a densidade apenas para desempatar indivíduos com o mesmo $R(i)$. Em particular, os indivíduos não dominados são exatamente os que têm $F(i) < 1$, e entre eles a aptidão favorece os que ocupam regiões menos densas.
 
-\subsection{Processo de Atualização do Conjunto Arquivo}
+\subsection{Ciclo do algoritmo}
 
-O funcionamento do algoritmo SPEA2 segue uma estrutura bem definida que integra os conceitos de dominância de Pareto, avaliação de aptidão e manutenção de diversidade. Para facilitar a compreensão do fluxo de execução, a Figura~\ref{fig:spea2_flow} ilustra as etapas principais do algoritmo e suas interações.
+A Figura~\ref{fig:spea2_flow} resume o ciclo do SPEA2, e os passos a seguir o descrevem na ordem de execução da formulação original~\cite{zitzler2001spea2}.
 
 \begin{figure}[htbp]
 \centering
@@ -69,61 +63,49 @@ O funcionamento do algoritmo SPEA2 segue uma estrutura bem definida que integra 
 \label{fig:spea2_flow}
 \end{figure}
 
-Conforme apresentado na Figura~\ref{fig:spea2_flow}, o processo de evolução do SPEA2 pode ser resumido nos seguintes passos principais:
-
 \begin{enumerate}
-    \item \textbf{Inicialização:} A população inicial e o Conjunto Arquivo são inicializados, ambos com tamanho $N$. Esta etapa estabelece o ponto de partida para o processo evolutivo;
-    
-    \item \textbf{Atualização do Conjunto Arquivo:} Todos os indivíduos não dominados da população corrente $P_t$ e do Conjunto Arquivo $\bar{P}_t$ são identificados e copiados para formar um novo Conjunto Arquivo $\bar{P}_{t+1}$ para a próxima geração. Indivíduos dominados ou duplicatas (em termos de valores objetivo) são removidos durante esta operação;
-    
-    \item \textbf{Controle do tamanho do Conjunto Arquivo:} Se o número de soluções não dominadas for menor que o tamanho predefinido do Conjunto Arquivo, as posições restantes são preenchidas com as melhores soluções dominadas do Conjunto Arquivo anterior. Caso contrário, se o tamanho exceder o limite predefinido $\bar{N}$, os membros excedentes são removidos usando um método de truncamento que considera informações de densidade para preservar as características da fronteira não dominada;
-    
-    \item \textbf{Atribuição de aptidão:} Os valores de aptidão (baseados nas Equações~\ref{eq:strength_value}, \ref{eq:raw_fitness}, \ref{eq:density_estimation} e \ref{eq:final_fitness}) são calculados e atribuídos a todos os indivíduos tanto no Conjunto Arquivo quanto na população corrente;
-    
-    \item \textbf{Verificação dos critérios de finalização:} O algoritmo verifica se os critérios de parada foram atendidos (número máximo de gerações, convergência, etc.). Se atendidos, o processo é finalizado;
-    
-    \item \textbf{Seleção e reprodução:} Caso os critérios de finalização não sejam atendidos, operadores genéticos são aplicados para gerar a nova população $P_{t+1}$. A seleção por torneio binário é utilizada para escolher pais para reprodução, seguida pelos operadores de cruzamento e mutação para produzir $N$ descendentes que formarão a próxima geração.
+    \item \textbf{Inicialização:} gera-se a população inicial $P_0$, de tamanho $N$. Na formulação original, o arquivo começa vazio; na implementação usada nos experimentos, população e arquivo coincidem, com $\bar{N} = N$, e é essa situação que a Figura~\ref{fig:spea2_flow} representa;
+
+    \item \textbf{Atribuição de aptidão:} calcula-se $F(i)$ para todos os indivíduos de $P_t \cup \bar{P}_t$, pelas Equações~\ref{eq:strength_value} a~\ref{eq:final_fitness};
+
+    \item \textbf{Seleção ambiental:} os indivíduos não dominados da união --- os de $F(i) < 1$ --- formam o novo arquivo $\bar{P}_{t+1}$. Se excederem $\bar{N}$, o operador de truncagem remove, um a um, o indivíduo cuja distância ao vizinho mais próximo é a menor, desempatando pelas distâncias aos vizinhos seguintes, o que preserva as soluções extremas; se forem menos que $\bar{N}$, o arquivo é completado com os melhores indivíduos dominados da união, na ordem de $F(i)$;
+
+    \item \textbf{Critério de parada:} se o orçamento de avaliações, ou outro critério de parada, se esgotou, as soluções não dominadas de $\bar{P}_{t+1}$ constituem o resultado;
+
+    \item \textbf{Seleção para reprodução:} torneios binários, com reposição, sobre o arquivo $\bar{P}_{t+1}$ escolhem os pais;
+
+    \item \textbf{Variação:} cruzamento e mutação aplicados aos pais produzem os $N$ descendentes que formam a nova população $P_{t+1}$, e o ciclo retorna ao passo 2.
 \end{enumerate}
 
-O fluxograma evidencia a natureza cíclica do algoritmo, onde o Conjunto Arquivo atua como um repositório elitista que preserva as melhores soluções encontradas ao longo do processo evolutivo, enquanto a população corrente é renovada a cada geração através dos operadores genéticos.
+Na implementação da plataforma, a população corrente e o arquivo são um único conjunto: a cada geração, os $N$ descendentes são unidos às $N$ soluções correntes, e a seleção ambiental devolve as $N$ que formam a geração seguinte. É desse conjunto que o módulo IVF, descrito no Capítulo~\ref{sec:Proposal}, coleta as mães, e é a ele que aplica a seleção ambiental ao fim de cada ciclo.
 
-\subsection{Comparação com Outros MOEAs}
+\subsection{Ordenação para sobrevivência no SPEA2, no NSGA-II e no NSGA-III}
 
-Ao comparar o SPEA2 com outros algoritmos evolutivos multi-objetivo notáveis, como o \textit{Non-dominated Sorting Genetic Algorithm II} (NSGA-II)~\cite{deb2002fast}, \textit{Multi-objective Particle Swarm Optimization} (MOPSO)~\cite{MOPSO} e \textit{Pareto Envelope-based Selection Algorithm II} (PESA-II)~\cite{PESA}, certas características distintivas se tornam evidentes.
+Os três hospedeiros usados nesta dissertação --- SPEA2, NSGA-II~\cite{deb2002fast} e NSGA-III~\cite{deb2014nsga3} --- resolvem o mesmo problema, decidir quais indivíduos sobrevivem a cada geração, por critérios de ordenação distintos. O SPEA2, descrito acima, usa um valor escalar de aptidão, $F(i)$, calculado sobre a união da população com o arquivo: a dominância, por meio de $R(i)$, ordena primeiro, e a densidade $D(i)$ desempata; a truncagem do arquivo, quando necessária, usa apenas distâncias no espaço de objetivos.
 
-Diferentemente do NSGA-II, o SPEA2 calcula explicitamente a força de cada indivíduo e utiliza um Conjunto Arquivo que está diretamente envolvido na avaliação da aptidão para todos os indivíduos. Enquanto o NSGA-II classifica suas soluções com base na ordenação por não dominância seguida pela distância de aglomeração (\textit{crowding distance}), a atribuição de aptidão do SPEA2 combina as relações de dominância de um indivíduo (via aptidão bruta $R(i)$) com uma medida de densidade baseada no $k$-ésimo vizinho mais próximo $D(i)$.
+O NSGA-II ordena os indivíduos por não dominância, em frentes sucessivas, e desempata os da mesma frente pela distância de aglomeração (\textit{crowding distance}): em cada objetivo, a frente é ordenada e cada solução recebe a diferença normalizada entre os valores dos seus dois vizinhos adjacentes; a distância é a soma dessas diferenças sobre os objetivos, e as soluções extremas recebem valor infinito~\cite{deb2002fast}. Não há arquivo separado nem aptidão escalar: a sobrevivência depende da frente e, dentro da última frente admitida, da distância. O NSGA-III preserva a ordenação por não dominância e substitui a distância de aglomeração por um mecanismo de nicho: no espaço de objetivos normalizado, cada indivíduo é associado à direção de referência mais próxima, entre as geradas pelo método de Das e Dennis~\cite{das1998normal}, e a última frente admitida é truncada em favor dos indivíduos associados às direções menos ocupadas~\cite{deb2014nsga3}.
 
-Comparado ao MOPSO, o SPEA2 adota uma abordagem mais tradicional da computação evolutiva, englobando operadores genéticos de cruzamento, mutação e seleção, em oposição à metodologia inspirada em enxames do MOPSO. Em contraste com a abordagem baseada em grade (\textit{grid-based}) do PESA-II para manter a diversidade, o SPEA2 preserva a diversidade populacional usando sua estimativa de densidade baseada no $k$-ésimo vizinho mais próximo.
-
-Embora esses MOEAs possuam características únicas e vantagens específicas, a escolha entre eles frequentemente depende das particularidades do problema sendo abordado, incluindo o número de objetivos, dimensionalidade do espaço de busca e características da fronteira de Pareto.
-
-O SPEA2 é reconhecido como um algoritmo robusto devido à sua capacidade de fornecer soluções de alta qualidade~\cite{zitzler2001spea2,tawosi2022search}. À medida que a otimização multi-objetivo se expande para diversos campos de aplicação, há uma demanda crescente por algoritmos capazes de aproximar a fronteira sob orçamentos limitados~\cite{marler2004survey}. No entanto, com o aumento da complexidade e escala dos problemas, torna-se necessário desenvolver abordagens que aproximem e distribuam soluções de forma mais rápida e eficaz próximo à fronteira de Pareto.
-
-Diferentes técnicas podem ser incorporadas ou hibridizadas para contribuir com buscas locais ou globais, melhorando os resultados na resolução de problemas multi-objetivo. Uma abordagem promissora inclui a manutenção de um conjunto separado de soluções promissoras, como utilizado no próprio algoritmo SPEA2~\cite{zitzler2001spea2}. Algoritmos auxiliares também têm sido empregados para hibridizar algoritmos hospedeiros, intercalando buscas locais dentro do fluxo padrão de um algoritmo principal. Como exemplo de um algoritmo auxiliar usado nesses casos de hibridização, pode-se mencionar o método de Fertilização \textit{In Vitro} (IVF)~\cite{camilo-junior2011}.
+Como os três hospedeiros ordenam soluções por critérios diferentes --- aptidão escalar com arquivo no SPEA2, frente e distância de aglomeração no NSGA-II, frente e ocupação de nicho no NSGA-III ---, cada acoplamento do IVF a um deles redefine a escolha de progenitores e o critério de continuação dos ciclos. A Seção~\ref{sec:linhagem_ivf} descreve como os acoplamentos anteriores o fizeram, o Capítulo~\ref{sec:Proposal} descreve como o IVF/SPEA2 o faz, e a Seção~\ref{sec:hospedeiros} compara os três pipelines resultantes.
 
 \section{Hibridização de Algoritmos Evolutivos}
 \label{sec:hibridizacao}
 
-A hibridização de algoritmos evolutivos surgiu como uma abordagem fundamental para aprimorar o desempenho de técnicas de otimização em diversos domínios de problemas. Esta estratégia busca combinar características complementares de diferentes métodos para superar limitações individuais e melhorar tanto a qualidade das soluções obtidas quanto a eficiência computacional~\cite{talbi2002taxonomy}.
+Um algoritmo híbrido combina componentes de métodos distintos para que um compense as limitações do outro~\cite{talbi2002taxonomy}. Em computação evolutiva, uma combinação frequente acrescenta busca local à busca populacional: o algoritmo evolutivo explora o espaço de decisão, e o componente local intensifica a busca em torno das melhores soluções já encontradas. Algoritmos com essa estrutura são chamados de meméticos.
 
-A integração de métodos distintos pode ocorrer de várias formas. Segundo Blum et al.~\cite{blum2011hybrid}, a hibridização pode ser classificada em três categorias principais: (i) \textbf{sequencial}, onde os algoritmos são aplicados um após o outro; (ii) \textbf{paralela}, com execução simultânea de diferentes algoritmos cooperando entre si; e (iii) \textbf{integrativa}, incorporando componentes específicos de um algoritmo dentro da estrutura de outro.
+A forma da combinação importa tanto quanto os componentes. Blum et al.~\cite{blum2011hybrid} distinguem três arranjos: \textbf{sequencial}, em que os algoritmos são aplicados um após o outro; \textbf{paralelo}, em que executam ao mesmo tempo e cooperam; e \textbf{integrativo}, em que componentes de um algoritmo operam dentro da estrutura do outro. Talbi~\cite{talbi2009metaheuristics} refina a classificação em três dimensões: o nível de acoplamento, fraco ou forte; a ordem de execução, sequencial ou paralela; e a hierarquia entre os componentes.
 
-Talbi~\cite{talbi2009metaheuristics} propõe uma taxonomia mais detalhada para classificar hibridizações, considerando aspectos como nível de acoplamento (fraco ou forte), ordem de execução (sequencial ou paralela) e distribuição hierárquica dos algoritmos combinados. Esta taxonomia fornece um framework sistemático para o desenvolvimento e análise de algoritmos híbridos.
-
-A combinação de algoritmos evolutivos com técnicas de busca local tem demonstrado resultados particularmente relevantes na literatura. Ishibuchi e Murata~\cite{ishibuchi1998multi} foram pioneiros nessa abordagem, propondo a integração sistemática de busca local em algoritmos genéticos multi-objetivo. Essa estratégia, posteriormente formalizada sob o termo ``algoritmos meméticos'', permite refinar soluções candidatas e acelerar a convergência para a fronteira de Pareto~\cite{knowles2000memetic}.
-
-Estudos recentes demonstraram que abordagens híbridas podem superar significativamente algoritmos evolutivos convencionais em termos de qualidade da solução e velocidade de convergência~\cite{zhou2011multiobjective}. No entanto, o sucesso da hibridização depende criticamente da configuração adequada dos parâmetros de controle de ambos os algoritmos componentes e da estratégia de integração adotada~\cite{deb2012analyzing}. Além disso, é essencial considerar o equilíbrio entre exploração (\textit{exploration}) e explotação (\textit{exploitation}) para evitar convergência prematura ou perda de diversidade populacional.
+Num arranjo integrativo, o componente de intensificação consome avaliações que o hospedeiro usaria para explorar, e o seu efeito depende do equilíbrio entre exploração e intensificação (\textit{exploration} e \textit{exploitation})~\cite{talbi2009metaheuristics}: intensificação excessiva concentra a população e arrisca convergência prematura, e intensificação insuficiente não recupera o seu custo. O método IVF, descrito a seguir, regula esse equilíbrio pelos seus parâmetros de coleta, manipulação e ativação.
 
 \section{Método de Fertilização \textit{In Vitro}}
 \label{sec:ivf}
 
-Esta seção descreve o método na formulação original de Camilo-Junior e Yamanaka~\cite{camilo-junior2011}, tal como adotada pelos acoplamentos que a precederam. O Capítulo~\ref{sec:Proposal} parte dela e substitui duas de suas decisões; a comparação só é legível se a formulação de partida estiver estabelecida aqui.
+Esta seção descreve o método na formulação original de Camilo-Junior e Yamanaka~\cite{camilo-junior2011}, tal como adotada pelos acoplamentos anteriores a esta dissertação. O Capítulo~\ref{sec:Proposal} parte dela e substitui duas de suas decisões; a comparação só é legível se a formulação de partida estiver estabelecida aqui.
 
-O método de Fertilização \textit{In Vitro} (IVF)~\cite{camilo-junior2011} é um algoritmo auxiliar paralelo que pode ser integrado à fase de manipulação genética de um algoritmo hospedeiro, visando melhorar o desempenho do algoritmo original através da geração de indivíduos promissores. O IVF é inspirado no processo de reprodução assistida utilizado em laboratórios para produção de espécimes com características geneticamente superiores, funcionando como uma biotécnica reprodutiva aplicada para acelerar a produção de descendentes com propriedades desejáveis.
+Os autores descrevem o IVF como um algoritmo auxiliar, paralelo ao hospedeiro, que se integra à fase de manipulação genética deste. A inspiração é a fertilização \textit{in vitro} da reprodução assistida, em que gametas selecionados são combinados fora do organismo para obter descendentes com características escolhidas. Como o módulo age dentro do ciclo do hospedeiro, sobre a população corrente, o arranjo é integrativo na classificação da Seção~\ref{sec:hibridizacao}, e não paralelo no sentido de execução simultânea.
 
 \subsection{Procedimento do Método IVF}
 
-O funcionamento do método IVF segue um fluxo estruturado que permite sua integração harmoniosa com algoritmos evolutivos hospedeiros. A Figura~\ref{fig:ivf_flow} apresenta uma visão geral do processo, destacando as principais etapas de execução e suas interações.
+A Figura~\ref{fig:ivf_flow} resume o procedimento.
 
 \begin{figure}[htbp]
 \centering
@@ -132,51 +114,53 @@ O funcionamento do método IVF segue um fluxo estruturado que permite sua integr
 \label{fig:ivf_flow}
 \end{figure}
 
-Conforme ilustrado na Figura~\ref{fig:ivf_flow}, o método IVF opera como um módulo independente que interage com o algoritmo hospedeiro através de três fases principais: coleta de material genético promissor, manipulação genética intensiva e transferência de descendentes superiores. O método IVF consiste nos seguintes passos principais:
+O módulo recebe a população do hospedeiro e percorre os passos abaixo, que compõem três fases: coleta, manipulação genética e transferência.
 
 \begin{enumerate}
-    \item \textbf{Etapa de coleta:} Conforme mostrado na parte inicial do fluxograma, indivíduos promissores da população atual do algoritmo hospedeiro são coletados para manipulação genética. A seleção é baseada em critérios de qualidade definidos pelo problema, sendo que tipicamente $c$ indivíduos são coletados;
+    \item \textbf{Coleta:} copiam-se para o módulo os $c$ indivíduos de melhor qualidade da população corrente do hospedeiro, segundo o critério de qualidade do problema;
         
-    \item \textbf{Separação de doadores:} Na formulação original, o melhor indivíduo coletado é selecionado como doador primário e os demais como doadores secundários, de modo que todos os cruzamentos de um ciclo compartilham o mesmo progenitor principal. A Seção~\ref{sec:pai_dissimilar} mostra por que esse compartilhamento é contraproducente sob a aptidão do SPEA2 e o substitui. Esta hierarquização permite direcionar as operações genéticas dentro do módulo de fertilização \textit{in vitro};
+    \item \textbf{Seleção de doadores:} na formulação original, o melhor indivíduo coletado torna-se o doador primário e os demais, doadores secundários, de modo que todos os cruzamentos de um ciclo compartilham o mesmo progenitor principal. A Seção~\ref{sec:pai_dissimilar} expõe o argumento pelo qual esse compartilhamento tende a ser contraproducente sob a aptidão do SPEA2, e o substitui;
         
-    \item \textbf{Manipulação genética:} Como destacado na figura, esta etapa central do processo aplica operações genéticas exploratórias, incluindo mutações direcionadas e cruzamentos elitistas, aos doadores coletados para criar descendentes com material genético promissor. O método IVF introduz variações controladas na composição genética, gerando um conjunto de descendentes cujo tamanho não excede o da população;
+    \item \textbf{Manipulação genética:} os doadores são recombinados, e, conforme o perfil de manipulação (Seção~\ref{sec:ivf_perfis}), parte deles é mutada antes da recombinação; o número de descendentes não excede o tamanho da população;
         
-    \item \textbf{Avaliação da aptidão:} A aptidão dos descendentes é avaliada com base em seu desempenho nos objetivos do problema de otimização. Este passo fornece uma medida quantitativa da qualidade dos novos indivíduos gerados durante a manipulação genética;
+    \item \textbf{Avaliação:} os descendentes são avaliados nas funções objetivo do problema;
         
-    \item \textbf{Seleção de descendentes superiores:} Na formulação original, o critério é individual: se um descendente superar a aptidão do doador primário atual, ele o substitui nas iterações subsequentes do método;
+    \item \textbf{Atualização do doador primário:} na formulação original, o critério é individual: se um descendente superar a aptidão do doador primário atual, ele o substitui nas iterações seguintes do módulo;
         
-    \item \textbf{Critério de término:} Ainda na formulação original, se nenhum descendente superar a aptidão do doador primário, ou outro critério de parada for atingido, o método IVF conclui suas iterações e prossegue para a fase de transferência;
+    \item \textbf{Critério de término:} ainda na formulação original, se nenhum descendente superar a aptidão do doador primário, ou outro critério de parada for atingido, o módulo conclui as suas iterações e prossegue para a fase de transferência;
         
-    \item \textbf{Transferência:} Como ilustrado na etapa final da Figura~\ref{fig:ivf_flow}, o conjunto de descendentes retidos é transferido de volta para a população do algoritmo hospedeiro. Diferentes estratégias de transferência podem ser empregadas, incluindo a substituição de indivíduos menos aptos ou a expansão temporária da população.
+    \item \textbf{Transferência:} os descendentes gerados são transferidos para a população do hospedeiro, pela substituição dos indivíduos menos aptos ou pela expansão temporária da população, conforme a estratégia adotada.
 \end{enumerate}
 
 \subsection{Parâmetros de Controle}
 
-O método IVF possui parâmetros específicos que controlam seu comportamento e integração com o algoritmo hospedeiro:
+Dois parâmetros governam a interação do módulo com o hospedeiro:
 
 \begin{itemize}
-    \item \textbf{Taxa de Execução ($r$):} Governa com que frequência o módulo é acionado. Os acoplamentos publicados operacionalizam esse parâmetro de maneiras diferentes, e a distinção é material: no acoplamento ao NSGA-II ele funciona como probabilidade de ativação por geração, enquanto o acoplamento proposto nesta dissertação o define como fração acumulada do orçamento de avaliações, pela Equação~\ref{eq:gatilho_ivf}. A segunda forma torna o gatilho progressivamente mais restritivo ao longo da execução; a primeira, não. Em ambos os casos, uma taxa mais alta aumenta a intensidade da busca local;
+    \item \textbf{Taxa de Execução ($r$):} governa quanto o módulo é acionado. Os acoplamentos publicados operacionalizam esse parâmetro de maneiras diferentes, e a distinção é material: no acoplamento ao NSGA-II ele funciona como probabilidade de ativação por geração, enquanto o acoplamento proposto nesta dissertação o define como teto da fração acumulada de avaliações consumidas pelo módulo, pela Equação~\ref{eq:gatilho_ivf}. Na segunda forma, $r$ limita a parcela do orçamento destinada ao módulo, e não a fase da execução em que ele age (Seção~\ref{sec:acoplamento}). Em ambos os casos, uma taxa mais alta permite mais intensificação;
     
-    \item \textbf{Tamanho da Coleta ($c$):} Define quantos indivíduos são coletados da população atual para manipulação. A formulação original o expressa como número absoluto de indivíduos; esta dissertação o expressa como fração do tamanho da população, o que mantém o consumo de avaliações proporcional ao orçamento da geração. Este parâmetro controla a diversidade genética disponível para manipulação.
+    \item \textbf{Tamanho da Coleta ($c$):} define quantos indivíduos são coletados da população atual para manipulação. A formulação original o expressa como número absoluto de indivíduos; esta dissertação o expressa como fração do tamanho da população, o que mantém o consumo de avaliações proporcional ao orçamento da geração. O parâmetro controla a diversidade genética disponível para manipulação.
 \end{itemize}
 
-\subsection{Operadores de Recombinação}
+\subsection{Perfis de manipulação genética}
+\label{sec:ivf_perfis}
 
-O método IVF emprega diferentes operadores de recombinação para explorar o espaço de busca de forma eficiente~\cite{camilo-junior2011}:
+Os acoplamentos do IVF usam cinco perfis de manipulação, que diferem na parte dos doadores perturbada e na extensão da perturbação~\cite{camilo-junior2011,sampaio2017ivf,Sampaio2024}:
 
 \begin{itemize}
-    \item \textbf{Recombinação Assistida (AR):} Utiliza informações da população do algoritmo genético hospedeiro, aumentando a velocidade da operação sem realizar alterações genéticas significativas;
+    \item \textbf{Recombinação Assistida (AR):} recombina os doadores sem mutá-los, usando apenas o material genético já presente na população do hospedeiro;
     
-    \item \textbf{Recombinação Assistida Exploratória com Novos indivíduos (EAR-N):} Diversifica o espaço de busca substituindo metade dos doadores secundários por novos indivíduos gerados aleatoriamente;
+    \item \textbf{Recombinação Assistida Exploratória com Novos indivíduos (EAR-N):} diversifica o espaço de busca substituindo metade dos doadores secundários por novos indivíduos gerados aleatoriamente;
     
-    \item \textbf{Recombinação Assistida Exploratória Total (EAR-T):} Aplica mutação ao cromossomo completo de metade dos doadores secundários coletados, promovendo exploração ampla;
+    \item \textbf{Recombinação Assistida Exploratória Total (EAR-T):} aplica mutação ao cromossomo completo de metade dos doadores secundários coletados, promovendo exploração ampla;
     
-    \item \textbf{Recombinação Assistida Exploratória Parcial (EAR-P):} Realiza mutação em apenas parte do cromossomo dos doadores secundários, permitindo exploração localizada;
+    \item \textbf{Recombinação Assistida Exploratória Parcial (EAR-P):} realiza mutação em apenas parte do cromossomo dos doadores secundários, permitindo exploração localizada;
     
-    \item \textbf{Recombinação Assistida Exploratória Parcial Adaptativa (EAR-PA):} Aplica mutação cromossômica parcial a parte dos doadores, ajustando a intensidade da exploração. É o perfil adotado nesta dissertação, e a Seção~\ref{sec:manipulacao} fixa a sua instanciação: quais doadores são mutados, com que operador e em que fração das variáveis.
+    \item \textbf{Recombinação Assistida Exploratória Parcial Adaptativa (EAR-PA):} aplica mutação cromossômica parcial a parte dos doadores, ajustando a intensidade da exploração. É o perfil adotado nesta dissertação, e a Seção~\ref{sec:manipulacao} fixa a sua instanciação: quais doadores são mutados, com que operador e em que fração das variáveis.
 \end{itemize}
 
-Essas diferentes configurações de operadores permitem examinar sistematicamente a influência do método IVF no desempenho do algoritmo hospedeiro, possibilitando ajustes finos para diferentes tipos de problemas e características da fronteira de Pareto.
+A calibração descrita na Seção~\ref{sec:calibracao} comparou os cinco perfis antes de adotar o EAR-PA.
+
 \section{Indicadores de Desempenho}
 \label{sec:indicadores}
 
@@ -197,10 +181,10 @@ A direção do somatório é o que torna a IGD sensível às duas propriedades a
 
 O hipervolume (HV) mede o volume da região do espaço de objetivos dominada pela aproximação e limitada por um ponto de referência $\mathbf{r}$~\cite{zitzler1998evolutionary}:
 \begin{equation}
-\mathrm{HV}(A, \mathbf{r}) = \Lambda \left( \bigcup_{a \in A} \{ \mathbf{y} \mid a \preceq \mathbf{y} \preceq \mathbf{r} \} \right),
+\mathrm{HV}(A, \mathbf{r}) = \Lambda \left( \bigcup_{\mathbf{a} \in A} \{ \mathbf{y} \in \mathbb{R}^{M} \mid \mathbf{a} \leq \mathbf{y} \leq \mathbf{r} \} \right),
 \label{eq:hv}
 \end{equation}
-em que $\Lambda$ é a medida de Lebesgue. \textbf{Valores maiores indicam melhor desempenho.}
+em que $\Lambda$ é a medida de Lebesgue e as desigualdades valem componente a componente. \textbf{Valores maiores indicam melhor desempenho.}
 
 O HV dispensa conhecer a fronteira ótima, o que o torna aplicável quando ela não está disponível, mas exige a escolha de um ponto de referência --- e essa escolha afeta o resultado. Uma solução só contribui para o volume se dominar $\mathbf{r}$, de modo que um ponto de referência frouxo demais valoriza soluções extremas e um restrito demais descarta parte da aproximação. Esta dissertação normaliza os objetivos antes do cálculo e adota o vetor de uns como ponto de referência, conforme a Seção~\ref{sec:metricas}.
 
@@ -215,15 +199,15 @@ Algoritmos evolutivos são estocásticos: uma única execução não permite con
 
 \subsection{Testes de hipótese não paramétricos}
 
-Distribuições de indicadores como a IGD costumam ser assimétricas e não satisfazem a suposição de normalidade, o que recomenda testes não paramétricos. Para amostras independentes --- execuções de dois algoritmos que não compartilham semente --- usa-se o teste de soma de postos de Wilcoxon~\cite{wilcoxon1945}, também chamado de Mann--Whitney~U, que avalia se as duas amostras provêm de distribuições com a mesma tendência central. Quando as execuções são pareadas por semente, o teste apropriado é o de postos sinalizados de Wilcoxon, que explora o pareamento e tem maior poder.
+Distribuições de indicadores como a IGD costumam ser assimétricas e não satisfazem a suposição de normalidade, o que recomenda testes não paramétricos. Para amostras independentes --- execuções de dois algoritmos que não compartilham semente --- usa-se o teste de soma de postos de Wilcoxon~\cite{wilcoxon1945}, também chamado de Mann--Whitney~U~\cite{mann1947test}, que avalia se os valores de uma das amostras tendem a ser maiores que os da outra. Quando as execuções são pareadas por semente, o teste apropriado é o de postos sinalizados de Wilcoxon, que explora o pareamento e tem maior poder.
 
 A escolha entre os dois não é editorial: aplicar um teste pareado a amostras que não têm chave de pareamento defensável inventa uma correspondência que os dados não sustentam. Esta dissertação declara, para cada família de evidência, se as execuções são pareadas e por qual chave.
 
 \subsection{Magnitude de efeito}
 
-Um valor-$p$ informa se uma diferença é detectável, não o seu tamanho. A estatística $A_{12}$ de Vargha e Delaney~\cite{vargha2000critique} estima a probabilidade de uma execução escolhida ao acaso do algoritmo A produzir resultado melhor que uma execução do algoritmo B. O valor $A_{12} = 0{,}5$ indica equivalência estocástica, e os limiares de $0{,}56$, $0{,}64$ e $0{,}71$ correspondem a efeitos pequeno, médio e grande.
+Um valor-$p$ informa se uma diferença é detectável, não o seu tamanho. A estatística $A_{12}$ de Vargha e Delaney~\cite{vargha2000critique} mede a frequência de pares de execuções em que A supera B, contando meio par para cada empate. O valor $A_{12} = 0{,}5$ indica ausência de vantagem na ordenação probabilística capturada por essa estatística, não equivalência das distribuições. O corte de $0{,}71$ adotado nas tabelas de magnitude apenas conta instâncias acima de um valor fixo, sem substituir o $A_{12}$ contínuo ou os testes corrigidos.
 
-A convenção de orientação precisa ser declarada, porque a direção de "melhor" se inverte entre os indicadores: na IGD, menor é melhor, e na HV, maior. Nesta dissertação, $A_{12}$ é sempre orientado de modo que valores acima de $0{,}5$ favoreçam o algoritmo proposto, qualquer que seja o indicador.
+A convenção de orientação precisa ser declarada, porque a direção de ``melhor'' se inverte entre os indicadores: na IGD, menor é melhor, e no HV, maior. Nesta dissertação, $A_{12}$ é sempre orientado de modo que valores acima de $0{,}5$ favoreçam o algoritmo proposto, qualquer que seja o indicador.
 
 \subsection{Multiplicidade}
 
@@ -236,7 +220,7 @@ Dois procedimentos aparecem nesta dissertação, e eles controlam quantidades di
 \item o procedimento de Benjamini e Hochberg~\cite{benjamini1995controlling} controla a \textbf{taxa de falsas descobertas}, isto é, a proporção esperada de rejeições falsas entre as rejeições feitas. Admite mais rejeições e é apropriado quando o objetivo é triagem, e não decisão individual.
 \end{itemize}
 
-As famílias de evidência desta dissertação herdaram procedimentos distintos dos veículos em que foram publicadas. O Capítulo~\ref{sec:Experiments} declara qual se aplica a cada uma e não as harmoniza retroativamente, porque reaplicar uma correção diferente da usada na análise original mudaria as contagens sem que os dados tivessem mudado.
+As famílias de evidência desta dissertação herdaram procedimentos distintos dos manuscritos em que foram originalmente analisadas (Seção~\ref{sec:publicacoes}). O Capítulo~\ref{sec:Experiments} declara qual se aplica a cada uma e não as harmoniza retroativamente, porque reaplicar uma correção diferente da usada na análise original mudaria as contagens sem que os dados tivessem mudado.
 
 Duas leituras incorretas precisam ser evitadas. Um valor-$p$ acima do limiar não estabelece equivalência: ele indica que a evidência disponível não distingue as amostras, o que pode decorrer de ausência de efeito ou de variabilidade alta. E significância estatística não é importância prática: a magnitude do efeito e o contexto de aplicação é que a determinam.
 
@@ -247,6 +231,6 @@ As seções anteriores tratam de medir desempenho depois da execução. Uma ques
 
 A análise de paisagem de aptidão caracteriza um problema por descritores mensuráveis calculados a partir de amostragem do espaço de busca, independentemente do algoritmo que o resolverá~\cite{mersmann2011exploratory}. Entre os descritores usados em otimização multiobjetivo estão a correlação entre objetivos, a proporção de soluções não dominadas numa amostra, a profundidade de dominância, medidas de autocorrelação obtidas por caminhadas aleatórias, o conteúdo de informação e descritores da geometria da fronteira, como diâmetro e conectividade~\cite{liefooghe2018landscape}. Esses descritores são \textbf{estáticos}: não custam avaliações do orçamento de otimização e podem, em princípio, orientar a escolha do algoritmo antes de executá-lo.
 
-A alternativa é observar a própria busca em curso. Descritores \textbf{dinâmicos} são medidos durante as primeiras gerações e, por isso, consomem parte do orçamento, mas observam o acoplamento real entre operador e hospedeiro, e não uma propriedade do problema isolada. O descritor central nesta dissertação é a \textbf{renovação do arquivo}, definida como a fração do conjunto arquivo substituída entre gerações consecutivas. Ela mede quanto a busca ainda se move: renovação alta indica que a seleção ambiental continua encontrando soluções que deslocam as incumbentes, e renovação baixa indica estabilização. Outros observáveis usados são a fração de soluções não dominadas, o espaçamento entre soluções e a amplitude da fronteira obtida.
+A alternativa é observar a própria busca em curso. Descritores \textbf{dinâmicos} são medidos durante as primeiras gerações e, por isso, consomem parte do orçamento, mas observam o acoplamento entre operador e hospedeiro em vez de uma propriedade do problema isolada. O descritor central nesta dissertação é a \textbf{renovação do arquivo}, definida como a fração do conjunto arquivo substituída entre gerações consecutivas. Renovação alta registra trocas frequentes no arquivo; baixa registra poucas trocas, mas, sozinha, não identifica convergência nem o benefício do operador. Outros observáveis examinados são a fração de soluções não dominadas, o espaçamento entre soluções, a aptidão média, o número de ciclos do operador e as diferenças finais de IGD e de HV entre acoplamento e hospedeiro.
 
-A distinção entre os dois tipos importa para o que se pode concluir. Um descritor estático que se correlacione com o ganho observado sustenta uma afirmação sobre a classe de problemas; um descritor dinâmico que separe instâncias sustenta uma regra de decisão aplicável durante a execução. O Capítulo~\ref{sec:complementares} avalia as duas possibilidades separadamente.
+A associação de descritores estáticos com o ganho e a separação de instâncias por descritores dinâmicos motivam investigar predição e ativação; não demonstram, por si, generalização entre famílias nem benefício de uma regra que decide por execução. O Capítulo~\ref{sec:complementares} avalia essas duas hipóteses separadamente e distingue os resumos por instância das decisões do controlador.

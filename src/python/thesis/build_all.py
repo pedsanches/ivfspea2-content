@@ -32,6 +32,9 @@ BUILDERS = [
     "build_tab_controlador.py",
     "build_apendice_fontes.py",
     "build_tab_geometria_confirmatoria.py",
+    "build_tab_magnitude_confirmatoria.py",
+    "build_tab_ativacao_robustez.py",
+    "build_tab_wfg_exploratoria.py",
     "build_fig_resultados.py",
     "build_fig_complementares.py",
 ]

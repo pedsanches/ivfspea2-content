@@ -4,18 +4,19 @@
 % Fonte: results/tables/dynamic_signal_lofo.csv
 \begin{table}[!htb]
     \centering
+    \small
     \caption{Regra de limiar sobre a renovação do arquivo na fase inicial, como critério binário de ativação do operador.}
     \label{tab:dinamica_limiar}
-    \begin{tabular}{|l|c|c|c|c|c|}
-        \hline
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+        \toprule
         \textbf{Validação} & \textbf{BA} & \textbf{MCC} & \textbf{Sensibilidade} & \textbf{Especificidade} & \textbf{Limiar} \\
-        \hline
+        \midrule
         Deixa-uma-instância & $0{,}691$ & $0{,}311$ & $0{,}683$ & $0{,}700$ & $0{,}223$ \\
         Deixa-uma-família & $0{,}754$ & $0{,}413$ & $0{,}707$ & $0{,}800$ & $0{,}216$ \\
-        \hline
-    \end{tabular}
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Regra de limiar único sobre a renovação média do arquivo nos primeiros 20\% das gerações. O limiar é buscado exaustivamente entre os pontos médios de valores adjacentes, maximizando a acurácia balanceada. A acurácia é maior sob validação deixa-uma-família do que sob deixa-uma-instância porque o limiar é reajustado para cada família retida, e as famílias diferem no nível de renovação. O limiar exibido é a mediana dos limiares ajustados. Este resultado exige conhecer a família da instância; um limiar global único seria mais fraco.
+    \parbox{\textwidth}{\footnotesize
+    Regra de limiar único sobre a renovação média do arquivo nos primeiros 20\% das gerações: o operador fica ligado quando a renovação atinge o limiar. O limiar é buscado exaustivamente entre os pontos médios de valores adjacentes, maximizando a acurácia balanceada (BA), e é sempre ajustado sem o que se avalia: sem a instância retida, na validação deixa-uma-instância, e sem a família inteira, na deixa-uma-família. MCC: coeficiente de correlação de Matthews; sensibilidade: fração das instâncias em que o operador ajuda que a regra mantém ligado; especificidade: fração das demais que ela desliga. A coluna Limiar exibe a mediana dos limiares de cada validação; na deixa-uma-família, os limiares ajustados foram $0{,}216$ ao reter DTLZ, MaF ou ZDT e $0{,}248$ ao reter WFG.
     }
 \end{table}

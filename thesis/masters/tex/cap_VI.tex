@@ -1,7 +1,7 @@
 \chapter{Resultados}
 \label{sec:results}
 
-Este capítulo reporta a comparação confirmatória definida na Seção~\ref{sec:estatistica}: o IVF/SPEA2 contra o SPEA2 canônico, nas 51 instâncias sintéticas, com 60 execuções por configuração e orçamento de 100.000 avaliações. A IGD é o desfecho primário e o HV o secundário obrigatório. O posicionamento contra os demais comparadores aparece na Seção~\ref{sec:exploratorio}, explicitamente rotulado como exploratório, porque usa testes não corrigidos e responde a uma pergunta diferente da confirmatória.
+Este capítulo reporta a comparação confirmatória definida na Seção~\ref{sec:estatistica}: o IVF/SPEA2 contra o SPEA2 canônico, nas 51 instâncias sintéticas, com 60 execuções por configuração e orçamento de 100.000 avaliações. A IGD é o desfecho primário e o HV o secundário obrigatório. O posicionamento contra os demais comparadores aparece no Apêndice~\ref{apend:exploratorio}, fora deste capítulo, porque é descritivo, sem teste de hipótese, e responde a uma pergunta diferente da confirmatória.
 
 Todas as tabelas deste capítulo são geradas a partir dos artefatos declarados no manifesto de evidência, e não transcritas. As contagens seguem a ordem vitórias/empates/derrotas.
 
@@ -12,21 +12,39 @@ A Tabela~\ref{tab:confirmatorio_wtl} apresenta as contagens nos dois escopos de 
 
 \input{generated/tab_confirmatorio_wtl}
 
-A evidência mais relevante para a decisão é a partição fora do ajuste, pelas razões dadas na Seção~\ref{sec:calibracao}: ela exclui as 12 instâncias que participaram da escolha dos parâmetros. Nessas 39 instâncias, e após a correção de Holm aplicada à família completa, o IVF/SPEA2 registra 19 vitórias, 3 empates e 2 derrotas em IGD com $M = 2$, e 12 vitórias, 3 empates e nenhuma derrota com $M = 3$. O padrão de ganho, portanto, persiste fora do subconjunto usado na calibração.
+A evidência mais relevante para a decisão é a partição fora do ajuste, pelas razões dadas na Seção~\ref{sec:calibracao}: ela exclui as 12 instâncias que participaram da escolha dos parâmetros. Nessas 39 instâncias, e após a correção de Holm aplicada à família completa, o IVF/SPEA2 registra 19 vitórias, 3 empates e 2 derrotas em IGD com $M = 2$, e 12 vitórias, 3 empates e nenhuma derrota com $M = 3$. Uma instância desse recorte, o MaF7 com $M = 3$, repete a função do DTLZ7 com $M = 3$, usado na calibração (Seção~\ref{sec:suites}); sem ela, o recorte com $M = 3$ registra 11 vitórias e 3 empates em 14 instâncias. O padrão de ganho, portanto, persiste fora do subconjunto usado na calibração.
 
 Na suíte completa, as contagens corrigidas em IGD são de 22 vitórias, 3 empates e 3 derrotas com $M = 2$, e 15 vitórias, 7 empates e 1 derrota com $M = 3$. A comparação entre as linhas corrigidas e não corrigidas mostra o efeito da correção: com $M = 3$, três instâncias que apresentavam diferença detectável sem correção passam a empate --- os empates sobem de quatro para sete ---, o que reduz as vitórias de 18 para 15 sem criar derrotas novas. O sentido do resultado não depende do nível de correção; a sua magnitude, sim.
 
-O HV sustenta o mesmo padrão. Com $M = 2$ as contagens corrigidas coincidem com as de IGD, e com $M = 3$ o HV registra 17 vitórias contra as 15 da IGD. A concordância entre um indicador orientado à proximidade e outro orientado à cobertura não é automática, e o Capítulo~\ref{sec:discussion_conclusions} retoma os casos em que ela falha.
+O HV sustenta o mesmo padrão. Com $M = 2$ as contagens corrigidas coincidem com as de IGD, e com $M = 3$ o HV registra 17 vitórias contra as 15 da IGD. A concordância entre um indicador orientado à proximidade e outro orientado à cobertura não é automática, e a Seção~\ref{sec:engenharia} registra um caso em que ela falha.
+
+\section{Magnitude da diferença}
+\label{sec:magnitude}
+
+As contagens da Tabela~\ref{tab:confirmatorio_wtl} dizem com que frequência a diferença é detectável, e não quão grande ela é. A Tabela~\ref{tab:magnitude_confirmatoria} mede a magnitude de duas formas, que respondem a perguntas distintas: o $A_{12}$ orientado estima com que frequência uma execução do IVF/SPEA2 supera uma do SPEA2, e a diferença relativa entre as medianas estima quanto o resultado típico se desloca.
+
+\input{generated/tab_magnitude_confirmatoria}
+
+As duas medidas descrevem aspectos diferentes. Nas 37 vitórias corrigidas em IGD na suíte completa, o $A_{12}$ mediano é $0{,}804$, e 29 delas alcançam o corte descritivo $A_{12}\geq 0{,}71$. A diferença relativa das medianas é, em mediana, de $+1{,}27\%$ nessas instâncias, enquanto nas 39 vitórias em HV é de $+0{,}06\%$. Nas quatro derrotas de IGD, o deslocamento vai de $-2{,}21\%$ a $-6{,}41\%$, com mediana de $-4{,}01\%$. São deslocamentos descritivos de medianas por instância, não uma estimativa da probabilidade de benefício em outra suíte.
+A Seção~\ref{sec:resposta_qp4} considera esses deslocamentos ao interpretar a decisão de ativação.
+
+O recorte fora do ajuste preserva a escala modesta do ganho detectável: nas 19 vitórias de IGD com $M=2$, o $A_{12}$ mediano é $0{,}808$ e o deslocamento mediano é $+1{,}27\%$; nas 12 vitórias com $M=3$, são $0{,}768$ e $+1{,}39\%$. As duas derrotas fora do ajuste estão em $M=2$, com deslocamentos de $-2{,}70\%$ e $-2{,}21\%$; o recorte sem MaF7 com $M=3$ mantém 14 instâncias e deslocamento mediano de $+1{,}15\%$ sobre todas elas. Os empates não implicam ausência de diferença: em $M=2$ há deslocamentos desde $-8{,}87\%$ até $+24{,}07\%$. A Tabela~\ref{tab:magnitude_confirmatoria_fora_ajuste} exibe ambos os indicadores e os desfechos sem reaplicar Holm ao recorte.
+
+\input{generated/tab_magnitude_confirmatoria_fora_ajuste}
+
+Quatro instâncias ilustram a incerteza da diferença relativa em IGD na análise exploratória da Tabela~\ref{tab:magnitude_sensibilidade}. WFG1 e WFG6 com $M=2$ têm deslocamentos observados de $+24{,}07\%$ e $-8{,}87\%$, respectivamente; seus intervalos bootstrap percentis atravessam zero. Em DTLZ4 e MaF5 com $M=3$, a grande dispersão também produz limites inferiores negativos de grande módulo, sensíveis à mudança das medianas reamostradas entre faixas de IGD. Esses intervalos selecionados \emph{após} a inspeção dos resultados são diagnósticos de instabilidade local, não provas de ausência de efeito nem intervalos simultâneos para a suíte.
+
+\input{generated/tab_magnitude_sensibilidade}
 
 \section{Resultados por instância}
 \label{sec:por_instancia}
 
-As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apresentam as medianas de IGD por instância, e as Tabelas~\ref{tab:hv_por_instancia_m2} e~\ref{tab:hv_por_instancia_m3} fazem o mesmo para o HV. As instâncias usadas na calibração estão marcadas, de modo que os dois escopos permanecem distinguíveis linha a linha. A Figura~\ref{fig:dist_igd} acompanha essas tabelas com a distribuição completa de IGD por instância, nos dois grupos de $M$.
+As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apresentam as medianas de IGD por instância, e as Tabelas~\ref{tab:hv_por_instancia_m2} e~\ref{tab:hv_por_instancia_m3} fazem o mesmo para o HV. As instâncias usadas na calibração estão marcadas, de modo que os dois escopos permanecem distinguíveis linha a linha. A Figura~\ref{fig:dist_igd} acompanha essas tabelas com a distribuição de IGD por instância, relativa à mediana do SPEA2, nos dois grupos de $M$.
 
 \begin{figure}[p]
     \centering
-    \includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{generated/figures/fig_dist_igd.pdf}
-    \caption{Distribuição de IGD por instância, IVF/SPEA2 (execuções 3001--3060) contra SPEA2 canônico (execuções 1--60); família CONF, 51 instâncias sintéticas, $n=60$ execuções por instância e algoritmo. IGD: menor é melhor. Os marcadores ``$+$''/``$-$'' sinalizam o teste de Mann--Whitney U \emph{não corrigido}, como orientação visual; a leitura confirmatória corrigida por Holm é a da Tabela~\ref{tab:confirmatorio_wtl}.}
+    \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{generated/figures/fig_dist_igd.pdf}
+    \caption[Distribuição de IGD por instância, relativa à mediana do SPEA2]{Distribuição de IGD por instância, dividida pela mediana do SPEA2 canônico na mesma instância (família confirmatória; execuções 3001--3060 do IVF/SPEA2 e 1--60 do SPEA2; $n=60$ por instância e algoritmo). Valores abaixo de 1 são melhores que a mediana do SPEA2. As caixas vão do primeiro ao terceiro quartil, e as hastes, até 1,5 vez a amplitude interquartil; as caixas que excedem a janela aparecem cortadas, com uma seta na borda. Os marcadores ``$+$''/``$-$'' reproduzem o veredito corrigido por Holm das Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3}, e $^{\dagger}$ marca as instâncias da calibração.}
     \label{fig:dist_igd}
 \end{figure}
 
@@ -34,20 +52,21 @@ As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apres
 
 \input{generated/tab_igd_por_instancia_M3}
 
-O ganho não está distribuído de maneira uniforme, e a sua concentração é informativa. Em $M = 2$, o IVF/SPEA2 não registra nenhuma derrota fora da suíte WFG: vence em todas as instâncias de ZDT, DTLZ e MaF avaliadas. As três derrotas concentram-se em WFG2, WFG3 e WFG9. Em $M = 3$, a derrota remanescente é WFG2.
+O ganho não está distribuído de maneira uniforme. Em $M = 2$, o IVF/SPEA2 não registra nenhuma derrota fora da suíte WFG: vence em todas as instâncias de ZDT, DTLZ e MaF avaliadas. As três derrotas concentram-se em WFG2, WFG3 e WFG9. Em $M = 3$, a derrota remanescente é WFG2.
 
 A distribuição por suíte quantifica essa concentração, sob a mesma correção de Holm das tabelas acima. Com $M = 2$ o registro é de 5 vitórias em 5 instâncias ZDT, 7 em 7 DTLZ, 7 em 7 MaF, e de 3 vitórias, 3 empates e 3 derrotas nas 9 instâncias WFG. Com $M = 3$ é de 4 vitórias e 3 empates em DTLZ, 6 vitórias e 1 empate em MaF, e de 5 vitórias, 3 empates e 1 derrota em WFG, sem derrota fora dela. As duas linhas somam 22/3/3 e 15/7/1, que são as contagens corrigidas da Tabela~\ref{tab:confirmatorio_wtl}; toda derrota detectável está na WFG.
 
-Essa concentração é de suíte, e não de geometria de fronteira. A tentação é lê-la como efeito da forma da fronteira, mas a classificação geométrica adotada nesta dissertação não sustenta essa leitura na família confirmatória. Das quatro derrotas, duas ocorrem em fronteiras classificadas como regulares --- WFG3 com $M = 2$, de fronteira linear, e WFG9 com $M = 2$, de fronteira côncava --- e apenas WFG2 é desconectada. No sentido inverso, o IVF/SPEA2 vence em 8 das 11 instâncias de fronteira irregular da suíte, incluindo as desconectadas ZDT3, DTLZ7 e MaF7 e as degeneradas DTLZ5, DTLZ6 e MaF6. As taxas de vitória são praticamente iguais nos dois grupos: 29 de 40 em fronteiras regulares e 8 de 11 em irregulares. O que as quatro derrotas compartilham não é a geometria, e sim a suíte: todas estão na WFG, cujas transformações acrescentam não separabilidade, multimodalidade e engano, como descrito na Seção~\ref{sec:suites}. A Tabela~\ref{tab:geometria_confirmatoria} confronta essa leitura com a da comparação entre hospedeiros. Medido por tamanho de efeito, e não por decisão de teste, há um gradiente modesto e consistente nas duas famílias, que não atinge significância em nenhuma delas; o Capítulo~\ref{sec:discussion_conclusions} retoma o ponto.
+Nesta amostra, as quatro derrotas compartilham a suíte, e não a classe geométrica. A tentação é lê-las como efeito da forma da fronteira, e o manuscrito de origem associa o ganho às geometrias regulares~\cite{zambrano2026ivfspea2}, mas a classificação geométrica adotada nesta dissertação não sustenta essa leitura na família confirmatória. Das quatro derrotas, duas ocorrem em fronteiras classificadas como regulares --- WFG3 com $M = 2$, de fronteira linear, e WFG9 com $M = 2$, de fronteira côncava ---, e as outras duas são o mesmo problema, WFG2, de fronteira desconectada, com $M = 2$ e $M = 3$. A proporção de derrotas é maior entre as fronteiras irregulares, 2 de 11 contra 2 de 40, mas essa diferença se reduz a um único problema. No sentido inverso, o IVF/SPEA2 vence em 8 das 11 instâncias de fronteira irregular da suíte, incluindo as desconectadas ZDT3, DTLZ7 e MaF7 e as degeneradas DTLZ5, DTLZ6 e MaF6, e as taxas de vitória são praticamente iguais nos dois grupos: 29 de 40 em fronteiras regulares e 8 de 11 em irregulares. Como o MaF7 repete o DTLZ7 nos dois valores de $M$, as 11 instâncias irregulares correspondem a nove funções. As quatro derrotas estão todas na WFG, cujas transformações acrescentam não separabilidade, multimodalidade, engano e viés, como descrito na Seção~\ref{sec:suites}. A Tabela~\ref{tab:geometria_confirmatoria} confronta essa leitura com a da comparação entre hospedeiros. Medido por tamanho de efeito, e não por decisão de teste, há um gradiente modesto, que não atinge significância na família confirmatória e reaparece no subconjunto de execuções usado pela família de hospedeiros, sem constituir corroboração independente; o Capítulo~\ref{sec:discussion_conclusions} retoma o ponto.
 
 \input{generated/tab_geometria_confirmatoria}
 
-Duas instâncias merecem menção porque a mediana as descreve mal. Em DTLZ4 com $M = 3$, a amplitude interquartil do IVF/SPEA2 é ordens de grandeza maior que a mediana, sinal de um regime de convergência com dois modos: parte das execuções converge e parte estagna. Em MaF5 a dispersão é igualmente alta. Nesses casos, a ausência de diferença detectável reflete variabilidade entre execuções, e não equivalência de desempenho --- distinção que a Seção~\ref{sec:estatistica} exige manter e que um valor-$p$ acima do limiar não autoriza a apagar. A Figura~\ref{fig:dtlz4_bimodal} mostra as fronteiras obtidas nas execuções do IVF/SPEA2 mais próximas de cada extremo em DTLZ4 ($M=3$).
+Duas instâncias merecem menção porque a mediana sozinha descreve mal a distribuição final. Em DTLZ4 com $M = 3$, a amplitude interquartil do IVF/SPEA2 é quase nove vezes a mediana, e as execuções apresentam valores finais de IGD tanto baixos quanto elevados; em MaF5 com $M = 3$, a amplitude interquartil é cerca de cinco vezes a mediana. A ausência de diferença detectável sob Holm não estabelece equivalência nem permite atribuir a dispersão à dinâmica de convergência. A Figura~\ref{fig:dtlz4_bimodal} mostra as populações finais das execuções do IVF/SPEA2 mais próximas dos extremos selecionados em DTLZ4 ($M=3$).
+A interpretação de empates como ausência de efeito é discutida na Seção~\ref{sec:inferencia}.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\textwidth]{generated/figures/fig_dtlz4_bimodal.pdf}
-    \caption{DTLZ4 ($M=3$), família confirmatória (CONF), coorte de submissão do IVF/SPEA2 (execuções 3001--3060, $n=60$ execuções da instância): fronteiras obtidas ao final (a) da execução mais próxima do primeiro quartil de IGD (execução 3019, IGD$=0{,}0538$), regime de convergência, e (b) da execução mais próxima do terceiro quartil com IGD$>0{,}1$ (execução 3049, IGD$=0{,}541$), regime de estagnação. IGD: menor é melhor. Pontos finais por execução, não trajetória de convergência por geração.}
+    \caption[Execuções finais do IVF/SPEA2 no DTLZ4 com $M = 3$]{DTLZ4 ($M = 3$), família confirmatória, coorte de submissão do IVF/SPEA2 (execuções 3001--3060, $n=60$ execuções da instância): populações finais (a) da execução mais próxima do primeiro quartil de IGD (execução 3019, IGD$=0{,}0538$) e (b) da execução mais próxima do terceiro quartil com IGD$>0{,}1$ (execução 3049, IGD$=0{,}541$). IGD: menor é melhor. Os pontos são soluções finais, não uma trajetória por geração; não permitem inferir o mecanismo da diferença entre execuções.}
     \label{fig:dtlz4_bimodal}
 \end{figure}
 
@@ -55,23 +74,9 @@ Duas instâncias merecem menção porque a mediana as descreve mal. Em DTLZ4 com
 
 \input{generated/tab_hv_por_instancia_M3}
 
-\section{Posicionamento exploratório contra outros comparadores}
-\label{sec:exploratorio}
-
-Esta seção é exploratória. As comparações contra os sete comparadores de contexto usam testes par a par não corrigidos, a família de hipóteses não foi declarada antes da análise e o seu papel é interpretativo, não confirmatório. Elas não substituem, nem reforçam, a comparação da Seção~\ref{sec:confirmatorio}.
-
-Uma análise de posto médio entre os nove algoritmos coloca o IVF/SPEA2 em segundo lugar com $M = 2$ e em primeiro com $M = 3$. Esse resultado tem valor de navegação, não de conclusão: o posto médio agrega instâncias heterogêneas, não corrige multiplicidade e responde à pergunta de qual algoritmo ordena melhor no conjunto avaliado --- que não é a pergunta desta dissertação. O modelo de evidência desta pesquisa não sustenta afirmação de superioridade geral a partir dessas contagens. A Figura~\ref{fig:posto_medio} apresenta esse posto médio, com desvio padrão entre instâncias, para $M=2$ e $M=3$.
-
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=\textwidth]{generated/figures/fig_posto_medio.pdf}
-    \caption{Posto médio exploratório de IGD entre os nove algoritmos avaliados, por instância e por $M$ (28 instâncias em $M=2$; 23 em $M=3$), mesma coorte de submissão da Seção~\ref{sec:estatistica}, $n=60$ execuções por algoritmo e instância. IGD: menor é melhor, logo menor posto é melhor; barras horizontais são o desvio padrão do posto entre instâncias. Posicionamento exploratório: testes não corrigidos, sem correção de multiplicidade, não substitui a comparação confirmatória da Seção~\ref{sec:confirmatorio}.}
-    \label{fig:posto_medio}
-\end{figure}
-
 \section{Síntese}
 \label{sec:sintese_resultados}
 
-No escopo sintético avaliado e sob orçamento idêntico, o IVF/SPEA2 apresentou melhora delimitada em relação ao SPEA2 canônico. A melhora sobrevive à correção de multiplicidade, persiste na partição fora do ajuste, é sustentada de forma secundária pelo HV e não é uniforme: as quatro derrotas detectáveis concentram-se na suíte WFG. Nesta família, a geometria da fronteira não separa vitórias de derrotas.
+No escopo sintético avaliado e sob orçamento idêntico, o IVF/SPEA2 apresentou melhora delimitada em relação ao SPEA2 canônico. A diferença persiste após correção de multiplicidade e no recorte fora do ajuste; HV fornece um desfecho secundário, sem tornar os resultados uniformes. Nas 51 instâncias, sem seleção pelo desfecho do teste, o $A_{12}$ mediano de IGD é $0{,}756$ e a diferença relativa mediana das medianas, $+1{,}15\%$; nas vitórias corrigidas da suíte completa, esses valores são $0{,}804$ e $+1{,}27\%$, e, fora do ajuste, os deslocamentos medianos nas vitórias são $+1{,}27\%$ com $M=2$ e $+1{,}39\%$ com $M=3$. As quatro derrotas corrigidas de IGD concentram-se na suíte WFG. Nem a geometria da fronteira nesta família nem os intervalos exploratórios por instância justificam extrapolar essa frequência e magnitude a outras suítes.
 
-Essa formulação é o limite do que a família confirmatória sustenta. As famílias de apoio --- calibração, ablação, transferência para engenharia, compatibilidade entre hospedeiros e decisão de ativação --- respondem a perguntas distintas, sob os protocolos declarados na Tabela~\ref{tab:familias_evidencia}, e as suas contagens não se somam às desta seção.
+Essa formulação é o limite do que a família confirmatória sustenta. O Capítulo~\ref{sec:complementares} examina a mesma pergunta fora da suíte sintética e as outras três questões, sob os protocolos da Tabela~\ref{tab:familias_evidencia}, e o Capítulo~\ref{sec:discussion_conclusions} responde às quatro.

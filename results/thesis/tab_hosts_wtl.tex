@@ -6,26 +6,26 @@
 % Fonte: results/tables/hosts_ivfnsgaiii_hv_stats.csv
 % Fonte: results/tables/hosts_ivfnsgaii_igd_stats.csv
 % Fonte: results/tables/hosts_ivfnsgaii_hv_stats.csv
+% Fonte: data/processed/hosts_paper.csv
+% Fonte: src/python/analysis/compute_hosts_pairing_robustness.py
 \begin{table}[!htb]
     \centering
+    \small
     \caption{Compatibilidade entre o operador IVF e três hospedeiros: contagens de vitórias, empates e derrotas de cada acoplamento contra o seu hospedeiro.}
     \label{tab:hosts_wtl}
-    \begin{tabular}{|l|l|c|c|c|c|}
-        \hline
-        \textbf{Acoplamento} & \textbf{Hospedeiro} & \textbf{Métrica} & \textbf{$M=2$} & \textbf{$M=3$} & \textbf{Total (V/E/D)} \\
-        \hline
-        IVF/SPEA2 & SPEA2 & IGD & 21/5/2 & 12/10/1 & \textbf{33/15/3} \\
-         &  & HV & 21/4/3 & 16/6/1 & \textbf{37/10/4} \\
-        \hline
-        IVF/NSGA-III & NSGA-III & IGD & 18/10/0 & 4/19/0 & \textbf{22/29/0} \\
-         &  & HV & 15/12/1 & 6/16/1 & \textbf{21/28/2} \\
-        \hline
-        IVF/NSGA-II & NSGA-II & IGD & 1/25/2 & 0/23/0 & \textbf{1/48/2} \\
-         &  & HV & 4/21/3 & 1/22/0 & \textbf{5/43/3} \\
-        \hline
-    \end{tabular}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
+        \toprule
+        \multicolumn{1}{@{}c}{} & \multicolumn{3}{c}{\textbf{IGD (V/E/D)}} & \multicolumn{3}{c@{}}{\textbf{HV (V/E/D)}} \\
+        \cmidrule(lr){2-4}\cmidrule(l){5-7}
+        \textbf{Acoplamento} & \textbf{$M=2$} & \textbf{$M=3$} & \textbf{Total} & \textbf{$M=2$} & \textbf{$M=3$} & \textbf{Total} \\
+        \midrule
+        IVF/SPEA2 & 21/5/2 & 12/10/1 & 33/15/3 & 21/4/3 & 16/6/1 & 37/10/4 \\
+        IVF/NSGA-III & 18/10/0 & 4/19/0 & 22/29/0 & 15/12/1 & 6/16/1 & 21/28/2 \\
+        IVF/NSGA-II & 1/25/2 & 0/23/0 & 1/48/2 & 4/21/3 & 1/22/0 & 5/43/3 \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Vitórias/empates/derrotas de cada realização do IVF contra o seu próprio hospedeiro, nas 51 instâncias sintéticas. Wilcoxon pareado com correção de Benjamini--Hochberg, $\alpha = 0{,}05$, 30 execuções por configuração, orçamento de 100.000 avaliações, PlatEMO 4.6. A unidade de comparação é o par hospedeiro mais realização do operador, e não um módulo único transplantado sem alteração: a comparação não isola causalmente o efeito do hospedeiro. As execuções 3001--3030 e 1--30 do par IVF/SPEA2 são um subconjunto da coorte confirmatória e não constituem replicação independente.
+    \parbox{\textwidth}{\footnotesize
+    Vitórias/empates/derrotas (V/E/D) de cada acoplamento IVF contra o seu próprio hospedeiro, nas 51 instâncias sintéticas. Teste de Wilcoxon de postos sinalizados com correção de Benjamini--Hochberg por acoplamento e métrica, $\alpha = 0{,}05$, 30 execuções por configuração, orçamento de 100.000 avaliações. Os pares IVF/NSGA-II e IVF/NSGA-III compartilham a faixa de execuções com o hospedeiro e são pareados por execução. No par IVF/SPEA2, as faixas não coincidem (3001--3030 e 1--30), e as execuções são alinhadas por ordem, como no artigo de origem~\cite{zambrano2026hosts}; sem pareamento, com o teste de Mann--Whitney, as contagens do IVF/SPEA2 não mudam em IGD e mudam em uma instância em HV (DTLZ4 com $M=3$, de empate para vitória), para 38/9/4. A comparação é entre pipelines e não isola o efeito do hospedeiro; as execuções 3001--3030 e 1--30 do par IVF/SPEA2 são um subconjunto da coorte confirmatória e não constituem replicação independente.
     }
 \end{table}

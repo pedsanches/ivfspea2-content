@@ -104,13 +104,13 @@ SOURCE_PT = {
         "titulo": "Compatibilidade entre o operador e o hospedeiro",
         "coorte": "51 instâncias sintéticas com 30 execuções por configuração; a situação de pareamento difere conforme o hospedeiro.",
         "bruto": "Os processados de desfecho estão presentes; as saídas brutas não são versionadas.",
-        "lacunas": "A comparação avalia pipelines publicados e não isola causalmente a escolha do hospedeiro das diferenças de implementação que a acompanham.",
+        "lacunas": "A comparação avalia pipelines publicados e não isola causalmente a escolha do hospedeiro das diferenças de implementação e de configuração que a acompanham; só o IVF/SPEA2 tem calibração documentada nesta suíte, e os pipelines NSGA usam configurações fixas sem registro de ajuste equivalente.",
     },
     "thesis-derived-tables": {
         "titulo": "Tabelas desta dissertação",
         "coorte": "Não há execuções novas. Esta fonte apenas converte os artefatos congelados das demais famílias em tabelas, preservando a coorte e a correção de cada uma.",
         "bruto": "Não se aplica: todas as entradas são artefatos processados e versionados.",
-        "lacunas": "Não há tabela para a família de convergência, cuja análise foi omitida da dissertação.",
+        "lacunas": "Não há tabela para a família de convergência, cuja análise foi omitida da dissertação. A partição WFG/demais e a tabulação por propriedades da WFG são análises pós-hoc sobre a mesma amostra, não validações independentes.",
     },
 }
 

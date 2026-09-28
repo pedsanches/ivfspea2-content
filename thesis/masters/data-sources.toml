@@ -75,7 +75,7 @@ artifacts = [
 notes = "Supports implementation and parameter choices; does not replace the main host comparison."
 raw_status = "Processed frozen result artifacts are available; raw availability varies by phase."
 overlaps = ["Tuning instances overlap the 51-instance suite but are excluded from out-of-sample headline counts."]
-known_gaps = []
+known_gaps = ["O comparador histórico usa 60 execuções frente às 30 de C26/A43, e o orçamento histórico não está identificado no resumo comparativo; não isola apenas os parâmetros."]
 
 [[source]]
 id = "memetic-computing-engineering"
@@ -85,7 +85,7 @@ role = "external-support"
 algorithm_version = "IVFSPEA2V2 / C26"
 cohort = "RWMOP9, RWMOP21, and RWMOP8 engineering suite with strict common-run processing."
 metrics = ["IGD", "HV"]
-datasets = ["data/processed/todas_metricas_consolidado_with_modern.csv"]
+datasets = ["data/processed/todas_metricas_consolidado_with_modern.csv", "results/engineering_screening/rwmop_feasibility_probe_ivfspea2.csv", "results/engineering_screening/rwmop_feasibility_probe_ivfspea2v2.csv"]
 scripts = [
   "src/python/analysis/analyze_engineering.py",
   "src/python/analysis/plot_engineering_metric_profiles.py",
@@ -98,7 +98,7 @@ artifacts = [
 notes = "Transferability evidence with mixed outcomes; keep distinct from synthetic confirmatory claims."
 raw_status = "Engineering raw data are local/archived and not uniformly tracked by Git."
 overlaps = []
-known_gaps = ["RWMOP8 has heterogeneous valid-run coverage and lower evidential strength."]
+known_gaps = ["RWMOP8 tem cobertura heterogênea de execuções válidas; a triagem com resultados disponíveis cobre somente as sondagens de viabilidade IVF/SPEA2V2 em cinco execuções para as quatro candidatas excluídas, não uma matriz de triagem completa nem a data de pré-seleção."]
 
 [[source]]
 id = "ppsn-clei-landscape-dynamics-controller"
@@ -184,6 +184,7 @@ overlaps = ["IVF/SPEA2 runs 3001-3030 and SPEA2 runs 1-30 are a subset of the Me
 known_gaps = [
   "The manuscript's six-case 100-checkpoint rerun statement is not represented by the current ten-checkpoint hosts_convergence.csv and must be reconciled before thesis use.",
   "The comparison evaluates published pipelines and does not causally isolate host choice from implementation differences.",
+  "Tuning effort is not shown to be symmetric: only IVF/SPEA2 has a documented calibration on 12 of the 51 instances (50000 FE); the NSGA pipelines use fixed runner settings (IVF/NSGA-II R=0.5, C=0.07, Cycles=5; IVF/NSGA-III ivf_rate=0.10, C=0.10, Cycles=5) with no equivalent tuning record, and these settings do not fully reproduce the source publications' protocols.",
   "test_convergence_significance.py pairs on run ID, and IVFSPEA2 (3001-3030) does not intersect SPEA2 (1-30), so that pair is dropped without warning; convergence_significance.csv covers only the two NSGA pairs. See REWRITE_SPEC.md OQ-03.",
 ]
 
@@ -204,6 +205,9 @@ datasets = [
   "results/tables/hv_per_instance_M3.csv",
   "results/tables/hosts_ivfspea2_igd_stats.csv",
   "results/tables/hosts_geometry_summary.csv",
+  "config/hosts_front_geometry.csv",
+  "config/wfg_properties.csv",
+  "data/processed/hosts_paper.csv",
   "results/tables/fla_model_comparison.csv",
   "results/tables/dynamic_signal_main_tests.csv",
   "results/tables/dynamic_signal_loocv.csv",
@@ -211,13 +215,20 @@ datasets = [
   "results/tables/controller_wtl_oos_20260326_221909.csv",
   "results/engineering_suite/engineering_suite_pairwise_main.csv",
   "results/ablation_v2/phase3/phase3_summary.json",
+  "results/ablation_v2/phase2/phase2_summary.json",
   "results/tuning_ivfspea2v2/head_to_head_c26_a43_v1_summary.json",
   "results/tuning_ivfspea2v2/tuning_phase_ranking.csv",
   "results/engineering_suite/engineering_suite_raw_main.csv",
   "results/tables/hosts_ivfnsgaii_igd_stats.csv",
   "results/tables/hosts_ivfnsgaiii_igd_stats.csv",
+  "results/engineering_suite/engineering_suite_summary_main.csv",
+  "data/processed/ppsn_controller_comparison_oos_20260326_221909.csv",
+  "data/processed/fla_response.csv",
+  "data/processed/fla_dataset.csv",
   "data/processed/dynamic_signal_test.csv",
   "data/processed/todas_metricas_consolidado_with_modern.csv",
+  "results/engineering_screening/rwmop_feasibility_probe_ivfspea2v2.csv",
+  "results/engineering_screening/rwmop_feasibility_probe_ivfspea2.csv",
 ]
 scripts = [
   "src/python/thesis/build_all.py",
@@ -232,8 +243,12 @@ scripts = [
   "src/python/thesis/ptbr_format.py",
   "src/python/thesis/latex_table.py",
   "src/python/thesis/build_tab_geometria_confirmatoria.py",
+  "src/python/thesis/build_tab_magnitude_confirmatoria.py",
+  "src/python/thesis/build_tab_ativacao_robustez.py",
+  "src/python/thesis/build_tab_wfg_exploratoria.py",
   "src/python/thesis/build_fig_resultados.py",
   "src/python/thesis/build_fig_complementares.py",
+  "src/python/analysis/compute_hosts_pairing_robustness.py",
 ]
 artifacts = [
   "results/thesis/tab_confirmatorio_wtl.tex",
@@ -250,8 +265,15 @@ artifacts = [
   "results/thesis/tab_dinamica_separacao.tex",
   "results/thesis/tab_dinamica_limiar.tex",
   "results/thesis/tab_controlador_wtl.tex",
+  "results/thesis/tab_hosts_suite.tex",
+  "results/thesis/tab_dinamica_suite.tex",
   "results/thesis/apendice_fontes.tex",
   "results/thesis/tab_geometria_confirmatoria.tex",
+  "results/thesis/tab_magnitude_confirmatoria.tex",
+  "results/thesis/tab_magnitude_confirmatoria_fora_ajuste.tex",
+  "results/thesis/tab_magnitude_sensibilidade.tex",
+  "results/thesis/tab_ativacao_robustez.tex",
+  "results/thesis/tab_wfg_exploratoria.tex",
   "results/thesis/figures/fig_dist_igd.pdf",
   "results/thesis/figures/fig_dtlz4_bimodal.pdf",
   "results/thesis/figures/fig_posto_medio.pdf",
@@ -260,10 +282,13 @@ artifacts = [
   "results/thesis/figures/fig_hospedeiros_a12.pdf",
   "results/thesis/figures/fig_ativacao_turnover.pdf",
 ]
-notes = "Presentation layer only; it introduces no evidence. Regenerate tables and figures with `make thesis-tables`; `make thesis-tables-check` fails if a committed table or figure drifts from its artifact. Chapters input the mirrored copies under thesis/masters/generated/, which Git ignores. The figures read the consolidated CSV only through `filter_submission_synthetic_cohort`, because the `IVFSPEA2` label there carries both the historical and the submission run ranges."
+notes = "Tables and figures are generated from tracked processed artifacts; the out-of-tuning magnitude, local bootstrap intervals, activation reanalysis, the post-hoc WFG/other-suites partition and the WFG property tabulation are derived analyses, not independent experiment cohorts. Regenerate with `make thesis-tables`; `make thesis-tables-check` detects drift. Thesis chapters input mirrored copies under thesis/masters/generated/. Confirmatory figures filter the submission synthetic cohort because the consolidated `IVFSPEA2` label contains historical and submission run ranges."
 raw_status = "Not applicable: every input is a tracked processed artifact."
-overlaps = ["Renders the same artifacts the other sources declare; it is a view over them and never an additional observation."]
+overlaps = ["Reuses the same runs and labels declared by the source families; derived reanalyses are not independent replications."]
 known_gaps = [
   "data/processed/classifier_comparison.csv is deliberately not an input: its Early-turnover threshold LOOCV row is an in-sample fit mislabelled as cross-validated. See REWRITE_SPEC.md OQ-13.",
+  "A reanálise da ativação retém conjuntamente DTLZ e MaF, mas mantém o observável e a janela escolhidos na análise de origem; não constitui validação aninhada nem teste independente do controlador.",
+  "The WFG/other-suites partition was written after the labels showed the WFG concentration and is scored on the same labelled sample; it is a retrospective yardstick, not a validated controller.",
+  "The WFG property tabulation groups configurations after the losses were observed; it keeps the family-wide Holm verdicts, does not re-correct subgroups, and counts configurations of nine functions, not independent functions. Properties are transcribed from the WFG property table of Huband et al. (2006).",
   "No table exists yet for the convergence family; it stays blocked on OQ-02, OQ-03 and OQ-04.",
 ]

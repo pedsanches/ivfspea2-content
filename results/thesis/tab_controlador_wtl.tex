@@ -1,33 +1,35 @@
 % Gerado por src/python/thesis/build_tab_controlador.py -- nao editar a mao.
 % Regenerar com: make thesis-tables
 % Fonte: results/tables/controller_wtl_oos_20260326_221909.csv
+% Fonte: data/processed/ppsn_controller_comparison_oos_20260326_221909.csv
+% Fonte: data/processed/fla_response.csv
+% Fonte: results/tables/dynamic_signal_lofo.csv
 \begin{table}[!htb]
     \centering
-    \caption{Controlador de aquecimento frente ao SPEA2 canônico e ao IVF/SPEA2 sempre ativo, por subconjunto de instâncias.}
+    \small
+    \caption{Controlador de aquecimento frente ao SPEA2 canônico e ao IVF/SPEA2 sempre ativo, por classe de instância segundo o efeito do operador.}
     \label{tab:controlador_wtl}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|c|l|l|c|c|c|}
-        \hline
-        \textbf{Métrica} & \textbf{Comparação} & \textbf{Subconjunto} & \textbf{$n$} & \textbf{V/E/D} & \textbf{Iguala ou supera} \\
-        \hline
-        HV & Controlador contra SPEA2 & Todas & 51 & 34/14/3 & 48 \\
-         &  & O operador ajuda & 41 & 33/8/0 & 41 \\
-         &  & O operador não ajuda & 10 & 1/6/3 & 7 \\
-         & Controlador contra IVF/SPEA2 sempre ativo & Todas & 51 & 2/40/9 & 42 \\
-         &  & O operador ajuda & 41 & 0/32/9 & 32 \\
-         &  & O operador não ajuda & 10 & 2/8/0 & 10 \\
-        \hline
-        IGD & Controlador contra SPEA2 & Todas & 51 & 29/18/4 & 47 \\
-         &  & O operador ajuda & 41 & 29/12/0 & 41 \\
-         &  & O operador não ajuda & 10 & 0/6/4 & 6 \\
-         & Controlador contra IVF/SPEA2 sempre ativo & Todas & 51 & 1/40/10 & 41 \\
-         &  & O operador ajuda & 41 & 0/33/8 & 33 \\
-         &  & O operador não ajuda & 10 & 1/7/2 & 8 \\
-        \hline
-    \end{tabular}
-    }
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llccc@{}}
+        \toprule
+        \multicolumn{3}{@{}c}{} & \multicolumn{2}{c@{}}{\textbf{V/E/D do controlador contra}} \\
+        \cmidrule(l){4-5}
+        \textbf{Métrica} & \textbf{Subconjunto} & \textbf{$n$} & \textbf{SPEA2 canônico} & \textbf{IVF/SPEA2 sempre ativo} \\
+        \midrule
+        HV & Todas & 51 & 34/14/3 & 2/40/9 \\
+         & O operador ajuda & 41 & 33/8/0 & 0/32/9 \\
+         & O operador não ajuda & 10 & 1/6/3 & 2/8/0 \\
+         & \quad neutro & 6 & 1/5/0 & 0/6/0 \\
+         & \quad prejudica & 4 & 0/1/3 & 2/2/0 \\
+        \midrule
+        IGD & Todas & 51 & 29/18/4 & 1/40/10 \\
+         & O operador ajuda & 41 & 29/12/0 & 0/33/8 \\
+         & O operador não ajuda & 10 & 0/6/4 & 1/7/2 \\
+         & \quad neutro & 6 & 0/5/1 & 0/5/1 \\
+         & \quad prejudica & 4 & 0/1/3 & 1/2/1 \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Controlador de aquecimento: o operador é desativado de forma irreversível quando a renovação do arquivo na fase inicial fica abaixo do limiar da família. Wilcoxon pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente. A coluna final conta as instâncias em que o controlador iguala ou supera o comparador. O HV é o desfecho primário declarado desta avaliação: os rótulos de instância foram derivados do desfecho confirmatório em IGD, de modo que pontuar o controlador em IGD reutilizaria os rótulos como sua própria validação. O ganho do controlador é eliminar as perdas onde o operador não ajuda, ao custo de abrir mão de ganhos onde ele ajuda.
+    \parbox{\textwidth}{\footnotesize
+    Controlador de aquecimento: ao fim dos primeiros 20\% do orçamento, o operador é desativado de forma irreversível nas execuções cuja renovação média do arquivo fica abaixo do limiar. Cada família foi controlada com o limiar calibrado sem ela, por validação deixa-uma-família: $0{,}216$ em DTLZ, MaF e ZDT, e $0{,}248$ em WFG (Tabela~\ref{tab:dinamica_suite}). Wilcoxon pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente; um caso conta como vitória ou derrota do controlador quando o valor-$p$ ajustado fica abaixo de $0{,}05$ e o $A_{12}$ sai do intervalo $[0{,}44;\,0{,}56]$. As linhas recuadas decompõem as instâncias em que o operador não ajuda segundo o rótulo de três classes da comparação em IGD da coorte confirmatória, sem correção de multiplicidade: neutro quando o IVF/SPEA2 não difere do SPEA2, prejudica quando perde para ele. O HV é o desfecho primário declarado desta avaliação.
     }
 \end{table}

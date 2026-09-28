@@ -8,7 +8,7 @@ Parte das evidências de apoio desta dissertação repousa em artefatos processa
 Três categorias de dados ficam fora do controle de versão, por razões distintas:
 
 \begin{itemize}
-\item \textbf{Saídas brutas da plataforma de otimização.} Cada execução produz um arquivo binário com a população final e o histórico de avaliações. Para as 51 instâncias sintéticas, com nove algoritmos e 60 execuções por configuração, esse conjunto excede em ordens de grandeza os limites práticos de um repositório de código.
+\item \textbf{Saídas brutas da plataforma de otimização.} Cada execução produz um arquivo binário com a população final e o histórico de avaliações. Para as 51 instâncias sintéticas, com nove algoritmos e 60 execuções por configuração, esse conjunto excede os limites práticos de um repositório de código.
 
 \item \textbf{Trajetórias por geração.} As execuções instrumentadas que registram observáveis a cada geração --- usadas na análise de dinâmica populacional --- somam alguns gigabytes.
 
@@ -19,7 +19,7 @@ O que \emph{está} versionado, em todos os casos, é o produto processado: as ta
 
 \section{Três estados distintos, e por que a distinção importa}
 
-Trabalhos que declaram disponibilidade de dados costumam tratar repositório e depósito como sinônimos. Aqui eles não são, e confundi-los produziria uma promessa que esta pesquisa não pode cumprir. Três estados precisam ser separados:
+Repositório e depósito não são sinônimos nesta pesquisa. Três estados precisam ser separados:
 
 \begin{itemize}
 \item \textbf{Repositório de código.} Mantém a implementação do algoritmo, os roteiros de experimento, os scripts de análise, os dados processados e os geradores das tabelas desta dissertação. É o estado vivo, e é dele que a Seção~\ref{sec:disponibilidade} dá o endereço.
@@ -29,17 +29,15 @@ Trabalhos que declaram disponibilidade de dados costumam tratar repositório e d
 \item \textbf{Fora de ambos.} As saídas brutas de execução. Nenhuma versão publicada do registro as contém, e o repositório as exclui deliberadamente pelos motivos da seção anterior.
 \end{itemize}
 
-A consequência é direta e é registrada aqui em vez de ser deixada para o leitor descobrir: \textbf{não há depósito de onde recuperar os dados brutos}. O que está arquivado é a cadeia processada, não a sua origem.
+\textbf{Não há depósito de onde recuperar os dados brutos}: o que está arquivado é a cadeia processada, não a sua origem.
 
 \section{Consequência para a reprodutibilidade}
 
-A distinção entre reproduzir, regenerar e reexecutar é relevante aqui, e esta dissertação não a dissimula.
-
 As análises da família confirmatória são \textbf{regeneráveis} a partir dos dados processados versionados: os scripts declarados no Apêndice~\ref{apend:fontes} reconstroem as contagens e as tabelas a partir do repositório, sem depender de dados externos.
 
-As famílias de calibração, ablação, transferência para engenharia e do controlador são \textbf{verificáveis, mas não regeneráveis} no estado atual do repositório: os seus artefatos processados estão presentes e foram conferidos, mas os produtores não executam a partir de um clone limpo, porque os seus dados de entrada não estão versionados.
+As famílias de calibração, ablação, transferência para engenharia e do controlador são \textbf{verificáveis, mas não regeneráveis} no estado atual do repositório: os seus artefatos processados estão presentes e foram conferidos, mas os produtores não executam a partir de uma cópia recém-obtida do repositório, porque os seus dados de entrada não estão versionados.
 
-Para essas famílias, a via disponível não é recuperar, é \textbf{reexecutar}. Os roteiros de experimento que produziram as execuções originais estão versionados, e reconstruir os dados de entrada exige rodá-los novamente sob a mesma plataforma, com os mesmos identificadores de execução e a mesma configuração declarada no Capítulo~\ref{sec:Experiments}. O custo é o da campanha experimental original, e não o de um download. O repositório distribui o que é necessário para refazer o percurso; não distribui um atalho para o seu resultado intermediário.
+Para essas famílias, a via disponível não é recuperar, é \textbf{reexecutar}. Os roteiros de experimento que produziram as execuções originais estão versionados, e reconstruir os dados de entrada exige rodá-los novamente sob a mesma plataforma, com os mesmos identificadores de execução e a mesma configuração declarada no Capítulo~\ref{sec:Experiments}. O custo é o da campanha experimental original.
 
 Essa assimetria está declarada nas ameaças à validade, no Capítulo~\ref{sec:threats}, e é registrada aqui para que o leitor possa distinguir, ao consultar cada resultado, qual dos três níveis de garantia se aplica.
 

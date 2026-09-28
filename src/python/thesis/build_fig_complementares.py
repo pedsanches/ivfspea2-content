@@ -32,6 +32,7 @@ import sys
 import numpy as np
 import pandas as pd
 
+import ptbr_format as fmt
 from ivfspea2.figstyle import apply_paper_style
 
 import matplotlib.patches as mpatches
@@ -59,7 +60,13 @@ FIG_MIRROR = THESIS_GENERATED / "figures"
 
 def _fmt(valor: float, casas: int = 2) -> str:
     """Formata um número em ponto-fixo com vírgula decimal pt-BR."""
-    return f"{valor:.{casas}f}".replace(".", ",")
+    return fmt.plain(valor, casas)
+
+
+def _cor_texto(cmap, norm: Normalize, valor: float) -> str:
+    """Preto sobre células claras e branco sobre escuras, pela luminância da cor."""
+    r, g, b, _ = cmap(norm(valor))
+    return "black" if 0.299 * r + 0.587 * g + 0.114 * b > 0.5 else "white"
 
 
 def _salvar(fig: plt.Figure, nome: str) -> None:
@@ -102,8 +109,7 @@ def _painel_grade(
             val = dados[i, j]
             if np.isnan(val):
                 continue
-            cor_texto = "white" if val < norm.vmin + 0.55 * (norm.vmax - norm.vmin) else "black"
-            ax.text(j, i, _fmt(val), ha="center", va="center", fontsize=7.5, color=cor_texto, fontweight="bold")
+            ax.text(j, i, _fmt(val), ha="center", va="center", fontsize=7.5, color=_cor_texto(cmap, norm, val), fontweight="bold")
 
     try:
         r_idx = r_vals.index(estrela_r)
@@ -119,7 +125,7 @@ def _painel_grade(
     ax.set_xticklabels([_fmt(v) for v in c_vals], fontsize=8)
     ax.set_yticks(range(len(r_vals)))
     ax.set_yticklabels([_fmt(v, 3) for v in r_vals], fontsize=8)
-    ax.set_xlabel("Tamanho da coleção ($c$)", fontsize=9)
+    ax.set_xlabel("Tamanho da coleta ($c$)", fontsize=9)
     ax.set_ylabel("Taxa de execução ($r$)", fontsize=9)
     ax.set_title(titulo, fontsize=9, fontweight="bold", pad=6)
     ax.grid(False)
@@ -139,13 +145,13 @@ def _painel_barras(ax: plt.Axes, fase_b: pd.DataFrame, titulo: str, norm: Normal
         markeredgecolor="white", markeredgewidth=0.7, zorder=10, clip_on=False,
     )
     for i, val in enumerate(postos):
-        cor_texto = "white" if val < norm.vmin + 0.55 * (norm.vmax - norm.vmin) else "black"
-        ax.text(val - 0.015, y[i], _fmt(val), ha="right", va="center", fontsize=7.5, color=cor_texto, fontweight="bold")
+        ax.text(val - 0.015, y[i], _fmt(val), ha="right", va="center", fontsize=7.5, color=_cor_texto(cmap, norm, val), fontweight="bold")
 
     ax.set_yticks(y)
     ax.set_yticklabels(rotulos, fontsize=8)
     ax.set_xlabel("Posto médio combinado", fontsize=9)
     ax.set_xlim(0, norm.vmax * 1.08)
+    ax.xaxis.set_major_formatter(fmt.axis_formatter())
     ax.invert_yaxis()
     ax.set_title(titulo, fontsize=9, fontweight="bold", pad=6)
     ax.grid(False)
@@ -184,14 +190,15 @@ def figura_calibracao() -> bool:
     ax_c = fig.add_subplot(gs[0, 2])
     cax = fig.add_subplot(gs[0, 3])
 
-    _painel_grade(ax_a, dados_a, r_a, c_a, 0.200, 0.16, "(a) Fase A --- varredura ampla", norm, cmap)
-    _painel_barras(ax_b, fase_b, "(b) Fase B --- perfil de operador", norm, cmap)
-    im_c = _painel_grade(ax_c, dados_c, r_c, c_c, 0.225, 0.12, "(c) Fase C --- refinamento local", norm, cmap)
+    _painel_grade(ax_a, dados_a, r_a, c_a, 0.200, 0.16, "(a) Fase A \u2014 varredura ampla", norm, cmap)
+    _painel_barras(ax_b, fase_b, "(b) Fase B \u2014 perfil de operador", norm, cmap)
+    im_c = _painel_grade(ax_c, dados_c, r_c, c_c, 0.225, 0.12, "(c) Fase C \u2014 refinamento local", norm, cmap)
     ax_c.set_ylabel("")
 
     cbar = fig.colorbar(im_c, cax=cax)
     cbar.set_label("Posto médio combinado\n(menor é melhor)", fontsize=8)
     cbar.ax.tick_params(labelsize=8)
+    cbar.ax.yaxis.set_major_formatter(fmt.axis_formatter())
 
     fig.subplots_adjust(left=0.07, right=0.95, bottom=0.20, top=0.86)
     _salvar(fig, "fig_calibracao.pdf")
@@ -214,7 +221,7 @@ ORDEM_ALGORITMO_ENG = [
 ROTULO_ALGORITMO_ENG = {
     "IVFSPEA2": "IVF/SPEA2",
     "SPEA2": "SPEA2",
-    "MFOSPEA2": "MFO/SPEA2",
+    "MFOSPEA2": "MFO-SPEA2",
     "SPEA2SDE": "SPEA2+SDE",
     "NSGAII": "NSGA-II",
     "NSGAIII": "NSGA-III",
@@ -277,9 +284,10 @@ def _painel_engenharia(ax: plt.Axes, dados: pd.DataFrame, metrica: str, problema
     # um rótulo largo o bastante para ser cortado na borda direita da página.
     if metrica == "IGD":
         ax.set_xscale("log")
-        ax.set_xlabel("IGD (mediana e IQR)", fontsize=12)
+        ax.set_xlabel("IGD: mediana e quartis", fontsize=12)
     else:
-        ax.set_xlabel("HV (mediana e IQR)", fontsize=12)
+        ax.set_xlabel("HV: mediana e quartis", fontsize=12)
+        ax.xaxis.set_major_formatter(fmt.axis_formatter())
 
     # Os rótulos "n=" vivem fora da área de dados (coordenada de eixo em x,
     # dado em y), para nunca colidir com o marcador de mediana ou a barra de
@@ -376,12 +384,9 @@ def figura_hospedeiros() -> bool:
 
     ax.set_xticks(range(len(rotulos)))
     ax.set_xticklabels(rotulos, fontsize=12)
-    ax.set_ylabel(
-        "Tamanho de efeito orientado de Vargha--Delaney do IGD ($A_{12}$)\n"
-        "(> 0,5 favorece o IVF; < 0,5 favorece o hospedeiro)",
-        fontsize=10,
-    )
+    ax.set_ylabel("$A_{12}$ orientado do IGD\n(> 0,5 favorece o IVF)", fontsize=10)
     ax.set_ylim(-0.02, 1.02)
+    ax.yaxis.set_major_formatter(fmt.axis_formatter())
     ax.tick_params(labelsize=10)
     ax.spines[["top", "right"]].set_visible(False)
 
@@ -450,9 +455,10 @@ def figura_ativacao() -> bool:
     ax.text(LIMIAR_TURNOVER, 1.62, f"limiar = {_fmt(LIMIAR_TURNOVER, 3)}", ha="center", fontsize=8.5)
 
     ax.set_yticks([0, 1])
-    ax.set_yticklabels([f"Ajuda (HELPS, $n$={len(helps)})", f"Não ajuda (NOT_HELPS, $n$={len(not_helps)})"], fontsize=10)
+    ax.set_yticklabels([f"Ajuda ($n$ = {len(helps)})", f"Não ajuda ($n$ = {len(not_helps)})"], fontsize=10)
     ax.set_xlabel("Renovação do arquivo na fase inicial da execução", fontsize=10)
     ax.set_ylim(-0.6, 1.85)
+    ax.xaxis.set_major_formatter(fmt.axis_formatter())
     ax.spines[["top", "right"]].set_visible(False)
 
     _salvar(fig, "fig_ativacao_turnover.pdf")

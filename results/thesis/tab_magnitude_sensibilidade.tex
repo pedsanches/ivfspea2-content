@@ -1,0 +1,24 @@
+% Gerado por src/python/thesis/build_tab_magnitude_confirmatoria.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: data/processed/todas_metricas_consolidado_with_modern.csv
+\begin{table}[!htb]
+    \centering
+    \small
+    \setlength{\tabcolsep}{5pt}
+    \caption{Sensibilidade exploratória da diferença relativa das medianas de IGD.}
+    \label{tab:magnitude_sensibilidade}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrr@{}}
+        \toprule
+        \textbf{Instância} & \textbf{$M$} & \textbf{$\Delta$ IGD (\%)} & \textbf{IC bootstrap 95\%} \\
+        \midrule
+        WFG1 & M2 & $+24{,}07$ & [$-4{,}55$, $+37{,}34$] \\
+        WFG6 & M2 & $-8{,}87$ & [$-25{,}55$, $+3{,}81$] \\
+        DTLZ4 & M3 & $+0{,}92$ & [$-884{,}49$, $+2{,}07$] \\
+        MaF5 & M3 & $-0{,}21$ & [$-505{,}66$, $+1{,}66$] \\
+        \bottomrule
+    \end{tabular*}
+    \par\smallskip
+    \parbox{\textwidth}{\footnotesize
+    Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, 60 execuções independentes por algoritmo e instância. $\Delta$ é a diferença entre medianas em porcentagem da mediana do SPEA2; valores positivos favorecem IVF/SPEA2. O IC percentil de 95\% resulta de 10.000 reamostragens independentes com reposição dentro de cada algoritmo/instância (semente 20260927). Ele não é ajuste de Holm, não demonstra equivalência e não é intervalo para uma proporção de problemas; a tabela não sustenta inferência global.
+    }
+\end{table}

@@ -1,0 +1,10 @@
+problem,separable,modality,bias,source_note
+WFG1,yes,unimodal,polynomial_flat,Huband et al. 2006; table of WFG problem properties: S; U; polynomial and flat bias
+WFG2,no,unimodal_fm_multimodal,none,Huband et al. 2006; table of WFG problem properties: NS; U for f1..f(M-1) and M for fM; no bias
+WFG3,no,unimodal,none,Huband et al. 2006; table of WFG problem properties: NS; U; no bias
+WFG4,yes,multimodal,none,Huband et al. 2006; table of WFG problem properties: S; M; no bias
+WFG5,yes,deceptive,none,Huband et al. 2006; table of WFG problem properties: S; D; no bias
+WFG6,no,unimodal,none,Huband et al. 2006; table of WFG problem properties: NS; U; no bias
+WFG7,yes,unimodal,parameter_dependent,Huband et al. 2006; table of WFG problem properties: S; U; parameter-dependent bias
+WFG8,no,unimodal,parameter_dependent,Huband et al. 2006; table of WFG problem properties: NS; U; parameter-dependent bias
+WFG9,no,multimodal_deceptive,parameter_dependent,Huband et al. 2006; table of WFG problem properties: NS; M and D; parameter-dependent bias

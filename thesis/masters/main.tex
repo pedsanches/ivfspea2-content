@@ -21,7 +21,7 @@
   \endgroup
   \clearpage
 }
-% Posicionamento de floats. Os capítulos de resultados carregam 16 tabelas e 7
+% Posicionamento de floats. Os capítulos de resultados carregam 18 tabelas e 6
 % figuras, e com os padrões do LaTeX o acúmulo produzia uma página só de floats
 % ("Text page N contains only floats"). Estes valores dão mais espaço a floats
 % no topo e exigem um mínimo de texto por página, mantendo cada float perto do
@@ -33,6 +33,17 @@
 \setcounter{topnumber}{3}
 \setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{4}
+
+% Tabelas. Só filetes horizontais (booktabs), sem filete vertical: a tabela fica
+% aberta nas laterais, como na apresentação tabular do IBGE adotada pela ABNT.
+% Toda tabela ocupa a largura do texto: tabularx quando há coluna de texto com
+% quebra de linha (tipo L), tabular* nas demais. O corpo é \small e a nota,
+% \footnotesize; nenhuma tabela é escalada. Como a legenda fica acima da tabela,
+% position=top põe o espaço da legenda entre ela e o filete superior.
+\usepackage{booktabs}
+\usepackage{tabularx}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\captionsetup[table]{position=top}
 
 % Pseudocódigo do Capítulo da proposta. A classe não carrega estes pacotes.
 \usepackage{algorithm}
@@ -169,6 +180,7 @@
 
 \input{./pos/apend_I}
 \input{./pos/apend_II}
+\input{./pos/apend_III}
 
 \end{document}
 

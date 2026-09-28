@@ -3,24 +3,27 @@
 % Fonte: results/tables/hosts_geometry_summary.csv
 \begin{table}[!htb]
     \centering
-    \caption{Compatibilidade operador--hospedeiro estratificada pela geometria da fronteira de Pareto.}
+    \small
+    \caption{Contagens de cada acoplamento IVF contra o seu hospedeiro, estratificadas pela geometria da fronteira de Pareto.}
     \label{tab:hosts_geometria}
-    \begin{tabular}{|l|c|c|c|c|c|}
-        \hline
-        \textbf{Acoplamento} & \textbf{Métrica} & \textbf{Regular (V/E/D)} & \textbf{$A_{12}$} & \textbf{Irregular (V/E/D)} & \textbf{$A_{12}$} \\
-        \hline
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccc@{}}
+        \toprule
+        \multicolumn{2}{@{}c}{} & \multicolumn{2}{c}{\textbf{Regular ($n=40$)}} & \multicolumn{2}{c@{}}{\textbf{Irregular ($n=11$)}} \\
+        \cmidrule(lr){3-4}\cmidrule(l){5-6}
+        \textbf{Acoplamento} & \textbf{Métrica} & \textbf{V/E/D} & \textbf{$A_{12}$} & \textbf{V/E/D} & \textbf{$A_{12}$} \\
+        \midrule
         IVF/SPEA2 & IGD & 28/11/1 & $0{,}781$ & 5/4/2 & $0{,}642$ \\
          & HV & 30/8/2 & $0{,}850$ & 7/2/2 & $0{,}702$ \\
-        \hline
+        \midrule
         IVF/NSGA-III & IGD & 20/20/0 & $0{,}687$ & 2/9/0 & $0{,}529$ \\
          & HV & 18/20/2 & $0{,}676$ & 3/8/0 & $0{,}501$ \\
-        \hline
+        \midrule
         IVF/NSGA-II & IGD & 1/37/2 & $0{,}536$ & 0/11/0 & $0{,}427$ \\
          & HV & 5/33/2 & $0{,}564$ & 0/10/1 & $0{,}517$ \\
-        \hline
-    \end{tabular}
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Estratificação por geometria da fronteira de Pareto: regular ($n = 40$: convexa, côncava ou linear) e irregular ($n = 11$: desconectada ou degenerada), conforme \texttt{config/hosts\_front\_geometry.csv}. $A_{12}$ é a mediana do tamanho de efeito de Vargha--Delaney orientado a favor do acoplamento IVF; valores acima de $0{,}5$ favorecem o IVF. Os testes de interação entre hospedeiro e geometria não atingiram significância, de modo que a estratificação é descritiva.
+    \parbox{\textwidth}{\footnotesize
+    Vitórias/empates/derrotas (V/E/D) de cada acoplamento contra o seu hospedeiro, com o mesmo teste, a mesma correção e o mesmo pareamento da Tabela~\ref{tab:hosts_wtl}, estratificadas pela geometria da fronteira de Pareto: regular (convexa, côncava ou linear) e irregular (desconectada ou degenerada), conforme \texttt{config/hosts\_front\_geometry.csv}. $A_{12}$ é a mediana do tamanho de efeito de Vargha--Delaney orientado a favor do acoplamento IVF; valores acima de $0{,}5$ favorecem o IVF. Os testes de interação entre hospedeiro e geometria não atingiram significância, de modo que a estratificação é descritiva.
     }
 \end{table}

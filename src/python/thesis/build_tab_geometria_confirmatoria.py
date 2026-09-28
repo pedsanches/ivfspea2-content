@@ -18,9 +18,11 @@ Duas grandezas por grupo de geometria:
   procedimento de correção;
 * mediana do $A_{12}$ orientado, que não depende de decisão binária.
 
-A distinção importa porque as duas famílias concordam na segunda e divergem
-na primeira: com 60 execuções a taxa de vitória satura nos dois grupos de
-geometria, enquanto com 30 ela cai mais no grupo de efeito menor.
+A distinção importa porque as duas famílias exibem gradiente semelhante na
+segunda e contagens diferentes na primeira. Número de execuções, teste,
+alinhamento e correção mudam juntos entre as famílias e não foram isolados, e
+o par IVF/SPEA2 da família de hospedeiros é um subconjunto da coorte
+confirmatória: a semelhança do gradiente não é corroboração independente.
 
 Lê:
     results/tables/claims_summary_instance_details.csv   (desfecho por instância, Holm)
@@ -51,6 +53,10 @@ HOSTS = RESULTS_TABLES / "hosts_geometry_summary.csv"
 OUT = RESULTS_THESIS / "tab_geometria_confirmatoria.tex"
 
 GRUPOS = [("regular", "Regular"), ("irregular", "Irregular")]
+# Contagens até dez por extenso na nota, como no texto ("as duas derrotas").
+_POR_EXTENSO = dict(
+    enumerate(["zero", "uma", "duas", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez"])
+)
 
 
 def _mapa_geometria() -> dict[str, str]:
@@ -110,14 +116,14 @@ def main() -> int:
     ]
 
     rows: list[list[str] | object] = []
-    for chave, rotulo in GRUPOS:
+    for posicao, (chave, rotulo) in enumerate(GRUPOS):
         bloco = detalhes[detalhes["geo"] == chave]
         vitorias = int((bloco["indicator_holm"] == "+").sum())
         derrotas = int((bloco["indicator_holm"] == "-").sum())
         empates = len(bloco) - vitorias - derrotas
         rows.append(
             [
-                "Confirmatória",
+                "Confirmatória" if posicao == 0 else "",
                 rotulo,
                 str(len(bloco)),
                 fmt.wtl(vitorias, empates, derrotas),
@@ -127,11 +133,11 @@ def main() -> int:
 
     rows.append(lt.Rule)
 
-    for chave, rotulo in GRUPOS:
+    for posicao, (chave, rotulo) in enumerate(GRUPOS):
         linha = hosts[hosts["geometry"] == chave].iloc[0]
         rows.append(
             [
-                "Hospedeiros",
+                "Hospedeiros" if posicao == 0 else "",
                 rotulo,
                 str(int(linha["n_instances"])),
                 fmt.wtl(int(linha["wins"]), int(linha["ties"]), int(linha["losses"])),
@@ -146,17 +152,48 @@ def main() -> int:
             a12.loc[a12["geo"] == "irregular", "a12"],
         ).pvalue
     )
+    # A nota afirma que a diferença não atinge significância.
+    if p_conf < 0.05:
+        print(f"ERRO: a nota supõe p >= 0,05 entre geometrias; p = {p_conf:.4f}", file=sys.stderr)
+        return 1
 
+    # Na família confirmatória, as derrotas em fronteira irregular vêm de um só
+    # problema; a nota diz isso, e o gerador falha se deixar de ser verdade.
+    irregulares = detalhes[detalhes["geo"] == "irregular"]
+    derrotas_irr = irregulares[irregulares["indicator_holm"] == "-"]
+    problemas_irr = sorted(derrotas_irr["Problema"].unique())
+    if len(problemas_irr) != 1:
+        print(
+            f"ERRO: a nota supõe um único problema entre as derrotas irregulares; há {problemas_irr}",
+            file=sys.stderr,
+        )
+        return 1
+    valores_m = " e ".join(f"$M = {m[-1]}$" for m in sorted(derrotas_irr["M"]))
+    # MaF7 é implementado como o DTLZ7: cada M em que ambos são irregulares
+    # conta uma função a menos.
+    repeticoes = sum(
+        1
+        for m in irregulares["M"].unique()
+        if {"DTLZ7", "MaF7"} <= set(irregulares.loc[irregulares["M"] == m, "Problema"])
+    )
+
+    # A leitura das duas famílias lado a lado (a taxa de vitória satura com 60
+    # execuções e cai com 30) está no texto que cita a tabela; a nota fica com
+    # protocolo, definições e as ressalvas sobre o que n e as derrotas contam.
     note = (
         "Famílias com protocolos distintos: a confirmatória usa 60 execuções por configuração "
-        "e correção de Holm; a de hospedeiros usa 30 e Benjamini--Hochberg, e a sua coluna "
-        "IVF/SPEA2 é um subconjunto da coorte confirmatória. As contagens das duas famílias "
+        "e correção de Holm; a de hospedeiros usa 30 e Benjamini--Hochberg, e o seu par "
+        "IVF/SPEA2 usa um subconjunto da coorte confirmatória. As contagens das duas famílias "
         "não se somam. O $A_{12}$ é orientado de modo que valores acima de $0{,}5$ favoreçam o "
-        "IVF/SPEA2. As duas famílias concordam na magnitude do efeito e diferem apenas na "
-        "decisão binária do teste: com 60 execuções a taxa de vitória satura nos dois grupos de "
-        "geometria, enquanto com 30 ela cai mais no grupo de efeito menor. A diferença de "
-        f"$A_{{12}}$ entre geometrias não atinge significância na família confirmatória "
-        f"({fmt.pvalue(p_conf)}, Mann--Whitney), e a estratificação é descritiva nas duas."
+        "IVF/SPEA2. A diferença de $A_{12}$ entre geometrias não atinge significância na "
+        f"família confirmatória ($p = {fmt.decimal(p_conf).strip('$')}$, Mann--Whitney), e a "
+        "estratificação é descritiva nas duas. Na família confirmatória, as "
+        f"{_POR_EXTENSO.get(len(derrotas_irr), str(len(derrotas_irr)))} derrotas irregulares "
+        f"são um único problema, {problemas_irr[0]}, "
+        f"com {valores_m}, e as {len(irregulares)} instâncias irregulares correspondem a "
+        f"{_POR_EXTENSO.get(len(irregulares) - repeticoes, str(len(irregulares) - repeticoes))} "
+        "funções, porque o MaF7 repete o DTLZ7 "
+        "(Seção~\\ref{sec:suites})."
     )
 
     content = lt.render(
@@ -168,10 +205,11 @@ def main() -> int:
             "$A_{12}$ mediano",
         ],
         rows=rows,
-        colspec="|l|l|c|c|c|",
+        colspec="llccc",
         caption=(
-            "A geometria da fronteira frente ao desfecho, nas duas famílias que a testam. "
-            "As derrotas do acoplamento não se concentram nas fronteiras irregulares."
+            "Vitórias, empates e derrotas em IGD e $A_{12}$ mediano do IVF/SPEA2 contra o "
+            "SPEA2, por geometria da fronteira de Pareto, nas duas famílias que testam a "
+            "associação."
         ),
         label="tab:geometria_confirmatoria",
         producer=__file__,

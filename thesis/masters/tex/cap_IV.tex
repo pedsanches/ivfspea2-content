@@ -1,16 +1,16 @@
 \chapter{Proposta}
 \label{sec:Proposal}
 
-O SPEA2 decide quem sobrevive combinando dominância e densidade: a aptidão $F(i) = R(i) + D(i)$ da Equação~\ref{eq:final_fitness} soma a força de dominância acumulada ao inverso da distância ao $k$-ésimo vizinho mais próximo. Essa combinação é o que dá ao algoritmo o seu equilíbrio entre convergência e distribuição, e é também o que cria a dificuldade explorada nesta dissertação: um descendente gerado por intensificação local nasce, por construção, próximo dos seus progenitores, portanto em uma região densa, e a componente $D(i)$ penaliza exatamente essa proximidade. A seleção ambiental pode assim descartar a solução que a intensificação produziu, mesmo quando ela representa avanço em direção à fronteira.
+O SPEA2 decide quem sobrevive combinando dominância e densidade. A aptidão $F(i) = R(i) + D(i)$ da Equação~\ref{eq:final_fitness} soma a aptidão bruta, derivada da força dos indivíduos que dominam $i$, a um termo que decresce com a distância ao $k$-ésimo vizinho mais próximo; e a truncagem do arquivo, quando há mais soluções não dominadas do que vagas, remove primeiro as mais próximas das vizinhas. Essa combinação busca equilibrar convergência e distribuição, e é também a origem da dificuldade explorada nesta dissertação. Um descendente gerado por intensificação local tende a nascer perto dos progenitores; se eles ocupam uma região já povoada, o descendente nasce numa região densa, que a seleção desfavorece. A seleção ambiental pode, assim, descartar uma solução não dominada produzida pela intensificação.
 
-O método IVF, apresentado na Seção~\ref{sec:ivf}, é um mecanismo de intensificação seletiva: coleta material genético de qualidade, recombina-o sob controle e devolve ao hospedeiro apenas o que sobrevive a um critério de continuação. Acoplá-lo ao SPEA2 exige, então, resolver duas questões que os acoplamentos anteriores do IVF a algoritmos hospedeiros não enfrentaram, porque seus hospedeiros ordenam soluções de outra maneira. A primeira é como escolher os progenitores de modo que os descendentes não se concentrem em um único ponto do espaço de objetivos. A segunda é sob qual critério decidir se vale executar mais um ciclo de intensificação.
+O método IVF, apresentado na Seção~\ref{sec:ivf}, é um mecanismo de intensificação seletiva: coleta material genético de qualidade, recombina-o sob controle e devolve ao hospedeiro apenas o que sobrevive a um critério de continuação. Acoplá-lo ao SPEA2 exige responder a duas questões que os acoplamentos anteriores do IVF responderam para hospedeiros que ordenam soluções de outra maneira. A primeira é como escolher os progenitores de modo que os descendentes não se concentrem numa mesma região do espaço de objetivos. A segunda é sob qual critério decidir se vale executar mais um ciclo de intensificação.
 
-A proposta desta dissertação, denominada IVF/SPEA2, preserva o fluxo operacional do SPEA2~\cite{zitzler2001spea2} e insere o método IVF como operador auxiliar sujeito a orçamento, num acoplamento integrativo no sentido de Blum et al.~\cite{blum2011hybrid} discutido na Seção~\ref{sec:hibridizacao}. Duas decisões de acoplamento respondem às questões acima: a \textbf{seleção de pai dissimilar}, que atribui a cada mãe um pai distinto escolhido por distância no espaço de objetivos, e o \textbf{critério coletivo de continuação}, que condiciona novos ciclos à melhora da aptidão média da população em vez da qualidade de um único descendente. As duas são específicas do hospedeiro: ambas são avaliadas contra a aptidão do SPEA2 depois da seleção ambiental.
+A proposta desta dissertação, denominada IVF/SPEA2, preserva o fluxo operacional do SPEA2~\cite{zitzler2001spea2} e insere o método IVF como operador auxiliar sujeito a orçamento, num acoplamento integrativo no sentido de Blum et al.~\cite{blum2011hybrid} discutido na Seção~\ref{sec:hibridizacao}. Duas decisões de acoplamento respondem às questões acima: a \textbf{seleção de pai dissimilar}, que escolhe o pai de cada mãe entre os candidatos mais distantes dela no espaço de objetivos, e o \textbf{critério coletivo de continuação}, que condiciona novos ciclos à melhora da aptidão média da população, e não ao desempenho de um único descendente. As duas são específicas do hospedeiro porque ambas usam a aptidão do SPEA2: a primeira, no torneio que escolhe o pai; a segunda, na comparação que decide o ciclo seguinte.
 
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=\textwidth]{fig/fluxo_ivfspea2_pt.pdf}
-\caption{Fluxo operacional do IVF/SPEA2. \textbf{Legenda:} linhas contínuas representam o fluxo do algoritmo hospedeiro SPEA2; linhas tracejadas indicam o fluxo condicional e a integração do módulo IVF; a caixa destacada é o módulo de fertilização \textit{in vitro}; setas bidirecionais mostram a troca de informação entre hospedeiro e módulo; losangos são pontos de decisão.}
+\caption[Fluxo operacional do IVF/SPEA2]{Fluxo operacional do IVF/SPEA2. \textbf{Legenda:} linhas contínuas representam o fluxo do algoritmo hospedeiro SPEA2; linhas tracejadas indicam o fluxo condicional e a integração do módulo IVF; a caixa destacada é o módulo de fertilização \textit{in vitro}; setas bidirecionais mostram a troca de informação entre hospedeiro e módulo; losangos são pontos de decisão.}
 \label{fig:ivf_spea2_flow}
 \end{figure*}
 
@@ -22,48 +22,50 @@ O módulo IVF é invocado antes da geração de descendentes do SPEA2 e se compo
 FE_{\text{IVF}} \leq r \cdot FE,
 \label{eq:gatilho_ivf}
 \end{equation}
-em que $FE_{\text{IVF}}$ é o total de avaliações já consumidas pelo módulo e $FE$ o total de avaliações consumidas pela execução. O SPEA2 então gera os $N - n_{\text{ivf}}$ descendentes restantes com seus operadores padrão; no caso limite em que o módulo consome a cota inteira, $n_{\text{ivf}} = N$ e o hospedeiro não gera descendente algum naquela geração. Se o módulo não é ativado, ou termina antes de consumir qualquer avaliação, $n_{\text{ivf}} = 0$ e a geração é idêntica à do SPEA2 canônico.
+em que $FE_{\text{IVF}}$ é o total de avaliações já consumidas pelo módulo e $FE$ o total de avaliações consumidas pela execução. O SPEA2 então gera os $N - n_{\text{ivf}}$ descendentes restantes com seus operadores padrão; no caso limite em que o módulo consome a cota inteira, $n_{\text{ivf}} = N$ e o hospedeiro não gera descendente algum naquela geração. Se o módulo não é ativado, ou termina antes de consumir qualquer avaliação, $n_{\text{ivf}} = 0$ e o hospedeiro gera os $N$ descendentes da geração. Mesmo nesse caso, a geração não é idêntica à do SPEA2 da plataforma: antes do torneio de reprodução, o IVF/SPEA2 recalcula a aptidão sobre a população corrente, enquanto o SPEA2 da plataforma usa a aptidão calculada na seleção ambiental anterior, sobre a união da população com os descendentes. O Capítulo~\ref{sec:threats} examina a consequência dessa diferença para a comparação.
 
-A Equação~\ref{eq:gatilho_ivf} tem uma consequência que importa para a interpretação dos resultados: como $FE$ cresce a cada geração enquanto $FE_{\text{IVF}}$ só cresce quando o módulo é ativado, a condição fica progressivamente mais difícil de satisfazer. A intensificação concentra-se, portanto, na fase inicial da execução, e o algoritmo converge para o comportamento do hospedeiro à medida que o orçamento se esgota. Esse não é um efeito colateral: é o mecanismo pelo qual o parâmetro $r$ controla a influência do módulo sem exigir intervenção por instância.
+A Equação~\ref{eq:gatilho_ivf} limita a fração acumulada das avaliações consumidas pelo módulo, e não a fase da execução em que ele age. Numa geração sem ativação, $FE$ cresce e $FE_{\text{IVF}}$ não, o que torna a condição mais fácil de satisfazer na geração seguinte; ao fim de cada geração, $FE_{\text{IVF}}$ nunca excede $r \cdot FE$ em mais do que o consumo de uma ativação. Na configuração adotada, uma ativação consome 12 ou 24 avaliações, conforme execute um ou dois ciclos, enquanto a margem do gatilho cresce $r \cdot N = 22{,}5$ avaliações por geração. Com um ciclo por ativação, a condição permanece satisfeita em todas as gerações. No limite em que toda ativação executa os dois ciclos, o módulo fica inativo em uma de cada 16 gerações, distribuídas uniformemente ao longo da execução, porque 15 ativações de 24 avaliações esgotam a margem de 16 gerações, $16 \times 22{,}5 = 360$ avaliações. O parâmetro $r$ controla, portanto, a parcela do orçamento destinada ao módulo, sem exigir intervenção por instância. O manuscrito de origem~\cite{zambrano2026ivfspea2} atribui ao gatilho a propriedade oposta, a de se tornar mais difícil de satisfazer ao longo da execução; a regra implementada não tem essa propriedade.
 
-O orçamento por geração é preservado exatamente. Na configuração usada nos experimentos ($N = 100$, $c = 0{,}12$), cada ciclo de IVF consome 12 avaliações e, com no máximo dois ciclos, o módulo consome 12 ou 24 avaliações numa geração ativada; a cota restante do hospedeiro é 88 ou 76, e o total da geração permanece em exatamente 100 avaliações. A comparação desta dissertação é, por isso, normalizada por avaliações e não por tempo de execução --- uma distinção necessária, porque o IVF/SPEA2 incorre em custo adicional de relógio que a Seção~\ref{sec:custo} quantifica.
+O orçamento por geração é preservado exatamente. Na configuração usada nos experimentos ($N = 100$, $c = 0{,}12$), cada ciclo de IVF consome 12 avaliações e, com no máximo dois ciclos, o módulo consome 12 ou 24 avaliações numa geração ativada; a cota restante do hospedeiro é 88 ou 76, e o total da geração permanece em exatamente 100 avaliações. A comparação desta dissertação é, por isso, normalizada por avaliações e não por tempo de execução --- uma distinção necessária, porque o IVF/SPEA2 incorre em custo adicional de relógio, que a Seção~\ref{sec:custo} analisa em termos assintóticos.
 
 \section{Adaptações ao SPEA2}
 \label{sec:adaptacoes}
 
-Hospedeiros que ordenam soluções por dominância mais aglomeração, como o NSGA-II, tornam a leitura da aptidão relativamente direta: um posto melhor indica, em geral, uma solução preferível. No SPEA2 isso não vale. A componente de densidade
+O módulo IVF usa a aptidão do hospedeiro para coletar as mães, para compor o conjunto de pais e escolher o pai de cada mãe, e para decidir se executa outro ciclo. No SPEA2, essa aptidão não mede distância à fronteira de Pareto. Como $R(i)$ é inteiro e a componente de densidade
 \begin{equation*}
 D(i) = \frac{1}{\sigma_i^k + 2}
 \end{equation*}
-da Equação~\ref{eq:density_estimation} usa a distância ao $k$-ésimo vizinho mais próximo --- com $k$ tomado sobre a população e o conjunto arquivo reunidos, conforme a Seção~\ref{sec:spea2} --- e não ao vizinho imediato. O menor valor de $F(i)$ pode assim pertencer a uma solução situada numa região esparsa da fronteira, e não à solução mais próxima do ótimo. As duas decisões de acoplamento descritas a seguir existem para alinhar o módulo IVF a essa lógica.
+da Equação~\ref{eq:density_estimation} satisfaz $D(i) \leq 1/2$, $F(i)$ ordena primeiro pela aptidão bruta e usa a densidade apenas para desempatar; e a densidade é calculada pela distância ao $k$-ésimo vizinho mais próximo, com $k$ tomado sobre a população e o conjunto arquivo reunidos (Seção~\ref{sec:spea2}), e não pela distância ao vizinho imediato. Entre as soluções não dominadas, o menor valor de $F(i)$ pertence, portanto, à solução situada na região menos povoada, e não à mais próxima do ótimo. As duas decisões de acoplamento descritas a seguir partem dessa propriedade. Os argumentos que as motivam são de projeto, e não resultados: se elas explicam o ganho observado é a QP2, respondida na Seção~\ref{sec:resposta_qp2}.
 
 \subsection{Seleção de pai dissimilar}
 \label{sec:pai_dissimilar}
 
-Nas formulações anteriores do IVF, as mães coletadas compartilhavam um mesmo pai. Sob a aptidão do SPEA2 essa escolha é contraproducente: descendentes de um progenitor comum ficam correlacionados no espaço de objetivos, ocupam a mesma vizinhança e passam a penalizar-se mutuamente pela componente $D(i)$. Quanto mais a intensificação concentra soluções numa mesma vizinhança, mais forte a penalização que ela própria provoca.
+Nas formulações anteriores do IVF, as mães coletadas compartilhavam um mesmo pai. O SBX com $\eta_c = 20$ gera descendentes cujas variáveis de decisão ficam próximas das variáveis correspondentes de um dos progenitores~\cite{deb1995simulated}, de modo que os descendentes de um pai comum ficam próximos desse pai em parte das variáveis. A hipótese que motiva a decisão é que essa herança comum, quando se transmite ao espaço de objetivos, concentra os descendentes de um ciclo numa mesma vizinhança. Ali, a seleção ambiental do SPEA2 os desfavorece uns em relação aos outros: pela truncagem, quando são não dominados e excedem o arquivo, e pelo termo $D(i)$, quando são dominados.
 
-O IVF/SPEA2 atribui a cada mãe um pai distinto, escolhido em dois passos. Primeiro, calculam-se as distâncias euclidianas da mãe a todos os candidatos do conjunto de pais, sobre os vetores de objetivos brutos e sem normalização adicional, e retêm-se os $K = \min(3, |\text{conjunto de pais}|)$ candidatos mais distantes. Em seguida, o pai é definido entre esses candidatos por torneio binário sobre a aptidão. O primeiro passo busca diversidade; o segundo preserva pressão seletiva. A mãe é excluída do seu próprio conjunto de candidatos, o que impede a autorrecombinação.
+O IVF/SPEA2 escolhe o pai de cada mãe em dois passos, sobre o conjunto de pais formado pelas $\operatorname{round}(N/2)$ soluções de menor $F(i)$. Primeiro, calculam-se as distâncias euclidianas entre o vetor de objetivos da mãe e os dos candidatos, sem normalização; a mãe, quando pertence a esse conjunto, é excluída dos próprios candidatos, e retêm-se os $K = \min(3, n_c)$ mais distantes, em que $n_c$ é o número de candidatos restantes. Em seguida, dois desses $K$ candidatos são sorteados, e o de menor $F(i)$ é o pai. O primeiro passo busca dissimilaridade entre os progenitores; o segundo preserva pressão seletiva. A distância usa o vetor de objetivos avaliado da mãe: quando o EAR-PA a perturba (Seção~\ref{sec:manipulacao}), a recombinação usa a mãe perturbada, que não é reavaliada antes dela.
 
-O operador não impõe pareamento um-a-um nem remoção de duplicatas. A concentração excessiva de descendentes é tratada indiretamente, pela própria componente de densidade do hospedeiro.
+A decisão diversifica o pai de cada mãe, mas não garante descendentes dispersos. Mães diferentes podem receber o mesmo pai, porque o operador não impõe pareamento um-a-um nem remove duplicatas, e a dissimilaridade é medida entre mãe e pai, e não entre os descendentes. A concentração que ainda ocorrer fica a cargo da seleção ambiental do hospedeiro.
 
 \subsection{Critério coletivo de continuação}
 \label{sec:critério_coletivo}
 
-A segunda decisão diz respeito a quando interromper a intensificação. As formulações anteriores condicionavam um novo ciclo à qualidade de um descendente individual, medida por dominância direta contra as soluções de elite. Esse critério é míope sob a aptidão do SPEA2: um descendente pode dominar o seu progenitor e, ainda assim, deteriorar a distribuição do conjunto ao adensar uma região já povoada.
+A segunda decisão diz respeito a quando interromper a intensificação. Os acoplamentos anteriores do IVF condicionavam um novo ciclo a que um único descendente superasse o pai corrente: num objetivo designado, no IVF/NSGA-II, e na distância à direção de referência do nicho-alvo, no IVF/NSGA-III (Seção~\ref{sec:linhagem_ivf}). Sob a aptidão do SPEA2, esse critério ignora parte do que o hospedeiro pondera: um descendente pode superar o pai corrente nesse critério e, ainda assim, adensar uma região já povoada.
 
 O IVF/SPEA2 avalia o efeito do ciclo sobre a população inteira. Ao fim de cada ciclo, os descendentes são unidos à população corrente, a seleção ambiental restaura o tamanho $N$ e um novo ciclo se inicia somente se
 \begin{equation}
 \overline{F}_{\text{depois}} < \overline{F}_{\text{antes}},
 \label{eq:critério_coletivo}
 \end{equation}
-isto é, se a aptidão média da população melhorou. Como $F(i)$ agrega dominância e densidade, a Equação~\ref{eq:critério_coletivo} recusa ciclos que ganham proximidade ao custo da distribuição. O critério também é autolimitante: à medida que a população amadurece, a margem de melhora coletiva se estreita e o número de ciclos efetivamente executados cai, mesmo quando o parâmetro $\ell$ permitiria mais.
+em que $\overline{F}_{\text{antes}}$ é a aptidão média da população que entrou no ciclo e $\overline{F}_{\text{depois}}$, a dos $N$ sobreviventes, cada uma calculada na seleção ambiental que produziu a população correspondente --- na primeira geração, a aptidão da população inicial é calculada sobre ela própria. Um ciclo sem melhora não é desfeito: os seus sobreviventes permanecem na população, e o critério apenas impede o ciclo seguinte.
+
+A média de $F(i)$ soma a aptidão bruta média, nula quando todos os membros da população são não dominados, ao termo de densidade médio, que não excede $1/2$. Um novo ciclo é permitido, portanto, quando o anterior reduziu essa soma, seja por reduzir a aptidão bruta das soluções dominadas ou o seu número, seja por reduzir o termo de densidade médio; quando todos os membros das duas populações são não dominados, a comparação reduz-se à do termo de densidade médio. Duas propriedades delimitam essa leitura. A aptidão do SPEA2 é relativa ao conjunto sobre o qual é calculada, e as duas médias vêm de uniões diferentes --- no primeiro ciclo de cada geração, também de tamanhos diferentes, o que pode alterar o $k$ da densidade ---, de modo que a comparação não mede avanço em direção à fronteira de Pareto. E a média agrega a população inteira: um adensamento localizado pode ser compensado por ganhos em outra região.
 
 \section{Manipulação genética}
 \label{sec:manipulacao}
 
 Entre os operadores de manipulação descritos na Seção~\ref{sec:ivf}, o IVF/SPEA2 adota o EAR-PA, que perturba parte das mães antes da recombinação. A escolha decorre do procedimento de calibração cujo protocolo está na Seção~\ref{sec:calibracao}.
 
-O EAR-PA aplica mutação polinomial, com $\eta_m = 20$, a uma fração $m$ das mães, perturbando uma fração $v$ das variáveis de decisão de cada mãe selecionada. As mães mutadas são as de menor posto dentro do conjunto coletado, e não um subconjunto aleatório: a perturbação incide onde a aptidão é pior, preservando intactas as melhores soluções coletadas. A recombinação usa cruzamento binário simulado (SBX) com $p_c = 1$ e $\eta_c = 20$, gerando um descendente por mãe.
+O EAR-PA aplica mutação polinomial~\cite{deb2014analysing}, com $\eta_m = 20$, a uma fração $m$ das mães, perturbando uma fração $v$ das variáveis de decisão de cada mãe selecionada. As mães mutadas são as de pior posto dentro do conjunto coletado, e não um subconjunto aleatório: a perturbação incide onde a aptidão é pior, preservando intactas as melhores soluções coletadas. A recombinação usa cruzamento binário simulado (SBX)~\cite{deb1995simulated} com $p_c = 1$ e $\eta_c = 20$, gerando um descendente por mãe.
 
 O Algoritmo~\ref{alg:ivf_spea2} reúne o gatilho de ativação, a coleta, as duas decisões de acoplamento e a devolução da cota restante ao hospedeiro.
 
@@ -73,27 +75,26 @@ O Algoritmo~\ref{alg:ivf_spea2} reúne o gatilho de ativação, a coleta, as dua
 \small
 \begin{algorithmic}[1]
 \Require Tamanho da população $N$; número de objetivos $M_{\text{obj}}$; dimensão $D$; orçamento $FE_{\max}$; taxa de execução $r$; tamanho da coleta $c$; máximo de ciclos $\ell$; frações de mutação $m$ e $v$
-\State Inicializar $P_0$ com $N$ soluções; avaliar; $FE \gets N$; $FE_{\text{IVF}} \gets 0$; $t \gets 0$; $P_t \gets P_0$
+\State Inicializar $P_0$ com $N$ soluções; avaliar; $F \gets$ aptidão do SPEA2 sobre $P_0$; $FE \gets N$; $FE_{\text{IVF}} \gets 0$; $t \gets 0$; $P_t \gets P_0$
 \While{$FE < FE_{\max}$}
-  \State Calcular a aptidão do SPEA2 sobre $P_t$
   \State $n_{\text{ivf}} \gets 0$
   \If{$FE_{\text{IVF}} \leq r \cdot FE$} \Comment{gatilho de ativação}
-    \State Ordenar $P_t$ por $F(i)$ em ordem crescente
+    \State Ordenar $P_t$ por $F(i)$ em ordem crescente \Comment{$F$ da última atribuição de aptidão}
     \State $n_p \gets \max(\operatorname{round}(c \cdot N),\, M_{\text{obj}} + 1)$; Mães $\gets$ as $n_p$ primeiras
     \State Conjunto de pais $\gets$ as $\operatorname{round}(N/2)$ primeiras por aptidão
-    \State Mutar as $\operatorname{round}(m \cdot n_p)$ mães de menor posto, perturbando $\operatorname{round}(v \cdot D)$ variáveis cada \Comment{EAR-PA}
+    \State Mutar as $\operatorname{round}(m \cdot n_p)$ mães de pior posto, perturbando $\operatorname{round}(v \cdot D)$ variáveis cada \Comment{EAR-PA}
     \For{$\text{ciclo} = 1$ \textbf{até} $\ell$}
       \If{$n_{\text{ivf}} + |\text{Mães}| > N$} \textbf{interromper} \Comment{cota da geração}
       \EndIf
-      \State $\overline{F}_{\text{antes}} \gets$ aptidão média de $P_t$
+      \State $\overline{F}_{\text{antes}} \gets$ média de $F$ sobre $P_t$
       \For{cada mãe $\mathbf{m}_i$}
-        \State Calcular distâncias de $\mathbf{m}_i$ aos candidatos, em objetivos brutos, excluindo a própria
-        \State Reter os $K = \min(3, |\text{conjunto de pais}|)$ mais distantes; torneio binário por aptidão $\to$ pai$_i$
+        \State Calcular as distâncias, em objetivos brutos, do vetor de objetivos avaliado de $\mathbf{m}_i$ aos candidatos do conjunto de pais, excluída a própria $\mathbf{m}_i$
+        \State Reter os $K = \min(3, n_c)$ mais distantes entre os $n_c$ candidatos; sortear dois e tomar o de menor $F$ $\to$ pai$_i$
         \State Recombinar $\mathbf{m}_i$ com pai$_i$ por SBX; avaliar o descendente
       \EndFor
       \State $FE \gets FE + |\text{Mães}|$; $FE_{\text{IVF}} \gets FE_{\text{IVF}} + |\text{Mães}|$; $n_{\text{ivf}} \gets n_{\text{ivf}} + |\text{Mães}|$
-      \State $P_t \gets \textrm{SeleçãoAmbiental}(P_t \cup \text{descendentes},\, N)$
-      \State $\overline{F}_{\text{depois}} \gets$ aptidão média de $P_t$
+      \State $(P_t, F) \gets \textrm{SeleçãoAmbiental}(P_t \cup \text{descendentes},\, N)$ \Comment{$F$ calculada sobre a união}
+      \State $\overline{F}_{\text{depois}} \gets$ média de $F$ sobre $P_t$
       \If{$\overline{F}_{\text{depois}} < \overline{F}_{\text{antes}}$} \Comment{melhora coletiva}
         \State Atualizar o conjunto de pais pela nova ordenação
       \Else
@@ -101,9 +102,10 @@ O Algoritmo~\ref{alg:ivf_spea2} reúne o gatilho de ativação, a coleta, as dua
       \EndIf
     \EndFor
   \EndIf
+  \State $F \gets$ aptidão do SPEA2 recalculada sobre $P_t$ \Comment{o SPEA2 da plataforma não recalcula}
   \If{$n_{\text{ivf}} < N$}
-    \State Gerar a cota restante de $N - n_{\text{ivf}}$ descendentes por torneio binário e variação padrão do SPEA2; avaliar; atualizar $FE$
-    \State $P_{t+1} \gets \textrm{SeleçãoAmbiental}(P_t \cup \text{descendentes do hospedeiro},\, N)$
+    \State Gerar a cota restante de $N - n_{\text{ivf}}$ descendentes por torneio binário sobre $F$ e variação padrão do SPEA2; avaliar; atualizar $FE$
+    \State $(P_{t+1}, F) \gets \textrm{SeleçãoAmbiental}(P_t \cup \text{descendentes do hospedeiro},\, N)$
   \Else
     \State $P_{t+1} \gets P_t$
   \EndIf
@@ -120,21 +122,22 @@ O módulo IVF é governado por cinco parâmetros. A Tabela~\ref{tab:parametros_i
 
 \begin{table}[!htb]
     \centering
+    \small
     \caption{Parâmetros do módulo IVF: símbolo no texto, identificador na implementação e valor adotado.}
     \label{tab:parametros_ivf}
-    \begin{tabular}{|c|l|l|c|}
-        \hline
+    \begin{tabularx}{\textwidth}{@{}clLc@{}}
+        \toprule
         \textbf{Símbolo} & \textbf{Identificador} & \textbf{Significado} & \textbf{Valor} \\
-        \hline
-        $c$      & \texttt{C}      & Fração da população coletada como mães       & $0{,}12$ \\
-        $r$      & \texttt{R}      & Fração do orçamento atribuída ao módulo      & $0{,}225$ \\
-        $\ell$   & \texttt{Cycles} & Máximo de ciclos por geração ativada         & $2$ \\
-        $m$      & \texttt{M}      & Fração de mães submetidas a mutação          & $0{,}3$ \\
-        $v$      & \texttt{V}      & Fração de variáveis perturbadas por mãe      & $0{,}1$ \\
-        \hline
-    \end{tabular}
+        \midrule
+        $c$      & \texttt{C}      & Fração da população coletada como mães        & $0{,}12$ \\
+        $r$      & \texttt{R}      & Teto da fração acumulada de avaliações do IVF & $0{,}225$ \\
+        $\ell$   & \texttt{Cycles} & Máximo de ciclos por geração ativada          & $2$ \\
+        $m$      & \texttt{M}      & Fração de mães submetidas a mutação           & $0{,}3$ \\
+        $v$      & \texttt{V}      & Fração de variáveis perturbadas por mãe       & $0{,}1$ \\
+        \bottomrule
+    \end{tabularx}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
+    \parbox{\textwidth}{\footnotesize
     Os símbolos em minúscula são usados no texto e nas equações; os identificadores em fonte monoespaçada são os nomes dos parâmetros na implementação. A distinção evita colisão com $M$, reservado nesta dissertação para o número de objetivos. O perfil EAR-PA fixa $\eta_m = 20$ para a mutação das mães e $\eta_c = 20$, $p_c = 1$ para o SBX; o tamanho do conjunto arquivo é $\overline{N} = N$.}
 \end{table}
 
@@ -143,6 +146,6 @@ O módulo IVF é governado por cinco parâmetros. A Tabela~\ref{tab:parametros_i
 
 Uma geração do SPEA2 canônico exige $\mathcal{O}(N^2 M_{\text{obj}})$ para o cálculo de dominância e força, $\mathcal{O}(N^2 \log N)$ para a estimativa de densidade por $k$-ésimo vizinho e $\mathcal{O}(N D)$ para os operadores de variação, o que dá uma base de $\mathcal{O}(N^2(M_{\text{obj}} + \log N) + N D)$ por geração.
 
-Numa geração ativada, a atribuição de pais calcula distâncias de cada uma das $n_p$ mães a um conjunto de $\operatorname{round}(N/2)$ candidatos, ou seja $\mathcal{O}(n_p N M_{\text{obj}})$ por ciclo. Cada ciclo invoca também uma seleção ambiental, a $\mathcal{O}(N^2(M_{\text{obj}} + \log N))$. Com no máximo $\ell$ ciclos, o custo adicional do módulo é $\mathcal{O}(\ell\, N^2(M_{\text{obj}} + \log N))$: a mesma classe assintótica de uma geração do hospedeiro, multiplicada pela constante $\ell$. Como o gatilho da Equação~\ref{eq:gatilho_ivf} fica mais restritivo ao longo da execução, o custo amortizado é estritamente menor que $\ell$ vezes a base.
+Numa geração ativada, a atribuição de pais calcula distâncias de cada uma das $n_p$ mães a um conjunto de $\operatorname{round}(N/2)$ candidatos, ou seja $\mathcal{O}(n_p N M_{\text{obj}})$ por ciclo. Cada ciclo invoca também uma seleção ambiental, a $\mathcal{O}(N^2(M_{\text{obj}} + \log N))$. Com no máximo $\ell$ ciclos, o custo adicional do módulo é $\mathcal{O}(\ell\, N^2(M_{\text{obj}} + \log N))$: a mesma classe assintótica de uma geração do hospedeiro, multiplicada pela constante $\ell$. O custo adicional amortizado não excede, portanto, $\ell$ vezes a base, e fica abaixo desse limite na medida em que o gatilho suspende o módulo ou o critério coletivo interrompe os ciclos antes de $\ell$.
 
-O acréscimo de avaliações, por outro lado, é nulo por construção: a cota de $N$ avaliações por geração é repartida entre módulo e hospedeiro, não somada. O que cresce é o tempo de relógio, pelas chamadas extras de seleção ambiental e pelo cálculo das distâncias entre progenitores.
+O acréscimo de avaliações, por outro lado, é nulo por construção: a cota de $N$ avaliações por geração é repartida entre módulo e hospedeiro, não somada. O que cresce é o número de operações internas --- as chamadas extras de seleção ambiental e o cálculo das distâncias entre progenitores --- e, com ele, o tempo de relógio. A base consolidada registra tempos de execução, mas não há estimativa controlada e comparável desse acréscimo (Capítulo~\ref{sec:threats}), e nenhuma conclusão depende dele.

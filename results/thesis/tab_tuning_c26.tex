@@ -3,25 +3,22 @@
 % Fonte: results/tuning_ivfspea2v2/head_to_head_c26_a43_v1_summary.json
 \begin{table}[!htb]
     \centering
+    \small
     \caption{Calibração de parâmetros: a configuração promovida frente à melhor configuração da fase inicial e à configuração inicial não ajustada.}
     \label{tab:tuning_c26}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|c|l|l|c|}
-        \hline
-        \textbf{Métrica} & \textbf{Configuração} & \textbf{Comparador} & \textbf{V/E/D} \\
-        \hline
-        IGD & Configuração promovida & Melhor configuração da fase A & 0/12/0 \\
-         & Configuração promovida & Configuração inicial não ajustada & 4/8/0 \\
-         & Melhor configuração da fase A & Configuração inicial não ajustada & 4/8/0 \\
-        \hline
-        HV & Configuração promovida & Melhor configuração da fase A & 1/11/0 \\
-         & Configuração promovida & Configuração inicial não ajustada & 4/7/1 \\
-         & Melhor configuração da fase A & Configuração inicial não ajustada & 3/8/1 \\
-        \hline
-    \end{tabular}
-    }
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcc@{}}
+        \toprule
+        \multicolumn{2}{@{}c}{} & \multicolumn{2}{c@{}}{\textbf{V/E/D}} \\
+        \cmidrule(l){3-4}
+        \textbf{Configuração} & \textbf{Comparador} & \textbf{IGD} & \textbf{HV} \\
+        \midrule
+        Configuração promovida & Melhor configuração da fase A & 0/12/0 & 1/11/0 \\
+        Configuração promovida & Configuração inicial não ajustada & 4/8/0 & 4/7/1 \\
+        Melhor configuração da fase A & Configuração inicial não ajustada & 4/8/0 & 3/8/1 \\
+        \bottomrule
+    \end{tabular*}
     \par\smallskip
-    \parbox{0.95\textwidth}{\footnotesize
-    Comparações par a par sobre as 12 configurações problema--objetivo do subconjunto de calibração, 30 execuções cada, orçamento de 50.000 avaliações. Teste de Mann--Whitney com correção de Holm, $\alpha = 0{,}05$. A configuração promovida não é distinguível da melhor configuração da fase A em nenhuma instância, e ambas superam a configuração inicial não ajustada em quatro delas: a calibração escolhe entre configurações equivalentes sem introduzir perda. Esta é evidência de justificativa da implementação, não da comparação principal.
+    \parbox{\textwidth}{\footnotesize
+    Vitórias/empates/derrotas (V/E/D) da configuração da linha contra o comparador, nas 12 configurações problema--objetivo do subconjunto de calibração. A configuração promovida tem 30 execuções por problema e a melhor da fase A, 30, sob 50.000 avaliações; o comparador histórico não ajustado tem 60 execuções por problema. O orçamento desse braço não consta do artefato desta comparação. Teste de Mann--Whitney com correção de Holm, $\alpha = 0{,}05$. Fase A: a primeira das três fases da calibração (Seção~\ref{sec:calibracao}). O contraste contra o braço histórico não isola apenas o efeito dos parâmetros.
     }
 \end{table}

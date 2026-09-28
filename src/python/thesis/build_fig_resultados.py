@@ -4,12 +4,18 @@
 Lê artefatos versionados e escreve três figuras. Duas pertencem à família
 confirmatória (``CONF``: IVF/SPEA2 na janela de submissão 3001–3060 contra o
 SPEA2 canônico na janela 1–60, 51 instâncias sintéticas, 60 execuções por
-configuração) e uma pertence à seção exploratória do mesmo capítulo (posto
-médio contra os demais comparadores, sem correção de multiplicidade):
+configuração) e uma pertence ao Apêndice C (posto médio contra os demais
+comparadores, descritivo, sem teste de hipótese):
 
   fig_dist_igd.pdf
       Distribuição de IGD por instância, IVF/SPEA2 contra SPEA2 canônico, em
-      dois painéis (M=2 e M=3). Fonte:
+      dois painéis (M=2 e M=3), com cada execução dividida pela mediana do
+      SPEA2 na mesma instância: as diferenças típicas, de cerca de 1%, ficam
+      visíveis numa janela horizontal fixa, e as caixas que a excedem aparecem
+      cortadas na borda, com uma seta. Os marcadores são o veredito corrigido
+      por Holm e o † a calibração, lidos de
+      ``results/tables/claims_summary_instance_details.csv``, a mesma fonte das
+      tabelas por instância. Fonte das execuções:
       ``data/processed/todas_metricas_consolidado_with_modern.csv``, lida
       exclusivamente através de ``filter_submission_synthetic_cohort``.
 
@@ -26,14 +32,13 @@ médio contra os demais comparadores, sem correção de multiplicidade):
       da mediana de IGD por instância. Mesma fonte e mesmo filtro de coorte de
       ``fig_dist_igd``.
 
-A lógica de cálculo (extração por instância, teste de Mann-Whitney U,
-tamanho de efeito A12, matriz de postos de Friedman) reaproveita a dos
-scripts de figuras dos manuscritos-fonte
+A lógica de cálculo (extração por instância, matriz de postos de Friedman)
+reaproveita a dos scripts de figuras dos manuscritos-fonte
 (``src/python/analysis/generate_paper_figures.py``,
 ``src/python/analysis/plot_dtlz4_bimodal.py``,
 ``src/python/analysis/plot_friedman_avg_rank.py``), reimplementada aqui para
 que este módulo permaneça autocontido e grave apenas nos diretórios de saída
-da dissertação.
+da dissertação. Todo número exibido usa a vírgula decimal, como o texto.
 
 Escreve em ``results/thesis/figures/`` (canônico, versionado) e em
 ``thesis/masters/generated/figures/`` (cópia de build, ignorada pelo Git).
@@ -45,17 +50,22 @@ import sys
 
 import numpy as np
 import pandas as pd
-from scipy.stats import mannwhitneyu, rankdata
+from scipy.stats import rankdata
 
+import ptbr_format as fmt
 from ivfspea2.cohorts import filter_submission_synthetic_cohort
 from ivfspea2.figio import save_figure
 from ivfspea2.figstyle import apply_paper_style
-from ivfspea2.paths import DATA_PROCESSED, RESULTS_THESIS, THESIS_GENERATED, ensure_dir
+from ivfspea2.paths import DATA_PROCESSED, RESULTS_TABLES, RESULTS_THESIS, THESIS_GENERATED, ensure_dir
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
 DATA_CSV = DATA_PROCESSED / "todas_metricas_consolidado_with_modern.csv"
+DETALHES = RESULTS_TABLES / "claims_summary_instance_details.csv"
+# Janela de IGD relativa à mediana do SPEA2: cobre as medianas de todas as
+# instâncias salvo WFG1 (M=2), e as caixas que a excedem são sinalizadas.
+JANELA = (0.85, 1.15)
 FRONTS_DIR = DATA_PROCESSED / "fronts"
 DTLZ4_GOOD = FRONTS_DIR / "DTLZ4_M3_IVFSPEA2_good.csv"
 DTLZ4_BAD = FRONTS_DIR / "DTLZ4_M3_IVFSPEA2_bad.csv"
@@ -128,15 +138,6 @@ def _suite_of(problem: str) -> str:
     return problem
 
 
-def _vargha_delaney_a12(x: np.ndarray, y: np.ndarray) -> float:
-    """A12 de Vargha-Delaney. A12 > 0,5 indica que x tende a ser menor que y."""
-    nx, ny = len(x), len(y)
-    r = 0.0
-    for xi in x:
-        r += np.sum(xi < y) + 0.5 * np.sum(xi == y)
-    return r / (nx * ny)
-
-
 def _load_cohort() -> pd.DataFrame:
     raw = pd.read_csv(DATA_CSV)
     return filter_submission_synthetic_cohort(raw)
@@ -145,92 +146,93 @@ def _load_cohort() -> pd.DataFrame:
 # =====================================================================
 # fig_dist_igd
 # =====================================================================
-def _panel_dist_igd(ax: plt.Axes, df: pd.DataFrame, m_label: str) -> None:
+def _vereditos_holm() -> tuple[dict[tuple[str, str], str], set[tuple[str, str]]]:
+    """Veredito de IGD corrigido por Holm e instâncias de calibração, por (problema, M)."""
+    detalhes = pd.read_csv(DETALHES)
+    detalhes = detalhes[detalhes["metric"] == "IGD"]
+    vereditos = {(r.Problema, r.M): r.indicator_holm for r in detalhes.itertuples()}
+    calibracao = {(r.Problema, r.M) for r in detalhes.itertuples() if bool(r.is_full12)}
+    return vereditos, calibracao
+
+
+def _panel_dist_igd(
+    ax: plt.Axes,
+    df: pd.DataFrame,
+    m_label: str,
+    vereditos: dict[tuple[str, str], str],
+    calibracao: set[tuple[str, str]],
+) -> None:
     instances = _ordered_instances(m_label)
     df_m = df[(df["M"] == m_label) & (df["Algoritmo"].isin(["IVFSPEA2", "SPEA2"]))]
+    lo, hi = JANELA
 
-    data_ivf: list[np.ndarray] = []
-    data_spea2: list[np.ndarray] = []
-    pos_ivf: list[float] = []
-    pos_spea2: list[float] = []
-    markers: list[tuple[float, float, str, str]] = []
-    all_vals: list[np.ndarray] = []
+    series: dict[str, tuple[list[np.ndarray], list[float]]] = {"IVFSPEA2": ([], []), "SPEA2": ([], [])}
+    cortes: list[tuple[float, float, str]] = []
+    for idx, prob in enumerate(instances):
+        bloco = df_m[df_m["Problema"] == prob]
+        base = bloco.loc[bloco["Algoritmo"] == "SPEA2", "IGD"].dropna().to_numpy()
+        if base.size == 0:
+            raise ValueError(f"instância sem execuções do SPEA2: {prob} {m_label}")
+        referencia = float(np.median(base))
+        for algo, deslocamento in (("IVFSPEA2", -0.2), ("SPEA2", 0.2)):
+            valores = bloco.loc[bloco["Algoritmo"] == algo, "IGD"].dropna().to_numpy() / referencia
+            if valores.size == 0:
+                raise ValueError(f"instância sem execuções de {algo}: {prob} {m_label}")
+            posicao = idx + deslocamento
+            series[algo][0].append(valores)
+            series[algo][1].append(posicao)
+            q1, q3 = np.percentile(valores, [25, 75])
+            if q1 < lo:
+                cortes.append((lo, posicao, "<"))
+            if q3 > hi:
+                cortes.append((hi, posicao, ">"))
+
+    for algo, cor in (("IVFSPEA2", IVF_COLOR), ("SPEA2", SPEA2_COLOR)):
+        dados, posicoes = series[algo]
+        caixas = ax.boxplot(
+            dados,
+            positions=posicoes,
+            widths=0.32,
+            orientation="horizontal",
+            patch_artist=True,
+            showfliers=False,
+            medianprops=dict(color="black", linewidth=1.1),
+            whiskerprops=dict(linewidth=0.8),
+            capprops=dict(linewidth=0.8),
+            boxprops=dict(linewidth=0.8),
+        )
+        for caixa in caixas["boxes"]:
+            caixa.set_facecolor(cor)
+            caixa.set_alpha(0.75)
+
+    for x, y, seta in cortes:
+        ax.plot(x, y, marker=seta, color="black", markersize=4, clip_on=False, zorder=5)
+
+    ax.axvline(1.0, color="#555555", linestyle="--", linewidth=0.8, zorder=0)
+    ax.set_xlim(lo, hi)
+    ax.set_xticks(np.round(np.arange(lo, hi + 1e-9, 0.05), 2))
+    ax.xaxis.set_major_formatter(fmt.axis_formatter())
 
     for idx, prob in enumerate(instances):
-        vals_ivf = df_m[(df_m["Problema"] == prob) & (df_m["Algoritmo"] == "IVFSPEA2")][
-            "IGD"
-        ].dropna()
-        vals_sp = df_m[(df_m["Problema"] == prob) & (df_m["Algoritmo"] == "SPEA2")][
-            "IGD"
-        ].dropna()
-
-        data_ivf.append(vals_ivf.values)
-        pos_ivf.append(idx - 0.2)
-        data_spea2.append(vals_sp.values)
-        pos_spea2.append(idx + 0.2)
-        if len(vals_ivf) > 0:
-            all_vals.append(vals_ivf.values)
-        if len(vals_sp) > 0:
-            all_vals.append(vals_sp.values)
-
-        if len(vals_ivf) >= 5 and len(vals_sp) >= 5:
-            _, pval = mannwhitneyu(vals_ivf, vals_sp, alternative="two-sided")
-            a12 = _vargha_delaney_a12(vals_ivf.values, vals_sp.values)
-            if pval < 0.05:
-                marker = "+" if a12 > 0.5 else "-"
-                color = WIN_COLOR if a12 > 0.5 else LOSS_COLOR
-                right = float(max(vals_ivf.max(), vals_sp.max()))
-                markers.append((right * 1.5, float(idx), marker, color))
-
-    bp1 = ax.boxplot(
-        data_ivf,
-        positions=pos_ivf,
-        widths=0.32,
-        vert=False,
-        patch_artist=True,
-        showfliers=True,
-        flierprops=dict(marker=".", markersize=3, alpha=0.4),
-        medianprops=dict(color="black", linewidth=1.1),
-        whiskerprops=dict(linewidth=0.8),
-        capprops=dict(linewidth=0.8),
-        boxprops=dict(linewidth=0.8),
-    )
-    bp2 = ax.boxplot(
-        data_spea2,
-        positions=pos_spea2,
-        widths=0.32,
-        vert=False,
-        patch_artist=True,
-        showfliers=True,
-        flierprops=dict(marker=".", markersize=3, alpha=0.4),
-        medianprops=dict(color="black", linewidth=1.1),
-        whiskerprops=dict(linewidth=0.8),
-        capprops=dict(linewidth=0.8),
-        boxprops=dict(linewidth=0.8),
-    )
-    for box in bp1["boxes"]:
-        box.set_facecolor(IVF_COLOR)
-        box.set_alpha(0.75)
-    for box in bp2["boxes"]:
-        box.set_facecolor(SPEA2_COLOR)
-        box.set_alpha(0.75)
-
-    for x, y, marker, color in markers:
+        veredito = vereditos.get((prob, m_label))
+        if veredito not in {"+", "-", "="}:
+            raise ValueError(f"sem veredito de Holm para {prob} {m_label}")
+        if veredito == "=":
+            continue
         ax.text(
-            x, y, marker, ha="left", va="center", fontsize=11, color=color,
-            fontweight="bold",
+            1.015, idx, "+" if veredito == "+" else "\u2212",
+            transform=ax.get_yaxis_transform(), ha="left", va="center", fontsize=11,
+            color=WIN_COLOR if veredito == "+" else LOSS_COLOR, fontweight="bold",
         )
 
-    ax.set_xscale("log")
-    if all_vals:
-        flat = np.concatenate(all_vals)
-        xmin, xmax = float(flat.min()), float(flat.max())
-        ax.set_xlim(xmin * 0.4, xmax * 2.4)
+    rotulos = [
+        f"{prob}$^{{\\dagger}}$" if (prob, m_label) in calibracao else prob for prob in instances
+    ]
     ax.set_yticks(range(len(instances)))
-    ax.set_yticklabels(instances, fontsize=12)
+    ax.set_yticklabels(rotulos, fontsize=12)
     ax.set_ylim(len(instances), -1)
-    ax.set_xlabel("IGD (escala log)", fontsize=12)
-    ax.tick_params(axis="x", labelsize=12)
+    ax.set_xlabel("IGD / mediana do SPEA2 na instância", fontsize=12)
+    ax.tick_params(axis="x", labelsize=11)
     ax.tick_params(axis="y", length=0)
     ax.set_title(f"$M={m_label[-1]}$", fontsize=13, fontweight="bold")
 
@@ -259,9 +261,10 @@ def _panel_dist_igd(ax: plt.Axes, df: pd.DataFrame, m_label: str) -> None:
 
 
 def make_fig_dist_igd(df: pd.DataFrame) -> None:
+    vereditos, calibracao = _vereditos_holm()
     fig, axes = plt.subplots(1, 2, figsize=(7.8, 11.6))
-    _panel_dist_igd(axes[0], df, "M2")
-    _panel_dist_igd(axes[1], df, "M3")
+    _panel_dist_igd(axes[0], df, "M2", vereditos, calibracao)
+    _panel_dist_igd(axes[1], df, "M3", vereditos, calibracao)
 
     legend_elements = [
         Patch(facecolor=IVF_COLOR, alpha=0.75, edgecolor="black", linewidth=0.5, label="IVF/SPEA2"),
@@ -290,7 +293,7 @@ def _load_selection_metadata() -> dict[str, str]:
         igd = row.get("igd")
         if pd.isna(run_id) or pd.isna(igd):
             continue
-        info[sel] = f"execução {int(run_id)}, IGD={float(igd):.3g}"
+        info[sel] = f"execução {int(run_id)}, IGD = {fmt.plain(float(igd), 4 if igd < 0.1 else 3)}"
     return info
 
 
@@ -334,6 +337,8 @@ def make_fig_dtlz4_bimodal() -> None:
         ax.view_init(elev=24, azim=-53)
         ax.set_title(title, pad=10, fontsize=9)
         ax.tick_params(labelsize=12)
+        for eixo in (ax.xaxis, ax.yaxis, ax.zaxis):
+            eixo.set_major_formatter(fmt.axis_formatter())
 
     handles1, labels1 = ax1.get_legend_handles_labels()
     fig.legend(
@@ -385,11 +390,14 @@ def _panel_avg_rank(ax: plt.Axes, rank_df: pd.DataFrame, title: str) -> None:
     ax.set_title(title, fontsize=15)
     ax.tick_params(axis="x", labelsize=15)
     ax.grid(axis="x", linestyle=":", alpha=0.4)
+    ax.xaxis.set_major_formatter(fmt.axis_formatter())
 
+    # Os valores ficam numa coluna à direita do eixo, fora da área de dados,
+    # para não cruzar as barras de desvio padrão.
     for bar, v in zip(bars, values):
         ax.text(
-            v + 0.08, bar.get_y() + bar.get_height() / 2, f"{v:.2f}", va="center",
-            ha="left", fontsize=15,
+            1.02, bar.get_y() + bar.get_height() / 2, fmt.plain(v, 2),
+            transform=ax.get_yaxis_transform(), va="center", ha="left", fontsize=13,
         )
 
 

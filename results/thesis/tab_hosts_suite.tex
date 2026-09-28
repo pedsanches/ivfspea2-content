@@ -1,0 +1,38 @@
+% Gerado por src/python/thesis/build_tab_hosts.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: results/tables/hosts_ivfspea2_igd_stats.csv
+% Fonte: results/tables/hosts_ivfspea2_hv_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaiii_igd_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaiii_hv_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaii_igd_stats.csv
+% Fonte: results/tables/hosts_ivfnsgaii_hv_stats.csv
+% Fonte: results/tables/hosts_geometry_summary.csv
+% Fonte: config/hosts_front_geometry.csv
+% Fonte: data/processed/hosts_paper.csv
+% Fonte: src/python/analysis/compute_hosts_pairing_robustness.py
+\begin{table}[!htb]
+    \centering
+    \small
+    \caption{Contagens de cada acoplamento IVF contra o seu hospedeiro, estratificadas por suíte de problemas de teste.}
+    \label{tab:hosts_suite}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccccc@{}}
+        \toprule
+        \multicolumn{2}{@{}c}{} & \multicolumn{4}{c}{\textbf{V/E/D por suíte}} & \multicolumn{2}{c@{}}{\textbf{$A_{12}$ mediano}} \\
+        \cmidrule(lr){3-6}\cmidrule(l){7-8}
+        \textbf{Acoplamento} & \textbf{Métrica} & \textbf{DTLZ} & \textbf{MaF} & \textbf{WFG} & \textbf{ZDT} & \textbf{WFG} & \textbf{Demais} \\
+        \midrule
+        IVF/SPEA2 & IGD & 9/5/0 & 10/4/0 & 9/6/3 & 5/0/0 & $0{,}644$ & $0{,}769$ \\
+         & HV & 13/1/0 & 9/5/0 & 10/4/4 & 5/0/0 & $0{,}734$ & $0{,}827$ \\
+        \midrule
+        IVF/NSGA-III & IGD & 9/5/0 & 8/6/0 & 3/15/0 & 2/3/0 & $0{,}537$ & $0{,}687$ \\
+         & HV & 7/7/0 & 8/6/0 & 5/11/2 & 1/4/0 & $0{,}439$ & $0{,}682$ \\
+        \midrule
+        IVF/NSGA-II & IGD & 0/14/0 & 0/14/0 & 1/16/1 & 0/4/1 & $0{,}496$ & $0{,}514$ \\
+         & HV & 0/14/0 & 1/13/0 & 4/12/2 & 0/4/1 & $0{,}552$ & $0{,}543$ \\
+        \bottomrule
+    \end{tabular*}
+    \par\smallskip
+    \parbox{\textwidth}{\footnotesize
+    Vitórias/empates/derrotas (V/E/D) de cada acoplamento contra o seu hospedeiro, estratificadas por suíte de problemas de teste, com o mesmo teste, a mesma correção, o mesmo pareamento e as mesmas ressalvas de comparação e de sobreposição de coortes da Tabela~\ref{tab:hosts_wtl}. Instâncias por suíte: DTLZ, 14; MaF, 14; WFG, 18; ZDT, 5. Sem pareamento, com o teste de Mann--Whitney, as contagens do IVF/SPEA2 por suíte mudam apenas na DTLZ (HV, DTLZ4 com $M=3$, de empate para vitória), e as da WFG não mudam. $A_{12}$ é a mediana do tamanho de efeito de Vargha--Delaney orientada a favor do IVF (valores acima de $0{,}5$ favorecem o IVF), separada entre as instâncias WFG e as demais. A estratificação por suíte é descritiva: nenhum teste de interação entre acoplamento e suíte foi conduzido.
+    }
+\end{table}
