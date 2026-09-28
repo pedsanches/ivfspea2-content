@@ -123,6 +123,10 @@ Claude.md
 # Oh My Pi science environment: gate reports, snapshots and LaTeX baselines are
 # per-session scratch. Configuration under .omp/ stays versioned.
 /.omp/runs/
+# Local scratch and personal deposit documents: rendered page checks, the signed
+# TECA, the metadata form and PDFs assembled for signature. Never versioned.
+/tmp/
+/output/
 
 # Project output that was committed inside the vendored PlatEMO tree (10 MB).
 # Untracked in the modernization pass; regenerate from a run rather than
