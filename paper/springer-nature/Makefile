@@ -25,7 +25,7 @@ include ../latex.mk
 
 all: $(MAIN_PDF)
 
-$(MAIN_PDF): $(SRC_DIR)/$(MAIN_FILE)
+$(MAIN_PDF): $(SRC_DIR)/$(MAIN_FILE) $(wildcard bib/*.bib)
 	@mkdir -p $(OUTPUT_DIR)
 	$(call LATEX_BUILD,$(SRC_DIR)/$(MAIN_FILE))
 
