@@ -11,19 +11,19 @@
         \toprule
         \textbf{Evidência} & \textbf{Medida} & \textbf{Protocolo} & \textbf{Valor} & \textbf{Partição WFG} \\
         \midrule
-        Paisagem & Floresta: $r_s$ & Deixa-uma-instância & $0{,}286$ & --- \\
+        \multirow{2}{*}{Paisagem} & Floresta: $r_s$ & Deixa-uma-instância & $0{,}286$ & --- \\
          & Floresta: $r_s$ & Deixa-uma-família & $0{,}150$ & --- \\
         \midrule
-        Renovação & Limiar: BA & LOFO por suíte & $0{,}754$ & 49/51 \\
+        \multirow{3}{*}{Renovação} & Limiar: BA & LOFO por suíte & $0{,}754$ & 49/51 \\
          & Limiar: BA & LOFO DTLZ+MaF & $0{,}754$ & 49/51 \\
          & Limiar: MCC & LOFO DTLZ+MaF & $0{,}413$ & 49/51 \\
         \midrule
-        Suíte & Partição: BA & Pós-hoc, sem ajuste & $0{,}778$ & --- \\
+        \multirow{2}{*}{Suíte} & Partição: BA & Pós-hoc, sem ajuste & $0{,}778$ & --- \\
          & Partição: MCC & Pós-hoc, sem ajuste & $0{,}462$ & --- \\
         \bottomrule
     \end{tabularx}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Reanálise descritiva sobre 51 instâncias. Para os descritores estáticos, a resposta é a diferença entre as medianas de IGD (SPEA2 menos IVF/SPEA2); em cada dobra, a transformação Yeo--Johnson é ajustada somente na resposta de treino e a predição é invertida para essa escala antes de calcular $r_s$ sobre todas as predições fora da amostra. Portanto, não se agregam postos calculados separadamente nas dobras. A validação deixa-uma-família agrupa DTLZ e MaF, mantendo MaF7 e DTLZ7 (M=2 e M=3) do mesmo lado retido. Para a regra dinâmica, o observável e a janela de 20\% das gerações foram escolhidos na análise de origem e permanecem fixos nesta reanálise; em cada dobra, só o limiar e sua direção são ajustados nas famílias de treino. BA: acurácia balanceada; MCC: coeficiente de Matthews. A última coluna é a coincidência entre a decisão da regra e a partição WFG desligada/demais ligadas. As linhas da suíte aplicam essa partição, sem nenhum parâmetro ajustado, aos mesmos rótulos: ela foi formulada depois de se observar que a WFG concentra as instâncias não beneficiadas e, por isso, é uma referência retrospectiva, não um controlador validado nem uma regra avaliada fora da amostra. Os rótulos reutilizam a comparação em IGD da coorte confirmatória sem correção de multiplicidade. A tabela não valida a escolha do observável nem da janela fora da amostra, tampouco a execução do controlador.
+    Reanálise descritiva sobre 51 instâncias. Para os descritores estáticos, a resposta é a diferença entre as medianas de IGD (SPEA2 menos IVF/SPEA2); em cada dobra, a transformação Yeo--Johnson é ajustada somente na resposta de treino e a predição é invertida para essa escala antes de calcular $r_s$ sobre todas as predições fora da amostra. Portanto, não se agregam postos calculados separadamente nas dobras. A validação deixa-uma-família agrupa DTLZ e MaF, mantendo MaF7 e DTLZ7 (M=2 e M=3) do mesmo lado retido. Para a regra dinâmica, o observável e a janela de 20\% das gerações foram escolhidos na análise de origem e permanecem fixos nesta reanálise; em cada dobra, só o limiar e sua direção são ajustados nas famílias de treino. BA: acurácia balanceada; MCC: coeficiente de Matthews. A última coluna é a coincidência entre a decisão da regra e a partição WFG desligada/demais ligadas. As linhas da suíte aplicam essa partição, sem nenhum parâmetro ajustado, aos mesmos rótulos: ela foi formulada depois de se observar que a WFG concentra as instâncias não beneficiadas e, por isso, é uma referência retrospectiva, não um controlador validado nem uma regra avaliada fora da amostra. Os rótulos reutilizam a comparação em IGD da coorte da comparação principal, sem correção de multiplicidade. A tabela não valida a escolha do observável nem da janela fora da amostra, tampouco a execução do controlador.
     }
 \end{table}

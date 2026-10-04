@@ -39,7 +39,7 @@ ALGORITHM_LABEL = {
 }
 
 ROLE_LABEL = {
-    "confirmatory": "confirmatória",
+    "primary": "principal",
     "supportive": "de apoio",
     "external-support": "de apoio externo",
     "diagnostic": "diagnóstica",
@@ -71,27 +71,27 @@ SOURCE_PT = {
         "lacunas": "As afirmações do manuscrito histórico precisariam ser reconciliadas contra esse protocolo antes de serem reutilizadas.",
     },
     "memetic-computing-v2-confirmatory": {
-        "titulo": "Evidência confirmatória: IVF/SPEA2 contra SPEA2",
+        "titulo": "Avaliação comparativa principal: IVF/SPEA2 contra SPEA2",
         "coorte": "51 instâncias sintéticas; IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60; orçamento fixo de 100.000 avaliações.",
-        "bruto": "As saídas brutas da plataforma não são versionadas; recuperam-se do depósito arquivado.",
+        "bruto": "As saídas brutas da plataforma não são versionadas e não constam de nenhuma das três versões publicadas do registro no Zenodo; a sua recuperação a partir de outra fonte não foi demonstrada. As análises desta família regeneram-se da base processada por execução, que é versionada.",
         "lacunas": "A base consolidada é mista e precisa sempre ser lida através do filtro de coorte.",
     },
     "memetic-computing-tuning-ablation": {
         "titulo": "Calibração de parâmetros e ablação fatorial",
-        "coorte": "Coortes da calibração em três fases e da ablação fatorial, mantidas separadas do teste confirmatório.",
+        "coorte": "Coortes da calibração em três fases e da ablação fatorial, mantidas separadas da comparação principal.",
         "bruto": "Os artefatos processados estão congelados; a disponibilidade do bruto varia por fase.",
         "lacunas": "As instâncias de calibração pertencem à suíte de 51, mas são excluídas das contagens fora do ajuste.",
     },
     "memetic-computing-engineering": {
         "titulo": "Transferência para problemas de engenharia",
         "coorte": "RWMOP9, RWMOP21 e RWMOP8, com processamento estrito de execuções comuns.",
-        "bruto": "Os dados brutos de engenharia são locais ou arquivados e não estão versionados de forma uniforme.",
+        "bruto": "As saídas brutas da plataforma não são versionadas nem constam das versões publicadas do registro no Zenodo, e a sua recuperação não foi demonstrada; as tabelas processadas por execução estão versionadas.",
         "lacunas": "O RWMOP8 tem cobertura heterogênea de execuções válidas e força probatória menor.",
     },
     "ppsn-clei-landscape-dynamics-controller": {
         "titulo": "Paisagem de aptidão, dinâmica inicial e controlador",
         "coorte": "Coorte de 60 execuções independentes para os rótulos, mais 30 execuções pareadas por semente para a dinâmica e o controlador.",
-        "bruto": "Os arquivos brutos de dinâmica são locais; o bruto do controlador está ausente, e o seu processado congelado está presente.",
+        "bruto": "Os arquivos brutos de dinâmica estão numa cópia local, fora do repositório e das versões publicadas do registro no Zenodo; o bruto do controlador está ausente, e o seu processado congelado está presente.",
         "lacunas": "Os rótulos derivados em IGD não constituem desfecho independente para o controlador, cujo desfecho primário declarado é o hipervolume.",
     },
     "ppsn-clei-partial-legacy-trajectories": {
@@ -111,6 +111,12 @@ SOURCE_PT = {
         "coorte": "Não há execuções novas. Esta fonte apenas converte os artefatos congelados das demais famílias em tabelas, preservando a coorte e a correção de cada uma.",
         "bruto": "Não se aplica: todas as entradas são artefatos processados e versionados.",
         "lacunas": "Não há tabela para a família de convergência, cuja análise foi omitida da dissertação. A partição WFG/demais e a tabulação por propriedades da WFG são análises pós-hoc sobre a mesma amostra, não validações independentes.",
+    },
+    "context-comparator-positioning": {
+        "titulo": "Posicionamento frente aos algoritmos comparados",
+        "coorte": "Idêntica à da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra cada comparador nas execuções 1--60, 51 instâncias sintéticas, 60 execuções por algoritmo e instância, orçamento de 100.000 avaliações; sem linhas de RWMOP.",
+        "bruto": "Não se aplica: a única entrada é o consolidado por execução, lido pelo filtro de coorte.",
+        "lacunas": "O posicionamento é uma comparação, não afirmação de superioridade, e o posto médio é descritivo. A coluna do IVF/SPEA2 usa a configuração promovida pela calibração e os comparadores usam as configurações publicadas padrão. Reaproveitar a coorte da comparação principal significa que estas contagens não são replicação independente da família da QP1. Os arquivos pairwise_ivf_vs_all.csv e afins são proibidos como entrada: foram calculados sobre o rótulo misto do IVF/SPEA2 e sem correção de multiplicidade.",
     },
 }
 

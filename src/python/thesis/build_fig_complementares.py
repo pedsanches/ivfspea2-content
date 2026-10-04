@@ -3,7 +3,7 @@
 
 Regenera, com rótulos em português, as figuras equivalentes às dos três
 manuscritos de origem para as famílias de evidência complementares à suíte
-confirmatória: calibração/ablação (SUP), transferência para engenharia
+da comparação principal: calibração/ablação (SUP), transferência para engenharia
 (ENG), compatibilidade entre hospedeiros (HOST) e decisão de ativação (DEC).
 A lógica de cada painel foi adaptada de ``src/python/analysis/`` (não
 executado por este módulo); nenhum número é inventado, todos vêm dos

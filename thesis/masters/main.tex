@@ -42,6 +42,8 @@
 % position=top põe o espaço da legenda entre ela e o filete superior.
 \usepackage{booktabs}
 \usepackage{tabularx}
+% Centraliza no eixo vertical os rótulos que agrupam várias linhas.
+\usepackage{multirow}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \captionsetup[table]{position=top}
 
@@ -176,11 +178,27 @@
 \label{ref-bib}
 
 %--------------------------------------------------------------- APÊNDICES %
-\apendices
-
-\input{./pos/apend_I}
-\input{./pos/apend_II}
-\input{./pos/apend_III}
+% Apêndices ocultados temporariamente por decisão do autor, em 2026-10-03
+% (rodada R17). Os três arquivos permanecem versionados em pos/apend_I.tex,
+% pos/apend_II.tex e pos/apend_III.tex: nada foi renomeado, movido ou
+% removido, e os geradores de src/python/thesis/ continuam produzindo suas
+% saídas normalmente.
+%
+% Para restaurar os Apêndices A e B: descomente \apendices e os \input de
+% pos/apend_I e pos/apend_II, e siga a lista de remissões de
+% REVISION_PLAN.md §4. A restauração não desfaz a QP5: a Seção 7.5
+% (sec:posicionamento) e a Seção 8.5 (sec:resposta_qp5) continuam sendo o
+% lugar canônico do posicionamento.
+%
+% pos/apend_III foi substituído pela Seção 7.5 e NÃO deve ser reincluído como
+% está: ele define fig:posto_medio, que a Seção 7.5 também define, e o rótulo
+% ficaria duplicado. O seu destino (aposentar, ou reaproveitar como
+% detalhamento por instância sem a figura) aguarda decisão do autor.
+%\apendices
+%
+%\input{./pos/apend_I}
+%\input{./pos/apend_II}
+%\input{./pos/apend_III}  % não reincluir; ver acima
 
 \end{document}
 

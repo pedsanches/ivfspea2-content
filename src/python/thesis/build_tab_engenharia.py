@@ -128,12 +128,13 @@ def main() -> int:
     for index, problem in enumerate(PROBLEM_ORDER):
         if index:
             rows.append(lt.Rule)
+        linhas_grupo: list[list[str] | object] = []
         subset = pairwise[pairwise["Problem"] == problem]
         if subset.empty:
             print(f"ERRO: {problem} ausente do artefato", file=sys.stderr)
             return 1
         objectives = int(subset.iloc[0]["M"])
-        for metric_index, metric in enumerate(METRIC_COLUMNS):
+        for metric in METRIC_COLUMNS:
             hit = subset[subset["Metric"] == metric]
             if len(hit) != 1:
                 print(
@@ -142,16 +143,21 @@ def main() -> int:
                 )
                 return 1
             row = hit.iloc[0]
-            comparison = host[(problem, metric)]
-            rows.append([
-                problem if metric_index == 0 else "",
-                str(objectives) if metric_index == 0 else "",
+            comparacao = host[(problem, metric)]
+            linhas_grupo.append([
+                "",
+                "",
                 metric,
-                fmt.signed(float(comparison["delta_pct"]), places=2),
-                fmt.pvalue(float(comparison["p"]), places=P_PLACES),
-                SYMBOL_LABEL[str(comparison["symbol"])],
+                fmt.signed(float(comparacao["delta_pct"]), places=2),
+                fmt.pvalue(float(comparacao["p"]), places=P_PLACES),
+                SYMBOL_LABEL[str(comparacao["symbol"])],
                 fmt.wtl(row["Plus"], row["Equal"], row["Minus"]),
             ])
+        # Rótulo de grupo (Problema e $M$) centralizado via multirow na
+        # primeira linha do par IGD/HV.
+        linhas_grupo[0][0] = lt.Multirow(problem, len(linhas_grupo))
+        linhas_grupo[0][1] = lt.Multirow(str(objectives), len(linhas_grupo))
+        rows.extend(linhas_grupo)
 
     changed = sorted(
         f"{problem}/{metric}"

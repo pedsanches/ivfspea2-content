@@ -34,7 +34,7 @@ from pathlib import Path
 
 from ivfspea2.paths import PROJECT_ROOT, ensure_dir
 
-__all__ = ["Gap", "Rule", "Span", "render", "write"]
+__all__ = ["Gap", "Multirow", "Rule", "Span", "render", "write"]
 
 # Sentinel rows. ``Rule`` separates row groups with a \midrule (the IVF/SPEA2
 # block, then the IVF/NSGA-III block); ``Gap`` separates subgroups with space
@@ -59,7 +59,20 @@ class Span:
     rule: bool = False
 
 
-Cell = str | Span
+@dataclass(frozen=True)
+class Multirow:
+    """A cell covering ``rows`` rows, centred on the vertical axis.
+
+    A label that groups a contiguous block (a metric, a number of objectives)
+    otherwise sits on the block's first line, reading as a property of that
+    line alone. ``\\multirow`` centres it over the whole block instead.
+    """
+
+    text: str
+    rows: int
+
+
+Cell = str | Span | Multirow
 
 # Column types that take one column each. ``p``, ``m`` and ``b`` also take a
 # width argument; ``@``, ``!``, ``>`` and ``<`` insert material and take none.
@@ -129,6 +142,11 @@ def _row(cells: Sequence[Cell], ncols: int, *, header: bool) -> tuple[str, str]:
     rules: list[str] = []
     column = 1
     for cell in cells:
+        if isinstance(cell, Multirow):
+            text = _bold(cell.text) if header else cell.text
+            parts.append(f"\\multirow{{{cell.rows}}}{{*}}{{{text}}}" if cell.rows > 1 else text)
+            column += 1
+            continue
         if not isinstance(cell, Span):
             parts.append(_bold(cell) if header else cell)
             column += 1

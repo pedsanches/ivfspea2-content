@@ -14,12 +14,12 @@
         \cmidrule(lr){4-5}\cmidrule(l){6-8}
         \textbf{Métrica} & \textbf{Desfecho (Holm)} & \textbf{$n$} & \textbf{Mediano} & \textbf{$A_{12}\geq 0{,}71$} & \textbf{Mediano} & \textbf{Mínimo} & \textbf{Máximo} \\
         \midrule
-        IGD & Vitórias & 37 & $0{,}804$ & 29 & $+1{,}27$ & $+0{,}28$ & $+10{,}23$ \\
+        \multirow{4}{*}{IGD} & Vitórias & 37 & $0{,}804$ & 29 & $+1{,}27$ & $+0{,}28$ & $+10{,}23$ \\
          & Empates & 10 & $0{,}547$ & 0 & $+0{,}32$ & $-8{,}87$ & $+24{,}07$ \\
          & Derrotas & 4 & $0{,}265$ & 0 & $-4{,}01$ & $-6{,}41$ & $-2{,}21$ \\
          & Todas & 51 & $0{,}756$ & 29 & $+1{,}15$ & $-8{,}87$ & $+24{,}07$ \\
         \midrule
-        HV & Vitórias & 39 & $0{,}863$ & 33 & $+0{,}06$ & $+0{,}01$ & $+4{,}01$ \\
+        \multirow{4}{*}{HV} & Vitórias & 39 & $0{,}863$ & 33 & $+0{,}06$ & $+0{,}01$ & $+4{,}01$ \\
          & Empates & 8 & $0{,}585$ & 0 & $+0{,}04$ & $-1{,}24$ & $+0{,}29$ \\
          & Derrotas & 4 & $0{,}188$ & 0 & $-0{,}14$ & $-0{,}33$ & $-0{,}11$ \\
          & Todas & 51 & $0{,}785$ & 33 & $+0{,}05$ & $-1{,}24$ & $+4{,}01$ \\
@@ -27,6 +27,6 @@
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Coorte confirmatória: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, 60 execuções por algoritmo e instância, orçamento de 100.000 avaliações. Desfecho pelo teste de Mann--Whitney com correção de Holm por número de objetivos e por métrica, como na Tabela~\ref{tab:confirmatorio_wtl}; $n$: número de instâncias com o desfecho. $A_{12}$ orientado: fração dos pares de execuções em que o IVF/SPEA2 obtém o melhor valor, com empates contando meio par. O corte $A_{12} \geq 0{,}71$ é descritivo, não outro teste de hipótese. $\Delta$: diferença entre as medianas dos dois algoritmos, em porcentagem da mediana do SPEA2, orientada de modo que valores positivos favoreçam o IVF/SPEA2.
+    Coorte da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, 60 execuções por algoritmo e instância, orçamento de 100.000 avaliações. Desfecho pelo teste de Mann--Whitney com correção de Holm por número de objetivos e por métrica, como na Tabela~\ref{tab:confirmatorio_wtl}; $n$: número de instâncias com o desfecho. $A_{12}$ orientado: fração dos pares de execuções em que o IVF/SPEA2 obtém o melhor valor, com empates contando meio par. O corte $A_{12} \geq 0{,}71$ é descritivo, não outro teste de hipótese. $\Delta$: diferença entre as medianas dos dois algoritmos, em porcentagem da mediana do SPEA2, orientada de modo que valores positivos favoreçam o IVF/SPEA2.
     }
 \end{table}

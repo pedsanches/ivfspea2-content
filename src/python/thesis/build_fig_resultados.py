@@ -2,7 +2,7 @@
 """Figuras de resultados do Capítulo VI (Resultados) da dissertação.
 
 Lê artefatos versionados e escreve três figuras. Duas pertencem à família
-confirmatória (``CONF``: IVF/SPEA2 na janela de submissão 3001–3060 contra o
+da comparação principal (``CONF``: IVF/SPEA2 na janela de submissão 3001–3060 contra o
 SPEA2 canônico na janela 1–60, 51 instâncias sintéticas, 60 execuções por
 configuração) e uma pertence ao Apêndice C (posto médio contra os demais
 comparadores, descritivo, sem teste de hipótese):

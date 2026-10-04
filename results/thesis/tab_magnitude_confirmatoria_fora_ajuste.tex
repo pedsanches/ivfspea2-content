@@ -6,7 +6,7 @@
     \centering
     \small
     \setlength{\tabcolsep}{4pt}
-    \caption{Magnitude fora do ajuste entre IVF/SPEA2 e SPEA2, por desfecho confirmatório corrigido.}
+    \caption{Magnitude fora do ajuste entre IVF/SPEA2 e SPEA2, por desfecho corrigido na comparação principal.}
     \label{tab:magnitude_confirmatoria_fora_ajuste}
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllcrrrr@{}}
         \toprule
@@ -14,31 +14,29 @@
         \cmidrule(l){6-8}
         \textbf{Métrica} & \textbf{$M$} & \textbf{Desfecho (Holm)} & \textbf{$n$} & \textbf{Mediano} & \textbf{Mediano} & \textbf{Mínimo} & \textbf{Máximo} \\
         \midrule
-        IGD & M2 & Vitórias & 19 & $0{,}808$ & $+1{,}27$ & $+0{,}28$ & $+10{,}23$ \\
+        \multirow{8}{*}{IGD} & \multirow{4}{*}{2} & Vitórias & 19 & $0{,}808$ & $+1{,}27$ & $+0{,}28$ & $+10{,}23$ \\
          &  & Empates & 3 & $0{,}502$ & $+0{,}08$ & $-8{,}87$ & $+24{,}07$ \\
          &  & Derrotas & 2 & $0{,}265$ & $-2{,}46$ & $-2{,}70$ & $-2{,}21$ \\
          &  & Todas & 24 & $0{,}772$ & $+1{,}25$ & $-8{,}87$ & $+24{,}07$ \\
         \addlinespace
-         & M3 & Vitórias & 12 & $0{,}768$ & $+1{,}39$ & $+0{,}52$ & $+9{,}10$ \\
+         & \multirow{4}{*}{3} & Vitórias & 12 & $0{,}768$ & $+1{,}39$ & $+0{,}52$ & $+9{,}10$ \\
          &  & Empates & 3 & $0{,}533$ & $+0{,}37$ & $+0{,}28$ & $+0{,}68$ \\
          &  & Derrotas & 0 & --- & --- & --- & --- \\
          &  & Todas & 15 & $0{,}756$ & $+1{,}15$ & $+0{,}28$ & $+9{,}10$ \\
-         &  & Todas, sem MaF7$^*$ & 14 & $0{,}761$ & $+1{,}15$ & $+0{,}28$ & $+9{,}10$ \\
         \midrule
-        HV & M2 & Vitórias & 19 & $0{,}838$ & $+0{,}04$ & $+0{,}01$ & $+0{,}37$ \\
+        \multirow{8}{*}{HV} & \multirow{4}{*}{2} & Vitórias & 19 & $0{,}838$ & $+0{,}04$ & $+0{,}01$ & $+0{,}37$ \\
          &  & Empates & 3 & $0{,}514$ & $+0{,}02$ & $-1{,}24$ & $+0{,}29$ \\
          &  & Derrotas & 2 & $0{,}142$ & $-0{,}12$ & $-0{,}12$ & $-0{,}11$ \\
          &  & Todas & 24 & $0{,}760$ & $+0{,}03$ & $-1{,}24$ & $+0{,}37$ \\
         \addlinespace
-         & M3 & Vitórias & 11 & $0{,}921$ & $+0{,}66$ & $+0{,}09$ & $+4{,}01$ \\
+         & \multirow{4}{*}{3} & Vitórias & 11 & $0{,}921$ & $+0{,}66$ & $+0{,}09$ & $+4{,}01$ \\
          &  & Empates & 4 & $0{,}588$ & $+0{,}03$ & $0{,}00$ & $+0{,}07$ \\
          &  & Derrotas & 0 & --- & --- & --- & --- \\
          &  & Todas & 15 & $0{,}863$ & $+0{,}48$ & $0{,}00$ & $+4{,}01$ \\
-         &  & Todas, sem MaF7$^*$ & 14 & $0{,}870$ & $+0{,}50$ & $0{,}00$ & $+4{,}01$ \\
         \bottomrule
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Apenas as 39 instâncias não usadas no ajuste (24 com $M=2$ e 15 com $M=3$). Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, 60 execuções por algoritmo e instância. O desfecho é o de Mann--Whitney com Holm aplicado à família completa de cada métrica e número de objetivos, antes do recorte fora do ajuste; portanto, esta tabela não reaplica Holm. $A_{12}$ e $\Delta$ seguem as definições da Tabela~\ref{tab:magnitude_confirmatoria}; valores positivos de $\Delta$ favorecem IVF/SPEA2. $^*$MaF7 com $M=3$ duplica DTLZ7 usado no ajuste; a última linha de cada métrica mostra o recorte descritivo sem essa instância.
+    Apenas as 39 instâncias não usadas no ajuste (24 com $M=2$ e 15 com $M=3$). Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, 60 execuções por algoritmo e instância. O desfecho é o de Mann--Whitney com Holm aplicado à família completa de cada métrica e número de objetivos, antes do recorte fora do ajuste; portanto, esta tabela não reaplica Holm. $A_{12}$ e $\Delta$ seguem as definições da Tabela~\ref{tab:magnitude_confirmatoria}; valores positivos de $\Delta$ favorecem IVF/SPEA2.
     }
 \end{table}

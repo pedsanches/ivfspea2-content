@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Exploração descritiva da suíte WFG: propriedades declaradas e desfecho corrigido.
 
-A família confirmatória concentra na WFG as quatro derrotas corrigidas do
+A família da comparação principal concentra na WFG as quatro derrotas corrigidas do
 IVF/SPEA2. Esta tabela abre a suíte por função e por configuração para
 restringir a hipótese formulada na Discussão, sem testá-la:
 
@@ -152,7 +152,8 @@ def build() -> str:
         "Exploração descritiva, formulada depois de se observar a concentração das derrotas na "
         "WFG; não é teste de hipótese. Vereditos do IVF/SPEA2 contra o SPEA2 canônico: os das "
         "Tabelas por instância (Mann--Whitney bicaudal, Holm por número de objetivos e por "
-        "métrica na família completa, coorte confirmatória de 60 execuções por algoritmo); "
+        "métrica na família completa, coorte da comparação principal, com 60 execuções por "
+        "algoritmo); "
         "$+$ favorece o IVF/SPEA2, $-$ favorece o SPEA2 e $=$ indica ausência de diferença "
         "detectável. Nenhuma correção é reaplicada aos grupos. $\\Delta$: diferença relativa das "
         "medianas de IGD, positiva quando favorece o IVF/SPEA2. $^{\\dagger}$ configuração usada "

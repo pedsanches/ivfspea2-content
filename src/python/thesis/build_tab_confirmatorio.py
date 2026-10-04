@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Confirmatory win/tie/loss table for the results chapter.
+"""Primary-comparison win/tie/loss table for the results chapter.
 
 Reads the Holm-corrected audit produced by
 ``src/python/analysis/compute_claims_summary.py``. That audit is the only
@@ -49,6 +49,7 @@ def main() -> int:
     for scope_index, (suffix, scope) in enumerate(SCOPES):
         if scope_index:
             rows.append(lt.Rule)
+        grupo: list[list[str] | object] = []
         for objectives_index, (objectives, m_label) in enumerate(OBJECTIVES):
             counts: list[str] = []
             sizes: set[int] = set()
@@ -76,10 +77,11 @@ def main() -> int:
                     file=sys.stderr,
                 )
                 return 1
-            # The scope is printed once per block; the rule between blocks
-            # is what separates them visually.
             label = scope if objectives_index == 0 else ""
-            rows.append([label, m_label, str(sizes.pop()), *counts])
+            grupo.append([label, m_label, str(sizes.pop()), *counts])
+        # O rótulo do escopo agrupa o bloco de objetivos centralizado verticalmente.
+        grupo[0][0] = lt.Multirow(scope, len(grupo))
+        rows.extend(grupo)
 
     note = (
         "V/E/D: vitórias/empates/derrotas do IVF/SPEA2 contra o SPEA2 canônico; $n$: número "

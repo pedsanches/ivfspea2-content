@@ -111,13 +111,18 @@ def build_models() -> str | None:
         if previous_task is not None:
             rows.append(lt.Rule if task != previous_task else lt.Gap)
         previous_task = task
+        # Um modelo ocupa duas linhas (BA e MCC): o rótulo da primeira linha
+        # vira \multirow centralizado verticalmente sobre as duas.
+        grupo: list[list[str] | object] = []
         for measure_index, (column, symbol) in enumerate(measures):
             cells = [MODEL_LABEL.get(model, model) if measure_index == 0 else "", symbol]
             for validation in ("LOOCV", "LOFO"):
                 hit = block[block["validation"] == validation]
                 value = hit.iloc[0][column] if not hit.empty else float("nan")
                 cells.append(fmt.decimal(value, places=3) if pd.notna(value) else "---")
-            rows.append(cells)
+            grupo.append(cells)
+        grupo[0][0] = lt.Multirow(MODEL_LABEL.get(model, model), len(grupo))
+        rows.extend(grupo)
 
     # Preserve published rows while flagging the exploratory preprocessing:
     # global ranks of the regression response precede each held-out fold.
@@ -204,7 +209,8 @@ def build_separation() -> str | None:
         f"observáveis, nos primeiros {int(EARLY_FRAC * 100)}\\% das gerações. São {n_cases} "
         "instâncias rotuladas, com 30 execuções pareadas por semente; $A_{12}$ é o tamanho de "
         "efeito de Vargha--Delaney. Os rótulos derivam da comparação em IGD da coorte "
-        "confirmatória, sem correção de multiplicidade, e não constituem desfecho independente."
+        "da comparação principal, sem correção de multiplicidade, e não constituem desfecho "
+        "independente."
     )
 
     return lt.render(
@@ -471,7 +477,7 @@ def build_dinamica_suite() -> str | None:
         "Renovação mediana: mediana, entre as instâncias da suíte, da renovação de cada "
         "instância. Desligadas pela regra: total de instâncias classificadas pela mediana e, "
         "entre elas, aquelas em que o operador ajuda; não são decisões por execução do "
-        "controlador. Os rótulos derivam da comparação em IGD da coorte confirmatória, "
+        "controlador. Os rótulos derivam da comparação em IGD da coorte da comparação principal, "
         "sem correção de multiplicidade, e não constituem desfecho independente."
     )
 

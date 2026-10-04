@@ -15,13 +15,13 @@
         \cmidrule(l){4-5}
         \textbf{Métrica} & \textbf{Subconjunto} & \textbf{$n$} & \textbf{SPEA2 canônico} & \textbf{IVF/SPEA2 sempre ativo} \\
         \midrule
-        HV & Todas & 51 & 34/14/3 & 2/40/9 \\
+        \multirow{5}{*}{HV} & Todas & 51 & 34/14/3 & 2/40/9 \\
          & O operador ajuda & 41 & 33/8/0 & 0/32/9 \\
          & O operador não ajuda & 10 & 1/6/3 & 2/8/0 \\
          & \quad neutro & 6 & 1/5/0 & 0/6/0 \\
          & \quad prejudica & 4 & 0/1/3 & 2/2/0 \\
         \midrule
-        IGD & Todas & 51 & 29/18/4 & 1/40/10 \\
+        \multirow{5}{*}{IGD} & Todas & 51 & 29/18/4 & 1/40/10 \\
          & O operador ajuda & 41 & 29/12/0 & 0/33/8 \\
          & O operador não ajuda & 10 & 0/6/4 & 1/7/2 \\
          & \quad neutro & 6 & 0/5/1 & 0/5/1 \\
@@ -30,6 +30,6 @@
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Controlador de aquecimento: ao fim dos primeiros 20\% do orçamento, o operador é desativado de forma irreversível nas execuções cuja renovação média do arquivo fica abaixo do limiar. Cada família foi controlada com o limiar calibrado sem ela, por validação deixa-uma-família: $0{,}216$ em DTLZ, MaF e ZDT, e $0{,}248$ em WFG (Tabela~\ref{tab:dinamica_suite}). Wilcoxon pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente; um caso conta como vitória ou derrota do controlador quando o valor-$p$ ajustado fica abaixo de $0{,}05$ e o $A_{12}$ sai do intervalo $[0{,}44;\,0{,}56]$. As linhas recuadas decompõem as instâncias em que o operador não ajuda segundo o rótulo de três classes da comparação em IGD da coorte confirmatória, sem correção de multiplicidade: neutro quando o IVF/SPEA2 não difere do SPEA2, prejudica quando perde para ele. O HV é o desfecho primário declarado desta avaliação.
+    Controlador de aquecimento: ao fim dos primeiros 20\% do orçamento, o operador é desativado de forma irreversível nas execuções cuja renovação média do arquivo fica abaixo do limiar. Cada família foi controlada com o limiar calibrado sem ela, por validação deixa-uma-família: $0{,}216$ em DTLZ, MaF e ZDT, e $0{,}248$ em WFG (Tabela~\ref{tab:dinamica_suite}). Wilcoxon pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente; um caso conta como vitória ou derrota do controlador quando o valor-$p$ ajustado fica abaixo de $0{,}05$ e o $A_{12}$ sai do intervalo $[0{,}44;\,0{,}56]$. As linhas recuadas decompõem as instâncias em que o operador não ajuda segundo o rótulo de três classes da comparação em IGD da coorte da comparação principal, sem correção de multiplicidade: neutro quando o IVF/SPEA2 não difere do SPEA2, prejudica quando perde para ele. O HV é o desfecho primário declarado desta avaliação.
     }
 \end{table}

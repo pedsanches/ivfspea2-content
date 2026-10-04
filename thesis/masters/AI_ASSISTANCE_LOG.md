@@ -1182,3 +1182,84 @@ ou informação que amplie indevidamente a exposição de material inédito.
   convergência), inclusão do artigo CEC 2023 no `.bib` e normalização de metadados
   bibliográficos. A declaração de uso de IA deve especificar ferramenta e finalidade no
   local exigido pela UFG, pelo PPGCC e pelo veículo.
+
+### 2026-10-02 — fechamento científico: disponibilidade dos brutos, formulações, fluxograma e bibliografia (rodada R16)
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp, com subagentes de revisão
+  (científica e de evidência externa); o ambiente informa o modelo
+  `anthropic/claude-opus-5-5`, o que deve ser confirmado antes de uma declaração formal.
+- **Fase:** fechamento de pendências delimitadas e leitura integrada.
+- **Finalidade:** alinhar Apêndices A e B, manifesto e gerador sobre os dados brutos;
+  examinar três formulações candidatas (Caps. 1, 3 e 4); corrigir o fluxograma do SPEA2;
+  fechar as pendências bibliográficas registradas; verificar a continuidade QP↔respostas.
+- **Arquivos afetados:** `tex/cap_I.tex`, `cap_III.tex`, `cap_IV.tex`; `pos/apend_II.tex`;
+  `bib/modelo-tese.bib`; `data-sources.toml`; `src/python/thesis/build_apendice_fontes.py`
+  e `results/thesis/apendice_fontes.tex` (regenerado); `fig/src/fluxo_spea2_pt.tex` (novo)
+  e `fig/fluxo_spea2_pt.pdf`; `REVISION_PLAN.md` §4.
+- **Texto científico alterado:** generalização sobre velocidade de convergência
+  recalibrada (Cap. 1); hipótese de projeto deixou de ser afirmada como inadequação
+  (Cap. 3); frase do IVF/GDE3 delimitada ao resumo oficial; remissão do Cap. 4 alinhada à
+  QP2 comparativa; §4.5 reescrita sem fator multiplicativo de custo, com truncagem e
+  recálculo de aptidão; estado dos brutos corrigido nos Apêndices A e B. Nenhum número de
+  resultado, teste, correção ou coorte mudou.
+- **Entradas inspecionadas:** código MATLAB do IVF/SPEA2 e do SPEA2 da plataforma;
+  manifestos de release e `docs/RELEASE_IDENTITY.md`; listas de arquivos das três versões
+  publicadas do registro Zenodo; registros Crossref; página e PDF público do capítulo de
+  Camilo-Junior e Yamanaka (IntechOpen); resumo do IVF/GDE3 e do IVF/NSGA-III no IEEE
+  Xplore; PDF público da tese de Sampaio (2024). As consultas externas levaram apenas
+  identificadores e metadados.
+- **Verificação humana/técnica:** `make thesis-tables-check` e `make thesis-doctor`
+  aprovados; `bib_check.py` ok=53; `make thesis` sem bloqueante novo nem overfull, com as
+  quatro linhas underfull preexistentes; fluxograma, §4.5, bibliografia e Apêndices A e B
+  inspecionados renderizados. A conferência e a aprovação humanas cabem ao autor e ao
+  orientador.
+- **Limitações e pendências:** textos integrais do IVF/GDE3 e do artigo CEC 2023 não
+  acessados; redação final não reauditada de forma independente; comentário de cabeçalho
+  de `IVFNSGAIII.m` e erratas dos artigos ficam fora desta rodada.
+
+### 2026-10-03 — coluna $M$, recorte sem MaF7 e centralização vertical dos rótulos de grupo
+
+- **Ferramenta:** opencode omp, com subagentes de edição em paralelo; o ambiente reporta
+  o modelo `opencode-go/deepseek-v4.1-flash`, que deve ser confirmado antes de uma
+  declaração formal.
+- **Fase:** apresentação e legibilidade das tabelas geradas, e decisão editorial do autor
+  sobre o que a Tabela 6.3 torna visível; sem reanálise estatística e sem nova campanha.
+- **Finalidade:** (i) remover o prefixo `M` do valor da coluna cujo cabeçalho já é `$M$`;
+  (ii) retirar da Tabela 6.3 a linha descritiva "Todas, sem MaF7" e a sentença de nota que
+  a explicava, espelhando a decisão na prosa dos Capítulos 5, 6, 7 e 8; (iii) centralizar
+  no eixo vertical, com `\multirow`, todos os rótulos que agrupam várias linhas nas
+  tabelas geradas.
+- **Arquivos afetados:** `src/python/thesis/latex_table.py` (novo tipo de célula
+  `Multirow`, que emite `\multirow{n}{*}{...}`); nove construtores
+  `src/python/thesis/build_tab_*.py` (`magnitude_confirmatoria`, `ativacao_robustez`,
+  `confirmatorio`, `controlador`, `engenharia`, `fla_dinamica`,
+  `geometria_confirmatoria`, `hosts`, `posicionamento`); `thesis/masters/main.tex`
+  (`\usepackage{multirow}`); `thesis/masters/tex/{cap_V,cap_VI,cap_VII,cap_VIII}.tex`;
+  regeneradas 11 tabelas em `results/thesis/`, com 40 células `\multirow`, espelhadas em
+  `thesis/masters/generated/`.
+- **Texto científico alterado:** removidos o recorte quantificado sem MaF7 (IGD 11 vitórias
+  em 14 instâncias, Δ mediano $+1{,}15\%$; HV 10/14, $+0{,}50\%$) e as duas afirmações de
+  que o Capítulo 6 reporta esse recorte com e sem a instância duplicada; removida a menção
+  "11 sem o MaF7" da resposta à QP1. Preservadas a declaração da duplicata funcional
+  MaF7/DTLZ7 e todas as contagens, correções e coortes; nenhum número, teste ou família de
+  Holm mudou. Nas tabelas, mudaram apenas células de rótulo: nenhum valor.
+- **Entradas inspecionadas:** apenas artefatos locais do repositório
+  (`results/tables/claims_summary_instance_details.csv`,
+  `data/processed/todas_metricas_consolidado_with_modern.csv`, as tabelas de
+  `results/thesis/`, a prosa de `tex/` e `REWRITE_SPEC.md` OQ-21). Nenhuma consulta externa
+  e nenhum conteúdo inédito enviado a terceiros.
+- **Verificação humana/técnica:** varredura mecânica das 24 tabelas — zero rótulo de grupo
+  sem `\multirow` e corpo normalizado idêntico ao da versão anterior, o que confirma que só
+  o invólucro do rótulo mudou; `make thesis-tables-check` aprovado; `make thesis` sem
+  bloqueante novo (`latex_check.py --compare`: zero novos, três linhas *underfull*
+  preexistentes) e zero *overfull*; páginas 53, 55, 57, 65, 73, 75, 77 e 79 rasterizadas e
+  inspecionadas. Três defeitos introduzidos pelos subagentes de edição (rótulo repetido em
+  `controlador_wtl` e `engenharia_wtl`; duplicação do rótulo de métrica e deriva de
+  espaçamento em `posicionamento`) foram detectados pela varredura e corrigidos antes da
+  entrega. A conferência e a aprovação humanas cabem ao autor e ao orientador.
+- **Limitações e pendências:** a convenção `2`/`3` na coluna `$M$`, a remoção do recorte e a
+  centralização foram decisões do autor nesta sessão; `REWRITE_SPEC.md` OQ-21 (iii) ainda
+  descreve o recorte removido e não foi emendado;
+  `paper/springer-nature/src/sn-article.tex` mantém 13 grupos de rótulos no mesmo estado
+  anterior e ficou fora do escopo. Esta sessão é posterior à R17 (2026-10-03, ainda sem
+  entrada neste log) e não recebeu número de rodada em `REWRITE_SPEC.md` §6.2.

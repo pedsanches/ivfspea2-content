@@ -68,24 +68,24 @@ A Figura~\ref{fig:spea2_flow} resume o ciclo do SPEA2, e os passos a seguir o de
 
     \item \textbf{Atribuição de aptidão:} calcula-se $F(i)$ para todos os indivíduos de $P_t \cup \bar{P}_t$, pelas Equações~\ref{eq:strength_value} a~\ref{eq:final_fitness};
 
-    \item \textbf{Seleção ambiental:} os indivíduos não dominados da união --- os de $F(i) < 1$ --- formam o novo arquivo $\bar{P}_{t+1}$. Se excederem $\bar{N}$, o operador de truncagem remove, um a um, o indivíduo cuja distância ao vizinho mais próximo é a menor, desempatando pelas distâncias aos vizinhos seguintes, o que preserva as soluções extremas; se forem menos que $\bar{N}$, o arquivo é completado com os melhores indivíduos dominados da união, na ordem de $F(i)$;
+    \item \textbf{Seleção ambiental:} os indivíduos não dominados da união, isto é, os de $F(i) < 1$, formam o novo arquivo $\bar{P}_{t+1}$. Se excederem $\bar{N}$, o operador de truncagem remove, um a um, o indivíduo cuja distância ao vizinho mais próximo é a menor, desempatando pelas distâncias aos vizinhos seguintes, o que preserva as soluções extremas; se forem menos que $\bar{N}$, o arquivo é completado com os melhores indivíduos dominados da união, na ordem de $F(i)$;
 
     \item \textbf{Critério de parada:} se o orçamento de avaliações, ou outro critério de parada, se esgotou, as soluções não dominadas de $\bar{P}_{t+1}$ constituem o resultado;
 
-    \item \textbf{Seleção para reprodução:} torneios binários, com reposição, sobre o arquivo $\bar{P}_{t+1}$ escolhem os pais;
+    \item \textbf{Seleção para reprodução:} torneios binários, com reposição, sobre o arquivo $\bar{P}_{t+1}$ escolhem os progenitores;
 
-    \item \textbf{Variação:} cruzamento e mutação aplicados aos pais produzem os $N$ descendentes que formam a nova população $P_{t+1}$, e o ciclo retorna ao passo 2.
+    \item \textbf{Variação:} cruzamento e mutação aplicados aos progenitores produzem os $N$ descendentes que formam a nova população $P_{t+1}$, e o ciclo retorna ao passo 2.
 \end{enumerate}
 
-Na implementação da plataforma, a população corrente e o arquivo são um único conjunto: a cada geração, os $N$ descendentes são unidos às $N$ soluções correntes, e a seleção ambiental devolve as $N$ que formam a geração seguinte. É desse conjunto que o módulo IVF, descrito no Capítulo~\ref{sec:Proposal}, coleta as mães, e é a ele que aplica a seleção ambiental ao fim de cada ciclo.
+Na implementação da plataforma, a população corrente e o arquivo são um único conjunto: a cada geração, os $N$ descendentes são unidos às $N$ soluções correntes, e a seleção ambiental devolve as $N$ que formam a geração seguinte. É desse conjunto que o módulo IVF, descrito no Capítulo~\ref{sec:Proposal}, coleta os doadores secundários, e é a ele que aplica a seleção ambiental ao fim de cada ciclo.
 
 \subsection{Ordenação para sobrevivência no SPEA2, no NSGA-II e no NSGA-III}
 
-Os três hospedeiros usados nesta dissertação --- SPEA2, NSGA-II~\cite{deb2002fast} e NSGA-III~\cite{deb2014nsga3} --- resolvem o mesmo problema, decidir quais indivíduos sobrevivem a cada geração, por critérios de ordenação distintos. O SPEA2, descrito acima, usa um valor escalar de aptidão, $F(i)$, calculado sobre a união da população com o arquivo: a dominância, por meio de $R(i)$, ordena primeiro, e a densidade $D(i)$ desempata; a truncagem do arquivo, quando necessária, usa apenas distâncias no espaço de objetivos.
+Os três hospedeiros usados nesta dissertação (SPEA2, NSGA-II~\cite{deb2002fast} e NSGA-III~\cite{deb2014nsga3}) resolvem o mesmo problema, decidir quais indivíduos sobrevivem a cada geração, por critérios de ordenação distintos. O SPEA2, descrito acima, usa um valor escalar de aptidão, $F(i)$, calculado sobre a união da população com o arquivo: a dominância, por meio de $R(i)$, ordena primeiro, e a densidade $D(i)$ desempata; a truncagem do arquivo, quando necessária, usa apenas distâncias no espaço de objetivos.
 
 O NSGA-II ordena os indivíduos por não dominância, em frentes sucessivas, e desempata os da mesma frente pela distância de aglomeração (\textit{crowding distance}): em cada objetivo, a frente é ordenada e cada solução recebe a diferença normalizada entre os valores dos seus dois vizinhos adjacentes; a distância é a soma dessas diferenças sobre os objetivos, e as soluções extremas recebem valor infinito~\cite{deb2002fast}. Não há arquivo separado nem aptidão escalar: a sobrevivência depende da frente e, dentro da última frente admitida, da distância. O NSGA-III preserva a ordenação por não dominância e substitui a distância de aglomeração por um mecanismo de nicho: no espaço de objetivos normalizado, cada indivíduo é associado à direção de referência mais próxima, entre as geradas pelo método de Das e Dennis~\cite{das1998normal}, e a última frente admitida é truncada em favor dos indivíduos associados às direções menos ocupadas~\cite{deb2014nsga3}.
 
-Como os três hospedeiros ordenam soluções por critérios diferentes --- aptidão escalar com arquivo no SPEA2, frente e distância de aglomeração no NSGA-II, frente e ocupação de nicho no NSGA-III ---, cada acoplamento do IVF a um deles redefine a escolha de progenitores e o critério de continuação dos ciclos. A Seção~\ref{sec:linhagem_ivf} descreve como os acoplamentos anteriores o fizeram, o Capítulo~\ref{sec:Proposal} descreve como o IVF/SPEA2 o faz, e a Seção~\ref{sec:hospedeiros} compara os três pipelines resultantes.
+Como os três hospedeiros ordenam soluções por critérios diferentes (aptidão escalar com arquivo no SPEA2, frente e distância de aglomeração no NSGA-II, frente e ocupação de nicho no NSGA-III), cada acoplamento do IVF a um deles redefine a escolha de progenitores e o critério de continuação dos ciclos. A Seção~\ref{sec:linhagem_ivf} descreve como os acoplamentos anteriores o fizeram, o Capítulo~\ref{sec:Proposal} descreve como o IVF/SPEA2 o faz, e a Seção~\ref{sec:hospedeiros} compara os três pipelines resultantes.
 
 \section{Hibridização de Algoritmos Evolutivos}
 \label{sec:hibridizacao}
@@ -119,7 +119,7 @@ O módulo recebe a população do hospedeiro e percorre os passos abaixo, que co
 \begin{enumerate}
     \item \textbf{Coleta:} copiam-se para o módulo os $c$ indivíduos de melhor qualidade da população corrente do hospedeiro, segundo o critério de qualidade do problema;
         
-    \item \textbf{Seleção de doadores:} na formulação original, o melhor indivíduo coletado torna-se o doador primário e os demais, doadores secundários, de modo que todos os cruzamentos de um ciclo compartilham o mesmo progenitor principal. A Seção~\ref{sec:pai_dissimilar} expõe o argumento pelo qual esse compartilhamento tende a ser contraproducente sob a aptidão do SPEA2, e o substitui;
+    \item \textbf{Seleção de doadores:} na formulação original, o melhor indivíduo coletado torna-se o doador primário e os demais, doadores secundários, de modo que todos os cruzamentos de um ciclo compartilham o mesmo doador primário. A Seção~\ref{sec:pai_dissimilar} expõe o argumento pelo qual esse compartilhamento tende a ser contraproducente sob a aptidão do SPEA2, e o substitui;
         
     \item \textbf{Manipulação genética:} os doadores são recombinados, e, conforme o perfil de manipulação (Seção~\ref{sec:ivf_perfis}), parte deles é mutada antes da recombinação; o número de descendentes não excede o tamanho da população;
         
@@ -164,7 +164,7 @@ A calibração descrita na Seção~\ref{sec:calibracao} comparou os cinco perfis
 \section{Indicadores de Desempenho}
 \label{sec:indicadores}
 
-Comparar aproximações da fronteira de Pareto exige reduzir um conjunto de soluções a um número, e nenhum indicador isolado captura as duas propriedades que interessam --- proximidade da fronteira ótima e cobertura dela. Esta dissertação usa dois indicadores com orientações complementares, e reporta ambos sempre que reporta um.
+Comparar aproximações da fronteira de Pareto exige reduzir um conjunto de soluções a um número, e nenhum indicador isolado captura as duas propriedades que interessam: proximidade da fronteira ótima e cobertura dela. Esta dissertação usa dois indicadores com orientações complementares, e reporta ambos sempre que reporta um.
 
 \subsection{Distância Geracional Invertida}
 
@@ -186,11 +186,11 @@ O hipervolume (HV) mede o volume da região do espaço de objetivos dominada pel
 \end{equation}
 em que $\Lambda$ é a medida de Lebesgue e as desigualdades valem componente a componente. \textbf{Valores maiores indicam melhor desempenho.}
 
-O HV dispensa conhecer a fronteira ótima, o que o torna aplicável quando ela não está disponível, mas exige a escolha de um ponto de referência --- e essa escolha afeta o resultado. Uma solução só contribui para o volume se dominar $\mathbf{r}$, de modo que um ponto de referência frouxo demais valoriza soluções extremas e um restrito demais descarta parte da aproximação. Esta dissertação normaliza os objetivos antes do cálculo e adota o vetor de uns como ponto de referência, conforme a Seção~\ref{sec:metricas}.
+O HV dispensa conhecer a fronteira ótima, o que o torna aplicável quando ela não está disponível, mas exige a escolha de um ponto de referência. Essa escolha afeta o resultado. Uma solução só contribui para o volume se dominar $\mathbf{r}$, de modo que um ponto de referência frouxo demais valoriza soluções extremas e um restrito demais descarta parte da aproximação. Esta dissertação normaliza os objetivos antes do cálculo e adota o vetor de uns como ponto de referência, conforme a Seção~\ref{sec:metricas}.
 
 \subsection{Por que reportar os dois}
 
-Nenhum indicador isolado ordena aproximações de forma compatível com a relação de dominância em todos os casos, e a escolha do indicador é parte do desenho experimental, não um detalhe de relato~\cite{zitzler2004performance}. Os dois indicadores usados aqui não são redundantes, e a diferença entre eles é operacional: a IGD é orientada à proximidade em relação a um conjunto de referência conhecido, e o HV à cobertura em relação a um ponto de referência arbitrado. Um algoritmo que aproxima bem uma parte da fronteira e abandona outra pode melhorar num indicador e piorar no outro. Reportar apenas o indicador favorável a uma proposta é uma forma de seleção pós-hoc, e o modelo de evidência desta pesquisa a proíbe. Os casos de discordância observados são registrados onde ocorrem, e não agregados.
+Nenhum indicador isolado ordena aproximações de forma compatível com a relação de dominância em todos os casos, e a escolha do indicador é parte do desenho experimental~\cite{zitzler2004performance}. Os dois indicadores usados aqui diferem operacionalmente: a IGD é orientada à proximidade em relação a um conjunto de referência conhecido, e o HV à cobertura em relação a um ponto de referência arbitrado. Um algoritmo que aproxima bem uma parte da fronteira e abandona outra pode melhorar num indicador e piorar no outro. Reportar apenas o indicador favorável a uma proposta é uma forma de seleção pós-hoc, e o modelo de evidência desta pesquisa a proíbe. Os casos de discordância observados são registrados onde ocorrem, e não agregados.
 
 \section{Análise Estatística}
 \label{sec:inferencia}
@@ -199,9 +199,9 @@ Algoritmos evolutivos são estocásticos: uma única execução não permite con
 
 \subsection{Testes de hipótese não paramétricos}
 
-Distribuições de indicadores como a IGD costumam ser assimétricas e não satisfazem a suposição de normalidade, o que recomenda testes não paramétricos. Para amostras independentes --- execuções de dois algoritmos que não compartilham semente --- usa-se o teste de soma de postos de Wilcoxon~\cite{wilcoxon1945}, também chamado de Mann--Whitney~U~\cite{mann1947test}, que avalia se os valores de uma das amostras tendem a ser maiores que os da outra. Quando as execuções são pareadas por semente, o teste apropriado é o de postos sinalizados de Wilcoxon, que explora o pareamento e tem maior poder.
+Distribuições de indicadores como a IGD costumam ser assimétricas e não satisfazem a suposição de normalidade, o que recomenda testes não paramétricos. Para amostras independentes, isto é, execuções de dois algoritmos que não compartilham semente, usa-se o teste de soma de postos de Wilcoxon~\cite{wilcoxon1945}, também chamado de Mann--Whitney~U~\cite{mann1947test}, que avalia se os valores de uma das amostras tendem a ser maiores que os da outra. Quando as execuções são pareadas por semente, o teste apropriado é o de postos sinalizados de Wilcoxon, que explora o pareamento e tem maior poder.
 
-A escolha entre os dois não é editorial: aplicar um teste pareado a amostras que não têm chave de pareamento defensável inventa uma correspondência que os dados não sustentam. Esta dissertação declara, para cada família de evidência, se as execuções são pareadas e por qual chave.
+A escolha entre os dois decorre da estrutura das amostras: aplicar um teste pareado a amostras que não têm chave de pareamento defensável inventa uma correspondência que os dados não sustentam. Esta dissertação declara, para cada família de evidência, se as execuções são pareadas e por qual chave.
 
 \subsection{Magnitude de efeito}
 
@@ -211,7 +211,7 @@ A convenção de orientação precisa ser declarada, porque a direção de ``mel
 
 \subsection{Multiplicidade}
 
-Comparar um algoritmo contra outro em 51 instâncias não é uma decisão, mas 51 decisões simultâneas. Ao nível de $0{,}05$, esperam-se cerca de duas rejeições falsas mesmo que nenhuma diferença real exista. Corrigir a multiplicidade é, portanto, obrigatório --- e exige declarar antes o que constitui a \emph{família} de hipóteses.
+Comparar um algoritmo contra outro em 51 instâncias envolve 51 decisões simultâneas. Ao nível de $0{,}05$, esperam-se cerca de duas rejeições falsas mesmo que nenhuma diferença real exista. Corrigir a multiplicidade é, portanto, obrigatório e exige declarar antes o que constitui a \emph{família} de hipóteses.
 
 Dois procedimentos aparecem nesta dissertação, e eles controlam quantidades diferentes:
 

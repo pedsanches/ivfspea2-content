@@ -233,7 +233,8 @@ def build_wtl(sensitivity: dict[str, dict]) -> str | None:
         "$\\alpha = 0{,}05$, 30 execuções por configuração, orçamento de 100.000 "
         f"avaliações. {_pairing_note_totals(sensitivity)} A comparação é entre pipelines e "
         "não isola o efeito do hospedeiro; as execuções 3001--3030 e 1--30 do par IVF/SPEA2 "
-        "são um subconjunto da coorte confirmatória e não constituem replicação independente."
+        "são um subconjunto da coorte da comparação principal e não constituem replicação "
+        "independente."
     )
 
     return lt.render(
@@ -267,6 +268,9 @@ def build_geometry() -> str | None:
     for index, (_, label, _) in enumerate(HOSTS):
         if index:
             rows.append(lt.Rule)
+        # Rótulo da coluna Acoplamento centralizado na vertical, agrupando
+        # as linhas IGD e HV do acoplamento.
+        bloco: list[list[str] | object] = []
         for metric_index, metric in enumerate(("IGD", "HV")):
             cells = [label if metric_index == 0 else "", metric]
             for geometry_key in ("regular", "irregular"):
@@ -285,7 +289,9 @@ def build_geometry() -> str | None:
                 row = hit.iloc[0]
                 cells.append(fmt.wtl(row["wins"], row["ties"], row["losses"]))
                 cells.append(fmt.decimal(float(row["median_a12_ivf"]), places=3))
-            rows.append(cells)
+            bloco.append(cells)
+        bloco[0][0] = lt.Multirow(label, len(bloco))
+        rows.extend(bloco)
 
     n_regular = int(grouped[grouped["geometry"] == "regular"]["n_instances"].iloc[0])
     n_irregular = int(grouped[grouped["geometry"] == "irregular"]["n_instances"].iloc[0])
@@ -350,6 +356,9 @@ def build_suite(sensitivity: dict[str, dict]) -> str | None:
         if index:
             rows.append(lt.Rule)
         host_key = stem.upper()
+        # Rótulo da coluna Acoplamento centralizado na vertical, agrupando
+        # as linhas IGD e HV do acoplamento.
+        bloco: list[list[str] | object] = []
         for metric_index, metric in enumerate(("igd", "hv")):
             path = RESULTS_TABLES / f"hosts_{stem}_{metric}_stats.csv"
             if not path.exists():
@@ -397,7 +406,7 @@ def build_suite(sensitivity: dict[str, dict]) -> str | None:
             wfg_mask = stats["group"] == "WFG"
             cells.append(fmt.decimal(float(a12_ivf[wfg_mask].median()), places=3))
             cells.append(fmt.decimal(float(a12_ivf[~wfg_mask].median()), places=3))
-            rows.append(cells)
+            bloco.append(cells)
 
             merged = stats.assign(a12_ivf=a12_ivf).merge(
                 front[["problem", "M", "geometry_group"]], on=["problem", "M"], how="left"
@@ -427,6 +436,9 @@ def build_suite(sensitivity: dict[str, dict]) -> str | None:
                         file=sys.stderr,
                     )
                     return None
+
+        bloco[0][0] = lt.Multirow(label, len(bloco))
+        rows.extend(bloco)
 
     assert n_by_suite is not None
     # Suite names alone keep the eight columns inside the text block at the

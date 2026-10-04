@@ -92,23 +92,105 @@ Aplicadas nesta mesma rodada, porque toda a reescrita se apoia neles:
 - `REVISION_PLAN.md` §2 — hoje manda separar `IVFSPEA2` (v1) de `IVFSPEA2V2` e
   preservar parâmetros da v1.
 
-### 1.5 Questões de pesquisa (R8)
+### 1.5 Questões de pesquisa (R8; QP2 e QP3 reformuladas na R14, ver §1.6)
 
-A dissertação responde a quatro questões; só a QP1 é confirmatória. Numeração de capítulo
+A dissertação responde a cinco questões (R17); só a QP1 é respondida pela avaliação comparativa
+principal (§1.7; até a R14b, "confirmatória"). Numeração de capítulo
 conforme o PDF compilado (o Cap. VII é `cap_VII_complementares.tex`; o Cap. VIII é
 `cap_VII.tex`).
 
 | QP | Pergunta | Onde | Família | Afirmações |
 |---|---|---|---|---|
 | QP1 | O IVF/SPEA2 supera o SPEA2 sob orçamento idêntico, e com que magnitude? | Cap. VI; §7.1 | `CONF`; `ENG` | `C-CONF-*`, `C-MAG-*`; `C-ENG-04` |
-| QP2 | O ganho decorre das duas decisões de acoplamento ou da configuração? | §7.2 | `SUP` | `C-TUN-01`, `C-ABL-*` |
-| QP3 | O benefício depende do hospedeiro? | §7.3 | `HOST` | `C-HOST-*` |
-| QP4 | É possível decidir cedo quando usar o operador, e isso compensa? | §7.4 | `DEC` | `C-FLA-*`, `C-DYN-*`, `C-CTRL-*` |
+| QP2 | Que diferenças de desempenho são observadas entre as configurações e as variantes de acoplamento avaliadas nos estudos de calibração e ablação do IVF/SPEA2? | §7.2 | `SUP` | `C-TUN-01`, `C-ABL-*` |
+| QP3 | Como varia o desempenho relativo dos acoplamentos IVF/SPEA2, IVF/NSGA-II e IVF/NSGA-III diante de seus respectivos hospedeiros? | §7.3 | `HOST` | `C-HOST-*` |
+| QP4 | É possível decidir cedo quando usar o operador, e isso compensa? (R14b: objetivo geral e OE5 cobrem informação anterior à execução e da dinâmica inicial; o comparador do benefício do controle é o IVF/SPEA2 sempre ativo; o controlador decide só pela renovação inicial do arquivo, `IVFSPEA2V2CTRLTRACE.m`, `controller_feature = mean_turnover`) | §7.4 | `DEC` | `C-FLA-*`, `C-DYN-*`, `C-CTRL-*` |
+| QP5 | Como o IVF/SPEA2 se posiciona, em IGD e HV, diante dos sete algoritmos comparados, e em que medida o posicionamento varia com o número de objetivos? (R17: pergunta **comparativa**, formulada depois de calculadas as contagens, não hipótese prévia; correção de Holm por comparador, por número de objetivos e por métrica) | §7.5; §8.5 | `CONF` (mesma coorte, papel contextual) | `C-POS-*`, `tab:posicionamento` |
 
 Cada questão é **respondida num único lugar**, a seção correspondente do Cap. VIII; os
 demais capítulos remetem a ela. Os quatro defeitos de argumentação das auditorias de 20/09
 tinham a mesma forma — um trecho reenunciava o resultado de outro e o alterava —, e esta
 regra existe para impedi-los.
+
+### 1.6 Reenquadramento de QP2 e QP3 (R14, 2026-10-01)
+
+Decisão do autor. Os quatro eixos de pesquisa ficam — eficácia, configuração e decisões
+de acoplamento, variação entre acoplamentos, ativação —, mas a QP2 e a QP3 passam a ser
+perguntas **comparativas sobre os estudos realizados**, para aproximar pergunta, desenho e
+resposta. A QP1 e a QP4 não mudam.
+
+| QP | Formulação R8 (histórico) | Formulação R14 (vigente) |
+|---|---|---|
+| QP2 | "Atribuição." O ganho decorre das duas decisões de acoplamento ou da configuração do operador? Objetivo: verificar se o ganho se deve às duas decisões ou à configuração. | "Configuração e decisões de acoplamento." Que diferenças de desempenho são observadas entre as configurações e as variantes de acoplamento avaliadas nos estudos de calibração e ablação do IVF/SPEA2? Objetivo: comparar o desempenho das configurações e das variantes de acoplamento avaliadas nesses estudos. |
+| QP3 | "Dependência do hospedeiro." O benefício do operador IVF depende do algoritmo que o hospeda? Objetivo: verificar se o benefício depende do algoritmo que o hospeda. | "Variação entre acoplamentos." Como varia o desempenho relativo dos acoplamentos IVF/SPEA2, IVF/NSGA-II e IVF/NSGA-III diante de seus respectivos hospedeiros? Objetivo: comparar os perfis de desempenho desses acoplamentos em relação aos respectivos hospedeiros. |
+
+Regras que acompanham a decisão:
+
+1. **Não são hipóteses prévias.** As formulações novas foram fixadas depois dos estudos e
+   não podem ser apresentadas como hipóteses declaradas antes deles. A QP1 continua sendo a
+   única confirmatória; a força de `SUP` e de `HOST` não muda.
+2. **Resposta pela comparação.** A resposta da QP2 e da QP3 abre pelo resultado comparativo
+   observado e segue a ordem resultado → interpretação sustentada → alcance → questão
+   aberta. Uma resposta composta só por "não foi possível atribuir" ou "o efeito causal não
+   foi identificado" não responde à pergunta nova; esses limites continuam no ponto
+   pertinente (alcance e questão aberta).
+3. **A atribuição continua aberta.** A atribuição do ganho às duas decisões, à configuração
+   ou ao recálculo de aptidão (`OQ-14`, `OQ-24`) e o efeito isolado do hospedeiro (`OQ-25`)
+   permanecem problemas **não isolados**; nenhuma formulação nova os converte em achado.
+4. **QP3: dois níveis de inferência.** Os testes de cada acoplamento contra o seu
+   hospedeiro (Wilcoxon, BH por acoplamento e métrica) são distintos da ordenação entre
+   pipelines, que é **descritiva**: nenhum teste compara diretamente o desempenho dos
+   acoplamentos entre si (o único teste que envolve os três, a interação entre hospedeiro e
+   geometria, não atingiu significância e responde a outra pergunta).
+5. **QP2: o contraste histórico de calibração** (C26 e A43 × `IVFSPEA2v1`) muda a
+   formulação (o braço histórico é `IVFSPEA2`, sem as duas decisões:
+   `head_to_head_c26_a43_v1_summary.json`, `inputs.baseline_algorithm`; as configurações
+   calibradas rodaram `IVFSPEA2V2`, `scripts/experiments/run_ivfspea2v2_tuning.m:220`) e os
+   parâmetros, além das diferenças já declaradas de execuções (60 × 30) e de orçamento
+   (não registrado no artefato).
+6. **Sem mudança de evidência.** Nenhum número, parâmetro, coorte, teste ou correção muda;
+   não há campanha nem análise numérica nova; "hospedeiro" não é substituído globalmente
+   por "pipeline"; o rótulo "confirmatória" não é reclassificado nesta rodada.
+
+Respostas sustentadas antes da R14, transcritas de `REVISION_PLAN.md` §2 (estado R13), como
+registro:
+
+- **QP2 (R13):** "Configurações C26 e A43 usam 30 execuções, a histórica 60 e orçamento não
+  verificado no contraste; não é teste isolado dos parâmetros. A calibração usou 50.000
+  avaliações e a avaliação 100.000; a estabilidade da escolha entre orçamentos não foi estudada
+  (§9.1). A ablação inicial registra 0/50/1 diante da ausência das duas decisões em cada
+  métrica, sem equivalência; Friedman fatorial p = 0,485 não prova igualdade. Na configuração
+  promovida não há ablação; o recálculo de aptidão antes do torneio também não foi isolado. A
+  hipótese de densidade permanece justificativa de projeto." Natureza: "apoio; atribuição
+  indeterminada".
+- **QP3 (R13):** "Dois níveis. (a) Os resultados diferem entre os pipelines avaliados: em
+  IGD, 33 de 51 instâncias no SPEA2, 22 no NSGA-III e 1 no NSGA-II (30 execuções, Wilcoxon,
+  BH). (b) O efeito causal do hospedeiro não foi identificado: hospedeiro, realização do
+  módulo, recombinação, ativação, configuração e procedimento de ajuste variam juntos; só o
+  IVF/SPEA2 tem calibração documentada nesta suíte, e os pipelines NSGA usam configurações
+  fixas dos runners, sem registro de ajuste equivalente (`OQ-25`)." Natureza: "comparativa".
+
+### 1.7 Nomenclatura da avaliação principal (R15, 2026-10-01)
+
+Decisão do autor, opção (c) de `OQ-26`. A comparação IVF/SPEA2 × SPEA2 na suíte sintética
+(família `CONF`) passa a ser chamada, na prosa da dissertação, **avaliação comparativa
+principal** ou **comparação principal**, conforme a função da frase; a família, "família da
+comparação principal", e a sua coorte, "coorte da comparação principal".
+
+- "Principal" descreve o **papel** da avaliação na dissertação. Não afirma
+  pré-especificação (a anterioridade continua não verificada, `OQ-26`) nem cria categoria
+  nova de força estatística. A IGD continua desfecho primário e o HV, secundário obrigatório;
+  testes, correções, coortes e contagens não mudam.
+- As demais famílias mantêm o papel e a inferência que tinham (apoio, comparativa,
+  diagnóstica); nada passa a "exploratório" por efeito desta decisão.
+- Ficam como estão os identificadores técnicos: `CONF`, `C-CONF-*`, o id de fonte
+  `memetic-computing-v2-confirmatory`, nomes de arquivo e de função
+  (`tab_confirmatorio_wtl`, `build_tab_*_confirmatoria.py`, `_a12_confirmatorio`), rótulos
+  (`sec:confirmatorio`, `tab:*confirmatori*`). No manifesto, o papel da fonte passou de
+  `confirmatory` a `primary`, traduzido como "principal" no Apêndice A.
+- Registros históricos (rodadas R1–R14b, verificações de `OQ-*` já fechadas, alvo original
+  da §6.1) mantêm a palavra da época. Declarações literais dos manuscritos de origem
+  ("pre-specified", "confirmatory") não são reescritas.
 
 ---
 
@@ -134,7 +216,7 @@ No CSV consolidado, o rótulo `Algoritmo = IVFSPEA2` carrega **120 identificador
 ### 2.3 Comandos de reconstrução
 
 ```bash
-.venv/bin/python src/python/analysis/compute_claims_summary.py      # confirmatória
+.venv/bin/python src/python/analysis/compute_claims_summary.py      # comparação principal
 .venv/bin/python src/python/analysis/generate_per_instance_tables.py
 make -C paper ppsn-hosts-assets                                     # hospedeiros (endpoint)
 .venv/bin/python src/python/fla/test_dynamic_signal.py              # dinâmica (só nesta máquina)
@@ -165,7 +247,7 @@ As linhas de afirmação abaixo referenciam esta tabela em vez de repetir o prot
 
 | Família | Coorte | n | Correção | Métricas | Ambiente registrado (`OQ-15`) | `id_fonte` |
 |---|---|---|---|---|---|---|
-| `CONF` confirmatória | IVF `3001–3060` × SPEA2 `1–60`, 51 instâncias, FE = 100 000, N = 100 | 60 | Holm, por `M` e por métrica | IGD primária (menor melhor), HV secundária obrigatória (maior melhor) | Springer: "24.2.0.2923080", formato de versão do MATLAB (R2024b) | `memetic-computing-v2-confirmatory` |
+| `CONF` comparação principal | IVF `3001–3060` × SPEA2 `1–60`, 51 instâncias, FE = 100 000, N = 100 | 60 | Holm, por `M` e por métrica | IGD primária (menor melhor), HV secundária obrigatória (maior melhor) | Springer: "24.2.0.2923080", formato de versão do MATLAB (R2024b) | `memetic-computing-v2-confirmatory` |
 | `SUP` tuning e ablação | subconjunto de 12 problemas, FE = 50 000 (tuning); 51 instâncias, FE = 100 000, na **configuração inicial não ajustada** (ablação, fase final; `OQ-14`) | 30 / 60 | Mann–Whitney + Holm | IGD, HV | Springer: idem | `memetic-computing-tuning-ablation` |
 | `ENG` engenharia | RWMOP9, RWMOP21, RWMOP8 | 60 | — | IGD, HV | Springer: idem | `memetic-computing-engineering` |
 | `HOST` hospedeiros | IVF/SPEA2 `3001–3030` × SPEA2 `1–30`; IVF/NSGA-II `4001–4030`; IVF/NSGA-III `5001–5030`; 51 instâncias | 30 | Benjamini–Hochberg | IGD, HV | PPSN: MATLAB R2025b + PlatEMO 4.6, incompatível com `CONF` nas execuções `3001–3030` (`OV-01`) | `ppsn-operator-host-compatibility` |
@@ -174,7 +256,7 @@ As linhas de afirmação abaixo referenciam esta tabela em vez de repetir o prot
 Divergências de protocolo entre famílias são **reportadas, não harmonizadas**
 (`OQ-06`, `OQ-07`, `OQ-08`).
 
-### 3.1 Capítulo VI — Resultados confirmatórios
+### 3.1 Capítulo VI — Resultados da comparação principal
 
 Artefato: `results/tables/claims_summary_audit.csv`. Produtor:
 `src/python/analysis/compute_claims_summary.py`. Família `CONF`.
@@ -264,14 +346,14 @@ Família `DEC`. Fonte editorial: `paper/clei2026/`.
 | `C-DYN-03` | A regra de limiar aberta por suíte (R9; descritiva) | 8 dos 10 `NOT_HELPS` são WFG; a WFG tem a menor renovação inicial mediana nas execuções do IVF/SPEA2 (0,215) e do SPEA2 (0,222); os limiares deixa-uma-família desligam o operador nas 18 instâncias WFG e, fora dela, só em DTLZ6 (M = 2 e 3, ambos `HELPS`); decisões da regra = partição "desligar na WFG e só nela" em **49/51**; toda decisão correta da regra é também correta na partição. Leitura permitida: a amostra não separa renovação de suíte, e BA 0,754 não mede discriminação dentro de uma suíte. Leitura **proibida**: "a renovação é só um marcador de suíte" | `results/thesis/tab_dinamica_suite.tex`, produzida por `build_tab_fla_dinamica.py` a partir de `dynamic_signal_test.csv` e `dynamic_signal_lofo.csv`; o gerador falha se tp/tn/fp/fn não reproduzirem o artefato LOFO (29/8/2/12) ou se alguma decisão correta da regra não for correta na partição. Passa a ser também o produtor de `C-CTRL-04` |
 | `C-DYN-04` | Partição WFG/demais como referência retrospectiva (R13) | aplicada aos 51 rótulos, sem ajuste: BA **0,778**, MCC **0,462** (tp 31, tn 8, fp 2, fn 10), contra BA 0,754 da regra de renovação; as duas discordâncias são DTLZ6 M = 2 e M = 3. Formulada depois de observada a concentração dos `NOT_HELPS` na WFG. Leitura permitida: nesta amostra, a regra de renovação não discrimina melhor que a identidade da suíte. Leitura **proibida**: partição como controlador validado ou superior fora da amostra | `results/thesis/tab_ativacao_robustez.tex`, produzida por `build_tab_ativacao_robustez.py` (`wfg_partition_posthoc`) a partir de `dynamic_signal_test.csv` |
 | `C-WFG-01` | Exploração descritiva da WFG (R13; pós-hoc) | Holm da família completa, sem recorreção: IGD WFG **3/3/3** com M = 2 e **5/3/1** com M = 3; WFG3 e WFG9 passam de derrota (M = 2, D = 11, K = 1) a vitória (M = 3, D = 12, K = 2), L = 10 nos dois; WFG9/M2 e WFG2/M3 são instâncias da calibração. Por separabilidade (Huband et al., 2006, tabela de propriedades): separáveis WFG1, 4, 5, 7 com IGD 3/1/0 e 3/1/0; não separáveis WFG2, 3, 6, 8, 9 com 0/2/3 e 2/2/1. Leitura permitida: restringe a hipótese; vitórias em funções multimodal (WFG4), enganosa (WFG5) e com viés dependente de parâmetro (WFG7) excluem explicações deterministas simples por essas propriedades isoladas. Leitura **proibida**: "a não separabilidade é a candidata que sobra", 18 configurações como 18 funções independentes, reversão atribuída só a M | `results/thesis/tab_wfg_exploratoria.tex`, produzida por `build_tab_wfg_exploratoria.py` a partir de `claims_summary_instance_details.csv`, `igd_per_instance_M{2,3}.csv` e `config/wfg_properties.csv`; o gerador falha se D divergir de 11/12 ou se L diferir entre as configurações |
-| `C-SYN-01` | Concentração de resultados menos favoráveis na WFG (Cap. VIII, `sec:padrao_familias`) | **Hipótese, não conclusão.** A WFG já concentra as derrotas corrigidas na família confirmatória (`C-CONF-01`); a recorrência como suíte de menor taxa de vitória em IGD do IVF/SPEA2 e do IVF/NSGA-III (`C-HOST-05`) e em 8 dos 10 `NOT_HELPS` (`C-DYN-03`) não é replicação: para o IVF/SPEA2 as famílias leem a mesma coorte (`OV-01`, `OV-02`). Das duas colunas com execuções novas, só a do IVF/NSGA-III repete o padrão, e compara pipelines; o IVF/NSGA-II é contraexemplo declarado e concentra na WFG diferenças nos dois sentidos (1 das 2 derrotas em IGD, 2 das 3 em HV). `C-WFG-01` restringe a hipótese. A WFG também reúne 8 vitórias corrigidas em 18 configurações. Leitura **proibida** (R13): "regularidade que nenhuma família formula sozinha", "marcador das instâncias desfavoráveis", "todas as derrotas em IGD" do IVF/NSGA-III (não há nenhuma), "só o IVF/NSGA-III acrescenta execuções". Teste proposto: desenho fatorial sobre as transformações da WFG com M e K/L controlados (`sec:fw_isolar`) | composição de `C-CONF-01`, `C-HOST-05`, `C-DYN-03`, `C-WFG-01` |
+| `C-SYN-01` | Concentração de resultados menos favoráveis na WFG (Cap. VIII, `sec:padrao_familias`) | **Hipótese, não conclusão.** A WFG já concentra as derrotas corrigidas na família da comparação principal (`C-CONF-01`); a recorrência como suíte de menor taxa de vitória em IGD do IVF/SPEA2 e do IVF/NSGA-III (`C-HOST-05`) e em 8 dos 10 `NOT_HELPS` (`C-DYN-03`) não é replicação: para o IVF/SPEA2 as famílias leem a mesma coorte (`OV-01`, `OV-02`). Das duas colunas com execuções novas, só a do IVF/NSGA-III repete o padrão, e compara pipelines; o IVF/NSGA-II é contraexemplo declarado e concentra na WFG diferenças nos dois sentidos (1 das 2 derrotas em IGD, 2 das 3 em HV). `C-WFG-01` restringe a hipótese. A WFG também reúne 8 vitórias corrigidas em 18 configurações. Leitura **proibida** (R13): "regularidade que nenhuma família formula sozinha", "marcador das instâncias desfavoráveis", "todas as derrotas em IGD" do IVF/NSGA-III (não há nenhuma), "só o IVF/NSGA-III acrescenta execuções". Teste proposto: desenho fatorial sobre as transformações da WFG com M e K/L controlados (`sec:fw_isolar`) | composição de `C-CONF-01`, `C-HOST-05`, `C-DYN-03`, `C-WFG-01` |
 
 **Fonte proibida para este capítulo:** `data/processed/classifier_comparison.csv`.
 A linha da regra de limiar sob `LOOCV` ali é um ajuste dentro da amostra, não uma
 estimativa validada — ver `OQ-13`. Os artefatos acima são os que se sustentam.
 
 Rótulos: **41 HELPS / 10 NOT_HELPS**. O capítulo **abre** declarando `OV-02`: os rótulos
-derivam da comparação em IGD da coorte confirmatória **sem correção de multiplicidade**
+derivam da comparação em IGD da coorte da comparação principal **sem correção de multiplicidade**
 (`src/python/fla/compute_response.py:16`: Mann–Whitney p < 0,05 e Â₁₂ > 0,56), o que põe
 entre os HELPS quatro empates de Holm (WFG1 M = 2; DTLZ4, DTLZ7 e WFG8 M = 3), e não
 constituem desfecho independente — por isso o desfecho primário declarado do controlador é
@@ -327,6 +409,7 @@ Não entram no texto enquanto a questão correspondente estiver aberta.
 | `OQ-23` | Propriedade do gatilho de ativação | `src/matlab/lib/PlatEMO/Algorithms/Multi-objective optimization/IVF-SPEA2-V2/IVF_V2.m:27`; `IVFSPEA2V2.m:39-56`; `sn-article.tex:252` | **Verificado na R12.** A regra implementada salta o módulo quando `IVF_Total_FE > ivf_rate * Problem.FE`: o gatilho limita a fração acumulada das avaliações do módulo e fica **mais fácil** de satisfazer depois de uma geração sem ativação; ao fim de cada geração, `FE_IVF` excede `r·FE` no máximo pelo consumo de uma ativação. Simulação exata da regra (N = 100, r = 0,225, 999 gerações): com 12 avaliações por ativação o módulo nunca é suspenso (fração final 0,120); com 24 em toda ativação é suspenso em 62 gerações, uma a cada 16 a partir da 17ª, 31 em cada metade da execução (fração final 0,225). O Springer afirma que o gatilho "becomes harder to satisfy as the run progresses" e deduz custo amortizado "strictly smaller than ℓ times the baseline"; a dissertação herdara a leitura (§2.3.2, §4.1, §4.5) e acrescentava que a intensificação se concentrava na fase inicial. **Texto corrigido na R12**, com a divergência declarada na §4.1. Divergência de **leitura** → decisão do autor sobre errata |
 | `OQ-24` | O laço do hospedeiro do IVF/SPEA2 não é o do SPEA2 da plataforma | `IVF-SPEA2-V2/IVFSPEA2V2.m:46-52`; `SPEA2/SPEA2.m:23-29`; `IVF-SPEA2/IVFSPEA2.m:51-54`; `IVFSPEA2-P2-COMBINED/IVFSPEA2_P2.m:71-75`; `sn-article.tex:206,247` | **Verificado na R12.** Antes do torneio de reprodução, o IVF/SPEA2 recalcula `CalFitness` sobre a população corrente (k = 10 com N = 100); o `SPEA2.m` da plataforma, inalterado desde o commit inicial, usa a aptidão devolvida pela seleção ambiental anterior, calculada sobre a união (k = 14 com 200 indivíduos). As funções de aptidão e de seleção ambiental das duas classes são equivalentes: o `diff` mostra apenas vetorização da dominância, saídas auxiliares e uma invalidação de linhas sem efeito na truncagem. A diferença está no laço, e existe também em gerações sem ativação, o que contradiz "the generation is identical to canonical SPEA2" (`sn-article.tex:247`) e a frase correspondente da dissertação. O pseudocódigo do Springer (`sn-article.tex:206`) calcula a aptidão sobre `P_t` no início da geração, mas o módulo usa a da última seleção ambiental, e é dela que sai `F̄_antes`. A variante da ablação e a implementação versionada da formulação anterior recalculam da mesma forma: a ablação não separa a diferença, nem a comparação confirmatória. Efeito não medido. **Texto declara na R12** (§4.1, Algoritmo 4.1, §4.2.2, §8.2, §8.6, §9.1, §10.1, resumo e abstract). O controle que a fecharia, o SPEA2 com o mesmo recálculo, exige campanha nova (decisão 6) → decisão do autor sobre errata e sobre a campanha |
 | `OQ-25` | Configuração dos pipelines NSGA na família `HOST` | `paper/ppsn2026-ivf-hosts/main.tex:148-149`; `experiments/run_ivfnsgaii_submission.m`; `experiments/run_ivfnsgaiii_submission.m`; `references/ivfnsga2.pdf`; tese de Sampaio (2024), §4.7 | **Verificado na R13.** O PPSN afirma que cada pipeline usou "the fixed parameter setting of its cited canonical implementation". Os runners fixam `R=0.5, C=0.07, Cycles=5` (IVF/NSGA-II) e `ivf_rate=0.10, C=0.10, Cycles=5` (IVF/NSGA-III): valores da grade de 2017 que não são as configurações vencedoras relatadas, e cinco ciclos contra três (sem *steady state*) no experimento ampliado de 2024. Não há registro de ajuste nesta suíte equivalente ao do IVF/SPEA2. A dissertação declara a assimetria (`C-HOST-07`; §7.3, §8.3, §9.2) sem alterar números. Divergência de **leitura** com o PPSN → decisão do autor sobre errata |
+| `OQ-26` | Anterioridade do protocolo da comparação principal (chamada "confirmatória" até a R14b): escolha da IGD como desfecho primário e delimitação das famílias de Holm (por `M` e por métrica) | `paper/springer-nature/src/sn-article.tex:379,383`; `docs/IVFSPEA2_EVIDENCE_MODEL.md:25-27`; `results/tuning_ivfspea2v2/head_to_head_c26_a43_v1_report.md` (Notes); histórico Git; `docs/RELEASE_IDENTITY.md:18` | **Examinada na R14b; anterioridade NÃO VERIFICADA para os dois itens.** (i) IGD: o Springer a declara "the pre-specified primary performance indicator" (`:379`), e o modelo de evidência a fixa como desfecho primário; são declarações dos autores, sem carimbo temporal independente anterior aos resultados. O relatório da calibração prioriza a IGD na promoção da configuração (campo interno `generated_at` 2026-02-28), mas trata da calibração, não da análise confirmatória, e data interna de arquivo não demonstra pré-especificação. (ii) Famílias: o Springer descreve Holm "separately for each objective count" (`:383`), sem declarar anterioridade nem a separação por métrica; nenhum documento fixa a delimitação por `M` e por métrica antes dos resultados. O histórico Git começa em 2026-03-17 (`a07ca76`, "Init Commit", com todo o conteúdo), data posterior à inscrita na etiqueta da campanha `SUB20260228_V2`, e o primeiro depósito Zenodo é da mesma data. **Texto corrigido na R14b**: §5.3 deixou de afirmar a IGD "fixada antes da análise", §9.1 deixou de dizer família "declarada antes da análise", e o Apêndice C, idem; a §5.4 já declarava a ausência de data. A ausência de registro não é evidência de escolha pós-hoc. **Nomenclatura DECIDIDA na R15** (opção c, §1.7): "avaliação comparativa principal"; a decisão trata do nome e do papel, não da cronologia. **Anterioridade: continua NÃO VERIFICADA**; a busca da R14b não foi repetida, e a ausência de registro não indica escolha posterior aos resultados. |
 
 ---
 
@@ -334,8 +417,8 @@ Não entram no texto enquanto a questão correspondente estiver aberta.
 
 | id | Relação | Consequência para o texto |
 |---|---|---|
-| `OV-01` | Hospedeiros `3001–3030` e `1–30` ⊂ coorte confirmatória `3001–3060` e `1–60` | a coluna IVF/SPEA2 do Cap. VIII **não replica** o Cap. VI; só `4001–4030` e `5001–5030` acrescentam execuções novas |
-| `OV-02` | Coorte de rótulos do Cap. IX ≡ coorte de desfecho do Cap. VI | os rótulos HELPS/NOT_HELPS são **derivados** da comparação confirmatória em IGD, **sem correção** (41 HELPS contra 37 vitórias de Holm), não desfecho independente |
+| `OV-01` | Hospedeiros `3001–3030` e `1–30` ⊂ coorte da comparação principal `3001–3060` e `1–60` | a coluna IVF/SPEA2 do Cap. VIII **não replica** o Cap. VI; só `4001–4030` e `5001–5030` acrescentam execuções novas |
+| `OV-02` | Coorte de rótulos do Cap. IX ≡ coorte de desfecho do Cap. VI | os rótulos HELPS/NOT_HELPS são **derivados** da comparação principal em IGD, **sem correção** (41 HELPS contra 37 vitórias de Holm), não desfecho independente |
 | `OV-03` | `paper/clei2026/` e `paper/ppsn2026/` são uma família em duas saídas editoriais | citar como uma; a dissertação adota o CLEI (`OQ-01`) |
 | `OV-04` | 12 problemas de ajuste ⊂ 51 instâncias | só as linhas `Holm_OOS` sustentam contagem fora do ajuste |
 | `OV-05` | Controlador e dinâmica compartilham as 30 sementes | HV é o desfecho primário declarado do controlador |
@@ -567,6 +650,125 @@ A tabela acima é o alvo original, anterior à consolidação da R4.
   aceitos incorporados. Portões `thesis-tables-check`, `thesis-doctor`, `verify-release` e
   `make test` aprovados; `make thesis` compila 108 páginas sem aviso LaTeX novo, sem
   *overfull*, com as quatro linhas *underfull* da linha de base.
+- **R14 (concluída, 2026-10-01) — reenquadramento de QP2 e QP3, sem novas campanhas.**
+  Decisão do autor registrada na §1.6. Cap. I: objetivo geral, objetivos específicos 3 e 4,
+  QP2 ("Configuração e decisões de acoplamento") e QP3 ("Variação entre acoplamentos") com as
+  formulações comparativas, aviso de que não são hipóteses prévias, contribuições 3 e 4
+  reescritas pelas comparações registradas. Cap. VII: apresentações da QP2 e da QP3; o
+  contraste histórico de calibração passou a declarar que muda formulação e parâmetros
+  (texto e nota da Tabela 7.2, pelo gerador `build_tab_tuning_ablacao.py`, que agora falha se
+  o braço histórico do artefato não for `IVFSPEA2`); a ordenação entre pipelines passou a
+  descritiva; "próximo da neutralidade" do IVF/NSGA-II, no parágrafo sincronizado, deu lugar
+  à contagem 1/48/2. Cap. VIII: §8.2 e §8.3 reescritas na ordem resultado → interpretação →
+  alcance → questão aberta, com títulos novos e rótulos preservados; Conclusões
+  sincronizadas. Caps. IX e X, resumo e abstract: só sincronização. Nenhum número,
+  parâmetro, coorte, teste ou correção mudou. Auditorias independentes quantitativa (sem
+  divergência numérica) e científica; os dois achados aceitos (síntese da ablação que
+  apagava a derrota; "neutralidade") foram incorporados. Portões `thesis-tables-check`,
+  `thesis-doctor`, `verify-release` e `make test` aprovados; `make thesis` compila 110
+  páginas sem item bloqueante novo, sem *overfull*, com as quatro linhas *underfull* da
+  linha de base.
+- **R14b (concluída, 2026-10-01) — continuidade após a R14, sem novas campanhas.** (1)
+  Conclusões: a frase "As demais questões recebem respostas mais estreitas" deu lugar a
+  "A QP2 e a QP3 são comparativas, e as suas respostas têm esse alcance", com os limites de
+  atribuição preservados; "perfis observados distintos" no §8.3, nas Conclusões e na
+  contribuição 4; as duas ocorrências restantes de "próximo da neutralidade" (§7.3 por suíte,
+  §8.5) trocadas por contagens; a Seção 7.3 passou a "Comparação dos acoplamentos com seus
+  hospedeiros", com o rótulo `sec:hospedeiros` preservado. (2) QP4: objetivo geral, OE5 e
+  enunciado da QP4 passaram a cobrir informação anterior à execução e da dinâmica inicial e a
+  nomear o IVF/SPEA2 sempre ativo como comparador; §7.4.3 declara que o controlador usa só a
+  renovação inicial do arquivo; resumo e abstract delimitam a conclusão à regra de controle
+  avaliada. (3) Cronologia do protocolo examinada (`OQ-26`): sem registro temporal
+  independente, o texto descreve o protocolo sem afirmar anterioridade. O rótulo
+  "confirmatória" não foi reclassificado. Nenhum número, parâmetro, coorte, teste, correção,
+  citação ou rótulo mudou. `make thesis` compila 111 páginas (110 antes; o Cap. 1 cresceu
+  uma página) sem item bloqueante novo, sem *overfull*, com as quatro *underfull* da linha
+  de base; resumo e abstract cabem numa página cada depois de dois ajustes de extensão.
+- **R15 (concluída, 2026-10-01) — nomenclatura da avaliação principal.** Decisão da §1.7
+  (opção c de `OQ-26`). Prosa: as ocorrências de "confirmatória", "confirmatório" e
+  "confirmatoriamente" nos Caps. 1, 5, 6, 7, 8 e 9, no resumo, no abstract e nos Apêndices B e
+  C foram revistas uma a uma e trocadas por "comparação principal", "avaliação comparativa
+  principal", "família/coorte da comparação principal" ou "evidência principal"; a Tabela 5.1
+  passou a "Comparação principal", papel "Principal". Manifesto: papel `primary`, descrições
+  vigentes sincronizadas. Geradores: rótulo de papel e título da fonte no Apêndice A, célula da
+  Tabela 6.7 e notas das tabelas de ativação, controlador, dinâmica, geometria, hospedeiros,
+  magnitude e WFG, além das docstrings que definem a avaliação. Nenhum número, coorte, teste,
+  correção, parâmetro, rótulo, id de fonte ou nome de arquivo mudou; os manuscritos e os
+  artefatos congelados não foram tocados.
+- **R17 (concluída, 2026-10-03) — ocultação dos apêndices e promoção do posicionamento a
+  QP5.** Decisões do autor: (a) apêndices A, B e C ocultados por enquanto, com os arquivos
+  versionados em `pos/`; (b) QP5 comparativa, não afirmação de superioridade; (c) correção
+  de Holm por comparador, por número de objetivos e por métrica; (d) defesa da escolha do
+  hospedeiro limitada às fontes já citadas; (e) restauração dos apêndices só a pedido do
+  autor. `main.tex` comenta `\apendices` e os três `\input`, com bloco de comentário que
+  registra motivo, permanência dos arquivos e comando de restauração; nada foi renomeado,
+  movido ou apagado, e `build_apendice_fontes.py`, `data-sources.toml` e o manifesto seguem
+  produzindo normalmente. Remissões: `cap_III.tex:25`, `cap_V.tex:49`, `cap_VI.tex:4` e
+  `cap_VII.tex:15` passaram a `Seção~\ref{sec:posicionamento}`; os parênteses de
+  `(Apêndice~\ref{apend:recuperacao})` saíram de `cap_VII_complementares.tex:6` e
+  `cap_VIII.tex:61`; a ORGANIZAÇÃO (`cap_I.tex:85`) deixou de anunciar os apêndices. Nova
+  família de evidência na Tabela 5.1, com a sobreposição de coorte e o intervalo de anos dos
+  comparadores (2002--2023) declarados na nota. Gerador novo
+  `src/python/thesis/build_tab_posicionamento.py`, registrado em `build_all.py`, que reprocessa
+  `todas_metricas_consolidado_with_modern.csv` pelo filtro de coorte e proíbe o reuso de
+  `pairwise_ivf_vs_all.csv`, `pairwise_ivf_vs_all_hv.csv` e
+  `pairwise_vs_spea2_with_modern*.csv` (rótulo misto do IVF/SPEA2, sem correção de
+  multiplicidade); o pipeline foi validado por reprodução exata das contagens canônicas da
+  Tabela 6.1. Texto: QP5 no Cap. 1 (objetivo geral, objetivo específico 6, "cinco questões",
+  contribuição 6, roteiro, aviso de formulação posterior aos estudos), §7.5 no Cap. 7
+  (figura `fig:posto_medio` migrada do Apêndice C), §8.5 no Cap. 8 (WFG passa a §8.6,
+  Conclusões a §8.7), §5.1 e §5.4 no Cap. 5, justificativa do hospedeiro em `cap_I.tex:28`,
+  §3.3 do Cap. 3, item de ameaça no Cap. 9 e §10.2, resumo e abstract. Nenhum rótulo, citação
+  ou chave de bibliografia mudou.
+
+  **Fechamento da R17 (2026-10-03), lote corretivo.** (A1) Vocabulário único: *derrota* é a
+  instância com diferença corrigida desfavorável; *saldo desfavorável* é o contraste
+  (comparador × M × métrica) com mais derrotas que vitórias. São quatro em 28: NSGA-III e
+  AR-MOEA em IGD com M = 2; SPEA2+SDE e AGE-MOEA-II em HV com M = 3. §7.5 define os dois
+  termos; §8.5, Conclusões, contribuição 6, item de ameaça da §9.4, §10.2 e
+  `REVISION_PLAN.md` §2 os usam; §8.5 declara as derrotas dentro de contrastes de saldo
+  favorável (13/0/10 contra NSGA-III e AR-MOEA em HV com M = 3; 19/1/8 contra MOEA/D em IGD
+  com M = 2; só três dos 28 contrastes sem derrota). (A2) Saiu a leitura de mecanismo
+  ("intensificação que aproxima e não expande a cobertura"): a discordância IGD × HV muda de
+  direção entre M = 2 e M = 3 e o desenho não isola a causa; "proximidade e cobertura" deu
+  lugar a "IGD e HV" nos trechos novos. (A3) O bloco de `main.tex` e a pendência do
+  `REVISION_PLAN.md` §4 passaram a restaurar só os Apêndices A e B; a restauração não desfaz a
+  QP5, e `pos/apend_III` não volta como está (`fig:posto_medio` ficaria duplicado); destino do
+  Apêndice C a decidir pelo autor. O motivo registrado é só a decisão do autor. (A4)
+  `cap_I.tex:28`: "hipótese de projeto", decisões definidas no Capítulo `sec:Proposal`;
+  objetivo geral e objetivos específicos na ordem das QPs (ativação antes de posicionamento).
+  (A5) `cap_VIII.tex:65`: rederivação restrita aos acoplamentos ao NSGA-II e ao NSGA-III
+  (§3.1). (B1) "Outros hospedeiros". (B2) saldo favorável em IGD com M = 3 declarado estreito
+  contra o AGE-MOEA-II (9/6/8). (B3) a leitura sobre AGE-MOEA-II e AR-MOEA é restrita aos dois
+  algoritmos nas configurações padrão diante do IVF/SPEA2 calibrado, sem estender à classe.
+  (B4) a nota da tabela remete a `tab:confirmatorio_wtl`; só a nota mudou, por
+  `make thesis-tables`. (B5) nenhuma das duas opções do lote coube: o texto anterior à R17
+  ocupa exatamente uma página em cada língua, e qualquer oração sobre a QP5 levava as
+  palavras-chave à página seguinte. O autor autorizou refatorar os dois textos "mantendo
+  qualidade e completude em relação ao texto"; resumo e abstract foram reescritos a partir
+  do texto anterior à R17, cada um numa página com as palavras-chave, com a oração "diante de
+  sete comparadores de contexto, o saldo é desfavorável em 4 dos 28 contrastes". Uma revisão
+  independente da refatoração apontou três precisões perdidas (seleção do sinal e da janela
+  antes das dobras; "diferença relativa mediana entre medianas"; "reanálise da regressão
+  estática", com Spearman), todas restauradas, e quatro ambiguidades herdadas do texto
+  anterior à R17, registradas como pendência na §6.3. (B6) `cap_VI.tex:4` remete o protocolo à `sec:estatistica` e o relato à
+  `sec:posicionamento`. Também foi restaurada, nas Conclusões, a formulação anterior "o que
+  distingue as instâncias em que o operador rende menos", que a R17 alterara sem fonte.
+  Nenhum número, coorte, teste, correção, parâmetro ou chave bibliográfica preexistente
+  mudou; a R17 introduziu 28 contagens novas por gerador e os rótulos `sec:posicionamento`,
+  `sec:resposta_qp5` e `tab:posicionamento`, e o fechamento não alterou nenhuma delas.
+  Revisões independentes deste lote (científica, A1–A5 e B2–B3; quantitativa, todas as
+  contagens citadas, com recomputação das 28 células) sem achado.
+
+  **Achados da R17 não adotados (C1).** `Q7`: não existe. A auditoria quantitativa da R17
+  produziu cinco achados, `Q1`–`Q5`, todos adotados; a lista "Q1–Q6, Q8–Q14" do relatório da
+  R17 foi erro de redação, e não há justificativa de rejeição a reconstituir. `S7` (Jiao et
+  al. não sustenta, no trecho acessível, "o cálculo da aptidão segue sob exame"): na prática
+  foi adotado — a §3.3 deixou de atribuir a Jiao et al. o exame do cálculo da aptidão e passou
+  a descrevê-lo como tratamento multiforme de problemas com restrições —, mas o relatório da
+  R17 o omitiu da lista de adotados. A razão dessa omissão não pode ser reconstituída a
+  partir dos registros da sessão. A atribuição a `li2015many`, que o achado também
+  apontava como não conferida (HTTP 403), saiu do parágrafo na mesma reescrita.
 
 Portões por rodada: `make thesis-doctor` → `make thesis` → `make thesis-render` quando
 houver mudança de layout. Por perfil §11: invocar `$write-scientific-manuscripts` antes
@@ -585,3 +787,15 @@ manuscritos, se ainda houver oportunidade) · `OQ-24` (errata e campanha de cont
 banca, `\publica`, campos de coorientador e a declaração de formato exigida pela
 Resolução INF nº 02/2023/PPGCC. A estrutura em dez capítulos e três apêndices (o terceiro desde a R9) resulta da
 decisão da R4, que consolidou os estudos complementares num único capítulo.
+
+Pendentes desde o fechamento da R17 (2026-10-03): **Apêndice C** — aposentar ou
+reaproveitar como detalhamento por instância, sem a figura. **Ferramenta e modelo** do
+registro de IA e **autorização** do registro e dos commits. **Ambiguidades herdadas do
+resumo e do abstract** (já presentes antes da R17; não corrigidas no lote fechado): as
+contagens contra o SPEA2 não dizem que são de IGD; o recorte de 39 instâncias não menciona a
+duplicata funcional MaF7/DTLZ7 com M = 3; a frase dos hospedeiros não sinaliza a mudança de
+protocolo (30 execuções, Benjamini--Hochberg); a ablação não diz que roda na configuração
+inicial nem nomeia as duas decisões. Cada correção custa espaço numa página que está cheia.
+**Remanescentes fora do lote:** `cap_VII_complementares.tex:26` (engenharia) ainda diz
+"proximidade e cobertura" para IGD e HV; `cap_VIII.tex:67` chama de "comparação
+exploratória" o contraste com NSGA-III e MOEA/D, que a QP5 agora testa com Holm.

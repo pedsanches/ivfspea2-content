@@ -28,7 +28,7 @@ known_gaps = ["Historical manuscript claims must be reconciled against the isola
 id = "memetic-computing-v2-confirmatory"
 evidence_family = "ivfspea2-v2-validation"
 manuscripts = ["paper/springer-nature/src/sn-article.tex"]
-role = "confirmatory"
+role = "primary"
 algorithm_version = "IVFSPEA2V2 / C26"
 cohort = "51 synthetic instances; IVF/SPEA2 runs 3001-3060 versus SPEA2 runs 1-60; fixed 100000-FE budget."
 metrics = ["IGD", "HV"]
@@ -47,7 +47,7 @@ artifacts = [
   "results/tables/claims_summary_instance_details.csv",
 ]
 notes = "Primary synthetic evidence. IGD is primary and HV is mandatory secondary support."
-raw_status = "Raw PlatEMO synthetic outputs are Git-ignored and not present in this checkout; use the archived release for recovery."
+raw_status = "Raw PlatEMO synthetic outputs (.mat) are Git-ignored, were never tracked in Git history and are absent from this checkout; none of the three published versions of the Zenodo record (v1.0.1, v1.0.2, ppsn2026; file lists checked 2026-10-02, see docs/RELEASE_IDENTITY.md) contains them, and recovery from any other source has not been demonstrated. The tracked consolidated per-run CSV regenerates the reported analyses."
 overlaps = ["The first 30 IVF/SPEA2 and SPEA2 runs are reused by the operator-host study and are not an independent replication."]
 known_gaps = ["The consolidated CSV is mixed and must always be filtered through cohort_filter.py."]
 
@@ -57,7 +57,7 @@ evidence_family = "ivfspea2-v2-validation"
 manuscripts = ["paper/springer-nature/src/sn-article.tex"]
 role = "supportive"
 algorithm_version = "IVFSPEA2V2 variants"
-cohort = "Three-phase tuning and factorial ablation cohorts; keep separate from confirmatory synthetic testing."
+cohort = "Three-phase tuning and factorial ablation cohorts; keep separate from the primary synthetic comparison."
 metrics = ["IGD", "HV"]
 datasets = []
 scripts = [
@@ -95,8 +95,8 @@ artifacts = [
   "results/engineering_suite/engineering_suite_summary_main.csv",
   "results/tables/engineering_metric_profiles_summary.csv",
 ]
-notes = "Transferability evidence with mixed outcomes; keep distinct from synthetic confirmatory claims."
-raw_status = "Engineering raw data are local/archived and not uniformly tracked by Git."
+notes = "Transferability evidence with mixed outcomes; keep distinct from claims of the primary synthetic comparison."
+raw_status = "Engineering raw PlatEMO outputs are not tracked by Git, are absent from this checkout and from the three published Zenodo versions; recovery has not been demonstrated. Per-run processed metric tables (e.g. engineering_suite_raw_main.csv) are tracked."
 overlaps = []
 known_gaps = ["RWMOP8 tem cobertura heterogênea de execuções válidas; a triagem com resultados disponíveis cobre somente as sondagens de viabilidade IVF/SPEA2V2 em cinco execuções para as quatro candidatas excluídas, não uma matriz de triagem completa nem a data de pré-seleção."]
 
@@ -129,7 +129,7 @@ scripts = [
 ]
 artifacts = []
 notes = "PPSN and CLEI are two editorial outputs of one evidence family, not independent validations. IGD-derived labels are not an independent controller endpoint; HV is primary for the controller comparison."
-raw_status = "Dynamic raw files are local under data/raw/ppsn_dynamics; the OOS controller raw is absent, while its frozen processed CSV is present."
+raw_status = "Dynamic raw files are in a local copy under data/raw/ppsn_dynamics (Git-ignored; not in any published Zenodo version); the OOS controller raw is absent, while its frozen processed CSV is present."
 overlaps = ["The 60-run label cohort reuses the Memetic Computing endpoint cohort."]
 known_gaps = [
   "Use the timestamped OOS controller CSV, not data/processed/ppsn_controller_comparison.csv.",
@@ -246,6 +246,7 @@ scripts = [
   "src/python/thesis/build_tab_magnitude_confirmatoria.py",
   "src/python/thesis/build_tab_ativacao_robustez.py",
   "src/python/thesis/build_tab_wfg_exploratoria.py",
+  "src/python/thesis/build_tab_posicionamento.py",
   "src/python/thesis/build_fig_resultados.py",
   "src/python/thesis/build_fig_complementares.py",
   "src/python/analysis/compute_hosts_pairing_robustness.py",
@@ -274,6 +275,7 @@ artifacts = [
   "results/thesis/tab_magnitude_sensibilidade.tex",
   "results/thesis/tab_ativacao_robustez.tex",
   "results/thesis/tab_wfg_exploratoria.tex",
+  "results/thesis/tab_posicionamento.tex",
   "results/thesis/figures/fig_dist_igd.pdf",
   "results/thesis/figures/fig_dtlz4_bimodal.pdf",
   "results/thesis/figures/fig_posto_medio.pdf",
@@ -282,7 +284,7 @@ artifacts = [
   "results/thesis/figures/fig_hospedeiros_a12.pdf",
   "results/thesis/figures/fig_ativacao_turnover.pdf",
 ]
-notes = "Tables and figures are generated from tracked processed artifacts; the out-of-tuning magnitude, local bootstrap intervals, activation reanalysis, the post-hoc WFG/other-suites partition and the WFG property tabulation are derived analyses, not independent experiment cohorts. Regenerate with `make thesis-tables`; `make thesis-tables-check` detects drift. Thesis chapters input mirrored copies under thesis/masters/generated/. Confirmatory figures filter the submission synthetic cohort because the consolidated `IVFSPEA2` label contains historical and submission run ranges."
+notes = "Tables and figures are generated from tracked processed artifacts; the out-of-tuning magnitude, local bootstrap intervals, activation reanalysis, the post-hoc WFG/other-suites partition and the WFG property tabulation are derived analyses, not independent experiment cohorts. Regenerate with `make thesis-tables`; `make thesis-tables-check` detects drift. Thesis chapters input mirrored copies under thesis/masters/generated/. Figures of the primary comparison filter the submission synthetic cohort because the consolidated `IVFSPEA2` label contains historical and submission run ranges."
 raw_status = "Not applicable: every input is a tracked processed artifact."
 overlaps = ["Reuses the same runs and labels declared by the source families; derived reanalyses are not independent replications."]
 known_gaps = [
@@ -291,4 +293,24 @@ known_gaps = [
   "The WFG/other-suites partition was written after the labels showed the WFG concentration and is scored on the same labelled sample; it is a retrospective yardstick, not a validated controller.",
   "The WFG property tabulation groups configurations after the losses were observed; it keeps the family-wide Holm verdicts, does not re-correct subgroups, and counts configurations of nine functions, not independent functions. Properties are transcribed from the WFG property table of Huband et al. (2006).",
   "No table exists yet for the convergence family; it stays blocked on OQ-02, OQ-03 and OQ-04.",
+]
+
+[[source]]
+id = "context-comparator-positioning"
+evidence_family = "ivfspea2-v2-validation"
+manuscripts = ["thesis/masters/main.tex"]
+role = "contextual"
+algorithm_version = "IVFSPEA2V2 / C26 against seven published context comparators"
+cohort = "Identical to the primary synthetic comparison: IVF/SPEA2 runs 3001-3060 against each comparator runs 1-60, 51 synthetic instances, 60 runs per algorithm and instance, 100000-FE budget; no RWMOP rows."
+metrics = ["IGD", "HV"]
+datasets = ["data/processed/todas_metricas_consolidado_with_modern.csv"]
+scripts = ["src/python/thesis/build_tab_posicionamento.py"]
+artifacts = ["results/thesis/tab_posicionamento.tex"]
+notes = "Contextual positioning family answering QP5. Two-sided Mann-Whitney U per instance, alpha = 0.05, Holm applied separately per comparator, per number of objectives and per metric; IGD primary, HV mandatory secondary. Deliberately does NOT reuse results/tables/pairwise_ivf_vs_all.csv, pairwise_ivf_vs_all_hv.csv or pairwise_vs_spea2_with_modern*.csv: those were computed on the mixed IVFSPEA2 label (runs 1-60 and 3001-3060) and without multiplicity correction. Reusing the primary cohort means these counts are not independent of the QP1 family."
+raw_status = "Not applicable: the only input is the tracked consolidated per-run CSV, read through ivfspea2.cohorts.filter_submission_synthetic_cohort."
+overlaps = ["Exactly the primary synthetic cohort; these counts are not an independent replication of the QP1 family."]
+known_gaps = [
+  "Positioning is a comparison, not a superiority claim; the mean-rank figure is descriptive and does not replace the per-comparator counts.",
+  "The IVF/SPEA2 column uses the promoted calibration configuration while the comparators use published default configurations, a configuration-policy difference that accompanies every row.",
+  "Pairwise contrasts between distinct algorithms are not summable across comparators, and a statistical tie is not equivalence.",
 ]

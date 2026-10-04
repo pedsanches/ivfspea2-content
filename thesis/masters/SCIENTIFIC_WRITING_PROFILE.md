@@ -183,7 +183,9 @@ Identidade canônica:
   ao número de objetivos em todas as tabelas da dissertação e a colisão seria
   ambígua. A Tabela de parâmetros do capítulo da proposta publica a
   correspondência entre as duas formas, o que também quita `OQ-05`;
-- H1: seleção de pai dissimilar;
+- H1: seleção de doador primário dissimilar (decisão de 2026-10-03: doador primário e
+  doador secundário substituem pai e mãe; ver `terminologia.md` da skill
+  `scientific-writing-ptbr`);
 - H2: critério coletivo de continuação dos ciclos;
 - escopo sintético principal: 51 instâncias ZDT, DTLZ, WFG e MaF;
 - coorte IVF/SPEA2: execuções `3001–3060`;
@@ -208,7 +210,7 @@ Três manuscritos alimentam a reescrita, representando três famílias de evidê
 
 | Família | Manuscrito | Papel na dissertação |
 |---|---|---|
-| validação do IVF/SPEA2 | `paper/springer-nature/` | Evidência confirmatória principal contra SPEA2; posicionamento multibaseline, engenharia, tuning e ablação têm papéis auxiliares distintos. |
+| validação do IVF/SPEA2 | `paper/springer-nature/` | Avaliação comparativa principal contra SPEA2 (até a R14b, "evidência confirmatória principal"; ver `REWRITE_SPEC.md` §1.7); posicionamento multibaseline, engenharia, tuning e ablação têm papéis auxiliares distintos. |
 | decisão de uso do operador | `paper/clei2026/` | FLA, dinâmica inicial e controlador. |
 | compatibilidade operador–host | `paper/ppsn2026-ivf-hosts/` | Comparação dos pipelines IVF/SPEA2, IVF/NSGA-II e IVF/NSGA-III; não isola causalmente apenas o efeito do host. |
 
@@ -244,7 +246,12 @@ Regras:
 
 ## 7. Hierarquia inferencial
 
-### Confirmação principal
+### Avaliação comparativa principal
+
+Nome adotado na R15 (`REWRITE_SPEC.md` §1.7) para o que este perfil chamava de
+confirmação principal. "Principal" descreve o papel da avaliação; não afirma
+pré-especificação, cuja anterioridade não está verificada (`OQ-26`), nem cria categoria
+nova de força estatística.
 
 Pergunta: sob orçamento fixo, o IVF/SPEA2 melhora o SPEA2 canônico na suíte
 sintética declarada?
@@ -256,7 +263,7 @@ sintética declarada?
   identificáveis;
 - IGD primário;
 - HV secundário;
-- correção de Holm para a família confirmatória definida.
+- correção de Holm para a família da comparação principal, conforme definida no protocolo.
 
 Protocolo canônico para as contagens inferenciais do resumo e da conclusão:
 
@@ -274,8 +281,8 @@ Somente esses artefatos podem sustentar linguagem de contagem
 “Holm-corrigida”. Os indicadores de
 `generate_per_instance_tables.py` e
 `generate_ivf_benchmark_five_figures.py` usam testes não corrigidos e devem ser
-rotulados como descritivos/exploratórios; não podem substituir a fonte
-confirmatória. Antes de atualizar o texto final, confirmar que a auditoria
+rotulados como descritivos/exploratórios; não podem substituir a fonte da
+comparação principal. Antes de atualizar o texto final, confirmar que a auditoria
 canônica foi regenerada e contém `p_raw`, `p_holm`, família, direção e cobertura.
 Relatar, além do teste, resumo descritivo e magnitude de efeito quando
 aplicáveis.

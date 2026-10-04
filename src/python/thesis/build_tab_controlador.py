@@ -2,7 +2,7 @@
 """Warmup-controller comparison table, with the not-helpful subset split in two.
 
 HV is the declared primary endpoint here, not IGD. The instance labels were
-derived from the confirmatory IGD outcome, so scoring the controller on IGD
+derived from the IGD outcome of the primary comparison, so scoring the controller on IGD
 would reuse the labels as their own validation. The table therefore leads with
 HV and reports IGD as secondary.
 
@@ -116,7 +116,7 @@ def _family(case_id: str) -> str:
 
 
 def _cases() -> pd.DataFrame:
-    """Per-case outcomes of both comparisons, joined to the confirmatory labels."""
+    """Per-case outcomes of both comparisons, joined to the primary-comparison labels."""
     comparison = pd.read_csv(COMPARISON)
     response = pd.read_csv(RESPONSE)
     response["case_id"] = response["instance"].str.lower()
@@ -224,7 +224,12 @@ def main() -> int:
         block = cases[cases["metric"] == metric]
         for subset_index, (subset, prose) in enumerate(SUBSETS):
             subset_cases = _subset(block, subset)
-            cells = [metric if subset_index == 0 else "", prose, str(len(subset_cases))]
+            metric_label: str | lt.Multirow
+            if subset_index == 0:
+                metric_label = lt.Multirow(metric, len(SUBSETS))
+            else:
+                metric_label = ""
+            cells = [metric_label, prose, str(len(subset_cases))]
             for key in COMPARISON_ORDER:
                 cells.append(fmt.wtl(*_counts(subset_cases[key])))
             rows.append(cells)
@@ -254,7 +259,8 @@ def main() -> int:
         "caso conta como vitória ou derrota do controlador quando o valor-$p$ ajustado fica "
         "abaixo de $0{,}05$ e o $A_{12}$ sai do intervalo $[0{,}44;\\,0{,}56]$. As linhas "
         "recuadas decompõem as instâncias em que o operador não ajuda segundo o rótulo de três "
-        "classes da comparação em IGD da coorte confirmatória, sem correção de multiplicidade: "
+        "classes da comparação em IGD da coorte da comparação principal, sem correção de "
+        "multiplicidade: "
         "neutro quando o IVF/SPEA2 não difere do SPEA2, prejudica quando perde para ele. O HV é "
         "o desfecho primário declarado desta avaliação."
     )

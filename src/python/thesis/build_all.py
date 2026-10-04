@@ -31,6 +31,7 @@ BUILDERS = [
     "build_tab_fla_dinamica.py",
     "build_tab_controlador.py",
     "build_apendice_fontes.py",
+    "build_tab_posicionamento.py",
     "build_tab_geometria_confirmatoria.py",
     "build_tab_magnitude_confirmatoria.py",
     "build_tab_ativacao_robustez.py",

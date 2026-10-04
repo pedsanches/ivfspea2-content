@@ -197,25 +197,46 @@ def build() -> str:
     suite = dynamic_lofo(grouped=False)
     duplicate_safe = dynamic_lofo(grouped=True)
     partition = wfg_partition_posthoc()
-    rows: list[list[str] | object] = [
+    paisagem: list[list[str] | object] = [
         ["Paisagem", "Floresta: $r_s$", "Deixa-uma-instância", fmt.decimal(static["loocv_r"]), "---"],
         ["", "Floresta: $r_s$", "Deixa-uma-família", fmt.decimal(static["lofo_r"]), "---"],
-        lt.Rule,
+    ]
+    paisagem[0][0] = lt.Multirow("Paisagem", len(paisagem))
+    renovacao: list[list[str] | object] = [
         [
-            "Renovação", "Limiar: BA", "LOFO por suíte", fmt.decimal(suite["ba"]),
+            "Renovação",
+            "Limiar: BA",
+            "LOFO por suíte",
+            fmt.decimal(suite["ba"]),
             f"{int(suite['coincide'])}/{int(suite['n'])}",
         ],
         [
-            "", "Limiar: BA", "LOFO DTLZ+MaF", fmt.decimal(duplicate_safe["ba"]),
+            "",
+            "Limiar: BA",
+            "LOFO DTLZ+MaF",
+            fmt.decimal(duplicate_safe["ba"]),
             f"{int(duplicate_safe['coincide'])}/{int(duplicate_safe['n'])}",
         ],
         [
-            "", "Limiar: MCC", "LOFO DTLZ+MaF", fmt.decimal(duplicate_safe["mcc"]),
+            "",
+            "Limiar: MCC",
+            "LOFO DTLZ+MaF",
+            fmt.decimal(duplicate_safe["mcc"]),
             f"{int(duplicate_safe['coincide'])}/{int(duplicate_safe['n'])}",
         ],
-        lt.Rule,
+    ]
+    renovacao[0][0] = lt.Multirow("Renovação", len(renovacao))
+    suíte: list[list[str] | object] = [
         ["Suíte", "Partição: BA", "Pós-hoc, sem ajuste", fmt.decimal(partition["ba"]), "---"],
         ["", "Partição: MCC", "Pós-hoc, sem ajuste", fmt.decimal(partition["mcc"]), "---"],
+    ]
+    suíte[0][0] = lt.Multirow("Suíte", len(suíte))
+    rows: list[list[str] | object] = [
+        *paisagem,
+        lt.Rule,
+        *renovacao,
+        lt.Rule,
+        *suíte,
     ]
     note = (
         "Reanálise descritiva sobre 51 instâncias. Para os descritores estáticos, a resposta é "
@@ -233,7 +254,8 @@ def build() -> str:
         "rótulos: ela foi formulada depois de se observar que a WFG concentra as instâncias "
         "não beneficiadas e, por isso, é uma referência retrospectiva, não um controlador "
         "validado nem uma regra avaliada fora da amostra. "
-        "Os rótulos reutilizam a comparação em IGD da coorte confirmatória sem correção de "
+        "Os rótulos reutilizam a comparação em IGD da coorte da comparação principal, sem "
+        "correção de "
         "multiplicidade. A tabela não valida a escolha do observável nem da janela fora da "
         "amostra, tampouco a execução do controlador."
     )

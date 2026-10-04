@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Magnitude do efeito confirmatório, por desfecho corrigido.
+"""Magnitude do efeito na comparação principal, por desfecho corrigido.
 
-As contagens confirmatórias dizem com que frequência a diferença é detectável;
+As contagens da comparação principal dizem com que frequência a diferença é detectável;
 não dizem quão grande ela é. Duas magnitudes respondem a perguntas distintas, e
 o texto não pode confundi-las:
 
@@ -27,7 +27,7 @@ Escreve:
     results/thesis/tab_magnitude_sensibilidade.tex
 
 As duas últimas tabelas separam o recorte fora do ajuste de uma sensibilidade
-local; a tabela confirmatória preexistente permanece inalterada.
+local; a tabela preexistente da comparação principal permanece inalterada.
 """
 
 from __future__ import annotations
@@ -126,36 +126,32 @@ def _linhas_magnitude_fora_ajuste(tabela: pd.DataFrame) -> list[list[str] | obje
         if indice:
             rows.append(lt.Rule)
         bloco_metrica = fora_ajuste.loc[fora_ajuste["metric"] == metrica]
+        linhas_metrica: list[list[str | object]] = []
         for indice_m, m in enumerate(("M2", "M3")):
-            if indice_m:
-                rows.append(lt.Gap)
             bloco = bloco_metrica.loc[bloco_metrica["M"] == m]
-            for posicao, (sinal, rotulo) in enumerate((*DESFECHOS, (None, "Todas"))):
+            linhas_bloco: list[list[str | object]] = []
+            for sinal, rotulo in (*DESFECHOS, (None, "Todas")):
                 grupo = bloco if sinal is None else bloco.loc[bloco["indicator_holm"] == sinal]
                 resumo_delta = _resumo_delta(grupo)
-                rows.append(
+                linhas_bloco.append(
                     [
-                        metrica if indice_m == 0 and posicao == 0 else "",
-                        m if posicao == 0 else "",
+                        "",
+                        "",
                         rotulo,
                         str(len(grupo)),
                         fmt.decimal(float(grupo["a12"].median())),
                         *resumo_delta,
                     ]
                 )
-            if m == "M3":
-                sem_duplicata = bloco.loc[bloco["Problema"] != "MaF7"]
-                resumo_delta = _resumo_delta(sem_duplicata)
-                rows.append(
-                    [
-                        "",
-                        "",
-                        "Todas, sem MaF7$^*$",
-                        str(len(sem_duplicata)),
-                        fmt.decimal(float(sem_duplicata["a12"].median())),
-                        *resumo_delta,
-                    ]
-                )
+            # O cabeçalho da coluna já diz que o número é um número de
+            # objetivos, então o valor perde o prefixo M. O rótulo agrupa o
+            # bloco inteiro e é centralizado no eixo vertical dessas linhas.
+            linhas_bloco[0][1] = lt.Multirow(m.removeprefix("M"), len(linhas_bloco))
+            if indice_m:
+                rows.append(lt.Gap)
+            rows.extend(linhas_bloco)
+            linhas_metrica.extend(linhas_bloco)
+        linhas_metrica[0][0] = lt.Multirow(metrica, len(linhas_metrica))
     return rows
 
 
@@ -183,7 +179,7 @@ def _render_magnitude_fora_ajuste(tabela: pd.DataFrame) -> str:
         tabcolsep="4pt",
         caption=(
             "Magnitude fora do ajuste entre IVF/SPEA2 e SPEA2, por desfecho "
-            "confirmatório corrigido."
+            "corrigido na comparação principal."
         ),
         label="tab:magnitude_confirmatoria_fora_ajuste",
         producer=__file__,
@@ -196,8 +192,7 @@ def _render_magnitude_fora_ajuste(tabela: pd.DataFrame) -> str:
             "do recorte fora do ajuste; portanto, esta tabela não reaplica Holm. "
             "$A_{12}$ e $\\Delta$ seguem as definições da "
             "Tabela~\\ref{tab:magnitude_confirmatoria}; valores positivos de $\\Delta$ "
-            "favorecem IVF/SPEA2. $^*$MaF7 com $M=3$ duplica DTLZ7 usado no ajuste; a última "
-            "linha de cada métrica mostra o recorte descritivo sem essa instância."
+            "favorecem IVF/SPEA2."
         ),
     )
 
@@ -235,7 +230,7 @@ def _render_sensibilidade(coorte: pd.DataFrame) -> str:
         rows.append(
             [
                 problema,
-                m,
+                m.removeprefix("M"),
                 fmt.signed(_delta_mediana(ivf, base, maior_melhor=False), places=2),
                 f"[{fmt.signed(limite_inferior, places=2)}, {fmt.signed(limite_superior, places=2)}]",
             ]
@@ -291,11 +286,12 @@ def main() -> int:
         bloco = tabela[tabela["metric"] == metrica]
         grupos = [(bloco[bloco["indicator_holm"] == s], rotulo) for s, rotulo in DESFECHOS]
         grupos.append((bloco, "Todas"))
-        for posicao, (grupo, rotulo) in enumerate(grupos):
+        linhas_metrica: list[list[str | object]] = []
+        for grupo, rotulo in grupos:
             deltas = grupo["delta"].dropna()
-            rows.append(
+            linhas_metrica.append(
                 [
-                    metrica if posicao == 0 else "",
+                    "",
                     rotulo,
                     str(len(grupo)),
                     fmt.decimal(float(grupo["a12"].median())),
@@ -305,6 +301,9 @@ def main() -> int:
                     fmt.signed(float(deltas.max()), places=2),
                 ]
             )
+        # O rótulo agrupa o bloco inteiro e fica no meio do eixo vertical.
+        linhas_metrica[0][0] = lt.Multirow(metrica, len(linhas_metrica))
+        rows.extend(linhas_metrica)
 
     nota_delta = (
         ""
@@ -312,7 +311,8 @@ def main() -> int:
         else f" Em {sem_delta} instâncias a mediana do SPEA2 é nula e $\\Delta$ não é definido."
     )
     note = (
-        "Coorte confirmatória: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções "
+        "Coorte da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas "
+        "execuções "
         f"1--60, {n_execucoes} execuções por algoritmo e instância, orçamento de 100.000 "
         "avaliações. Desfecho pelo teste de Mann--Whitney com correção de Holm por número de "
         "objetivos e por métrica, como na Tabela~\\ref{tab:confirmatorio_wtl}; $n$: número de "

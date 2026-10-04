@@ -40,7 +40,7 @@ OUT_ABLATION = RESULTS_THESIS / "tab_ablacao.tex"
 # Artifact identifier -> how the dissertation names it. Never a version number.
 BASELINE_LABEL = {
     "IVFSPEA2v1": "Configuração inicial não ajustada",
-    "IVFSPEA2": "Sem pai dissimilar e sem continuação coletiva",
+    "IVFSPEA2": "Sem doador primário dissimilar e sem continuação coletiva",
     "SPEA2": "SPEA2 canônico",
 }
 
@@ -53,7 +53,7 @@ PAIR_LABEL = {
 # Configuration the final ablation phase ran at, from its batch script
 # (scripts/experiments/run_ablation_v2_phase3_batch_common.m, lines 81 and 94-98).
 # The artifact does not record it, and it is *not* the promoted configuration
-# evaluated in the confirmatory chapter, so the note must say so.
+# evaluated in the primary-comparison chapter, so the note must say so.
 ABLATION_RUNS = 60
 ABLATION_CONFIG = (
     "$c = 0{,}11$, $r = 0{,}10$, $m = 0$, $v = 0$, $\\ell = 3$"
@@ -101,6 +101,16 @@ def build_tuning() -> str | None:
     ):
         print("ERRO: cobertura desigual entre problemas na calibração", file=sys.stderr)
         return None
+    # The note says the historical arm is the earlier formulation, so it must be:
+    # the calibrated configurations ran IVFSPEA2V2
+    # (scripts/experiments/run_ivfspea2v2_tuning.m), the baseline is IVFSPEA2.
+    baseline_algorithm = summary.get("inputs", {}).get("baseline_algorithm")
+    if baseline_algorithm != "IVFSPEA2":
+        print(
+            f"ERRO: braço histórico da calibração é {baseline_algorithm!r}, não IVFSPEA2",
+            file=sys.stderr,
+        )
+        return None
     note = (
         "Vitórias/empates/derrotas (V/E/D) da configuração da linha contra o comparador, nas "
         f"{n_problems} configurações problema--objetivo do subconjunto de calibração. "
@@ -109,8 +119,10 @@ def build_tuning() -> str | None:
         f"{n_historical} execuções por problema. O orçamento desse braço não consta do "
         "artefato desta comparação. Teste de Mann--Whitney com correção de Holm, "
         "$\\alpha = 0{,}05$. Fase A: a primeira das três fases da calibração "
-        "(Seção~\\ref{sec:calibracao}). O contraste contra o braço histórico não isola "
-        "apenas o efeito dos parâmetros."
+        "(Seção~\\ref{sec:calibracao}). O comparador histórico é a formulação anterior "
+        "do operador, sem as duas decisões de acoplamento, na configuração inicial não "
+        "ajustada: o contraste com ele muda ao mesmo tempo formulação, parâmetros e "
+        "número de execuções e não isola o efeito de nenhum desses fatores."
     )
 
     return lt.render(
@@ -207,9 +219,9 @@ def build_ablation() -> str | None:
         rows=rows,
         colspec="lcc",
         caption=(
-            "Ablação na configuração inicial não ajustada: a variante com seleção de pai "
-            "dissimilar e continuação coletiva frente ao SPEA2 canônico e à formulação sem "
-            "as duas decisões."
+            "Ablação na configuração inicial não ajustada: a variante com seleção de doador "
+            "primário dissimilar e continuação coletiva frente ao SPEA2 canônico e à "
+            "formulação sem as duas decisões."
         ),
         label="tab:ablacao",
         producer=__file__,

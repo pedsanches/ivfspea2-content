@@ -22,7 +22,7 @@ A distinção importa porque as duas famílias exibem gradiente semelhante na
 segunda e contagens diferentes na primeira. Número de execuções, teste,
 alinhamento e correção mudam juntos entre as famílias e não foram isolados, e
 o par IVF/SPEA2 da família de hospedeiros é um subconjunto da coorte
-confirmatória: a semelhança do gradiente não é corroboração independente.
+da comparação principal: a semelhança do gradiente não é corroboração independente.
 
 Lê:
     results/tables/claims_summary_instance_details.csv   (desfecho por instância, Holm)
@@ -66,7 +66,7 @@ def _mapa_geometria() -> dict[str, str]:
 
 
 def _a12_confirmatorio(mapa: dict[str, str]) -> pd.DataFrame:
-    """A12 orientado por instância na coorte confirmatória completa.
+    """A12 orientado por instância na coorte completa da comparação principal.
 
     Orientado significa que valores acima de 0,5 favorecem o IVF/SPEA2. Como a
     IGD é de minimização, isso é a fração de pares em que a execução do
@@ -116,35 +116,46 @@ def main() -> int:
     ]
 
     rows: list[list[str] | object] = []
-    for posicao, (chave, rotulo) in enumerate(GRUPOS):
+    grupo: list[list[str]] = []
+    for chave, rotulo in GRUPOS:
         bloco = detalhes[detalhes["geo"] == chave]
         vitorias = int((bloco["indicator_holm"] == "+").sum())
         derrotas = int((bloco["indicator_holm"] == "-").sum())
         empates = len(bloco) - vitorias - derrotas
-        rows.append(
+        grupo.append(
             [
-                "Confirmatória" if posicao == 0 else "",
+                "",
                 rotulo,
                 str(len(bloco)),
                 fmt.wtl(vitorias, empates, derrotas),
                 fmt.decimal(float(a12.loc[a12["geo"] == chave, "a12"].median())),
             ]
         )
+    # O rótulo da coluna 1 centraliza verticalmente nas duas linhas do grupo.
+    grupo[0][0] = lt.Multirow("Comparação principal", len(grupo))
+    rows.extend(grupo)
 
     rows.append(lt.Rule)
 
-    for posicao, (chave, rotulo) in enumerate(GRUPOS):
-        linha = hosts[hosts["geometry"] == chave].iloc[0]
-        rows.append(
+    grupo = []
+    for chave, rotulo in GRUPOS:
+        linha_hosts = hosts[hosts["geometry"] == chave].iloc[0]
+        grupo.append(
             [
-                "Hospedeiros" if posicao == 0 else "",
+                "",
                 rotulo,
-                str(int(linha["n_instances"])),
-                fmt.wtl(int(linha["wins"]), int(linha["ties"]), int(linha["losses"])),
+                str(int(linha_hosts["n_instances"])),
+                fmt.wtl(
+                    int(linha_hosts["wins"]),
+                    int(linha_hosts["ties"]),
+                    int(linha_hosts["losses"]),
+                ),
                 # median_a12_ivf já vem orientado na fonte: acima de 0,5 favorece o IVF.
-                fmt.decimal(float(linha["median_a12_ivf"])),
+                fmt.decimal(float(linha_hosts["median_a12_ivf"])),
             ]
         )
+    grupo[0][0] = lt.Multirow("Hospedeiros", len(grupo))
+    rows.extend(grupo)
 
     p_conf = float(
         mannwhitneyu(
@@ -157,7 +168,7 @@ def main() -> int:
         print(f"ERRO: a nota supõe p >= 0,05 entre geometrias; p = {p_conf:.4f}", file=sys.stderr)
         return 1
 
-    # Na família confirmatória, as derrotas em fronteira irregular vêm de um só
+    # Na família da comparação principal, as derrotas em fronteira irregular vêm de um só
     # problema; a nota diz isso, e o gerador falha se deixar de ser verdade.
     irregulares = detalhes[detalhes["geo"] == "irregular"]
     derrotas_irr = irregulares[irregulares["indicator_holm"] == "-"]
@@ -181,13 +192,16 @@ def main() -> int:
     # execuções e cai com 30) está no texto que cita a tabela; a nota fica com
     # protocolo, definições e as ressalvas sobre o que n e as derrotas contam.
     note = (
-        "Famílias com protocolos distintos: a confirmatória usa 60 execuções por configuração "
+        "Famílias com protocolos distintos: a da comparação principal usa 60 execuções por "
+        "configuração "
         "e correção de Holm; a de hospedeiros usa 30 e Benjamini--Hochberg, e o seu par "
-        "IVF/SPEA2 usa um subconjunto da coorte confirmatória. As contagens das duas famílias "
+        "IVF/SPEA2 usa um subconjunto da coorte da comparação principal. As contagens das duas "
+        "famílias "
         "não se somam. O $A_{12}$ é orientado de modo que valores acima de $0{,}5$ favoreçam o "
         "IVF/SPEA2. A diferença de $A_{12}$ entre geometrias não atinge significância na "
-        f"família confirmatória ($p = {fmt.decimal(p_conf).strip('$')}$, Mann--Whitney), e a "
-        "estratificação é descritiva nas duas. Na família confirmatória, as "
+        f"família da comparação principal ($p = {fmt.decimal(p_conf).strip('$')}$, "
+        "Mann--Whitney), e a "
+        "estratificação é descritiva nas duas. Na família da comparação principal, as "
         f"{_POR_EXTENSO.get(len(derrotas_irr), str(len(derrotas_irr)))} derrotas irregulares "
         f"são um único problema, {problemas_irr[0]}, "
         f"com {valores_m}, e as {len(irregulares)} instâncias irregulares correspondem a "
