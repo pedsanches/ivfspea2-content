@@ -52,6 +52,15 @@ F(i) = R(i) + D(i)
 
 Menor $F(i)$ indica indivíduo preferível. Como $R(i)$ é inteiro e $D(i) < 1$, a aptidão ordena primeiro pela aptidão bruta e usa a densidade apenas para desempatar indivíduos com o mesmo $R(i)$. Em particular, os indivíduos não dominados são exatamente os que têm $F(i) < 1$, e entre eles a aptidão favorece os que ocupam regiões menos densas.
 
+A Figura~\ref{fig:spea2_aptidao} ilustra essas grandezas com 14 soluções em dois objetivos, tomadas como a união da população com o arquivo; por isso, $k = \lfloor\sqrt{14}\rfloor = 3$. No painel~(a), a solução dominada para a qual convergem as setas tem $R(i) = 6$, a soma das forças das cinco soluções que a dominam. No painel~(b), as não dominadas têm $R(i) = 0$ e, portanto, $F(i) = D(i)$: a ordem entre elas depende apenas do raio $\sigma_i^k$ dos círculos, e os rótulos indicam a de menor e a de maior $F$. No painel~(c), as nove não dominadas excedem as $\bar{N} = 7$ vagas do arquivo, e a truncagem, descrita adiante no ciclo do algoritmo, remove duas delas, na ordem indicada. A fronteira de Pareto, desconhecida pelo algoritmo, aparece apenas como referência visual.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig/spea2_aptidao_pt.pdf}
+\caption[Aptidão e truncagem no SPEA2]{Atribuição de aptidão e truncagem do arquivo no SPEA2, num exemplo ilustrativo com 14 soluções em dois objetivos.}
+\label{fig:spea2_aptidao}
+\end{figure}
+
 \subsection{Ciclo do algoritmo}
 
 A Figura~\ref{fig:spea2_flow} resume o ciclo do SPEA2, e os passos a seguir o descrevem na ordem de execução da formulação original~\cite{zitzler2001spea2}.
@@ -68,7 +77,7 @@ A Figura~\ref{fig:spea2_flow} resume o ciclo do SPEA2, e os passos a seguir o de
 
     \item \textbf{Atribuição de aptidão:} calcula-se $F(i)$ para todos os indivíduos de $P_t \cup \bar{P}_t$, pelas Equações~\ref{eq:strength_value} a~\ref{eq:final_fitness};
 
-    \item \textbf{Seleção ambiental:} os indivíduos não dominados da união, isto é, os de $F(i) < 1$, formam o novo arquivo $\bar{P}_{t+1}$. Se excederem $\bar{N}$, o operador de truncagem remove, um a um, o indivíduo cuja distância ao vizinho mais próximo é a menor, desempatando pelas distâncias aos vizinhos seguintes, o que preserva as soluções extremas; se forem menos que $\bar{N}$, o arquivo é completado com os melhores indivíduos dominados da união, na ordem de $F(i)$;
+    \item \textbf{Seleção ambiental:} os indivíduos não dominados da união, isto é, os de $F(i) < 1$, formam o novo arquivo $\bar{P}_{t+1}$. Se excederem $\bar{N}$, o operador de truncagem remove, um a um, o indivíduo cuja distância ao vizinho mais próximo é a menor, desempatando pelas distâncias aos vizinhos seguintes (Figura~\ref{fig:spea2_aptidao}c), o que preserva as soluções extremas; se forem menos que $\bar{N}$, o arquivo é completado com os melhores indivíduos dominados da união, na ordem de $F(i)$;
 
     \item \textbf{Critério de parada:} se o orçamento de avaliações, ou outro critério de parada, se esgotou, as soluções não dominadas de $\bar{P}_{t+1}$ constituem o resultado;
 
@@ -175,7 +184,14 @@ A distância geracional invertida (IGD) mede a distância média de um conjunto 
 \end{equation}
 em que $d(\cdot,\cdot)$ é a distância euclidiana no espaço de objetivos. \textbf{Valores menores indicam melhor desempenho.}
 
-A direção do somatório é o que torna a IGD sensível às duas propriedades ao mesmo tempo: como se percorre o conjunto de referência, e não a aproximação, uma região da fronteira ótima que não tenha nenhuma solução próxima contribui com uma parcela grande. Uma aproximação muito próxima da fronteira, porém concentrada em parte dela, é penalizada~\cite{bosman2003balance}. A contrapartida é a dependência do conjunto de referência: a IGD só é comparável entre algoritmos quando todos são avaliados contra o mesmo $Z^{*}$.
+A direção do somatório é o que torna a IGD sensível às duas propriedades ao mesmo tempo: como se percorre o conjunto de referência, e não a aproximação, uma região da fronteira ótima que não tenha nenhuma solução próxima contribui com uma parcela grande. Uma aproximação muito próxima da fronteira, porém concentrada em parte dela, é penalizada~\cite{bosman2003balance}. A Figura~\ref{fig:igd_ilustracao} ilustra o cálculo e esse efeito: cada segmento liga um ponto de $Z^{*}$ à solução mais próxima, e a IGD é a média dos comprimentos. A aproximação do painel~(b) está mais perto da fronteira que a do painel~(a), mas deixa parte dela sem solução próxima, e os segmentos longos que partem dessa parte tornam a sua IGD maior. A contrapartida é a dependência do conjunto de referência: a IGD só é comparável entre algoritmos quando todos são avaliados contra o mesmo $Z^{*}$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig/igd_ilustracao_pt.pdf}
+\caption[Cálculo da IGD]{Cálculo da IGD com pontos ilustrativos em dois objetivos, para uma aproximação distribuída~(a) e outra concentrada~(b).}
+\label{fig:igd_ilustracao}
+\end{figure}
 
 \subsection{Hipervolume}
 
@@ -184,9 +200,16 @@ O hipervolume (HV) mede o volume da região do espaço de objetivos dominada pel
 \mathrm{HV}(A, \mathbf{r}) = \Lambda \left( \bigcup_{\mathbf{a} \in A} \{ \mathbf{y} \in \mathbb{R}^{M} \mid \mathbf{a} \leq \mathbf{y} \leq \mathbf{r} \} \right),
 \label{eq:hv}
 \end{equation}
-em que $\Lambda$ é a medida de Lebesgue e as desigualdades valem componente a componente. \textbf{Valores maiores indicam melhor desempenho.}
+em que $\Lambda$ é a medida de Lebesgue e as desigualdades valem componente a componente. Em dois objetivos, o HV é a área da união dos retângulos delimitados por cada solução e por $\mathbf{r}$. Na Figura~\ref{fig:hv_ilustracao}, com as mesmas aproximações da Figura~\ref{fig:igd_ilustracao}, a concentrada não tem solução perto da parte da fronteira que deixa descoberta e domina uma área menor que a distribuída. \textbf{Valores maiores indicam melhor desempenho.}
 
 O HV dispensa conhecer a fronteira ótima, o que o torna aplicável quando ela não está disponível, mas exige a escolha de um ponto de referência. Essa escolha afeta o resultado. Uma solução só contribui para o volume se dominar $\mathbf{r}$, de modo que um ponto de referência frouxo demais valoriza soluções extremas e um restrito demais descarta parte da aproximação. Esta dissertação normaliza os objetivos antes do cálculo e adota o vetor de uns como ponto de referência, conforme a Seção~\ref{sec:metricas}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig/hv_ilustracao_pt.pdf}
+\caption[Cálculo do hipervolume]{Cálculo do HV no plano normalizado, para as aproximações ilustrativas da Figura~\ref{fig:igd_ilustracao}.}
+\label{fig:hv_ilustracao}
+\end{figure}
 
 \subsection{Por que reportar os dois}
 

@@ -9,8 +9,9 @@ The source snapshot in `Downloads` was not modified or deleted.
 The dissertation is synchronized with the repository's current evidence through
 revision round R12: ten chapters and three appendices, with every table and
 every results figure generated from versioned artifacts by `src/python/thesis/`
-and guarded by `make thesis-tables-check` (the three flowcharts in `fig/` are
-static drawings). The canonical implementation is `IVFSPEA2V2`, IGD
+and guarded by `make thesis-tables-check` (the flowcharts and schematic
+illustrations in `fig/` are static drawings; TikZ sources, where they exist, are
+in `fig/src/`). The canonical implementation is `IVFSPEA2V2`, IGD
 and HV are both mandatory, and claims must follow
 `docs/IVFSPEA2_EVIDENCE_MODEL.md`. `REWRITE_SPEC.md` holds the claim ledger and
 the open questions (`OQ-*`); `REVISION_PLAN.md` holds the decisions still

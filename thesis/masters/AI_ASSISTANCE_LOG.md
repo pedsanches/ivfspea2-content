@@ -1263,3 +1263,72 @@ ou informação que amplie indevidamente a exposição de material inédito.
   `paper/springer-nature/src/sn-article.tex` mantém 13 grupos de rótulos no mesmo estado
   anterior e ficou fora do escopo. Esta sessão é posterior à R17 (2026-10-03, ainda sem
   entrada neste log) e não recebeu número de rodada em `REWRITE_SPEC.md` §6.2.
+
+### 2026-10-03 — ilustrações esquemáticas do Capítulo 2 e legendas concisas
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp, sem subagentes; o ambiente
+  reporta o modelo `anthropic/claude-opus-5-5`, que deve ser confirmado antes de uma
+  declaração formal.
+- **Fase:** ilustração esquemática e edição de legendas e da prosa que as cita; sem
+  reanálise estatística e sem nova campanha.
+- **Finalidade:** (i) acrescentar ao Capítulo 2 três figuras esquemáticas: a atribuição de
+  aptidão e a truncagem do SPEA2 (Figura 2.1) e o cálculo da IGD e do HV (Figuras 2.4 e
+  2.5); (ii) aplicar a decisão do autor de manter legendas concisas às três legendas novas
+  e a nove legendas preexistentes (Figuras 4.1, 4.2, 6.1, 6.2, 7.1 a 7.5), levando para o
+  parágrafo que cita cada figura a leitura dos elementos gráficos, a coorte e as
+  ressalvas; (iii) registrar a regra em `SCIENTIFIC_WRITING_PROFILE.md` §9.
+- **Arquivos afetados:** `thesis/masters/fig/src/{spea2_aptidao_pt,igd_ilustracao_pt,hv_ilustracao_pt}.tex`
+  (novos) e os PDFs correspondentes em `thesis/masters/fig/`;
+  `thesis/masters/fig/src/fluxo_spea2_pt.tex` e `thesis/masters/fig/fluxo_spea2_pt.pdf`
+  (Figura 2.2, revisão na mesma sessão);
+  `thesis/masters/tex/{cap_II,cap_IV,cap_VI,cap_VII_complementares}.tex`;
+  `thesis/masters/SCIENTIFIC_WRITING_PROFILE.md`; `thesis/masters/README.md` (nota sobre
+  desenhos estáticos em `fig/`).
+- **Texto científico alterado:** no Capítulo 2, um parágrafo de leitura da Figura 2.1 e
+  frases de leitura das Figuras 2.4 e 2.5; o texto do Capítulo 2 não antecipa o argumento
+  do Capítulo 4. No Capítulo 4, um parágrafo novo cita a Figura 4.1, antes não citada,
+  descreve os traços do desenho e declara que o $F$ da figura é $n_{\text{ivf}}$, e não a
+  aptidão; a frase sobre o doador primário da formulação original passou a nomeá-lo (o
+  melhor indivíduo coletado, como no Capítulo 2) e a remeter à Figura 4.2a. Nos Capítulos 6
+  e 7, parágrafos de leitura receberam das legendas a coorte, o $n$, a descrição dos
+  elementos gráficos e as ressalvas, sem alteração de texto. Removidos sem transferência:
+  na legenda da Figura 7.2, "evidenciando uma região ampla de bom desempenho, e não um ponto
+  ótimo isolado", mais forte que o texto já existente, que registra postos próximos sem
+  demonstrar equivalência; na legenda da Figura 4.1, "setas bidirecionais" e "fluxo
+  condicional", sem correspondência no desenho, substituídos pela leitura do desenho
+  (contínuo: fluxo de controle; tracejado: conjuntos de soluções); direções "menor é
+  melhor"/"maior é melhor" e remissões a equações já presentes no texto. Nenhum número de
+  resultado, teste, coorte, família ou correção mudou. Os números novos (14 soluções,
+  $k = 3$, $R = 6$, nove não dominadas e sete vagas, e as IGD e os HV usados para conferir
+  os rótulos qualitativos) pertencem aos exemplos ilustrativos, foram calculados por
+  script com a regra de `CalFitness.m` e `EnvironmentalSelection.m` do SPEA2 no PlatEMO e
+  estão tabelados nos cabeçalhos das fontes TikZ.
+- **Entradas inspecionadas:** apenas artefatos locais do repositório
+  (`src/matlab/lib/PlatEMO/Algorithms/Multi-objective optimization/SPEA2/`,
+  `src/python/thesis/build_fig_resultados.py`, as figuras de `generated/figures/` e de
+  `fig/`, a prosa de `tex/`). Nenhuma consulta externa e nenhum conteúdo inédito enviado a
+  terceiros.
+- **Verificação humana/técnica:** `claims.py diff` nos quatro capítulos, com cada número,
+  referência e marcador de força removido conferido no texto que permanece;
+  `prose_audit.py` sem achado alto ou médio; `make thesis` sem bloqueante novo
+  (`latex_check.py --compare`: zero novos, três linhas *underfull* preexistentes) e zero
+  *overfull*; páginas 22, 23, 29, 30, 41, 43, 57, 58, 62, 66, 67, 68, 71, 77 e 81
+  rasterizadas e inspecionadas. A conferência e a aprovação humanas cabem ao autor e ao
+  orientador.
+- **Limitações e pendências:** a Figura 4.1 (`fig/fluxo_ivfspea2_pt.pdf`) não tem fonte
+  editável no repositório, e a colisão de $F$ foi tratada no texto, não no desenho; os
+  títulos dos painéis da Figura 6.2, gerados por `build_fig_resultados.py`, chamam as
+  execuções de "Regime de convergência" e "Regime de estagnação", rótulos interpretativos
+  que o texto não sustenta e que só mudam pelo gerador; a legenda da figura de
+  `pos/apend_III.tex`, fora da compilação, não foi tratada; a figura do Capítulo 4 que
+  retoma a nuvem da Figura 2.1 não foi feita; não houve revisão independente (`/gate`).
+- **Revisão na mesma sessão:** a pedido do autor, a legenda interna da Figura 2.1 passou a
+  ter um símbolo por significado: as dominadas usam o mesmo círculo vazado nos três
+  painéis (antes, um segundo círculo esmaecido em (b) e (c)); a removida pela truncagem é
+  só um "×" (antes, círculo vazado com "×"); o significado dos números de (a) saiu da
+  legenda e foi para uma nota dentro do painel; o rótulo "maior $F$" ganhou linha de
+  chamada. A pedido do autor, a Figura 2.2 (`fig/src/fluxo_spea2_pt.tex`) perdeu a caixa
+  "F = 0", herdada do fluxograma do IVF/SPEA2 e sem função no SPEA2, e o seu "na ordem de
+  F" passou a "na ordem de $F(i)$", de modo que $F$ denota só a aptidão. Nenhuma
+  coordenada, valor ou texto da dissertação mudou; página 23 conferida após
+  `make thesis`.

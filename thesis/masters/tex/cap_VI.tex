@@ -39,12 +39,14 @@ Quatro instâncias ilustram a incerteza da diferença relativa em IGD na anális
 \section{Resultados por instância}
 \label{sec:por_instancia}
 
-As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apresentam as medianas de IGD por instância, e as Tabelas~\ref{tab:hv_por_instancia_m2} e~\ref{tab:hv_por_instancia_m3} fazem o mesmo para o HV. As instâncias usadas na calibração estão marcadas, de modo que os dois escopos permanecem distinguíveis linha a linha. A Figura~\ref{fig:dist_igd} acompanha essas tabelas com a distribuição de IGD por instância, relativa à mediana do SPEA2, nos dois grupos de $M$.
+As Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3} apresentam as medianas de IGD por instância, e as Tabelas~\ref{tab:hv_por_instancia_m2} e~\ref{tab:hv_por_instancia_m3} fazem o mesmo para o HV. As instâncias usadas na calibração estão marcadas, de modo que os dois escopos permanecem distinguíveis linha a linha. A Figura~\ref{fig:dist_igd} acompanha essas tabelas com a distribuição de IGD por instância, nos dois grupos de $M$.
+
+Na figura, cada valor de IGD é dividido pela mediana do SPEA2 canônico na mesma instância, de modo que valores abaixo de 1 são melhores que essa mediana. As distribuições são as da família da comparação principal: execuções 3001 a 3060 do IVF/SPEA2 e 1 a 60 do SPEA2, com $n = 60$ por instância e algoritmo. As caixas vão do primeiro ao terceiro quartil, e as hastes, até 1,5 vez a amplitude interquartil; as caixas que excedem a janela aparecem cortadas, com uma seta na borda. Os marcadores ``$+$'' e ``$-$'' reproduzem o veredito corrigido por Holm das Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3}, e $^{\dagger}$ marca as instâncias da calibração.
 
 \begin{figure}[p]
     \centering
     \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{generated/figures/fig_dist_igd.pdf}
-    \caption[Distribuição de IGD por instância, relativa à mediana do SPEA2]{Distribuição de IGD por instância, dividida pela mediana do SPEA2 canônico na mesma instância (família da comparação principal; execuções 3001--3060 do IVF/SPEA2 e 1--60 do SPEA2; $n=60$ por instância e algoritmo). Valores abaixo de 1 são melhores que a mediana do SPEA2. As caixas vão do primeiro ao terceiro quartil, e as hastes, até 1,5 vez a amplitude interquartil; as caixas que excedem a janela aparecem cortadas, com uma seta na borda. Os marcadores ``$+$''/``$-$'' reproduzem o veredito corrigido por Holm das Tabelas~\ref{tab:igd_por_instancia_m2} e~\ref{tab:igd_por_instancia_m3}, e $^{\dagger}$ marca as instâncias da calibração.}
+    \caption[Distribuição de IGD por instância, relativa à mediana do SPEA2]{Distribuição de IGD por instância, relativa à mediana do SPEA2 canônico na mesma instância.}
     \label{fig:dist_igd}
 \end{figure}
 
@@ -60,13 +62,13 @@ Nesta amostra, as quatro derrotas compartilham a suíte, e não a classe geomét
 
 \input{generated/tab_geometria_confirmatoria}
 
-Duas instâncias merecem menção porque a mediana sozinha descreve mal a distribuição final. Em DTLZ4 com $M = 3$, a amplitude interquartil do IVF/SPEA2 é quase nove vezes a mediana, e as execuções apresentam valores finais de IGD tanto baixos quanto elevados; em MaF5 com $M = 3$, a amplitude interquartil é cerca de cinco vezes a mediana. A ausência de diferença detectável sob Holm não estabelece equivalência nem permite atribuir a dispersão à dinâmica de convergência. A Figura~\ref{fig:dtlz4_bimodal} mostra as populações finais das execuções do IVF/SPEA2 mais próximas dos extremos selecionados em DTLZ4 ($M=3$).
+Duas instâncias merecem menção porque a mediana sozinha descreve mal a distribuição final. Em DTLZ4 com $M = 3$, a amplitude interquartil do IVF/SPEA2 é quase nove vezes a mediana, e as execuções apresentam valores finais de IGD tanto baixos quanto elevados; em MaF5 com $M = 3$, a amplitude interquartil é cerca de cinco vezes a mediana. A ausência de diferença detectável sob Holm não estabelece equivalência nem permite atribuir a dispersão à dinâmica de convergência. A Figura~\ref{fig:dtlz4_bimodal} mostra, para o DTLZ4 com $M = 3$, as populações finais de duas das 60 execuções do IVF/SPEA2 na coorte da comparação principal (execuções 3001 a 3060): a mais próxima do primeiro quartil de IGD (execução 3019, IGD $= 0{,}0538$) e a mais próxima do terceiro quartil com IGD $> 0{,}1$ (execução 3049, IGD $= 0{,}541$). Os pontos são soluções finais, e não uma trajetória por geração, e não permitem inferir o mecanismo da diferença entre as execuções.
 A interpretação de empates como ausência de efeito é discutida na Seção~\ref{sec:inferencia}.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\textwidth]{generated/figures/fig_dtlz4_bimodal.pdf}
-    \caption[Execuções finais do IVF/SPEA2 no DTLZ4 com $M = 3$]{DTLZ4 ($M = 3$), família da comparação principal, coorte de submissão do IVF/SPEA2 (execuções 3001--3060, $n=60$ execuções da instância): populações finais (a) da execução mais próxima do primeiro quartil de IGD (execução 3019, IGD$=0{,}0538$) e (b) da execução mais próxima do terceiro quartil com IGD$>0{,}1$ (execução 3049, IGD$=0{,}541$). IGD: menor é melhor. Os pontos são soluções finais, não uma trajetória por geração; não permitem inferir o mecanismo da diferença entre execuções.}
+    \caption[Execuções finais do IVF/SPEA2 no DTLZ4 com $M = 3$]{Populações finais de duas execuções do IVF/SPEA2 no DTLZ4 com $M = 3$.}
     \label{fig:dtlz4_bimodal}
 \end{figure}
 

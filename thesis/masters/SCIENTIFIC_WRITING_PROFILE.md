@@ -360,6 +360,13 @@ Corrigir pela função da frase, não por substituição automática. O objetivo
 recuperar a escolha científica concreta: o que foi feito, em qual evidência se
 baseia, o que significa e até onde se pode concluir.
 
+### Legendas
+
+Decisão do autor (2026-10-03). A legenda de figura ou tabela é concisa e traz apenas
+o necessário para identificar o que o objeto mostra. A leitura dos painéis, as
+definições, a interpretação e as ressalvas ficam no parágrafo que cita o objeto. O
+que a legenda interna da figura já explica não se repete na legenda.
+
 ## 10. Citações e absorção dos artigos
 
 - Verificar cada referência antes de incluí-la; não completar metadados por

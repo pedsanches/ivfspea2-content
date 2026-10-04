@@ -17,13 +17,15 @@ Os critérios de inclusão relatados no manuscrito de origem são: dois ou três
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\textwidth]{generated/figures/fig_engenharia.pdf}
-    \caption[Perfis de IGD e HV nos três problemas de engenharia]{Perfis de IGD (menor é melhor) e HV (maior é melhor) nos três problemas de engenharia (família de engenharia; 60 execuções previstas por algoritmo). Pontos são medianas, barras são o intervalo interquartil, e os rótulos indicam o número de execuções com métricas válidas por algoritmo. No RWMOP8, o SPEA2+SDE tem 18 execuções válidas e o MOEA/D, nenhuma. No RWMOP9 o IVF/SPEA2 (destacado) ocupa a melhor posição em IGD mas não em HV, o que evidencia a discordância entre os dois indicadores.}
+    \caption[Perfis de IGD e HV nos três problemas de engenharia]{Perfis de IGD e HV nos três problemas de engenharia.}
     \label{fig:engenharia}
 \end{figure}
 
 A Tabela~\ref{tab:engenharia_wtl} separa duas leituras que uma apresentação agregada confundiria. Contra o próprio hospedeiro, que é a comparação da QP1, o IVF/SPEA2 registra uma vitória detectável no RWMOP9, em IGD e em HV, e nenhuma diferença detectável nos outros dois problemas. A vitória do RWMOP9 sobrevive à correção de Holm entre os três problemas, mas tem magnitude desigual nos dois indicadores: a IGD mediana melhora $1{,}17\%$, e o HV mediano, $0{,}01\%$.
 
 Contra o conjunto dos comparadores, a leitura é outra, e é a que o manuscrito de origem reporta~\cite{zambrano2026ivfspea2}. No RWMOP9 o IVF/SPEA2 vence todos os oito em IGD, mas em HV vence cinco e perde três: proximidade e cobertura não concordam nesse problema, como ilustra a Figura~\ref{fig:engenharia}. O RWMOP21 apresenta perfil equilibrado, com três vitórias e três derrotas nos dois indicadores. O RWMOP8 é adverso, com uma vitória e cinco derrotas entre os sete comparadores que têm execuções válidas. Esse posicionamento é misto, mas responde a outra pergunta: como o acoplamento se situa entre algoritmos distintos, e não se ele melhora o seu hospedeiro.
+
+Na Figura~\ref{fig:engenharia}, cada ponto é a mediana de um algoritmo, as barras vão do primeiro ao terceiro quartil, e o IVF/SPEA2 aparece destacado. O rótulo à direita de cada linha indica o número de execuções com métricas válidas, de 60 previstas por algoritmo: no RWMOP8, o SPEA2+SDE tem 18 execuções válidas, e o MOEA/D, nenhuma.
 
 Nos três problemas avaliados, foi detectada melhora em um e nenhuma piora detectável nos outros dois; a ausência de diferença detectável não estabelece que o acoplamento não prejudique o SPEA2 nesses casos. Entre os demais algoritmos, a sua posição varia de problema para problema.
 
@@ -36,10 +38,12 @@ A Tabela~\ref{tab:tuning_c26} apresenta as comparações par a par sobre o subco
 
 \input{generated/tab_tuning_c26}
 
+A Figura~\ref{fig:calibracao} resume a varredura das três fases sobre as mesmas 12 configurações problema--objetivo, com 30 execuções por configuração. Nos painéis~(a) e~(c), cada célula é o posto médio combinado de IGD e HV de uma configuração entre os candidatos da fase; no painel~(b), cada barra é o mesmo posto para um dos cinco perfis de manipulação genética. Postos menores, em cores mais claras, são melhores, e a estrela marca a configuração vencedora de cada fase.
+
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\textwidth]{generated/figures/fig_calibracao.pdf}
-    \caption[Panorama da varredura de calibração em três fases]{Panorama da varredura de calibração em três fases (família de calibração e ablação; subconjunto de 12 problemas; $n=30$ execuções por configuração). Cada célula é o posto médio combinado de IGD e HV entre os candidatos da fase; quanto menor o posto (mais claro, em amarelo), melhor. A estrela marca a configuração vencedora de cada fase. A vizinhança da configuração promovida (estrela do painel c) reúne várias células de posto próximo, evidenciando uma região ampla de bom desempenho, e não um ponto ótimo isolado.}
+    \caption[Panorama da varredura de calibração em três fases]{Posto médio combinado de IGD e HV nas três fases da calibração.}
     \label{fig:calibracao}
 \end{figure}
 
@@ -64,10 +68,12 @@ Três ressalvas precedem os números. Primeiro, a sobreposição: as execuções
 
 A ordenação descritiva entre os três acoplamentos é a mesma nos dois indicadores, e a Figura~\ref{fig:hospedeiros_a12} exibe os resultados instância a instância. O IVF/SPEA2 melhora o seu hospedeiro em 33 das 51 instâncias em IGD e em 37 em HV. O IVF/NSGA-III melhora em 22 e 21, sem derrota em IGD, mas com uma proporção alta de empates. O IVF/NSGA-II registra uma vitória, 48 comparações sem diferença detectável e duas derrotas em IGD.
 
+Na Figura~\ref{fig:hospedeiros_a12}, cada ponto é o $A_{12}$ de Vargha--Delaney do IGD numa das 51 instâncias, calculado sobre as 30 execuções de cada algoritmo e orientado de modo que valores acima de $0{,}5$ favoreçam o acoplamento; o traço horizontal é a mediana de cada coluna.
+
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.92\textwidth]{generated/figures/fig_hospedeiros_a12.pdf}
-    \caption[Tamanho de efeito do IGD entre cada acoplamento IVF e o seu hospedeiro]{Tamanho de efeito orientado de Vargha--Delaney ($A_{12}$) do IGD, instância a instância, entre cada acoplamento IVF e o seu hospedeiro (família de hospedeiros; 51 instâncias sintéticas; $n=30$ execuções; valores acima de 0,5 favorecem o IVF). Cada ponto é uma instância; o traço horizontal é a mediana por hospedeiro.}
+    \caption[Tamanho de efeito do IGD entre cada acoplamento IVF e o seu hospedeiro]{$A_{12}$ orientado do IGD, instância a instância, entre cada acoplamento IVF e o seu hospedeiro.}
     \label{fig:hospedeiros_a12}
 \end{figure}
 
@@ -115,12 +121,12 @@ A Tabela~\ref{tab:dinamica_separacao} reproduz cinco dos 18 observáveis testado
 \input{generated/tab_ativacao_robustez}
 
 A regra original de limiar único para a renovação do arquivo atinge acurácia balanceada de $0{,}754$ na validação deixa-uma-família por suíte, ante $0{,}691$ em deixa-uma-instância (Tabela~\ref{tab:dinamica_limiar})~\cite{zambrano2026clei}. Em cada dobra, apenas o limiar e sua direção são ajustados sem a família retida; o observável foi escolhido entre os sinais examinados e a janela de 20\% foi fixada na análise de origem sobre esse conjunto, não selecionada dentro das dobras. A reanálise da Tabela~\ref{tab:ativacao_robustez} mantém esse observável e essa janela, retém DTLZ e MaF conjuntamente para impedir a duplicação funcional entre treino e teste e encontra BA $0{,}754$ e MCC $0{,}413$. A concordância não valida a escolha do sinal ou da janela nem constitui validação independente do controlador; com 51 instâncias e apenas dez na classe minoritária, as estimativas permanecem instáveis. Os limiares do protocolo original são $0{,}216$ ao reter DTLZ, MaF ou ZDT e $0{,}248$ ao reter WFG.
-A Figura~\ref{fig:ativacao_turnover} mostra a sobreposição entre as distribuições das instâncias rotuladas.
+A Figura~\ref{fig:ativacao_turnover} mostra a sobreposição entre as distribuições das instâncias rotuladas. Cada ponto é a mediana da renovação inicial nas 30 execuções pareadas por semente de uma instância, e as classes são as 41 instâncias rotuladas como beneficiadas e as 10 não beneficiadas, indicadas na figura por ``Ajuda'' e ``Não ajuda''. A linha tracejada marca $0{,}216$, limiar mediano da validação deixa-uma-família por suíte (Tabela~\ref{tab:dinamica_limiar}); o limiar da WFG é $0{,}248$. A sobreposição das distribuições é compatível com erros de classificação, mas a figura não mostra as decisões por execução do controlador.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.85\textwidth]{generated/figures/fig_ativacao_turnover.pdf}
-    \caption[Renovação do arquivo na fase inicial, por classe de instância]{Renovação do arquivo na fase inicial das execuções nas instâncias rotuladas como beneficiadas ($n=41$) e não beneficiadas ($n=10$), entre 51 instâncias (família de ativação do operador; mediana de 30 execuções pareadas por semente para cada instância). A linha tracejada marca $0{,}216$, limiar mediano da validação deixa-uma-família por suíte (Tabela~\ref{tab:dinamica_limiar}); o limiar da WFG é $0{,}248$. A sobreposição das distribuições é compatível com erros de classificação, mas esta figura não mostra as decisões por execução do controlador.}
+    \caption[Renovação do arquivo na fase inicial, por classe de instância]{Renovação do arquivo na fase inicial, por classe de instância.}
     \label{fig:ativacao_turnover}
 \end{figure}
 
@@ -149,12 +155,12 @@ A Tabela~\ref{tab:posicionamento} registra as contagens corrigidas, e elas descr
 
 \input{generated/tab_posicionamento}
 
-A Figura~\ref{fig:posto_medio} resume o mesmo conjunto por outro caminho. Em cada instância, os nove algoritmos são ordenados pela mediana de IGD, e o posto médio agrega essas ordens; com $M = 2$, o IVF/SPEA2 fica em segundo, atrás do NSGA-III, e com $M = 3$, em primeiro. O posto médio é descritivo: ele não considera a magnitude das diferenças nem a variabilidade entre execuções, e a distância entre um primeiro e um segundo posto médio não é um teste. As contagens corrigidas da tabela e o posto médio da figura chegam a conclusões diferentes justamente porque medem coisas diferentes (frequência de diferença detectável o primeiro, ordenação média o segundo), e é a contagem que sustenta a leitura.
+A Figura~\ref{fig:posto_medio} resume o mesmo conjunto por outro caminho. Em cada instância, os nove algoritmos são ordenados pela mediana de IGD, e o posto médio agrega essas ordens nas 28 instâncias com $M = 2$ e nas 23 com $M = 3$; a linha sobre cada barra é o desvio padrão do posto entre as instâncias. Com $M = 2$, o IVF/SPEA2 fica em segundo, atrás do NSGA-III, e com $M = 3$, em primeiro. O posto médio é descritivo: ele não considera a magnitude das diferenças nem a variabilidade entre execuções, e a distância entre um primeiro e um segundo posto médio não é um teste. As contagens corrigidas da tabela e o posto médio da figura chegam a conclusões diferentes justamente porque medem coisas diferentes (frequência de diferença detectável o primeiro, ordenação média o segundo), e é a contagem que sustenta a leitura.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\textwidth]{generated/figures/fig_posto_medio.pdf}
-    \caption[Posto médio exploratório de IGD entre os nove algoritmos]{Posto médio exploratório de IGD entre os nove algoritmos avaliados, calculado sobre os postos das medianas em cada instância (28 instâncias em $M = 2$; 23 em $M = 3$), mesma coorte de submissão da Seção~\ref{sec:estatistica}, $n=60$ execuções por algoritmo e instância. IGD: menor é melhor, logo menor posto é melhor; barras horizontais são o desvio padrão do posto entre instâncias. Descritivo, sem teste de hipótese, e subordinado às contagens corrigidas da Tabela~\ref{tab:posicionamento}.}
+    \caption[Posto médio exploratório de IGD entre os nove algoritmos]{Posto médio de IGD dos nove algoritmos, por número de objetivos.}
     \label{fig:posto_medio}
 \end{figure}
 

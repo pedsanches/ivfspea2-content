@@ -1,0 +1,84 @@
+% Fonte editável de fig/igd_ilustracao_pt.pdf (Figura do cálculo da IGD,
+% Cap. 2, Seção 2.4.1). Esquemática: os pontos são ilustrativos e não vêm de
+% nenhuma execução. Fronteira f2 = 1 - sqrt(f1) no plano normalizado;
+% conjunto de referência Z* com 11 pontos igualmente espaçados em f1.
+% (a) cinco soluções distribuídas, 0,07 acima da fronteira em f2;
+% (b) cinco soluções concentradas em f1 >= 0,70, só 0,015 acima da fronteira.
+% Cada segmento liga um ponto de Z* à solução mais próxima (distância
+% euclidiana), conforme a Equação eq:igd. Com estes pontos, IGD(a) = 0,106 e
+% IGD(b) = 0,343: a aproximação mais próxima da fronteira, porém concentrada,
+% tem IGD maior. Os valores não aparecem na figura; servem para conferir o
+% rótulo qualitativo de cada painel.
+%
+% Regenerar, a partir de thesis/masters/ (a primeira compilação baixa o TikZ;
+% o build da dissertação só inclui o PDF e continua offline):
+%   tectonic -o fig fig/src/igd_ilustracao_pt.tex
+\documentclass[border=2pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{texgyreheros}[
+  Extension = .otf,
+  UprightFont = *-regular,
+  BoldFont = *-bold,
+]
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+% Conjunto de referência Z* (sobre a fronteira):
+\def\referencia{0/1.0000, 0.1/0.6838, 0.2/0.5528, 0.3/0.4523, 0.4/0.3675, 0.5/0.2929, 0.6/0.2254, 0.7/0.1633, 0.8/0.1056, 0.9/0.0513, 1/0.0000}
+% (a) aproximação distribuída:
+\def\distribuida{0.04/0.8700, 0.24/0.5801, 0.48/0.3772, 0.72/0.2215, 0.94/0.1005}
+% (b) aproximação concentrada:
+\def\concentrada{0.7/0.1783, 0.76/0.1432, 0.83/0.1040, 0.9/0.0663, 0.97/0.0301}
+% Segmentos zx/zy/ax/ay: cada ponto de Z* até a solução mais próxima.
+\def\segdistribuida{0/1.0000/0.04/0.8700, 0.1/0.6838/0.24/0.5801, 0.2/0.5528/0.24/0.5801, 0.3/0.4523/0.24/0.5801, 0.4/0.3675/0.48/0.3772, 0.5/0.2929/0.48/0.3772, 0.6/0.2254/0.72/0.2215, 0.7/0.1633/0.72/0.2215, 0.8/0.1056/0.94/0.1005, 0.9/0.0513/0.94/0.1005, 1/0.0000/0.94/0.1005}
+\def\segconcentrada{0/1.0000/0.7/0.1783, 0.1/0.6838/0.7/0.1783, 0.2/0.5528/0.7/0.1783, 0.3/0.4523/0.7/0.1783, 0.4/0.3675/0.7/0.1783, 0.5/0.2929/0.7/0.1783, 0.6/0.2254/0.7/0.1783, 0.7/0.1633/0.7/0.1783, 0.8/0.1056/0.83/0.1040, 0.9/0.0513/0.9/0.0663, 1/0.0000/0.97/0.0301}
+
+\tikzset{
+  referencia/.style={circle, draw=black!70, fill=white, line width=0.6pt, inner sep=0pt, minimum size=4.4pt},
+  solucao/.style={circle, draw=black, fill=black, inner sep=0pt, minimum size=5.2pt},
+  distancia/.style={black!65, line width=0.6pt, dash pattern=on 2pt off 1.2pt},
+  fronteira/.style={black!30, line width=0.8pt},
+  titulo/.style={anchor=south west, font=\bfseries, inner sep=0pt},
+  rotulo/.style={anchor=south west, inner sep=0pt},
+}
+
+\newcommand{\eixos}{%
+  \draw[fronteira] plot[domain=0:1, samples=80, smooth] (\x, {1 - sqrt(\x)});
+  \draw[-{Latex[length=2mm]}, line width=0.6pt] (0,0) -- (1.12,0) node[below, inner sep=2pt] {$f_1$};
+  \draw[-{Latex[length=2mm]}, line width=0.6pt] (0,0) -- (0,1.12) node[left, inner sep=2pt] {$f_2$};
+}
+
+% \painel{segmentos}{soluções}
+\newcommand{\painel}[2]{%
+  \eixos
+  \foreach \zx/\zy/\ax/\ay in #1 { \draw[distancia] (\zx,\zy) -- (\ax,\ay); }
+  \foreach \x/\y in \referencia { \node[referencia] at (\x,\y) {}; }
+  \foreach \x/\y in #2 { \node[solucao] at (\x,\y) {}; }
+}
+
+\begin{document}
+\fontsize{9}{11}\selectfont
+\begin{tikzpicture}[x=5.6cm, y=5.6cm]
+
+  \begin{scope}
+    \painel{\segdistribuida}{\distribuida}
+    \node[titulo] at (-0.06,1.17) {(a) Aproximação distribuída};
+    \node[rotulo] at (0.05,0.08) {IGD menor};
+  \end{scope}
+
+  \begin{scope}[xshift=7.6cm]
+    \painel{\segconcentrada}{\concentrada}
+    \node[titulo] at (-0.06,1.17) {(b) Aproximação concentrada};
+    \node[rotulo] at (0.05,0.08) {IGD maior};
+  \end{scope}
+
+  % ---------------- legenda ----------------
+  \begin{scope}[x=1cm, y=1cm, shift={(0,-0.75)}]
+    \def\lin{0.56}
+    \node[referencia] at (0.15,0) {};      \node[anchor=west] at (0.45,0) {ponto do conjunto de referência $Z^{*}$};
+    \node[solucao] at (0.15,-\lin) {};     \node[anchor=west] at (0.45,-\lin) {solução da aproximação $A$};
+    \draw[distancia] (7.85,0) -- (8.45,0); \node[anchor=west] at (8.55,0) {distância de cada $z \in Z^{*}$ à solução mais próxima};
+    \draw[fronteira] (7.85,-\lin) -- (8.45,-\lin); \node[anchor=west] at (8.55,-\lin) {fronteira de Pareto};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

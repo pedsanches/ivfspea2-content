@@ -7,10 +7,12 @@ O método IVF, apresentado na Seção~\ref{sec:ivf}, é um mecanismo de intensif
 
 A proposta desta dissertação, denominada IVF/SPEA2, preserva o fluxo operacional do SPEA2~\cite{zitzler2001spea2} e insere o método IVF como operador auxiliar sujeito a orçamento, num acoplamento integrativo no sentido de Blum et al.~\cite{blum2011hybrid} discutido na Seção~\ref{sec:hibridizacao}. Duas decisões de acoplamento respondem às questões acima: a \textbf{seleção de doador primário dissimilar}, que escolhe o doador primário de cada doador secundário entre os candidatos mais distantes dele no espaço de objetivos, e o \textbf{critério coletivo de continuação}, que condiciona novos ciclos à melhora da aptidão média da população, e não ao desempenho de um único descendente. As duas são específicas do hospedeiro porque ambas usam a aptidão do SPEA2: a primeira, no torneio que escolhe o doador primário; a segunda, na comparação que decide o ciclo seguinte.
 
+A Figura~\ref{fig:ivf_spea2_flow} mostra onde o módulo entra no ciclo do SPEA2. As linhas contínuas seguem o fluxo de controle, e as tracejadas, a passagem de conjuntos de soluções entre as etapas; os losangos são pontos de decisão, e a caixa destacada é o módulo IVF, cuja execução é decidida a cada geração, antes da seleção por torneio. Na figura, $F$ denota o número de descendentes gerados pelo módulo, representado no texto por $n_{\text{ivf}}$, e não a aptidão $F(i)$.
+
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=\textwidth]{fig/fluxo_ivfspea2_pt.pdf}
-\caption[Fluxo operacional do IVF/SPEA2]{Fluxo operacional do IVF/SPEA2. \textbf{Legenda:} linhas contínuas representam o fluxo do algoritmo hospedeiro SPEA2; linhas tracejadas indicam o fluxo condicional e a integração do módulo IVF; a caixa destacada é o módulo de fertilização \textit{in vitro}; setas bidirecionais mostram a troca de informação entre hospedeiro e módulo; losangos são pontos de decisão.}
+\caption[Fluxo operacional do IVF/SPEA2]{Fluxo operacional do IVF/SPEA2.}
 \label{fig:ivf_spea2_flow}
 \end{figure*}
 
@@ -40,9 +42,9 @@ da Equação~\ref{eq:density_estimation} satisfaz $D(i) \leq 1/2$, $F(i)$ ordena
 \subsection{Seleção de doador primário dissimilar}
 \label{sec:pai_dissimilar}
 
-Na formulação original do IVF, como nos acoplamentos anteriores, há um único doador primário por ciclo, compartilhado por todos os doadores secundários coletados; no IVF/SPEA2, cada doador secundário recebe o seu. O SBX com $\eta_c = 20$ gera descendentes cujas variáveis de decisão ficam próximas das variáveis correspondentes de um dos progenitores~\cite{deb1995simulated}, de modo que os descendentes de um doador primário comum ficam próximos dele em parte das variáveis. A hipótese que motiva a decisão é que essa herança comum, quando se transmite ao espaço de objetivos, concentra os descendentes de um ciclo numa mesma vizinhança. Ali, a seleção ambiental do SPEA2 os desfavorece uns em relação aos outros: pela truncagem, quando são não dominados e excedem o arquivo, e pelo termo $D(i)$, quando são dominados.
+Na formulação original do IVF, o melhor indivíduo coletado é o doador primário do ciclo, compartilhado por todos os doadores secundários coletados (Figura~\ref{fig:selecao_doador_primario}a), e os acoplamentos anteriores também usam um único doador primário por ciclo; no IVF/SPEA2, cada doador secundário recebe o seu. O SBX com $\eta_c = 20$ gera descendentes cujas variáveis de decisão ficam próximas das variáveis correspondentes de um dos progenitores~\cite{deb1995simulated}, de modo que os descendentes de um doador primário comum ficam próximos dele em parte das variáveis. A hipótese que motiva a decisão é que essa herança comum, quando se transmite ao espaço de objetivos, concentra os descendentes de um ciclo numa mesma vizinhança. Ali, a seleção ambiental do SPEA2 os desfavorece uns em relação aos outros: pela truncagem, quando são não dominados e excedem o arquivo, e pelo termo $D(i)$, quando são dominados.
 
-O IVF/SPEA2 escolhe o doador primário de cada doador secundário sobre o conjunto de candidatos a doador primário, formado pelas $\operatorname{round}(N/2)$ soluções de menor $F(i)$, em que $\operatorname{round}(x)$ denota o inteiro mais próximo de $x$, com empates arredondados para longe de zero. A escolha tem dois passos, ilustrados na Figura~\ref{fig:selecao_doador_primario}:
+O IVF/SPEA2 escolhe o doador primário de cada doador secundário sobre o conjunto de candidatos a doador primário, formado pelas $\operatorname{round}(N/2)$ soluções de menor $F(i)$, em que $\operatorname{round}(x)$ denota o inteiro mais próximo de $x$, com empates arredondados para longe de zero. A escolha tem dois passos, ilustrados na Figura~\ref{fig:selecao_doador_primario}b:
 \begin{enumerate}
     \item \textbf{Dissimilaridade.} Calculam-se as distâncias euclidianas, sem normalização, entre o vetor de objetivos do doador secundário e os dos candidatos. O doador secundário, quando pertence ao conjunto, é excluído dos próprios candidatos, e retêm-se os $K = \min(3, n_c)$ mais distantes, em que $n_c$ é o número de candidatos restantes. Esse passo busca dissimilaridade entre os progenitores.
     \item \textbf{Pressão seletiva.} Dois desses $K$ candidatos são sorteados, e o de menor $F(i)$ é o doador primário. Esse passo preserva pressão seletiva.
@@ -52,7 +54,7 @@ A distância usa o vetor de objetivos avaliado do doador secundário: quando o E
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{fig/selecao_doador_primario_pt.pdf}
-\caption[Seleção de doador primário dissimilar]{Seleção do doador primário no plano de dois objetivos. (a)~Formulação original: todos os doadores secundários coletados são recombinados com o mesmo doador primário, o melhor indivíduo coletado. (b)~IVF/SPEA2, para um doador secundário: o conjunto de candidatos reúne a metade da população de menor $F$, da qual o próprio doador secundário é excluído; dos $K = 3$ candidatos mais distantes dele, dois são sorteados, e vence o de menor $F$. A figura é esquemática: os pontos e as quantidades são ilustrativos, e as distâncias são euclidianas sobre objetivos sem normalização. O mecanismo diversifica o doador primário, mas não garante descendentes dispersos.}
+\caption[Seleção de doador primário dissimilar]{Escolha do doador primário no plano de dois objetivos, com pontos ilustrativos: (a)~formulação original; (b)~IVF/SPEA2, para um doador secundário.}
 \label{fig:selecao_doador_primario}
 \end{figure}
 

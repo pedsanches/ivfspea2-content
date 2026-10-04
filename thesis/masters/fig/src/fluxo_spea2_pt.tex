@@ -1,8 +1,10 @@
 % Fonte editável de fig/fluxo_spea2_pt.pdf (Figura do ciclo do SPEA2, Cap. 2).
-% Reproduz o fluxograma original, sem fonte no repositório, com uma correção:
-% o arquivo é completado com as soluções dominadas da união da população
-% corrente com o conjunto arquivo, na ordem de F (Seção 2.1, passo 3), e não
-% só com as do conjunto arquivo.
+% Reproduz o fluxograma original, sem fonte no repositório, com duas correções:
+% (i) o arquivo é completado com as soluções dominadas da união da população
+% corrente com o conjunto arquivo, na ordem de F(i) (Seção 2.1, passo 3), e não
+% só com as do conjunto arquivo; (ii) foi retirada a caixa "F = 0", herdada do
+% fluxograma do IVF/SPEA2, em que F é o número de descendentes do módulo; no
+% SPEA2 ela não tem função, e F passa a denotar só a aptidão F(i).
 %
 % Regenerar, a partir de thesis/masters/ (a primeira compilação baixa o TikZ;
 % o build da dissertação só inclui o PDF e continua offline):
@@ -33,7 +35,6 @@
   \draw (13.97,-0.63) -- (16.61,-0.63) -- (16.17,-1.73) -- (13.53,-1.73) -- cycle;
   \node[align=center] (arq) at (15.07,-1.18) {Conjunto\\Arquivo};
 
-  \node[box, minimum width=1.69cm, minimum height=1.03cm] (f0) at (20.68,-1.98) {F = 0};
   \node[box, minimum width=4.63cm, minimum height=1.40cm] (ndesc) at (20.68,-3.85)
     {Número de\\descendentes a serem\\gerados = N};
   \node[box, minimum width=2.68cm, minimum height=1.10cm] (popini) at (2.25,-3.60) {População\\Inicial};
@@ -47,7 +48,7 @@
   \node[align=center] at (8.57,-8.35) {Quantidade ND é\\maior que o tamanho\\do Conjunto\\Arquivo?};
   \node[box, minimum width=3.19cm, minimum height=1.47cm] (trunca) at (2.25,-8.35) {Trunca as\\soluções ND};
   \node[box, minimum width=3.16cm, minimum height=2.43cm] (preenche) at (15.07,-8.35)
-    {Preenche ND\\com as soluções\\dominadas da\\união, na\\ordem de F};
+    {Preenche ND\\com as soluções\\dominadas da\\união, na\\ordem de $F(i)$};
   \node[box, minimum width=3.31cm, minimum height=1.10cm] (cruz) at (20.68,-8.01) {Cruzamento};
   \node[box, minimum width=3.31cm, minimum height=1.10cm] (mut) at (20.68,-9.75) {Mutações};
 
@@ -79,8 +80,7 @@
   \draw[->, tracejado] (copia.east |- 0,-11.24) -- (17.35,-11.24) -- (17.35,-1.13) -- (16.43,-1.13);
 
   % Reprodução
-  \draw[->] (copia.east |- 0,-11.76) -- (17.90,-11.76) -- (17.90,-0.59) -- (20.68,-0.59) -- (f0.north);
-  \draw[->] (f0.south) -- (ndesc.north);
+  \draw[->] (copia.east |- 0,-11.76) -- (17.90,-11.76) -- (17.90,-0.59) -- (20.68,-0.59) -- (ndesc.north);
   \draw[->] (ndesc.south) -- (torneio.north);
   \draw[->] (torneio.south) -- (cruz.north);
   \draw[->] (cruz.south) -- (mut.north);
