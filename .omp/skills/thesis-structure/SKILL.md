@@ -14,7 +14,7 @@ description: Função de cada capítulo da dissertação IVF/SPEA2, continuidade
 | 3 | `tex/cap_III.tex` | Posicionamento: linhagem IVF, memética, variantes do SPEA2, FLA, controle de operadores. |
 | 4 | `tex/cap_IV.tex` | Proposta: acoplamento, gatilho e orçamento, pai dissimilar, critério coletivo, parâmetros. |
 | 5 | `tex/cap_V.tex` | Protocolo: plataforma, suítes, referências e métricas, estatística, partição 12 × 39. |
-| 6 | `tex/cap_VI.tex` | Resultado confirmatório QP1 (contagens, magnitude, por instância). |
+| 6 | `tex/cap_VI.tex` | Resultado da avaliação comparativa principal, QP1 (contagens, magnitude, por instância). |
 | 7 | `tex/cap_VII_complementares.tex` | Famílias de apoio: engenharia, calibração/ablação, hospedeiros, ativação. |
 | 8 | `tex/cap_VII.tex` | Discussão e conclusões: **único lugar** que responde QP1–QP4. |
 | 9 | `tex/cap_VIII.tex` | Ameaças à validade (lugar canônico das ressalvas). |

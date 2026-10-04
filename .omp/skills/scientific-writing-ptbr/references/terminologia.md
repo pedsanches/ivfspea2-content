@@ -37,6 +37,7 @@ já consolidada no texto sem decisão do autor.
 | many-objective | *many-objective* (itálico) | 2 | Sem tradução consolidada. |
 | preprint | *preprint* (itálico) | 1 | — |
 | pipeline | pipeline (sem itálico) | 11 | **Pendente de decisão do autor**: estrangeirismo sem itálico nem definição; não alterar sem decisão. |
+| primary donor / secondary donor (father / mother) | doador primário / doador secundário; conjunto de candidatos a doador primário | — | **Decisão do autor, 2026-10-03.** Substitui "pai"/"mãe" em `tex/` e `pre/` (Algoritmo 4.1: $\mathbf{s}_i$, $\mathbf{p}_i$; rótulos "Secundários" e "Candidatos"). A decisão H1 chama-se "seleção de doador primário dissimilar"; o rótulo `sec:pai_dissimilar` fica. "Progenitor(es)" só como termo genérico para qualquer dos dois. O abstract usa *primary donor* e *secondary donor*. |
 
 ## Nomes próprios e rótulos
 

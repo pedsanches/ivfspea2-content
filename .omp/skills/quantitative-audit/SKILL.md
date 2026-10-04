@@ -17,7 +17,7 @@ produziu.
   tabela nunca é digitado. `make thesis-tables-check` confere a sincronia, mas reescreve
   `results/thesis/` no lugar: é passo do autor ou do `/final-pass`, não da auditoria.
 - `results/tables/claims_summary_audit.csv` — única fonte de contagens "corrigidas por Holm"
-  do protocolo confirmatório (colunas `metric, condition, M, wins, losses, ties, n`).
+  do protocolo da comparação principal (colunas `metric, condition, M, wins, losses, ties, n`).
 - `data/processed/todas_metricas_consolidado_with_modern.csv` — consolidado; **sempre** filtrar
   com `ivfspea2.cohorts.filter_submission_synthetic_cohort` (o rótulo `IVFSPEA2` mistura as
   execuções `1–60` e `3001–3060`).

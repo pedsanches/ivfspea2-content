@@ -7,7 +7,7 @@ pergunta; "não" gera achado quando o texto afirma algo que depende dela.
 
 1. O orçamento de avaliações é idêntico entre os algoritmos comparados, ou a exceção de política
    de população (NSGA-III, MOEA/D) está declarada? — Bartz-Beielstein et al. 2020.
-2. O comparador canônico simples (SPEA2) está presente e é o alvo da afirmação confirmatória? —
+2. O comparador canônico simples (SPEA2) está presente e é o alvo da afirmação principal? —
    Bartz-Beielstein et al. 2020.
 3. Instâncias usadas na calibração estão separadas das usadas para generalizar (12 × 39), e o
    texto não trata o recorte fora do ajuste como independente onde ele não é (MaF7/DTLZ7)? —
@@ -32,11 +32,11 @@ pergunta; "não" gera achado quando o texto afirma algo que depende dela.
 10. O teste corresponde ao pareamento real: Mann–Whitney para coortes independentes
     (`3001–3060` × `1–60`); teste pareado só quando as execuções são pareadas por semente? —
     Derrac et al. 2011.
-11. A família de correção está declarada antes da correção (por M e por métrica, no protocolo
-    confirmatório), e Holm × Benjamini–Hochberg não são misturados sem justificativa? — Derrac
+11. A família de correção está declarada no protocolo (por M e por métrica, na comparação
+    principal), e Holm × Benjamini–Hochberg não são misturados sem justificativa? — Derrac
     et al. 2011; perfil §7.
 12. Contagens "corrigidas" vêm de `results/tables/claims_summary_audit.csv`; contagens de
-    geradores descritivos não são chamadas de confirmatórias? — perfil §7.
+    geradores descritivos não são apresentadas como contagens da comparação principal? — perfil §7.
 13. Todo p-valor usado como apoio vem com tamanho de efeito ($A_{12}$) e resumo descritivo? —
     Arcuri & Briand 2014.
 14. Nenhuma afirmação de "equivalência", "empate real" ou "não afeta" se apoia só em

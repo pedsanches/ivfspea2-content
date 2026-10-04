@@ -33,7 +33,8 @@ Conversões proibidas sem nova evidência:
 
 - `docs/IVFSPEA2_EVIDENCE_MODEL.md` — hierarquia e *wording guardrails*.
 - `thesis/masters/SCIENTIFIC_WRITING_PROFILE.md` §6–§8 — famílias, hierarquia inferencial,
-  protocolo confirmatório (Mann–Whitney bicaudal, α = 0,05, Holm por M e métrica).
+  protocolo da avaliação comparativa principal (Mann–Whitney bicaudal, α = 0,05, Holm por M e
+  métrica; nomenclatura em `REWRITE_SPEC.md` §1.7).
 - `thesis/masters/REWRITE_SPEC.md` §3.5 (afirmações bloqueadas), §4 (questões abertas `OQ-*`),
   §5 (sobreposição e não independência).
 - `thesis/masters/REVISION_PLAN.md` §2 — o que cada QP pode responder; cada QP é respondida só
