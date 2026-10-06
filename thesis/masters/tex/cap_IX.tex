@@ -1,9 +1,9 @@
 \chapter{Trabalhos Futuros}
 \label{sec:future_work}
 
-As direções abaixo derivam do que esta dissertação estabeleceu e, sobretudo, do que ela não conseguiu estabelecer. Vários itens que figurariam naturalmente como trabalho futuro já foram executados e estão reportados no Capítulo~\ref{sec:complementares}: a calibração dos parâmetros em três fases, o acoplamento do operador a outros hospedeiros, a avaliação em problemas de engenharia e o controle da ativação durante a execução. Por isso, esses itens não reaparecem aqui.
+As direções abaixo partem do que esta dissertação estabeleceu e das questões que ela deixa em aberto. Vários itens que figurariam naturalmente como trabalho futuro já foram executados e estão reportados no Capítulo~\ref{sec:complementares}: a calibração dos parâmetros em três fases, o acoplamento do operador a outros hospedeiros, a avaliação em problemas de engenharia e o controle da ativação durante a execução. Por isso, esses itens não reaparecem aqui.
 
-\section{Isolar o que a evidência atual não isola}
+\section{Separar os efeitos combinados}
 \label{sec:fw_isolar}
 
 \textbf{Repetir a ablação na configuração promovida.} O primeiro passo para isolar a contribuição das duas decisões de acoplamento, que as comparações da QP2 deixam em aberto, é repetir a ablação na configuração promovida, numa única campanha e com os dois braços pareados por semente, de preferência num desenho que cruze configuração e decisões, para separar os dois efeitos. Se, mesmo assim, a suíte completa não distinguir as decisões, um desenho mais sensível precisaria medir efeitos intermediários (a dispersão dos descendentes no espaço de objetivos, a taxa com que a seleção ambiental os retém) em vez de medir apenas o desfecho final.
@@ -22,7 +22,9 @@ As direções abaixo derivam do que esta dissertação estabeleceu e, sobretudo,
 
 \textbf{Outros hospedeiros.} O operador foi acoplado a algoritmos baseados em dominância e em pontos de referência. Hospedeiros de decomposição, como as variantes do MOEA/D, e baseados em indicador, como o SMS-EMOA, ordenam soluções por critérios distintos e exigiriam decisões de acoplamento próprias. Essa é exatamente a questão que esta dissertação levanta. Hospedeiros que adaptam a geometria da fronteira durante a execução, como o AGE-MOEA-II e o AR-MOEA, constituem uma terceira classe: a Seção~\ref{sec:posicionamento} registra saldo desfavorável ao acoplamento diante do AGE-MOEA-II no HV dos problemas tri-objetivo e diante do AR-MOEA na IGD com dois objetivos, e saldo favorável nos demais contrastes com esses dois algoritmos. Transpor o módulo para qualquer um deles exige rederivar as decisões de acoplamento sob a lógica de seleção do hospedeiro, e não reaproveitar as duas decisões formuladas aqui sob a aptidão do SPEA2.
 
-\textbf{Problemas caros.} O acoplamento preserva o orçamento de avaliações e acrescenta operações internas, cujo tempo não foi estimado de forma comparável (Capítulo~\ref{sec:threats}); esse acréscimo perderia peso relativo quando a avaliação dominasse o tempo total. Nesses problemas, porém, o número de avaliações possível é pequeno, e o operador não foi avaliado sob orçamentos dessa ordem.
+\textbf{Problemas caros.} O acoplamento preserva o orçamento de avaliações e acrescenta operações internas, cujo tempo não foi estimado de forma comparável (Seção~\ref{sec:custo}); esse acréscimo perderia peso relativo quando a avaliação dominasse o tempo total. Nesses problemas, porém, o número de avaliações possível é pequeno, e o operador não foi avaliado sob orçamentos dessa ordem.
+
+\textbf{Velocidade de convergência.} A avaliação compara a qualidade da aproximação final sob orçamento fixo. Acompanhar a IGD e o HV ao longo da execução, com pontos de verificação regulares e teste pareado por execução, permitiria verificar se a intensificação também acelera a busca, o que a qualidade final não informa.
 
 \section{Consolidar a decisão de ativação}
 
@@ -30,10 +32,4 @@ As direções abaixo derivam do que esta dissertação estabeleceu e, sobretudo,
 
 \textbf{Um critério de decisão assimétrico.} A regra atual maximiza a acurácia balanceada entre ``ajuda'' e ``não ajuda'', enquanto a decisão de desligar o operador pode ter consequências diferentes quando ele ajuda e quando prejudica (Seção~\ref{sec:resposta_qp4}). Um critério que tome o prejuízo como classe de interesse e pondere ganhos e perdas por uma função de custo definida antes da análise corresponderia melhor a esse problema do que a separação binária; os deslocamentos da Seção~\ref{sec:magnitude} descrevem a suíte observada e não substituem essa função.
 
-\textbf{Decisão reversível.} O controlador avaliado desativa o operador uma única vez e de forma irreversível, enquanto a seleção adaptativa de operadores revê a escolha ao longo da execução~\cite{fialho2008adaptive,maturana2009adaptive}. Permitir reativação conforme a dinâmica evolui é uma possibilidade a testar, e não uma garantia de recuperar o desempenho do operador sempre ativo nas instâncias beneficiadas em que o controlador perdeu: a decisão continuaria dependente de um sinal que, nesta amostra, não se distinguiu da identidade da suíte.
-
-\section{Fechar as lacunas de evidência}
-
-\textbf{Reconstituir a análise de convergência.} A análise de trajetória dos manuscritos de origem, com 100 pontos de verificação por execução e teste pareado, foi omitida porque os artefatos disponíveis não a sustentam (Seção~\ref{sec:validade_conclusao}). Reconstituir a coorte de 100 pontos de verificação (por reexecução, já que ela não está em nenhum depósito) e corrigir o pareamento do teste de significância restituiria uma dimensão de evidência que os manuscritos de origem utilizam~\cite{zambrano2026ivfspea2,zambrano2026hosts}.
-
-\textbf{Tornar os artefatos de apoio regeneráveis.} As famílias de calibração, ablação, engenharia e do controlador dependem de artefatos congelados cujos dados brutos não estão versionados. Restabelecer a cadeia completa de produção é condição para que essas evidências possam ser reexaminadas por terceiros, e não apenas conferidas.
+\textbf{Decisão reversível.} O controlador avaliado desativa o operador uma única vez e de forma irreversível, enquanto a seleção adaptativa de operadores revê a escolha ao longo da execução~\cite{fialho2008adaptive,maturana2009adaptive}. Permitir reativação conforme a dinâmica evolui é uma possibilidade a testar; a decisão continuaria dependente de um sinal que, nesta amostra, não se distinguiu da identidade da suíte.

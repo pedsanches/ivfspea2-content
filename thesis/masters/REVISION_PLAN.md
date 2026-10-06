@@ -89,6 +89,22 @@ Os outros capítulos remetem a ela e não reenunciam o resultado.
 
 ## 3. Estado em 2026-10-03
 
+Rodada R18 concluída (`REWRITE_SPEC.md` §6.2) — atenuação da autocrítica, nível 2, por
+decisão do autor. O Cap. 9 passou de 6 para 3 páginas, com cada ameaça reescrita em três
+movimentos (ameaça, mitigação, risco residual), e o texto perdeu a repetição das ressalvas
+transversais: cada uma aparece completa uma vez, no lugar canônico indicado no contrato da
+rodada, e as demais ocorrências remetem. Saíram do corpo do texto, passando a respostas
+prontas da §8: versões de MATLAB e PlatEMO dos manuscritos, histórico dos registros de
+sondagem da seleção RWMOP, momento de formulação da QP5, análise de convergência omitida,
+tempo de relógio, magnitudes como intervalos, pré-processamento pré-dobra do modelo estático
+e dados brutos (que ficam no Apêndice B, oculto). Nenhum número, coorte, teste, correção,
+citação, remissão ou rótulo mudou, e nenhum veredito de QP foi alterado; `claims.py diff` e
+`prose_audit.py` foram rodados por arquivo. O PDF compila com 103 páginas, sem item
+bloqueante novo, sem *overfull* e com as três linhas *underfull* da linha de base; resumo e
+abstract continuam em uma página cada, e as palavras-chave ficaram nelas. Fica registrada a
+reversão, no resumo e no abstract, da precisão "sinal e janela escolhidos antes das dobras"
+que o fechamento da R17 havia restaurado: por decisão da R18, ela permanece apenas na §7.4.
+
 Rodada R17 concluída (`REWRITE_SPEC.md` §6.2). Os três apêndices estão ocultados em
 `main.tex` por decisão do autor, e os arquivos continuam versionados em `pos/`; a
 declaração de disponibilidade de dados fica oculta junto com o Apêndice B e não foi movida
@@ -202,13 +218,14 @@ Bloqueiam o depósito:
 
   A restauração **não desfaz a QP5**: a §7.5 (`sec:posicionamento`) e a §8.5
   (`sec:resposta_qp5`) são o lugar canônico do posicionamento, e as remissões de
-  `cap_III.tex:25`, `cap_V.tex:49`, `cap_VI.tex:4`, `cap_VII.tex:15`, o item de ameaça da §9.4
-  e a §10.2 permanecem como estão. Procedimento:
+  `cap_III.tex:25`, `cap_V.tex:49`, `cap_VI.tex:4`, `cap_VII.tex:15`, o item de ameaça da §9.2
+  ("Escolha do hospedeiro", na §9.4 até a R17) e a §10.2 permanecem como estão. Procedimento:
   - `main.tex` — descomentar `\apendices` e os `\input` de `pos/apend_I` e `pos/apend_II`;
     **não** descomentar `pos/apend_III` (define `fig:posto_medio`, também definido na §7.5:
     rótulo duplicado);
-  - `tex/cap_VII_complementares.tex:6` e `tex/cap_VIII.tex:61` — os parênteses
-    `(Apêndice~\ref{apend:recuperacao})` voltam;
+  - `tex/cap_VII_complementares.tex` (abertura do capítulo) — o parêntese
+    `(Apêndice~\ref{apend:recuperacao})` volta. Desde a R18 o Cap. 9 não tem item sobre dados
+    brutos: o Apêndice B é o lugar canônico dessa ressalva;
   - `tex/cap_I.tex` (Organização do texto) — volta a menção aos Apêndices A e B (fontes de
     evidência e disponibilidade dos dados), sem o posicionamento.
 
@@ -235,11 +252,13 @@ Não bloqueiam o depósito, mas têm prazo próprio:
   opção (c)**, com o termo "avaliação comparativa principal" (`REWRITE_SPEC.md` §1.7). A
   decisão resolve o nome e o papel da avaliação; a anterioridade continua não verificada.
 - [ ] **`OQ-15` — ambiente de execução.** O texto deixou de afirmar versão de campanha na
-  R10 (§5.1, nota da Tabela 5.1, §9.4): a §9.4 expõe os três registros dos manuscritos e a
-  incompatibilidade entre o Springer e o PPSN nas execuções `3001–3030`. Resta, fora da
+  R10. Na R18, por decisão do autor, saiu do texto a exposição dos três registros dos
+  manuscritos e da incompatibilidade entre o Springer e o PPSN nas execuções `3001–3030`
+  (antes na §5.1, na nota da Tabela 5.1 e na §9.4): a §5.1 diz só que a cópia distribuída se
+  identifica como a versão 4.6, e a resposta completa está na §8. Resta, fora da
   dissertação, localizar os logs dos runners, se existirem, e decidir errata do Springer
   (legenda da tabela de parâmetros) e do PPSN (ambiente da coluna IVF/SPEA2). Se os logs
-  aparecerem, a §9.4 pode passar a afirmar as versões.
+  aparecerem, a §5.1 pode passar a afirmar as versões.
 - [ ] **`OQ-21`** — o Springer diz que a MaF entra só com três objetivos e não registra
   que o MaF7 repete o DTLZ7, nem que o MaF7 com M = 3, fora do ajuste, é a função do
   DTLZ7 da calibração. Decidir errata.
@@ -367,20 +386,25 @@ páginas e a ausência de fontes Type 3 (`pdffonts build/main.pdf`).
 |---|---|
 | Se a ablação não separa as decisões, qual é a contribuição? | §8.2 e §8.6: a eficácia é da implementação completa, e a atribuição é outra pergunta; contribuições 1 e 3 do §1.3; `OQ-14` |
 | O ganho vem do módulo IVF ou de outra diferença entre as implementações? | §4.1, §8.2 e §9.1: o IVF/SPEA2 recalcula a aptidão antes do torneio, e nenhuma comparação separa essa diferença; o controle está em §10.1 (`OQ-24`) |
-| O gatilho concentra a intensificação no início da execução? | §4.1 e §4.4: não; limita a fração acumulada e, mesmo com dois ciclos em toda ativação, suspende o módulo em uma de cada 16 gerações, distribuídas ao longo da execução (`OQ-23`) |
+| O gatilho concentra a intensificação no início da execução? | §4.1 e §4.4: não; limita a fração acumulada e, mesmo com dois ciclos em toda ativação, suspende o módulo em uma de cada 16 gerações, distribuídas ao longo da execução (`OQ-23`). A divergência com o Springer está em nota de rodapé da §4.1 desde a R18 |
 | Por que a ablação não foi repetida na configuração promovida? | §7.2 e §10.1: limite declarado, sem nova campanha |
 | O ganho importa na prática? | §6.2 e §8.1: nas 51 instâncias, Â₁₂ mediano 0,756 e Δ mediano +1,15% em IGD; não se definiu limiar de relevância prática, e Â₁₂ e Δ medem aspectos diferentes; não há intervalo global de generalização. |
 | Por que o NSGA-II quase não se beneficia? | §7.3, §8.3 e §9.2: comparação entre pipelines que diferem em realização do módulo, configuração e procedimento de ajuste; só o IVF/SPEA2 foi calibrado nesta suíte (`OQ-25`); o estudo de origem usou outro orçamento e a melhor configuração por problema. |
 | O controlador vale a pena? | §7.4 e §8.4: HV 34/14/3 contra o SPEA2 e 2/40/9 diante do sempre ativo, sem utilidade líquida nem equivalência nos 40 empates; classificação e decisão sob custos assimétricos são perguntas distintas. |
 | O limiar exige conhecer a família do problema? | §7.4: cada dobra ajusta limiar sem a família retida; o observável e a janela foram escolhidos antes dessas dobras na mesma linha de evidência, sem validação aninhada. |
 | O sinal de renovação é mais que a identidade da suíte? | §7.4, §8.4 e §9.3: nesta amostra, não se distingue dela; 49/51 decisões em resumos de instância coincidem com WFG/demais, e a própria partição, pós-hoc, atinge BA 0,778 contra 0,754; não equivalem a desativações por execução. |
-| Se a geometria não separa e as decisões não foram isoladas, o que distingue as instâncias desfavoráveis? | §8.5: hipótese, restringida pela Tabela 8.1 (dependência de M, D e K; derrotas só em funções não separáveis; duas derrotas em instâncias da calibração); teste fatorial em §10.1 |
-| Por que o Cap. 6 não traz o posicionamento contra os outros algoritmos? | Apêndice C: é exploratório, um posto médio descritivo, sem teste de hipótese, e nenhuma QP depende dele |
+| Se a geometria não separa e as decisões não foram isoladas, o que distingue as instâncias desfavoráveis? | §8.6: hipótese, restringida pela Tabela 8.1 (dependência de M, D e K; derrotas só em funções não separáveis; duas derrotas em instâncias da calibração); teste fatorial em §10.1 |
+| Por que o Cap. 6 não traz o posicionamento contra os outros algoritmos? | §7.5 e §8.5: o posicionamento é a QP5, com protocolo próprio (Holm por comparador, por número de objetivos e por métrica); o Cap. 6 trata só da avaliação comparativa principal |
 | As execuções do IVF/SPEA2 e do SPEA2 foram pareadas na comparação entre hospedeiros? | §7.3, terceira ressalva, e nota da Tabela 7.4: os pares NSGA são pareados por execução; o do IVF/SPEA2 é alinhado por ordem, e sem pareamento só uma contagem muda, em HV (`OQ-20`) |
-| Por que Holm numa família e Benjamini–Hochberg noutra? | §9.4 |
-| Por que "avaliação comparativa principal" e não "confirmatória"? | §5.3 e §5.4: o protocolo é declarado, mas os artefatos não registram quando a IGD e as famílias de Holm foram fixadas em relação aos resultados; "principal" nomeia o papel da avaliação, sem afirmar pré-especificação nem escolha posterior (`OQ-26`) |
-| Dá para reexecutar? | Apêndice B |
+| Por que Holm numa família e Benjamini–Hochberg noutra? | §2.5 e §5.6: cada família conserva a correção da análise em que foi originalmente relatada; Holm controla a taxa de erro por família, e BH, a taxa de falsas descobertas; reaplicar outra correção mudaria as contagens sem que os dados mudassem; contagens de famílias diferentes não são somadas, e, onde aparecem lado a lado (§8.1, tabela de geometria), a diferença não é atribuída a um fator, porque execuções, teste, pareamento e correção mudam juntos |
+| Por que "avaliação comparativa principal" e não "confirmatória"? | §5.4: o protocolo é declarado, mas os artefatos não registram quando a IGD e as famílias de Holm foram fixadas em relação aos resultados; "principal" nomeia o papel da avaliação, sem afirmar pré-especificação nem escolha posterior (`OQ-26`) |
+| Dá para reexecutar? Os dados brutos estão disponíveis? | Apêndice B (oculto; restaurar antes do depósito). Fora do corpo do texto desde a R18. Resposta: a família principal é regenerável a partir dos dados processados versionados; as de calibração, ablação, engenharia e do controlador são verificáveis contra os artefatos congelados, mas os produtores não executam a partir de uma cópia recém-obtida do repositório, porque os dados brutos não estão versionados; refazer a cadeia anterior aos artefatos exige reexecutar a campanha |
 | O recorte fora do ajuste é independente da calibração? | §5.5 e §6.1: não inteiramente; o MaF7 com M = 3 repete o DTLZ7 da calibração, e sem ele o recorte com M = 3 fica em 11/3/0 (`OQ-21`) |
 | Por que 41 instâncias em que o operador "ajuda", se as vitórias corrigidas são 37? | §7.4: o rótulo usa o teste sem correção; quatro empates de Holm entram como "ajuda" (`OV-02`) |
-| Em que versões do MATLAB e do PlatEMO as campanhas rodaram? | §9.4: não é verificável; os registros dos manuscritos divergem (`OQ-15`) |
-| O artigo diz que a geometria da fronteira modera o ganho. Por que a dissertação não? | §6.3: a divergência é declarada; a frequência das vitórias não muda com a geometria, e as derrotas irregulares são um único problema (`OQ-22`) |
+| Em que versões do MATLAB e do PlatEMO as campanhas rodaram? | Fora do texto desde a R18 (§5.1 diz só que a cópia distribuída se identifica como 4.6). Resposta: não é verificável, porque os registros de execução do MATLAB não estão no repositório. O Springer registra como versão do PlatEMO o identificador 24.2.0.2923080, que tem o formato do número de versão do MATLAB (24.2 corresponde ao R2024b); o PPSN registra MATLAB R2025b com PlatEMO 4.6; o CLEI não registra versão. Como a coluna IVF/SPEA2 da comparação entre hospedeiros reutiliza execuções da coorte principal, os dois primeiros registros não podem estar ambos certos. Nenhuma contagem depende disso: todas são calculadas a partir dos artefatos (`OQ-15`) |
+| O artigo diz que a geometria da fronteira modera o ganho. Por que a dissertação não? | §8.1, com as contagens da §6.3: a divergência é declarada uma vez; a frequência das vitórias não muda com a geometria, e as derrotas irregulares são um único problema (`OQ-22`) |
+| Por que não há análise de convergência, se os manuscritos de origem a reportam? | Fora do texto desde a R18; a §5.3 declara o escopo (aproximação final) e a §10.2 propõe a análise. Resposta: os manuscritos reportam trajetória com 100 pontos de verificação por execução; o artefato disponível no repositório tem dez pontos por execução, e o par IVF/SPEA2 × SPEA2 está ausente das estatísticas de convergência porque o teste pareia execuções por identificador e as faixas 3001–3060 e 1–60 não se intersectam (`OQ-02`, `OQ-03`, `OQ-04`). Em vez de reportar uma análise que os artefatos não sustentam, a dissertação se restringe ao desfecho final; qualidade final e velocidade de convergência são propriedades distintas, e o desfecho final não mostra que o operador acelere a busca |
+| Por que não há comparação de tempo de execução? | §4.5 (uma frase) desde a R18. Resposta: a base consolidada registra tempos, mas os ambientes das campanhas não são verificáveis, os resumos de tempo disponíveis usam formas de agregação distintas e não foram reconciliados quanto a coortes e filtros, e não houve comparação controlada do custo do módulo; a comparação é normalizada por avaliações, e a §4.5 dá a análise assintótica, que não substitui uma medida comparável de sobrecarga |
+| Quando a QP5 foi formulada? | Fora do texto desde a R18 (§1.2 diz que QP2, QP3 e QP5 são perguntas comparativas, sem hipótese fixada antes dos estudos). Resposta: na R17, depois de calculadas as contagens que a respondem; por isso o posicionamento é comparação, não teste de superioridade, e o posto médio é descritivo |
+| Como os três problemas de engenharia foram escolhidos? | §7.1 traz os critérios e as exclusões; o histórico dos registros saiu do texto na R18. Resposta: o Springer relata como critérios dois ou três objetivos, o mesmo orçamento da suíte sintética, soluções viáveis não dominadas para o IVF/SPEA2 e IGD e HV com cobertura de execuções comuns, e descreve uma sondagem com uma execução por candidato; há um registro anterior dessa sondagem para a formulação inicial, distinto do registro de cinco execuções por candidato do IVF/SPEA2 avaliado. Nesse registro, RWMOP13, RWMOP20, RWMOP24 e RWMOP29 não produziram solução viável em nenhuma das cinco execuções. A saída da triagem completa com todos os algoritmos não está disponível para esses quatro candidatos, nem há registro contemporâneo que comprove a fixação dos critérios antes da campanha. O RWMOP9 foi mantido como problema de continuidade; o RWMOP8, desfavorável na triagem disponível, também foi mantido, com cobertura parcial ou nula em dois comparadores, o que impede verificar a aplicação integral do critério de disponibilidade de métricas. A retenção de um caso adverso limita a seleção só de resultados favoráveis, mas não elimina o viés de seleção |
+| O modelo estático do estudo de ativação tinha vazamento entre treino e teste? | Fora do Cap. 9 desde a R18; a §7.4 apresenta a reanálise. Resposta: os postos do desfecho de regressão foram calculados nas 51 instâncias antes da separação entre treino e teste, e a validação por suíte deixa o par funcional MaF7/DTLZ7 atravessar treino e teste. A reanálise (Tabela `tab:ativacao_robustez`) ajusta a transformação da resposta no treino e retém DTLZ e MaF juntas: Spearman agrupado 0,286 ao reter uma instância e 0,150 com DTLZ+MaF; ela muda também a escala do alvo e não quantifica separadamente quanto cada fator alterou os números publicados (`OQ-13`, `OQ-16`) |

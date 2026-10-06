@@ -770,6 +770,32 @@ A tabela acima é o alvo original, anterior à consolidação da R4.
   partir dos registros da sessão. A atribuição a `li2015many`, que o achado também
   apontava como não conferida (HTTP 403), saiu do parágrafo na mesma reescrita.
 
+- **R18 (concluída, 2026-10-03) — atenuação da autocrítica (nível 2).** Decisão do autor:
+  reduzir a repetição de ressalvas, neutralizar o tom e retirar do corpo do texto um conjunto
+  fechado de ressalvas de bastidor, que passam a ser respostas prontas para a banca
+  (`REVISION_PLAN.md` §8). Nenhum número, coorte, teste, correção, `\cite`, `\ref` ou
+  `\label` mudou, e nenhum veredito de QP foi alterado; a verificação por arquivo usou
+  `claims.py diff` e `prose_audit.py`. Reescrita do Cap. 9 como ameaça → mitigação → risco
+  residual, de 6 para 3 páginas, e remoções do corpo do texto: exposição das versões de
+  MATLAB e PlatEMO dos manuscritos (§5.1 guarda só a identificação da cópia distribuída como
+  4.6), histórico dos registros de sondagem da seleção RWMOP, momento de formulação da QP5,
+  análise de convergência omitida (a §5.3 declara o escopo do desfecho final e a §10.2 propõe
+  a análise), tempo de relógio (fica uma frase na §4.5), magnitudes como intervalos
+  (§5.4 as delimita), pré-processamento pré-dobra do modelo estático (a §7.4 descreve a
+  reanálise como validação mais estrita) e dados brutos (lugar canônico: Apêndice B, oculto).
+  Enquadramentos reescritos: Holm e Benjamini–Hochberg por família (§5.6) e política de
+  tamanho de população (§5.1) passam a descrição de desenho; a divergência com o manuscrito
+  de origem sobre o gatilho passa a nota de rodapé na §4.1; a divergência sobre geometria fica
+  uma vez, na §8.1. Cap. 10: §10.1 "Separar os efeitos combinados", §10.4 extinta, item de
+  velocidade de convergência na §10.2. Conclusões do Cap. 8 terminam na síntese das
+  contribuições. Nenhuma ressalva que sustenta afirmação mantida foi removida: permanecem
+  calibração em 12/51, diferença de implementação fora do módulo, ablação fora da
+  configuração promovida, escopo, sobreposição de coortes, rótulos da análise de ativação e
+  análises formuladas após os resultados. `make thesis` sem item bloqueante novo e sem
+  *overfull*; 103 páginas (eram 106). Fica registrada a reversão, no resumo e no abstract, da
+  precisão "sinal e janela escolhidos antes das dobras" que o fechamento da R17 havia
+  restaurado: a decisão da R18 é mantê-la apenas na §7.4, por economia de resumo.
+
 Portões por rodada: `make thesis-doctor` → `make thesis` → `make thesis-render` quando
 houver mudança de layout. Por perfil §11: invocar `$write-scientific-manuscripts` antes
 de editar prosa, auditoria editorial nos `.tex` alterados depois, e entrada em
@@ -787,6 +813,13 @@ manuscritos, se ainda houver oportunidade) · `OQ-24` (errata e campanha de cont
 banca, `\publica`, campos de coorientador e a declaração de formato exigida pela
 Resolução INF nº 02/2023/PPGCC. A estrutura em dez capítulos e três apêndices (o terceiro desde a R9) resulta da
 decisão da R4, que consolidou os estudos complementares num único capítulo.
+
+Pendentes desde o fechamento da R18 (2026-10-03): **autorizar** a entrada da rodada em
+`AI_ASSISTANCE_LOG.md` e os commits; **revisar** as respostas da §8 acrescentadas na R18
+(convergência, tempo de relógio, versões de ambiente, QP5, seleção RWMOP, vazamento entre
+dobras, dados brutos); decidir se a precisão "sinal e janela escolhidos antes das dobras"
+volta ao resumo e ao abstract; revisar as remissões ao Cap. 9 no texto (a R18 as manteve só
+para itens que ele ainda contém).
 
 Pendentes desde o fechamento da R17 (2026-10-03): **Apêndice C** — aposentar ou
 reaproveitar como detalhamento por instância, sem a figura. **Ferramenta e modelo** do
