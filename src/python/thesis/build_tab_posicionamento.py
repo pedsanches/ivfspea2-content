@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Posicionamento do IVF/SPEA2 contra os sete algoritmos comparados (QP5).
+"""Comparação do IVF/SPEA2 com os sete algoritmos comparados (QP5).
 
 Lê:
     data/processed/todas_metricas_consolidado_with_modern.csv  (via filtro de coorte)
@@ -41,17 +41,18 @@ OUT = RESULTS_THESIS / "tab_posicionamento.tex"
 
 ALVO = "IVFSPEA2"
 
-# Os sete algoritmos comparados, na ordem de grupos da Seção 5.1:
-# variantes do próprio hospedeiro, métodos de dominância e decomposição,
-# abordagens de adaptação de geometria e de conjunto de referência.
+# Os sete algoritmos comparados, nas três famílias da Seção 5.2.1 e do
+# manuscrito de origem: variantes do SPEA2, métodos canônicos de dominância de
+# Pareto e de decomposição, abordagens modernas de adaptação de geometria e de
+# pontos de referência.
 COMPARADORES = [
-    ("MFOSPEA2", "MFO-SPEA2", "Variante do hospedeiro"),
-    ("SPEA2SDE", "SPEA2+SDE", "Variante do hospedeiro"),
-    ("NSGAII", "NSGA-II", "Dominância e decomposição"),
-    ("NSGAIII", "NSGA-III", "Dominância e decomposição"),
-    ("MOEAD", "MOEA/D", "Dominância e decomposição"),
-    ("AGEMOEAII", "AGE-MOEA-II", "Geometria e referências adaptativas"),
-    ("ARMOEA", "AR-MOEA", "Geometria e referências adaptativas"),
+    ("MFOSPEA2", "MFO-SPEA2", "Variante do SPEA2"),
+    ("SPEA2SDE", "SPEA2+SDE", "Variante do SPEA2"),
+    ("NSGAII", "NSGA-II", "Método canônico"),
+    ("NSGAIII", "NSGA-III", "Método canônico"),
+    ("MOEAD", "MOEA/D", "Método canônico"),
+    ("AGEMOEAII", "AGE-MOEA-II", "Abordagem moderna"),
+    ("ARMOEA", "AR-MOEA", "Abordagem moderna"),
 ]
 
 # métrica -> maior é melhor
@@ -184,7 +185,10 @@ def main() -> int:
         "independentes. Cada linha é um contraste par a par entre algoritmos "
         "distintos e as contagens não se somam entre comparadores. Um empate é "
         "ausência de diferença detectável, e não equivalência. O posto médio da "
-        "Figura~\\ref{fig:posto_medio} é descritivo e não substitui estas contagens."
+        "Figura~\\ref{fig:posto_medio} é descritivo e não substitui estas contagens. "
+        "Variantes do SPEA2: MFO-SPEA2 e SPEA2+SDE; métodos canônicos: NSGA-II, "
+        "NSGA-III e MOEA/D; abordagens modernas: AGE-MOEA-II e AR-MOEA "
+        "(Seção~\\ref{sec:plataforma})."
     )
 
     content = lt.render(
@@ -192,9 +196,9 @@ def main() -> int:
         rows=rows,
         colspec="cclcc",
         caption=(
-            "Posicionamento do IVF/SPEA2 frente aos sete algoritmos comparados, "
-            "por métrica, número de objetivos e comparador, com correção de Holm "
-            "dentro de cada contraste."
+            "Comparação do IVF/SPEA2 com os sete algoritmos comparados (variantes do "
+            "SPEA2, métodos canônicos e abordagens modernas), por métrica, número de "
+            "objetivos e comparador, com correção de Holm dentro de cada contraste."
         ),
         label="tab:posicionamento",
         producer=__file__,

@@ -38,7 +38,7 @@ Conversões proibidas sem nova evidência:
 - `thesis/masters/REWRITE_SPEC.md` §3.5 (afirmações bloqueadas), §4 (questões abertas `OQ-*`),
   §5 (sobreposição e não independência).
 - `thesis/masters/REVISION_PLAN.md` §2 — o que cada QP pode responder; cada QP é respondida só
-  no Cap. 8.
+  no Cap. 7 (Cap. 8 até a R18).
 
 ## Procedimento de revisão
 

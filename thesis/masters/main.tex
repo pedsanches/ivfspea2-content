@@ -46,6 +46,9 @@
 \usepackage{multirow}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \captionsetup[table]{position=top}
+% \FloatBarrier impede que tabelas de uma subseção sejam empurradas para depois
+% da subseção seguinte (Tabelas de HV por instância antes da Síntese, R19).
+\usepackage{placeins}
 
 % Pseudocódigo do Capítulo da proposta. A classe não carrega estes pacotes.
 \usepackage{algorithm}
@@ -55,6 +58,12 @@
 % A classe monta a lista via \listalgorithmcfname, macro do algorithm2e; o par
 % algorithm/algpseudocode escreve no mesmo .loa, entao basta definir o nome.
 \providecommand{\listalgorithmcfname}{Lista de Algoritmos}
+% As entradas do tipo algorithm não tinham formatação no .loa, e o número da
+% página encostava no título (comentário A017 do revisor externo, R19). Elas
+% passam a usar o mesmo formato das entradas da Lista de Figuras.
+\makeatletter
+\let\l@algorithm\l@figure
+\makeatother
 \algrenewcommand\algorithmicrequire{\textbf{Entrada:}}
 \algrenewcommand\algorithmicreturn{\textbf{Retorna}}
 % As palavras-chave do algpseudocode são em inglês por padrão.
@@ -87,8 +96,8 @@
 % \subtitulo{ Subtítulo do Trabalho}
 
 \cidade{ Goiânia} % Nome da cidade em foi desenvolvido o trabalho
-\dia{08} % Data provisória da defesa; confirmar antes do depósito.
-\mes{11} % Data provisória da defesa; confirmar antes do depósito.
+\dia{27} % Data da defesa, definida pelo autor em 2026-10-11.
+\mes{10} % Data da defesa, definida pelo autor em 2026-10-11.
 \ano{2026} % Formato numérico: \dia{01}, \mes{01} e \ano{2009}
 
 %-------------------------------------------------------------- ORIENTADOR %
@@ -159,6 +168,12 @@
 %                  códigos de programas
 
 %--------------------------------------------------------------- CAPÍTULOS %
+% Desde a rodada R19 (2026-10-10), a dissertação tem nove capítulos. O
+% Capítulo 5, Experimentação, reúne os antigos Experimentos e Resultados:
+% cap_V.tex abre o capítulo (questões de pesquisa, famílias de evidência e
+% desenho experimental) e cap_VI.tex, incluído em seguida sem \chapter próprio,
+% é a Seção 5.3 (resultados da avaliação comparativa principal). Os nomes dos
+% arquivos não acompanham a numeração dos capítulos.
 \input{./tex/cap_I}
 \input{./tex/cap_II}
 \input{./tex/cap_III}
@@ -178,27 +193,27 @@
 \label{ref-bib}
 
 %--------------------------------------------------------------- APÊNDICES %
-% Apêndices ocultados temporariamente por decisão do autor, em 2026-10-03
-% (rodada R17). Os três arquivos permanecem versionados em pos/apend_I.tex,
-% pos/apend_II.tex e pos/apend_III.tex: nada foi renomeado, movido ou
-% removido, e os geradores de src/python/thesis/ continuam produzindo suas
-% saídas normalmente.
+% Apêndices mantidos fora do PDF por decisão do autor, em 2026-10-11 (a
+% ocultação provisória é de 2026-10-03, rodada R17). Os Apêndices A (fontes de
+% evidência, gerado por src/python/thesis/build_apendice_fontes.py) e B
+% (disponibilidade dos dados) seguem versionados em pos/apend_I.tex e
+% pos/apend_II.tex, e os geradores continuam produzindo as suas saídas. Para
+% restaurá-los: descomente \apendices e os dois \input e siga a lista de
+% remissões de REVISION_PLAN.md §4; antes disso, o gerador do Apêndice A ainda
+% usa os termos antigos ("pipelines publicados", "desfecho") e campos em inglês
+% de data-sources.toml. A restauração não desfaz a QP5: a Seção 6.5
+% (sec:posicionamento) e a Seção 7.5 (sec:resposta_qp5) continuam sendo o lugar
+% canônico da comparação com os sete algoritmos comparados.
 %
-% Para restaurar os Apêndices A e B: descomente \apendices e os \input de
-% pos/apend_I e pos/apend_II, e siga a lista de remissões de
-% REVISION_PLAN.md §4. A restauração não desfaz a QP5: a Seção 7.5
-% (sec:posicionamento) e a Seção 8.5 (sec:resposta_qp5) continuam sendo o
-% lugar canônico do posicionamento.
-%
-% pos/apend_III foi substituído pela Seção 7.5 e NÃO deve ser reincluído como
-% está: ele define fig:posto_medio, que a Seção 7.5 também define, e o rótulo
-% ficaria duplicado. O seu destino (aposentar, ou reaproveitar como
-% detalhamento por instância sem a figura) aguarda decisão do autor.
+% pos/apend_III.tex (Apêndice C, "Posicionamento Exploratório contra Outros
+% Comparadores") foi aposentado por decisão do autor em 2026-10-11: ele foi
+% substituído pela Seção 6.5, contradizia a redação da QP5 e definia
+% fig:posto_medio, que a Seção 6.5 também define. O arquivo foi removido da
+% árvore de trabalho; o histórico do git preserva a sua última versão.
 %\apendices
 %
 %\input{./pos/apend_I}
 %\input{./pos/apend_II}
-%\input{./pos/apend_III}  % não reincluir; ver acima
 
 \end{document}
 

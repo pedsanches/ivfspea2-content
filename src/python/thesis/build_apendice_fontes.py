@@ -113,10 +113,10 @@ SOURCE_PT = {
         "lacunas": "Não há tabela para a família de convergência, cuja análise foi omitida da dissertação. A partição WFG/demais e a tabulação por propriedades da WFG são análises pós-hoc sobre a mesma amostra, não validações independentes.",
     },
     "context-comparator-positioning": {
-        "titulo": "Posicionamento frente aos algoritmos comparados",
+        "titulo": "Comparação com variantes do SPEA2, métodos canônicos e abordagens modernas",
         "coorte": "Idêntica à da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra cada comparador nas execuções 1--60, 51 instâncias sintéticas, 60 execuções por algoritmo e instância, orçamento de 100.000 avaliações; sem linhas de RWMOP.",
         "bruto": "Não se aplica: a única entrada é o consolidado por execução, lido pelo filtro de coorte.",
-        "lacunas": "O posicionamento é uma comparação, não afirmação de superioridade, e o posto médio é descritivo. A coluna do IVF/SPEA2 usa a configuração promovida pela calibração e os comparadores usam as configurações publicadas padrão. Reaproveitar a coorte da comparação principal significa que estas contagens não são replicação independente da família da QP1. Os arquivos pairwise_ivf_vs_all.csv e afins são proibidos como entrada: foram calculados sobre o rótulo misto do IVF/SPEA2 e sem correção de multiplicidade.",
+        "lacunas": "A comparação com os sete algoritmos comparados não é afirmação de superioridade, e o posto médio é descritivo. Os sete pertencem a três famílias complementares: variantes do SPEA2, métodos canônicos e abordagens modernas de adaptação de geometria e de pontos de referência. A coluna do IVF/SPEA2 usa a configuração promovida pela calibração e os comparadores usam as configurações publicadas padrão. Reaproveitar a coorte da comparação principal significa que estas contagens não são replicação independente da família da QP1. Os arquivos pairwise_ivf_vs_all.csv e afins são proibidos como entrada: foram calculados sobre o rótulo misto do IVF/SPEA2 e sem correção de multiplicidade.",
     },
 }
 

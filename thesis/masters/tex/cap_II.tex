@@ -1,7 +1,7 @@
 \chapter{Embasamento Teórico}
 \label{sec:Background}
 
-Este capítulo reúne o que os capítulos seguintes pressupõem: o funcionamento do SPEA2 e a forma como ele e os outros dois hospedeiros comparados ordenam soluções para a sobrevivência (Seção~\ref{sec:spea2}); os arranjos de hibridização em que a proposta se enquadra (Seção~\ref{sec:hibridizacao}); o método IVF na sua formulação original (Seção~\ref{sec:ivf}); os indicadores de desempenho e o instrumental estatístico da avaliação (Seções~\ref{sec:indicadores} e~\ref{sec:inferencia}); e os descritores de paisagem e de dinâmica usados na análise de ativação (Seção~\ref{sec:paisagem}).
+Este capítulo apresenta os conceitos que os capítulos seguintes pressupõem, na ordem em que a proposta os combina. Começa pelo algoritmo hospedeiro, o SPEA2, e pela forma como ele e os outros dois hospedeiros usados na comparação entre acoplamentos, o NSGA-II e o NSGA-III, decidem quais soluções sobrevivem (Seção~\ref{sec:spea2}). Em seguida, apresenta os arranjos de hibridização, que descrevem como um método auxiliar pode operar dentro de um hospedeiro (Seção~\ref{sec:hibridizacao}), e o método auxiliar acoplado nesta dissertação, o IVF, na sua formulação original (Seção~\ref{sec:ivf}); a hibridização vem antes do IVF porque a sua classificação é usada para situar o método. Por fim, reúne os instrumentos da avaliação: os indicadores de desempenho e a análise estatística (Seções~\ref{sec:indicadores} e~\ref{sec:inferencia}) e os descritores de paisagem de aptidão e de dinâmica populacional usados no estudo sobre a ativação do módulo (Seção~\ref{sec:paisagem}).
 
 \section{SPEA2}
 \label{sec:spea2}
@@ -68,7 +68,7 @@ A Figura~\ref{fig:spea2_flow} resume o ciclo do SPEA2, e os passos a seguir o de
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{fig/fluxo_spea2_pt.pdf}
-\caption{Fluxograma do algoritmo SPEA2 mostrando as principais etapas de execução}
+\caption[Fluxograma do SPEA2]{Fluxograma do algoritmo SPEA2 mostrando as principais etapas de execução.}
 \label{fig:spea2_flow}
 \end{figure}
 
@@ -94,7 +94,7 @@ Os três hospedeiros usados nesta dissertação (SPEA2, NSGA-II~\cite{deb2002fas
 
 O NSGA-II ordena os indivíduos por não dominância, em frentes sucessivas, e desempata os da mesma frente pela distância de aglomeração (\textit{crowding distance}): em cada objetivo, a frente é ordenada e cada solução recebe a diferença normalizada entre os valores dos seus dois vizinhos adjacentes; a distância é a soma dessas diferenças sobre os objetivos, e as soluções extremas recebem valor infinito~\cite{deb2002fast}. Não há arquivo separado nem aptidão escalar: a sobrevivência depende da frente e, dentro da última frente admitida, da distância. O NSGA-III preserva a ordenação por não dominância e substitui a distância de aglomeração por um mecanismo de nicho: no espaço de objetivos normalizado, cada indivíduo é associado à direção de referência mais próxima, entre as geradas pelo método de Das e Dennis~\cite{das1998normal}, e a última frente admitida é truncada em favor dos indivíduos associados às direções menos ocupadas~\cite{deb2014nsga3}.
 
-Como os três hospedeiros ordenam soluções por critérios diferentes (aptidão escalar com arquivo no SPEA2, frente e distância de aglomeração no NSGA-II, frente e ocupação de nicho no NSGA-III), cada acoplamento do IVF a um deles redefine a escolha de progenitores e o critério de continuação dos ciclos. A Seção~\ref{sec:linhagem_ivf} descreve como os acoplamentos anteriores o fizeram, o Capítulo~\ref{sec:Proposal} descreve como o IVF/SPEA2 o faz, e a Seção~\ref{sec:hospedeiros} compara os três pipelines resultantes.
+Como os três hospedeiros ordenam soluções por critérios diferentes (aptidão escalar com arquivo no SPEA2, frente e distância de aglomeração no NSGA-II, frente e ocupação de nicho no NSGA-III), cada acoplamento do IVF a um deles redefine a escolha de progenitores e o critério de continuação dos ciclos. A Seção~\ref{sec:linhagem_ivf} descreve como os acoplamentos anteriores o fizeram, o Capítulo~\ref{sec:Proposal} descreve como o IVF/SPEA2 o faz, e a Seção~\ref{sec:hospedeiros} compara os três acoplamentos resultantes, cada um diante do próprio hospedeiro.
 
 \section{Hibridização de Algoritmos Evolutivos}
 \label{sec:hibridizacao}
@@ -108,53 +108,55 @@ Num arranjo integrativo, o componente de intensificação consome avaliações q
 \section{Método de Fertilização \textit{In Vitro}}
 \label{sec:ivf}
 
-Esta seção descreve o método na formulação original de Camilo-Junior e Yamanaka~\cite{camilo-junior2011}, tal como adotada pelos acoplamentos anteriores a esta dissertação. O Capítulo~\ref{sec:Proposal} parte dela e substitui duas de suas decisões; a comparação só é legível se a formulação de partida estiver estabelecida aqui.
+Esta seção descreve o método na formulação original de Camilo-Junior e Yamanaka~\cite{camilo-junior2011}, proposta para um algoritmo genético de codificação binária e avaliada num problema de um único objetivo, e indica onde as implementações usadas nesta dissertação se afastam dela. O Capítulo~\ref{sec:Proposal} parte dessa formulação e substitui duas de suas decisões; a comparação só é legível se a formulação de partida estiver estabelecida aqui.
 
-Os autores descrevem o IVF como um algoritmo auxiliar, paralelo ao hospedeiro, que se integra à fase de manipulação genética deste. A inspiração é a fertilização \textit{in vitro} da reprodução assistida, em que gametas selecionados são combinados fora do organismo para obter descendentes com características escolhidas. Como o módulo age dentro do ciclo do hospedeiro, sobre a população corrente, o arranjo é integrativo na classificação da Seção~\ref{sec:hibridizacao}, e não paralelo no sentido de execução simultânea.
+Os autores descrevem o IVF como um algoritmo auxiliar, executado num fluxo paralelo ao do algoritmo genético, que recebe como entrada uma parte da população e devolve um indivíduo, que pode ser melhor que o melhor indivíduo corrente~\cite{camilo-junior2011}. A inspiração é a fertilização \textit{in vitro} da reprodução assistida, em que gametas selecionados são combinados fora do organismo para obter descendentes com características escolhidas. Como o módulo age dentro do ciclo do hospedeiro, sobre a população corrente, o arranjo é integrativo na classificação da Seção~\ref{sec:hibridizacao}, e não paralelo no sentido de execução simultânea.
 
 \subsection{Procedimento do Método IVF}
 
-A Figura~\ref{fig:ivf_flow} resume o procedimento.
+O procedimento organiza-se em ciclos repetidos dentro de uma mesma ativação do módulo. A coleta forma o conjunto de doadores; cada ciclo recombina esses doadores, avalia os descendentes e decide, pelo critério de continuação, se outro ciclo começa; ao fim dos ciclos, a transferência insere na população do hospedeiro o doador primário corrente. O critério de continuação regula, portanto, quantos ciclos o módulo executa; a transferência é uma etapa distinta, posterior ao último ciclo. A Figura~\ref{fig:ivf_flow} resume essa sequência na forma das implementações dos acoplamentos ao NSGA-II e ao NSGA-III usadas nesta dissertação, que acrescentam um critério de parada e transferem ao hospedeiro os descendentes gerados; os passos abaixo descrevem a formulação original.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{fig/fluxo_ivf.pdf}
-\caption{Fluxograma do método de Fertilização \textit{In Vitro} mostrando as etapas de coleta, manipulação genética e transferência}
+\caption[Fluxograma do método IVF]{Fluxograma do método de Fertilização \textit{In Vitro} nas implementações dos acoplamentos ao NSGA-II e ao NSGA-III, com as etapas de coleta, manipulação genética e transferência.}
 \label{fig:ivf_flow}
 \end{figure}
 
-O módulo recebe a população do hospedeiro e percorre os passos abaixo, que compõem três fases: coleta, manipulação genética e transferência.
+Os passos a seguir detalham a sequência na formulação original~\cite{camilo-junior2011}, com as três fases que a compõem: coleta, manipulação genética e transferência.
 
 \begin{enumerate}
-    \item \textbf{Coleta:} copiam-se para o módulo os $c$ indivíduos de melhor qualidade da população corrente do hospedeiro, segundo o critério de qualidade do problema;
+    \item \textbf{Coleta:} o indivíduo mais apto da população corrente do hospedeiro torna-se o doador primário, e $c$ outros indivíduos dessa população, os doadores secundários, são copiados para o módulo. A descrição geral da fonte não fixa o critério de escolha dos doadores secundários; no exemplo que ela apresenta, eles são os indivíduos que se seguem ao doador primário;
         
-    \item \textbf{Seleção de doadores:} na formulação original, o melhor indivíduo coletado torna-se o doador primário e os demais, doadores secundários, de modo que todos os cruzamentos de um ciclo compartilham o mesmo doador primário. A Seção~\ref{sec:pai_dissimilar} expõe o argumento pelo qual esse compartilhamento tende a ser contraproducente sob a aptidão do SPEA2, e o substitui;
+    \item \textbf{Seleção de doadores:} como há um único doador primário, todos os cruzamentos de um ciclo o compartilham, e os descendentes de um ciclo são irmãos. A Seção~\ref{sec:pai_dissimilar} expõe o argumento pelo qual esse compartilhamento tende a ser contraproducente sob a aptidão do SPEA2, e o substitui;
         
-    \item \textbf{Manipulação genética:} os doadores são recombinados, e, conforme o perfil de manipulação (Seção~\ref{sec:ivf_perfis}), parte deles é mutada antes da recombinação; o número de descendentes não excede o tamanho da população;
+    \item \textbf{Manipulação genética:} nos perfis exploratórios (Seção~\ref{sec:ivf_perfis}), metade dos doadores secundários é alterada antes da recombinação. A recombinação troca grupos de genes, definidos no início da execução pela divisão do material genético: cada descendente recebe um grupo de genes de um doador secundário e completa o cromossomo com os demais grupos do doador primário, de modo que cada doador secundário gera um descendente por grupo;
         
-    \item \textbf{Avaliação:} os descendentes são avaliados nas funções objetivo do problema;
+    \item \textbf{Avaliação:} os descendentes são avaliados na função objetivo do problema;
         
-    \item \textbf{Atualização do doador primário:} na formulação original, o critério é individual: se um descendente superar a aptidão do doador primário atual, ele o substitui nas iterações seguintes do módulo;
+    \item \textbf{Atualização do doador primário:} o melhor descendente do ciclo é comparado ao doador primário e, se for melhor, substitui-o no ciclo seguinte;
         
-    \item \textbf{Critério de término:} ainda na formulação original, se nenhum descendente superar a aptidão do doador primário, ou outro critério de parada for atingido, o módulo conclui as suas iterações e prossegue para a fase de transferência;
+    \item \textbf{Critério de continuação:} um novo ciclo só começa se o doador primário tiver sido substituído no ciclo que terminou; o critério é, portanto, individual. A descrição da fonte não menciona limite para o número de ciclos;
         
-    \item \textbf{Transferência:} os descendentes gerados são transferidos para a população do hospedeiro, pela substituição dos indivíduos menos aptos ou pela expansão temporária da população, conforme a estratégia adotada.
+    \item \textbf{Transferência:} encerrados os ciclos, o doador primário corrente é inserido na população do hospedeiro, no lugar de indivíduos escolhidos pelo mecanismo de elitismo do hospedeiro ou, na ausência dele, escolhidos ao acaso. A visão geral da fonte fala na inserção de bons indivíduos, no plural, mas o procedimento detalhado devolve apenas o doador primário corrente, e a população só é alterada quando o módulo produz um indivíduo melhor que o melhor disponível.
 \end{enumerate}
+
+As implementações dos três acoplamentos comparados nesta dissertação, ao SPEA2, ao NSGA-II e ao NSGA-III, afastam-se desse procedimento em pontos comuns: recombinam com operadores para variáveis reais, limitam o número de ciclos por ativação, impedem que o módulo gere numa geração mais descendentes que o tamanho da população e não devolvem ao hospedeiro apenas o doador primário corrente, porque os descendentes gerados nos ciclos disputam a seleção ambiental do hospedeiro. A transferência de mais de um descendente foi recomendada já no acoplamento ao NSGA-II, para não descartar soluções avaliadas que o hospedeiro poderia manter~\cite{sampaio2017ivf}. As demais diferenças entre os acoplamentos estão na Seção~\ref{sec:linhagem_ivf}, e as do IVF/SPEA2, no Capítulo~\ref{sec:Proposal}.
 
 \subsection{Parâmetros de Controle}
 
-Dois parâmetros governam a interação do módulo com o hospedeiro:
+Dois parâmetros governam a interação do módulo com o hospedeiro nos acoplamentos multiobjetivo. A formulação original fixa, no início da execução, apenas o número de indivíduos do módulo e a divisão do material genético~\cite{camilo-junior2011}.
 
 \begin{itemize}
-    \item \textbf{Taxa de Execução ($r$):} governa quanto o módulo é acionado. Os acoplamentos publicados operacionalizam esse parâmetro de maneiras diferentes, e a distinção é material: no acoplamento ao NSGA-II ele funciona como probabilidade de ativação por geração, enquanto o acoplamento proposto nesta dissertação o define como teto da fração acumulada de avaliações consumidas pelo módulo, pela Equação~\ref{eq:gatilho_ivf}. Na segunda forma, $r$ limita a parcela do orçamento destinada ao módulo, e não a fase da execução em que ele age (Seção~\ref{sec:acoplamento}). Em ambos os casos, uma taxa mais alta permite mais intensificação;
+    \item \textbf{Taxa de Execução ($r$):} governa quanto o módulo é acionado. Os acoplamentos publicados operacionalizam esse parâmetro de maneiras diferentes, e a distinção é material: no acoplamento ao NSGA-II ele funciona como probabilidade de ativação por geração, enquanto o acoplamento proposto nesta dissertação o usa como limiar de uma condição de ativação: o módulo só é executado numa geração se a fração acumulada de avaliações que ele consumiu não exceder $r$ (Equação~\ref{eq:gatilho_ivf}). Na segunda forma, $r$ limita a parcela das avaliações consumidas que cabe ao módulo, e não a fase da execução em que ele age (Seção~\ref{sec:acoplamento}). Em ambos os casos, uma taxa mais alta permite mais intensificação;
     
-    \item \textbf{Tamanho da Coleta ($c$):} define quantos indivíduos são coletados da população atual para manipulação. A formulação original o expressa como número absoluto de indivíduos; esta dissertação o expressa como fração do tamanho da população, o que mantém o consumo de avaliações proporcional ao orçamento da geração. O parâmetro controla a diversidade genética disponível para manipulação.
+    \item \textbf{Tamanho da Coleta ($c$):} define quantos indivíduos são coletados da população atual para manipulação. A formulação original o expressa como número absoluto de indivíduos; esta dissertação o expressa como fração do tamanho da população, o que mantém o consumo de avaliações de cada ciclo proporcional ao número de avaliações de uma geração. O parâmetro controla a diversidade genética disponível para manipulação.
 \end{itemize}
 
 \subsection{Perfis de manipulação genética}
 \label{sec:ivf_perfis}
 
-Os acoplamentos do IVF usam cinco perfis de manipulação, que diferem na parte dos doadores perturbada e na extensão da perturbação~\cite{camilo-junior2011,sampaio2017ivf,Sampaio2024}:
+Os acoplamentos do IVF usam cinco perfis de manipulação, que diferem na parte dos doadores perturbada e na extensão da perturbação~\cite{camilo-junior2011,sampaio2017ivf,Sampaio2024}; os quatro primeiros já constam da formulação original~\cite{camilo-junior2011}:
 
 \begin{itemize}
     \item \textbf{Recombinação Assistida (AR):} recombina os doadores sem mutá-los, usando apenas o material genético já presente na população do hospedeiro;
@@ -173,11 +175,11 @@ A calibração descrita na Seção~\ref{sec:calibracao} comparou os cinco perfis
 \section{Indicadores de Desempenho}
 \label{sec:indicadores}
 
-Comparar aproximações da fronteira de Pareto exige reduzir um conjunto de soluções a um número, e nenhum indicador isolado captura as duas propriedades que interessam: proximidade da fronteira ótima e cobertura dela. Esta dissertação usa dois indicadores com orientações complementares, e reporta ambos sempre que reporta um.
+Um indicador de desempenho unário reduz uma aproximação da fronteira de Pareto a um número, e respeitar a relação de dominância não é o mesmo que caracterizá-la. O hipervolume (HV), definido adiante, respeita a dominância: com o espaço de objetivos limitado, uma aproximação melhor que outra no sentido de Pareto tem HV maior, e HV maior garante que a aproximação não é pior que a outra. Nenhum indicador unário, porém, nem combinação finita de indicadores unários, permite concluir apenas pelos valores que uma aproximação é melhor que outra, porque aproximações incomparáveis também recebem valores ordenados~\cite{zitzler2004performance}. A escolha dos indicadores é, por isso, parte do desenho experimental. Esta dissertação usa dois indicadores que diferem operacionalmente, definidos a seguir: a distância geracional invertida (IGD) mede distâncias a um conjunto de referência conhecido, e o HV, o volume dominado em relação a um ponto de referência arbitrado. Um algoritmo que aproxima bem uma parte da fronteira e abandona outra pode, por isso, melhorar num indicador e piorar no outro. Reportar apenas o indicador favorável a uma proposta seria uma forma de seleção pós-hoc; por isso, os dois são reportados em todas as comparações, e os casos de discordância observados são registrados onde ocorrem, e não agregados.
 
 \subsection{Distância Geracional Invertida}
 
-A distância geracional invertida (IGD) mede a distância média de um conjunto de referência da fronteira ótima até a aproximação obtida. Dado um conjunto de referência $Z^{*}$ e uma aproximação $A$,
+A IGD mede a distância média de um conjunto de referência da fronteira ótima até a aproximação obtida. Dado um conjunto de referência $Z^{*}$ e uma aproximação $A$,
 \begin{equation}
 \mathrm{IGD}(A, Z^{*}) = \frac{1}{|Z^{*}|} \sum_{z \in Z^{*}} \min_{a \in A} d(z, a),
 \label{eq:igd}
@@ -195,7 +197,7 @@ A direção do somatório é o que torna a IGD sensível às duas propriedades a
 
 \subsection{Hipervolume}
 
-O hipervolume (HV) mede o volume da região do espaço de objetivos dominada pela aproximação e limitada por um ponto de referência $\mathbf{r}$~\cite{zitzler1998evolutionary}:
+O HV mede o volume da região do espaço de objetivos dominada pela aproximação e limitada por um ponto de referência $\mathbf{r}$~\cite{zitzler1998evolutionary}:
 \begin{equation}
 \mathrm{HV}(A, \mathbf{r}) = \Lambda \left( \bigcup_{\mathbf{a} \in A} \{ \mathbf{y} \in \mathbb{R}^{M} \mid \mathbf{a} \leq \mathbf{y} \leq \mathbf{r} \} \right),
 \label{eq:hv}
@@ -211,10 +213,6 @@ O HV dispensa conhecer a fronteira ótima, o que o torna aplicável quando ela n
 \label{fig:hv_ilustracao}
 \end{figure}
 
-\subsection{Por que reportar os dois}
-
-Nenhum indicador isolado ordena aproximações de forma compatível com a relação de dominância em todos os casos, e a escolha do indicador é parte do desenho experimental~\cite{zitzler2004performance}. Os dois indicadores usados aqui diferem operacionalmente: a IGD é orientada à proximidade em relação a um conjunto de referência conhecido, e o HV à cobertura em relação a um ponto de referência arbitrado. Um algoritmo que aproxima bem uma parte da fronteira e abandona outra pode melhorar num indicador e piorar no outro. Reportar apenas o indicador favorável a uma proposta seria uma forma de seleção pós-hoc; por isso, os dois são reportados em todas as comparações. Os casos de discordância observados são registrados onde ocorrem, e não agregados.
-
 \section{Análise Estatística}
 \label{sec:inferencia}
 
@@ -228,13 +226,13 @@ A escolha entre os dois decorre da estrutura das amostras: aplicar um teste pare
 
 \subsection{Magnitude de efeito}
 
-Um valor-$p$ informa se uma diferença é detectável, não o seu tamanho. A estatística $A_{12}$ de Vargha e Delaney~\cite{vargha2000critique} mede a frequência de pares de execuções em que A supera B, contando meio par para cada empate. O valor $A_{12} = 0{,}5$ indica ausência de vantagem na ordenação probabilística capturada por essa estatística, não equivalência das distribuições. O corte de $0{,}71$ adotado nas tabelas de magnitude apenas conta instâncias acima de um valor fixo, sem substituir o $A_{12}$ contínuo ou os testes corrigidos.
+Um valor-$p$ informa se uma diferença é detectável, não o tamanho dessa diferença. Uma medida de tamanho de efeito adequada a amostras não paramétricas é a estatística $A_{12}$ de Vargha e Delaney~\cite{vargha2000critique}. Dadas duas amostras, $A$ e $B$, ela estima a probabilidade de que um valor sorteado de $A$ supere um valor sorteado de $B$, contando metade da probabilidade de empate~\cite{ARCURI}. Na comparação de algoritmos, cada amostra reúne os valores de um indicador nas execuções de um algoritmo, e o $A_{12}$ é a fração dos pares de execuções, uma de cada algoritmo, em que o primeiro supera o segundo, contando meio par para cada empate. O valor $A_{12} = 0{,}5$ indica ausência de vantagem na ordenação probabilística capturada por essa estatística, não equivalência das distribuições. O corte de $0{,}71$ adotado nas tabelas de magnitude apenas conta instâncias acima de um valor fixo, sem substituir o $A_{12}$ contínuo ou os testes corrigidos.
 
-A convenção de orientação precisa ser declarada, porque a direção de ``melhor'' se inverte entre os indicadores: na IGD, menor é melhor, e no HV, maior. Nesta dissertação, $A_{12}$ é sempre orientado de modo que valores acima de $0{,}5$ favoreçam o algoritmo proposto, qualquer que seja o indicador.
+A convenção de orientação precisa ser declarada, porque a direção de ``melhor'' se inverte entre os indicadores: para a IGD, menor é melhor, e para o HV, maior. Nesta dissertação, $A_{12}$ é sempre orientado de modo que valores acima de $0{,}5$ favoreçam o algoritmo proposto, qualquer que seja o indicador.
 
 \subsection{Multiplicidade}
 
-Comparar um algoritmo contra outro em 51 instâncias envolve 51 decisões simultâneas. Ao nível de $0{,}05$, esperam-se cerca de duas rejeições falsas mesmo que nenhuma diferença real exista. Corrigir a multiplicidade é, portanto, obrigatório e exige declarar antes o que constitui a \emph{família} de hipóteses.
+Comparar um algoritmo contra outro em 51 instâncias envolve 51 decisões simultâneas. Ao nível de $0{,}05$, esperam-se $51 \times 0{,}05 \approx 2{,}6$ rejeições falsas mesmo que nenhuma diferença real exista. Corrigir a multiplicidade é, portanto, obrigatório e exige declarar antes o que constitui a \emph{família} de hipóteses.
 
 Dois procedimentos aparecem nesta dissertação, e eles controlam quantidades diferentes:
 
@@ -243,17 +241,17 @@ Dois procedimentos aparecem nesta dissertação, e eles controlam quantidades di
 \item o procedimento de Benjamini e Hochberg~\cite{benjamini1995controlling} controla a \textbf{taxa de falsas descobertas}, isto é, a proporção esperada de rejeições falsas entre as rejeições feitas. Admite mais rejeições e é apropriado quando o objetivo é triagem, e não decisão individual.
 \end{itemize}
 
-Cada família de evidência desta dissertação conserva o procedimento de correção da análise em que foi originalmente relatada (Seção~\ref{sec:publicacoes}), porque reaplicar outra correção mudaria as contagens sem que os dados tivessem mudado. O Capítulo~\ref{sec:Experiments} declara qual procedimento se aplica a cada família.
+Cada família de evidência desta dissertação conserva o procedimento de correção da análise em que foi originalmente relatada (os manuscritos de origem estão listados na Seção~\ref{sec:publicacoes}), porque reaplicar outra correção mudaria as contagens sem que os dados tivessem mudado. O Capítulo~\ref{sec:Experiments} declara qual procedimento se aplica a cada família de evidência.
 
 Duas leituras incorretas precisam ser evitadas. Um valor-$p$ acima do limiar não estabelece equivalência: ele indica que a evidência disponível não distingue as amostras, o que pode decorrer de ausência de efeito ou de variabilidade alta. E significância estatística não é importância prática: a magnitude do efeito e o contexto de aplicação é que a determinam.
 
 \section{Paisagem de Aptidão e Dinâmica Populacional}
 \label{sec:paisagem}
 
-As seções anteriores tratam de medir desempenho depois da execução. Uma questão distinta é se é possível prever, antes ou no início da execução, se um operador vale a pena para uma dada instância.
+As seções anteriores tratam de medir desempenho depois da execução. Uma questão distinta é se é possível prever, antes ou no início da execução, se um operador melhora o resultado numa dada instância.
 
-A análise de paisagem de aptidão caracteriza um problema por descritores mensuráveis calculados a partir de amostragem do espaço de busca, independentemente do algoritmo que o resolverá~\cite{mersmann2011exploratory}. Entre os descritores usados em otimização multiobjetivo estão a correlação entre objetivos, a proporção de soluções não dominadas numa amostra, a profundidade de dominância, medidas de autocorrelação obtidas por caminhadas aleatórias, o conteúdo de informação e descritores da geometria da fronteira, como diâmetro e conectividade~\cite{liefooghe2018landscape}. Esses descritores são \textbf{estáticos}: não custam avaliações do orçamento de otimização e podem, em princípio, orientar a escolha do algoritmo antes de executá-lo.
+A paisagem de aptidão (\textit{fitness landscape}) de um problema é definida por três elementos: o espaço de soluções, uma relação de vizinhança entre soluções e a função objetivo, que, em otimização multiobjetivo, é um vetor de funções~\cite{liefooghe2018landscape}. A função objetivo, sozinha, não determina a paisagem, porque não define quais soluções são vizinhas; mudar a relação de vizinhança muda a paisagem do mesmo problema. Em espaços de decisão contínuos, como os desta dissertação, a vizinhança não é dada pelo problema: é fixada pelo procedimento de análise, por exemplo pelo tamanho do passo das caminhadas aleatórias. A análise de paisagem de aptidão caracteriza um problema por descritores mensuráveis calculados a partir de amostragem do espaço de busca, independentemente do algoritmo que o resolverá~\cite{mersmann2011exploratory}. Entre os descritores usados em otimização multiobjetivo estão a correlação entre objetivos, a proporção de soluções não dominadas numa amostra, a profundidade de dominância, medidas de autocorrelação obtidas por caminhadas aleatórias, o conteúdo de informação e descritores da geometria da fronteira, como diâmetro e conectividade~\cite{liefooghe2018landscape}. Esses descritores são \textbf{estáticos}: calculados antes da execução, sobre uma amostra própria, não consomem avaliações do orçamento da execução de otimização, embora a amostragem tenha custo próprio, e podem, em princípio, orientar a escolha do algoritmo antes de executá-lo.
 
-A alternativa é observar a própria busca em curso. Descritores \textbf{dinâmicos} são medidos durante as primeiras gerações e, por isso, consomem parte do orçamento, mas observam o acoplamento entre operador e hospedeiro em vez de uma propriedade do problema isolada. O descritor central nesta dissertação é a \textbf{renovação do arquivo}, definida como a fração do conjunto arquivo substituída entre gerações consecutivas. Renovação alta registra trocas frequentes no arquivo; baixa registra poucas trocas, mas, sozinha, não identifica convergência nem o benefício do operador. Outros observáveis examinados são a fração de soluções não dominadas, o espaçamento entre soluções, a aptidão média, o número de ciclos do operador e as diferenças finais de IGD e de HV entre acoplamento e hospedeiro.
+A alternativa é observar a própria busca em curso. Descritores \textbf{dinâmicos} são medidos durante as primeiras gerações e, por isso, só ficam disponíveis depois de consumida parte do orçamento da execução, mas observam o acoplamento entre operador e hospedeiro em vez de uma propriedade do problema isolada. O descritor central nesta dissertação é a \textbf{renovação do arquivo}, definida como a fração do conjunto arquivo substituída entre gerações consecutivas. Renovação alta registra trocas frequentes no arquivo; baixa registra poucas trocas, mas, sozinha, não identifica convergência nem o benefício do operador. Outros observáveis examinados são a fração de soluções não dominadas, o espaçamento entre soluções, a aptidão média, o número de ciclos do operador e as diferenças finais de IGD e de HV entre acoplamento e hospedeiro.
 
-A associação de descritores estáticos com o ganho e a separação de instâncias por descritores dinâmicos motivam investigar predição e ativação. O Capítulo~\ref{sec:complementares} avalia essas duas hipóteses separadamente, inclusive quanto à generalização entre famílias, e distingue os resumos por instância das decisões do controlador.
+Se descritores estáticos ou dinâmicos estiverem associados ao benefício de um operador, eles podem servir para prever esse benefício ou para decidir, durante a execução, se o operador deve continuar ativo. A Seção~\ref{sec:ativacao} examina essas duas possibilidades para o módulo IVF, separadamente e inclusive quanto à generalização entre suítes, e distingue a classificação de instâncias por resumos de várias execuções da decisão tomada em cada execução.

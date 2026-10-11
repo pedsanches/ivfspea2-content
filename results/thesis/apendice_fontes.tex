@@ -116,16 +116,16 @@ Cada família de evidência desta dissertação é declarada no manifesto \textt
     \item \textbf{Lacunas conhecidas:} Não há tabela para a família de convergência, cuja análise foi omitida da dissertação. A partição WFG/demais e a tabulação por propriedades da WFG são análises pós-hoc sobre a mesma amostra, não validações independentes.
 \end{itemize}
 
-\subsection*{Posicionamento frente aos algoritmos comparados}
+\subsection*{Comparação com variantes do SPEA2, métodos canônicos e abordagens modernas}
 \begin{itemize}[nosep]\raggedright
     \item \textbf{Família:} validação do IVF/SPEA2.
     \item \textbf{Papel:} contextual.
-    \item \textbf{Implementação:} IVFSPEA2V2 / C26 against seven published context comparators.
+    \item \textbf{Implementação:} IVFSPEA2V2 / C26 against seven published comparators in three complementary families: host-centered SPEA2 variants (MFO-SPEA2, SPEA2+SDE), canonical Pareto/decomposition methods (NSGA-II, NSGA-III, MOEA/D) and modern adaptive geometry/reference approaches (AGE-MOEA-II, AR-MOEA).
     \item \textbf{Coorte:} Idêntica à da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra cada comparador nas execuções 1--60, 51 instâncias sintéticas, 60 execuções por algoritmo e instância, orçamento de 100.000 avaliações; sem linhas de RWMOP.
     \item \textbf{Métricas:} IGD, HV.
     \item \textbf{Dados:} \texttt{data/\allowbreak{}processed/\allowbreak{}todas\_\allowbreak{}metricas\_\allowbreak{}consolidado\_\allowbreak{}with\_\allowbreak{}modern.csv}
     \item \textbf{Scripts:} \texttt{src/\allowbreak{}python/\allowbreak{}thesis/\allowbreak{}build\_\allowbreak{}tab\_\allowbreak{}posicionamento.py}
     \item \textbf{Artefatos:} \texttt{results/\allowbreak{}thesis/\allowbreak{}tab\_\allowbreak{}posicionamento.tex}
     \item \textbf{Dados brutos:} Não se aplica: a única entrada é o consolidado por execução, lido pelo filtro de coorte.
-    \item \textbf{Lacunas conhecidas:} O posicionamento é uma comparação, não afirmação de superioridade, e o posto médio é descritivo. A coluna do IVF/SPEA2 usa a configuração promovida pela calibração e os comparadores usam as configurações publicadas padrão. Reaproveitar a coorte da comparação principal significa que estas contagens não são replicação independente da família da QP1. Os arquivos pairwise\_ivf\_vs\_all.csv e afins são proibidos como entrada: foram calculados sobre o rótulo misto do IVF/SPEA2 e sem correção de multiplicidade.
+    \item \textbf{Lacunas conhecidas:} A comparação com os sete algoritmos comparados não é afirmação de superioridade, e o posto médio é descritivo. Os sete pertencem a três famílias complementares: variantes do SPEA2, métodos canônicos e abordagens modernas de adaptação de geometria e de pontos de referência. A coluna do IVF/SPEA2 usa a configuração promovida pela calibração e os comparadores usam as configurações publicadas padrão. Reaproveitar a coorte da comparação principal significa que estas contagens não são replicação independente da família da QP1. Os arquivos pairwise\_ivf\_vs\_all.csv e afins são proibidos como entrada: foram calculados sobre o rótulo misto do IVF/SPEA2 e sem correção de multiplicidade.
 \end{itemize}

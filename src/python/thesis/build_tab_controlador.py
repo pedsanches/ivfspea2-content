@@ -253,7 +253,7 @@ def main() -> int:
     note = (
         "Controlador de aquecimento: ao fim dos primeiros 20\\% do orçamento, o operador é "
         "desativado de forma irreversível nas execuções cuja renovação média do arquivo fica "
-        "abaixo do limiar. Cada família foi controlada com o limiar calibrado sem ela, por "
+        "abaixo do limiar. Cada suíte foi controlada com o limiar calibrado sem ela, por "
         f"validação deixa-uma-família: {applied} (Tabela~\\ref{{tab:dinamica_suite}}). Wilcoxon "
         "pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente; um "
         "caso conta como vitória ou derrota do controlador quando o valor-$p$ ajustado fica "
@@ -262,7 +262,7 @@ def main() -> int:
         "classes da comparação em IGD da coorte da comparação principal, sem correção de "
         "multiplicidade: "
         "neutro quando o IVF/SPEA2 não difere do SPEA2, prejudica quando perde para ele. O HV é "
-        "o desfecho primário declarado desta avaliação."
+        "a métrica primária declarada desta avaliação."
     )
 
     content = lt.render(

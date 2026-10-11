@@ -221,7 +221,7 @@ def main() -> int:
         f"Wilcoxon bicaudal sobre {host_n}, sem correção e com $\\alpha = 0{{,}}05$, como no "
         "processamento da família. Com correção de Holm entre os três problemas de cada "
         f"métrica, {holm_sentence}; os valores-$p$ ajustados das diferenças significativas "
-        f"são: {holm_detail}. Contra os comparadores: vitórias/empates/derrotas (V/E/D) do "
+        f"são: {holm_detail}. Contra todos: vitórias/empates/derrotas (V/E/D) do "
         f"IVF/SPEA2 frente a cada um dos {n_comparators} algoritmos restantes, incluído o "
         f"SPEA2, sob o mesmo teste. {' '.join(coverage_sentences)} As contagens não se somam "
         "às da suíte sintética."
@@ -232,15 +232,15 @@ def main() -> int:
             [
                 lt.Span("", 3),
                 lt.Span("Contra o SPEA2", 3),
-                lt.Span("Contra os comparadores", 1, rule=True),
+                lt.Span("Contra todos", 1, rule=True),
             ],
             ["Problema", "$M$", "Métrica", "$\\Delta$ (\\%)", "$p$", "Resultado", "V/E/D"],
         ],
         rows=rows,
         colspec="lccrrcc",
         caption=(
-            "Transferência do IVF/SPEA2 para problemas de engenharia com restrições: "
-            "comparação contra o hospedeiro e posicionamento frente aos demais comparadores."
+            "Desempenho do IVF/SPEA2 em problemas de engenharia com restrições: "
+            "comparação com o hospedeiro e com os demais algoritmos."
         ),
         label="tab:engenharia_wtl",
         producer=__file__,

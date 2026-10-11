@@ -135,7 +135,7 @@ def build_models() -> str | None:
         "original calculou os postos da resposta nas 51 instâncias antes das dobras; MaF7 "
         "e DTLZ7 também têm implementação funcional coincidente e podem cruzar dobras "
         "por suíte. As correlações da regressão nesta tabela são históricas e exploratórias; "
-        "a Tabela~\\ref{tab:ativacao_robustez} reestima o desfecho com pré-processamento "
+        "a Tabela~\\ref{tab:ativacao_robustez} reestima a regressão com pré-processamento "
         "da resposta dentro da dobra e retém DTLZ e MaF juntos. "
         "---: valor não registrado no artefato."
     )
@@ -209,8 +209,8 @@ def build_separation() -> str | None:
         f"observáveis, nos primeiros {int(EARLY_FRAC * 100)}\\% das gerações. São {n_cases} "
         "instâncias rotuladas, com 30 execuções pareadas por semente; $A_{12}$ é o tamanho de "
         "efeito de Vargha--Delaney. Os rótulos derivam da comparação em IGD da coorte "
-        "da comparação principal, sem correção de multiplicidade, e não constituem desfecho "
-        "independente."
+        "da comparação principal, sem correção de multiplicidade, e não constituem medida "
+        "independente dela."
     )
 
     return lt.render(
@@ -292,7 +292,7 @@ def build_threshold() -> str | None:
         f"{int(EARLY_FRAC * 100)}\\% das gerações: o operador fica ligado quando a renovação "
         "atinge o limiar. O limiar é buscado exaustivamente entre os pontos médios de valores "
         "adjacentes, maximizando a acurácia balanceada (BA), e é sempre ajustado sem o que se "
-        "avalia: sem a instância retida, na validação deixa-uma-instância, e sem a família "
+        "avalia: sem a instância retida, na validação deixa-uma-instância, e sem a suíte "
         "inteira, na deixa-uma-família. MCC: coeficiente de correlação de Matthews; "
         "sensibilidade: fração das instâncias em que o operador ajuda que a regra mantém "
         "ligado; especificidade: fração das demais que ela desliga. A coluna Limiar exibe a "
@@ -478,7 +478,7 @@ def build_dinamica_suite() -> str | None:
         "instância. Desligadas pela regra: total de instâncias classificadas pela mediana e, "
         "entre elas, aquelas em que o operador ajuda; não são decisões por execução do "
         "controlador. Os rótulos derivam da comparação em IGD da coorte da comparação principal, "
-        "sem correção de multiplicidade, e não constituem desfecho independente."
+        "sem correção de multiplicidade, e não constituem medida independente dela."
     )
 
     return lt.render(

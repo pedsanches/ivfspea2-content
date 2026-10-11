@@ -22,7 +22,7 @@ Nada é editado nesta passagem. Registre cada saída na pasta da execução.
    - `make verify-release` e `make test`.
 3. Consistência entre capítulos: despache `scientific-reviewer` (name `ConsistenciaRev`,
    `schemaMode: "strict"`) para auditar a continuidade objetivos → QPs → protocolo → respostas
-   (Cap. 8) → conclusões → resumo/abstract, a regra de resposta única e os números repetidos
+   (Cap. 7) → conclusões → resumo/abstract, a regra de resposta única e os números repetidos
    entre capítulos, usando a skill `thesis-structure`.
 4. Pendências institucionais: liste os itens abertos de `thesis/masters/REVISION_PLAN.md` §4–§5
    e de `skill://thesis-structure/references/normas-ppgcc-ufg.md` (declaração do formato,

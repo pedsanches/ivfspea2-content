@@ -185,7 +185,7 @@ known_gaps = [
   "The manuscript's six-case 100-checkpoint rerun statement is not represented by the current ten-checkpoint hosts_convergence.csv and must be reconciled before thesis use.",
   "The comparison evaluates published pipelines and does not causally isolate host choice from implementation differences.",
   "Tuning effort is not shown to be symmetric: only IVF/SPEA2 has a documented calibration on 12 of the 51 instances (50000 FE); the NSGA pipelines use fixed runner settings (IVF/NSGA-II R=0.5, C=0.07, Cycles=5; IVF/NSGA-III ivf_rate=0.10, C=0.10, Cycles=5) with no equivalent tuning record, and these settings do not fully reproduce the source publications' protocols.",
-  "test_convergence_significance.py pairs on run ID, and IVFSPEA2 (3001-3030) does not intersect SPEA2 (1-30), so that pair is dropped without warning; convergence_significance.csv covers only the two NSGA pairs. See REWRITE_SPEC.md OQ-03.",
+  "The convergence significance script aligns by run ID when the two tracks share identifiers and, otherwise, by sorted run order, reporting an unpaired Mann-Whitney U robustness column for the order-aligned pair (OQ-03, corrected on 2026-10-11). Because the BH family per metric grew from two pairs to three, the adjusted p-values of the two NSGA pairs changed; no manuscript reads convergence_significance.csv.",
 ]
 
 [[source]]
@@ -300,17 +300,17 @@ id = "context-comparator-positioning"
 evidence_family = "ivfspea2-v2-validation"
 manuscripts = ["thesis/masters/main.tex"]
 role = "contextual"
-algorithm_version = "IVFSPEA2V2 / C26 against seven published context comparators"
+algorithm_version = "IVFSPEA2V2 / C26 against seven published comparators in three complementary families: host-centered SPEA2 variants (MFO-SPEA2, SPEA2+SDE), canonical Pareto/decomposition methods (NSGA-II, NSGA-III, MOEA/D) and modern adaptive geometry/reference approaches (AGE-MOEA-II, AR-MOEA)"
 cohort = "Identical to the primary synthetic comparison: IVF/SPEA2 runs 3001-3060 against each comparator runs 1-60, 51 synthetic instances, 60 runs per algorithm and instance, 100000-FE budget; no RWMOP rows."
 metrics = ["IGD", "HV"]
 datasets = ["data/processed/todas_metricas_consolidado_with_modern.csv"]
 scripts = ["src/python/thesis/build_tab_posicionamento.py"]
 artifacts = ["results/thesis/tab_posicionamento.tex"]
-notes = "Contextual positioning family answering QP5. Two-sided Mann-Whitney U per instance, alpha = 0.05, Holm applied separately per comparator, per number of objectives and per metric; IGD primary, HV mandatory secondary. Deliberately does NOT reuse results/tables/pairwise_ivf_vs_all.csv, pairwise_ivf_vs_all_hv.csv or pairwise_vs_spea2_with_modern*.csv: those were computed on the mixed IVFSPEA2 label (runs 1-60 and 3001-3060) and without multiplicity correction. Reusing the primary cohort means these counts are not independent of the QP1 family."
+notes = "Contextual comparison with seven comparators in three complementary families, answering QP5 (called 'positioning' up to 2026-10-10; the source id is kept). Two-sided Mann-Whitney U per instance, alpha = 0.05, Holm applied separately per comparator, per number of objectives and per metric; IGD primary, HV mandatory secondary. Deliberately does NOT reuse results/tables/pairwise_ivf_vs_all.csv, pairwise_ivf_vs_all_hv.csv or pairwise_vs_spea2_with_modern*.csv: those were computed on the mixed IVFSPEA2 label (runs 1-60 and 3001-3060) and without multiplicity correction. Reusing the primary cohort means these counts are not independent of the QP1 family."
 raw_status = "Not applicable: the only input is the tracked consolidated per-run CSV, read through ivfspea2.cohorts.filter_submission_synthetic_cohort."
 overlaps = ["Exactly the primary synthetic cohort; these counts are not an independent replication of the QP1 family."]
 known_gaps = [
-  "Positioning is a comparison, not a superiority claim; the mean-rank figure is descriptive and does not replace the per-comparator counts.",
+  "The comparison is not a superiority claim; the mean-rank figure is descriptive and does not replace the per-comparator counts.",
   "The IVF/SPEA2 column uses the promoted calibration configuration while the comparators use published default configurations, a configuration-policy difference that accompanies every row.",
   "Pairwise contrasts between distinct algorithms are not summable across comparators, and a statistical tie is not equivalence.",
 ]

@@ -78,7 +78,7 @@ tamanhos de amostra). Não recalcule de cabeça. Registre o comando em `evidence
 Estados: `VERIFIED` (vai para `coverage`), `MISMATCH` e `UNVERIFIED` material (viram achado),
 `NOT_APPLICABLE` (definicional; basta contar no resumo).
 
-Consistência cruzada: se o número aparece também no resumo, no abstract, no Cap. 1, no Cap. 8
+Consistência cruzada: se o número aparece também no resumo, no abstract, no Cap. 1, no Cap. 7
 ou em outra tabela, confira que é o mesmo valor, com a mesma coorte e a mesma correção.
 
 # Severidade

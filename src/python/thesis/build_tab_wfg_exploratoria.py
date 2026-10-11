@@ -156,12 +156,12 @@ def build() -> str:
         "algoritmo); "
         "$+$ favorece o IVF/SPEA2, $-$ favorece o SPEA2 e $=$ indica ausência de diferença "
         "detectável. Nenhuma correção é reaplicada aos grupos. $\\Delta$: diferença relativa das "
-        "medianas de IGD, positiva quando favorece o IVF/SPEA2. $^{\\dagger}$ configuração usada "
+        "medianas de IGD, positiva quando favorece o IVF/SPEA2. $^{\\dagger}$ instância usada "
         "na calibração de parâmetros. Propriedades das funções segundo a tabela dos autores da "
-        "suíte~\\cite{huband2006review}. Cada função aparece em duas configurações: $M=2$ com "
+        "suíte~\\cite{huband2006review}. Cada função aparece em duas instâncias: $M=2$ com "
         f"$D={D_ESPERADO[2]}$ e $M=3$ com $D={D_ESPERADO[3]}$; na plataforma, o parâmetro de "
         f"posição é $K=M-1$ ({k[2]} e {k[3]}) e o de distância, $L=D-K={l_dist[2]}$ nos dois "
-        "casos. As linhas de resumo contam configurações, e não funções independentes, e as "
+        "casos. As linhas de resumo contam instâncias, e não funções independentes, e as "
         "propriedades variam juntas entre as funções."
     )
 
@@ -182,8 +182,8 @@ def build() -> str:
         rows=linhas,
         colspec="llLLccrccr",
         caption=(
-            "Exploração descritiva da suíte WFG: propriedades das funções e desfecho corrigido do "
-            "IVF/SPEA2 contra o SPEA2 em cada configuração."
+            "Exploração descritiva da suíte WFG: propriedades das funções e resultado corrigido "
+            "do IVF/SPEA2 contra o SPEA2 em cada instância."
         ),
         short_caption="Exploração descritiva da suíte WFG",
         label="tab:wfg_exploratoria",

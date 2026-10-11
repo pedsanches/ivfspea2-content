@@ -49,8 +49,8 @@ produziu.
 5. **Classificar o estado**: `VERIFIED` (valor e escopo batem, com arredondamento declarado) ·
    `MISMATCH` (fonte diz outro valor ou outro escopo) · `UNVERIFIED` (fonte não encontrada ou
    inacessível) · `NOT_APPLICABLE` (definicional).
-6. **Consistência cruzada**: o mesmo número em resumo, abstract, Cap. 1, capítulo de
-   resultados, Cap. 8 e tabela; mesma família de correção; mesma coorte.
+6. **Consistência cruzada**: o mesmo número em resumo, abstract, Cap. 1, seção de
+   resultados (§5.3), Cap. 6, Cap. 7 e tabela; mesma família de correção; mesma coorte.
 
 ## Armadilhas conhecidas
 

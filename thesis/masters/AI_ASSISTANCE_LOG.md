@@ -1332,3 +1332,130 @@ ou informação que amplie indevidamente a exposição de material inédito.
   F" passou a "na ordem de $F(i)$", de modo que $F$ denota só a aptidão. Nenhuma
   coordenada, valor ou texto da dissertação mudou; página 23 conferida após
   `make thesis`.
+
+### 2026-10-10 — resposta aos comentários do revisor externo e reestruturação (rodada R19)
+
+> **Entrada autorizada pelo autor em 2026-10-11** (skill `ai-provenance`), abrangendo as quatro
+> sessões de 2026-10-10 descritas abaixo. A autorização confirma o registro da assistência; não
+> equivale a revisão científica do autor ou do orientador sobre cada alteração.
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp; o ambiente reporta o modelo
+  `anthropic/claude-opus-5-5`, a confirmar antes de uma declaração formal. Quatro subagentes de
+  revisão em modo somente leitura (revisão científica, auditoria quantitativa, verificação de
+  evidência, revisão editorial).
+- **Fase:** revisão estrutural, editorial e científica da dissertação; sem nova campanha e sem
+  reanálise estatística.
+- **Finalidade:** tratar os 64 comentários do revisor externo (A001–A064) e as recorrências das
+  mesmas classes de problema; executar as decisões estruturais do autor (Experimentação; QPs na
+  §5.1; Publicações derivadas na §7.8; título preservado).
+- **Arquivos afetados:** `thesis/masters/main.tex`; `tex/cap_I.tex` a `cap_IX.tex` e
+  `cap_VII_complementares.tex`; `pre/pre_resumo.tex`, `pre/pre_abstract.tex`; `pos/apend_III.tex`
+  (só comentário); dez geradores em `src/python/thesis/` e as 14 tabelas e a figura regeneradas em
+  `results/thesis/`; `README.md`, `REVISION_PLAN.md`, `REWRITE_SPEC.md`,
+  `RELATORIO_INTERVENCAO_ALTINO.md` (novo); skills, agentes e comandos em `.omp/` (remissões e
+  terminologia).
+- **Texto científico alterado:** Introdução reescrita (objetivo geral, específicos,
+  contribuições, roteiro); resumo e abstract reescritos; seções de QPs e de publicações
+  transferidas e reescritas; reescritas locais nos demais capítulos para conceitos, referentes,
+  títulos e terminologia; enfraquecimentos de força listados no relatório (§D, tipo S). Números,
+  coortes, testes, correções e vereditos de QP não mudaram, salvo a correção aritmética
+  "51 × 0,05 ≈ 2,6" e a remoção do valor 0,150 do resumo e do abstract, ambas registradas.
+- **Entradas inspecionadas:** arquivos do repositório; o arquivo de comentários do revisor
+  (fora do repositório); fontes públicas consultadas só por metadados bibliográficos (Crossref,
+  doi.org, páginas de editores, texto aberto do capítulo de Camilo-Junior e Yamanaka na
+  IntechOpen, PDF aberto do AGE-MOEA-II no repositório da TU Delft, página do PPGCC/UFG). Nenhum
+  trecho do manuscrito enviado a serviço externo além do modelo configurado.
+- **Verificação técnica:** `claims.py diff` por arquivo; `prose_audit.py` (0 alto, 0 médio);
+  `bib_check.py` (ok=53); `make thesis` (106 páginas, `latex_check.py --compare` sem bloqueante
+  novo, 0 *overfull*); `make thesis-tables-check`, `make thesis-doctor`, `make verify-release`,
+  `make test` (58 aprovados); páginas 6, 14, 48–50 e 63 inspecionadas visualmente; 7–11 e
+  93–94 por extração de texto.
+- **Fechamento da R19 (segunda sessão, mesma data):** mesma ferramenta. Três revisores
+  independentes, em modo somente leitura (revisão científica, auditoria quantitativa e verificação
+  de evidência; esta foi repetida como agente geral porque a primeira tentativa falhou por limite de
+  uso do modelo). Finalidade: corrigir a descrição do IVF original segundo a fonte primária; a
+  relação entre indicadores e dominância; a justificativa das 60 execuções; a distinção entre o
+  IVF/NSGA-III publicado e o implementado; os efeitos estimados nos trabalhos futuros; a definição
+  de paisagem de aptidão; o escopo do gatilho acumulado; a qualificação dos empates de engenharia
+  no resumo e no abstract; e a posição das Tabelas de HV. Arquivos: `main.tex` (pacote `placeins`),
+  `tex/cap_I.tex` a `cap_IX.tex` e `cap_VII_complementares.tex`, `pre/pre_resumo.tex`,
+  `pre/pre_abstract.tex` e o
+  relatório (§I). Entradas inspecionadas, com leitura de conteúdo: capítulo de Camilo-Junior e
+  Yamanaka (IntechOpen); Zitzler et al. 2003 (PDF da ETH); Eftimov e Korošec 2025 (arXiv);
+  Liefooghe et al. 2020 (HAL); tese de Sampaio 2024 (PDF da UFG); cópias locais
+  `references/ivfnsga2.pdf` e `references/ivfnsga3.pdf`. Só por metadados: Crossref e páginas do
+  PPGCC e do INF/UFG. Código MATLAB lido, não alterado. Nenhum número, coorte, teste, chave
+  bibliográfica ou rótulo mudou. Verificação: `make thesis` (110 páginas; `latex_check.py
+  --compare` sem bloqueante novo; 0 *overfull*), `claims.py diff`, `prose_audit.py` (0 alto, 0
+  médio), `bib_check.py` (ok=53), `make thesis-tables-check`, `make verify-release`, `make
+  thesis-doctor`, `make test` (58 aprovados); páginas 25–26, 28, 63, 64, 67, 73 e 102 inspecionadas
+  visualmente; 6–8 por extração de texto.
+- **Comparação com o estado da arte (terceira sessão, mesma data):** mesma ferramenta, por
+  instrução do autor. Finalidade: apresentar a QP5 como comparação com o estado da arte em duas
+  frentes (aprimoramentos do SPEA2; algoritmos de propósito geral) e com métodos canônicos, e
+  retirar "posicionamento" do texto visível. Arquivos: `tex/cap_I.tex`, `cap_III.tex`,
+  `cap_V.tex`, `cap_VII.tex`, `cap_VII_complementares.tex`, `cap_VIII.tex`,
+  `pre/pre_resumo.tex`, `pre/pre_abstract.tex`, comentário em `main.tex`; geradores
+  `build_tab_posicionamento.py` e `build_apendice_fontes.py` e as saídas regeneradas;
+  `data-sources.toml`; manifesto e checksums de release. Revisão científica independente, em modo
+  somente leitura, integrada (relatório §J.3). Entradas inspecionadas: fonte LaTeX do manuscrito de
+  origem (`sn-article.tex`) e `.bib`; nenhuma consulta externa. Nenhum número, coorte, teste,
+  chave bibliográfica ou rótulo mudou; uma faixa de execuções trocada por engano na redação foi
+  corrigida antes da compilação. Verificação: `make thesis-tables`, `write-checksums`,
+  `verify-release`, `thesis-tables-check`, `thesis-doctor`, `make thesis` (110 páginas, 0
+  *overfull*, sem bloqueante novo), `claims.py diff`, `bib_check.py`, `prose_audit.py`, `make test`;
+  páginas 6, 7, 9, 51 e 84 inspecionadas visualmente.
+- **Taxonomia do manuscrito de origem (quarta sessão, mesma data):** mesma ferramenta, por
+  instrução do autor. Finalidade: substituir o enquadramento "estado da arte" pelas três famílias
+  do artigo (variantes do SPEA2, métodos canônicos, abordagens modernas). Mesmos arquivos da
+  terceira sessão. Entrada inspecionada: `sn-article.tex`. Conteúdo novo: contagem dos métodos
+  canônicos na §7.5, conferida na Tabela 6.13. Sem revisão independente nesta sessão. Verificação:
+  `make thesis-tables`, `write-checksums`, `verify-release`, `thesis-tables-check`,
+  `thesis-doctor`, `make thesis` (110 páginas, 0 *overfull*, sem aviso novo), `claims.py diff`,
+  `bib_check.py`, `make test`; páginas 6, 7, 82 e 92 inspecionadas.
+- **Limitações e pendências:** ver `RELATORIO_INTERVENCAO_ALTINO.md` §G e §I.9 (objetivos e
+  contribuições a aprovar; terminologia a ratificar; citar ou não o artigo do CEC 2023; barreira de
+  *floats*; redesenho da Figura 2.3; Apêndice A gerado com termos antigos; commits não feitos).
+- **Declaração:** destino a definir com o orientador, a partir deste log (Portaria CNPq nº
+  2.664/2026; Guia de Integridade Acadêmica da UFG).
+
+### 2026-10-11 — parecer sobre a escolha do SPEA2 e fechamento de decisões pendentes
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp; o ambiente reporta o modelo
+  `anthropic/claude-opus-5-5`, a confirmar antes de uma declaração formal. Subagentes gerais
+  em modo somente leitura para levantamento bibliográfico e um subagente com permissão de edição
+  restrita ao `.bib` (acréscimo de DOIs). Os revisores especializados configurados
+  (`evidence-reviewer`, `scientific-reviewer`) falharam por limite de uso, sem produzir saída.
+- **Fase:** defesa da escolha do hospedeiro e fechamento editorial antes do depósito.
+- **Finalidade:** (1) parecer, sem alterar o texto, sobre a objeção "por que o SPEA2 e como se
+  compara a algoritmos modernos"; (2) levantar as decisões pendentes registradas no repositório,
+  perguntá-las ao autor e executar as respostas.
+- **Decisões tomadas pelo autor:** registradas em `RELATORIO_INTERVENCAO_ALTINO.md` §L. Nenhuma
+  foi tomada pela ferramenta.
+- **Arquivos afetados:** `tex/cap_I.tex` (objetivo geral), `cap_V.tex` (siglas ZDT e DTLZ),
+  `cap_VI.tex` e `cap_VII_complementares.tex` (chave de leitura das Figuras 5.2 e 6.4),
+  `cap_VII.tex` (variante da tese de Sampaio), `cap_IX.tex` e `cap_VII_complementares.tex` ("nove
+  pares de função e número de objetivos"); `pre/pre_resumo.tex` e `pre/pre_abstract.tex` (objetivo,
+  ressalva da configuração padrão dos sete algoritmos e cortes para manter uma página);
+  `main.tex` (data da defesa, comentário dos apêndices); `pos/apend_III.tex` (removido);
+  `bib/modelo-tese.bib` (20 DOIs; autoria e veículo de `cheng2017benchmark` corrigidos pela página
+  do editor); `src/python/analysis/test_convergence_significance.py` e
+  `results/tables/convergence_significance.csv` (OQ-03); `data-sources.toml`; documentos de
+  governo (`REWRITE_SPEC.md`, `REVISION_PLAN.md`, `RELATORIO_INTERVENCAO_ALTINO.md`,
+  `terminologia.md`); `rascunho_declaracao_ia.md` (novo, fora da compilação).
+- **Entradas inspecionadas:** arquivos do repositório; `data/processed/todas_metricas_consolidado_with_modern.csv`
+  (análises descartáveis, não versionadas, para o parecer); a tese de Sampaio (2024), em acesso
+  aberto, Tabelas 4.54, 4.56 e 4.60 e a descrição do Experimento 6; a página do editor de Cheng
+  et al. (2017); registros Crossref; resumos de Hooker (1995), Bartz-Beielstein et al. (2020),
+  Ren et al. (2024), Wietheger e Doerr (2024) e Dang et al. (2026). Consultas externas só com
+  metadados bibliográficos; nenhum trecho do manuscrito enviado a serviço externo além do modelo
+  configurado.
+- **Verificação:** `claims.py diff` (números novos só em legendas e no parágrafo de Sampaio,
+  todos já presentes no texto vizinho ou conferidos na fonte), `make thesis` (110 páginas;
+  resumo e abstract com palavras-chave na mesma página), `latex_check.py --compare` (sem
+  bloqueante novo), `bib_check.py` (ok=53), `thesis-tables-check`, `verify-release`, `make test`,
+  `ruff` no script alterado.
+- **Limitações:** o parecer sobre o SPEA2 não alterou o texto; as fontes externas citadas nele
+  tiveram, em parte, só os metadados conferidos. A declaração de uso de IA é rascunho para
+  revisão do autor e do orientador.
+- **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.

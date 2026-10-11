@@ -6,6 +6,24 @@
 identidade do algoritmo e de sincronização de evidência foram cumpridos nas rodadas R1–R6.
 Numeração de capítulos e seções conforme o PDF compilado.
 
+**Numeração desde a R19 (2026-10-10).** A dissertação passou a ter nove capítulos: os
+antigos Caps. 5 (Experimentos) e 6 (Resultados) formam o Cap. 5, Experimentação, e os
+seguintes recuam um número. Os blocos datados anteriores à R19 neste plano e em
+`REWRITE_SPEC.md` mantêm a numeração da época; para lê-los, use a correspondência abaixo.
+As referências das §2, §4 e §8 deste plano também usam a numeração anterior quando não
+indicam o contrário.
+
+| Até a R18 | Desde a R19 |
+|---|---|
+| §1.2 Questões de pesquisa | §5.1 (`sec:questoes`) |
+| §1.3 Contribuições; §1.4 Publicações derivadas; §1.5 Organização | §1.2; §7.8 (`sec:publicacoes`); §1.3 |
+| §5.1–§5.5 (plataforma, suítes, métricas, estatística, calibração) | §5.2.1–§5.2.5 |
+| §5.6 Famílias de evidência | §5.1.1 (`sec:familias`) |
+| Cap. 6 Resultados; §6.1–§6.4 | §5.3 (`sec:results`); §5.3.1–§5.3.4 |
+| Cap. 7 e §7.1–§7.5 (estudos complementares) | Cap. 6 e §6.1–§6.5 |
+| Cap. 8 e §8.1–§8.7 (discussão, conclusões) | Cap. 7 e §7.1–§7.7; §7.8 nova |
+| Cap. 9 (ameaças) e Cap. 10 (trabalhos futuros) | Cap. 8 e Cap. 9 |
+
 ## 1. Escopo: sem re-execução
 
 Decisão do autor em 2026-09-22 (`REWRITE_SPEC.md` §1.1, decisão 6). A dissertação usa
@@ -25,6 +43,14 @@ variantes nos estudos realizados (§2); a consequência acima recai agora sobre 
 que a resposta da QP2 declara como problema não isolado, e não sobre a pergunta.
 
 ## 2. Pergunta geral e questões de pesquisa
+
+Objetivo geral vigente (R19, 2026-10-10; reformulação feita nesta rodada em resposta ao
+comentário A033 do revisor externo, **pendente de aprovação do autor**): "propor um
+acoplamento do método IVF ao SPEA2 e avaliar se ele melhora o desempenho do hospedeiro sem
+aumentar o orçamento de avaliações, delimitando o alcance desse resultado". A decomposição
+operacional passou aos objetivos específicos 2 a 6, que correspondem à QP1–QP5, e as QPs
+passaram à §5.1 por decisão do autor. Histórico (R17, abaixo): a formulação anterior
+enumerava as cinco questões no próprio objetivo geral.
 
 Objetivo geral (R17, 2026-10-03; ordem alinhada às QPs no fechamento da R17): avaliar se o
 acoplamento do IVF ao SPEA2 melhora o hospedeiro sob orçamento fixo de avaliações, com que
@@ -84,10 +110,40 @@ IGD), sem isolar a propriedade. A WFG também reúne 8 vitórias corrigidas em 1
 configurações: não é "marcador das instâncias desfavoráveis". O teste proposto é o desenho
 fatorial da §10.1, com M e K/L controlados.
 
-Regra de redação: cada QP é respondida num único lugar, a seção correspondente do Cap. 8.
+Regra de redação: cada QP é respondida num único lugar, a seção correspondente do Cap. 7
+(Cap. 8 até a R18).
 Os outros capítulos remetem a ela e não reenunciam o resultado.
 
-## 3. Estado em 2026-10-03
+## 3. Estado em 2026-10-10
+
+Rodada R19 (`REWRITE_SPEC.md` §6.2; relatório rastreável em `RELATORIO_INTERVENCAO_ALTINO.md`)
+— resposta aos 64 comentários do revisor externo (A001–A064). Decisões do autor aplicadas:
+título preservado (A001 fora da rodada); "Publicações derivadas" no fechamento do Cap. 7
+(§7.8); Experimentos e Resultados reunidos no Cap. 5, Experimentação; QP1–QP5 transferidas
+da Introdução para a §5.1; Estudos Complementares continua capítulo próprio; respostas às QPs
+continuam no capítulo de discussão; apêndices continuam ocultos. Decisões terminológicas
+desta rodada (registradas em `skill://scientific-writing-ptbr/references/terminologia.md`):
+orçamento × consumo acumulado × cota da geração; métrica primária/secundária no lugar de
+"desfecho"; "acoplamento, tal como implementado e configurado" no lugar de "pipeline";
+"algoritmos comparados" para os sete; "suíte" no lugar de "família" no sentido de conjunto
+de problemas; "instância" no lugar de "configuração problema–objetivo". Nenhum número,
+coorte, teste, correção ou veredito de QP mudou; os geradores de 14 tabelas e de uma figura
+tiveram só texto alterado (números conferidos idênticos). Pendências e decisões que cabem
+ao autor estão no relatório (§G, e §I.9 para o fechamento da mesma data, que corrigiu a
+descrição do IVF original, a relação entre indicadores e dominância, a justificativa das 60
+execuções, a distinção entre o IVF/NSGA-III publicado e o implementado e os desenhos de
+trabalhos futuros).
+
+Decisões do autor na mesma data, posteriores ao fechamento (relatório, §J e §K): os sete
+algoritmos comparados são apresentados pela taxonomia do manuscrito de origem, em três famílias
+complementares, variantes do SPEA2 (MFO-SPEA2, SPEA2+SDE), métodos canônicos de dominância de
+Pareto e de decomposição (NSGA-II, NSGA-III, MOEA/D) e abordagens modernas de adaptação de
+geometria e de pontos de referência (AGE-MOEA-II, AR-MOEA). "Posicionamento" saiu do texto
+visível, da Tabela 5.1 e da legenda gerada; rótulos, ids e nomes de arquivo ficaram. A família
+da Tabela 5.1 chama-se "Algoritmos comparados" e mantém o papel contextual; a regra está em
+`terminologia.md`.
+
+## 3a. Estado em 2026-10-03
 
 Rodada R18 concluída (`REWRITE_SPEC.md` §6.2) — atenuação da autocrítica, nível 2, por
 decisão do autor. O Cap. 9 passou de 6 para 3 páginas, com cada ameaça reescrita em três
@@ -202,19 +258,18 @@ inalterados, e nenhum número, teste, correção ou identificador técnico mudou
 
 Bloqueiam o depósito:
 
-- [ ] **`OQ-10` — autoria e reúso.** Declaração de contribuição e permissões de texto,
-  figuras e tabelas dos manuscritos. A §1.4 já cita os três manuscritos e a sua situação
-  editorial (preprint, aceito no PPSN 2026, submetido ao CLEI 2026); falta a declaração.
-- [ ] **`OQ-09` — identidade de release.** No congelamento, criar um release próprio da
-  dissertação no Zenodo e citar o DOI de versão junto com o DOI de conceito
-  (`10.5281/zenodo.19071253`).
-- [ ] **Restaurar os Apêndices A e B antes do depósito; decidir o destino do Apêndice C.**
-  Decisão do autor em 2026-10-03: os três apêndices ficam ocultados por enquanto e só voltam
-  a pedido explícito. Nada foi apagado — `pos/apend_I.tex`, `pos/apend_II.tex` e
-  `pos/apend_III.tex` seguem versionados, e `build_apendice_fontes.py`, `data-sources.toml` e o
-  manifesto continuam produzindo normalmente. Enquanto ocultos, a **declaração de
-  disponibilidade de dados permanece oculta com o Apêndice B**, o que deixa o repositório
-  público e o DOI de conceito sem menção no corpo do texto.
+- [x] **`OQ-10` — autoria e reúso (decidido em 2026-10-11).** Decisão do autor: a declaração de
+  contribuição e as permissões não são necessárias; a §7.8 mantém só a lista das publicações.
+- [x] **`OQ-09` — identidade de release (decidido em 2026-10-11).** Decisão do autor: a
+  dissertação cita o DOI de conceito (`10.5281/zenodo.19071253`), conforme
+  `docs/RELEASE_IDENTITY.md`; não haverá release próprio da dissertação. Risco aceito: o DOI de
+  conceito passa a apontar para versões posteriores à dissertação.
+- [x] **Apêndices A, B e C (decidido em 2026-10-11).** Decisão do autor: os Apêndices A e B
+  permanecem fora do PDF; o Apêndice C foi aposentado. Registro em
+  `RELATORIO_INTERVENCAO_ALTINO.md` §L. `pos/apend_III.tex` foi removido da árvore de trabalho
+  (o histórico do git preserva a última versão, cujo comentário de advertência registrava que o
+  arquivo contradizia a QP5 e definia `fig:posto_medio`, também definido na §7.5). Se os
+  Apêndices A e B voltarem, o procedimento de restauração é:
 
   A restauração **não desfaz a QP5**: a §7.5 (`sec:posicionamento`) e a §8.5
   (`sec:resposta_qp5`) são o lugar canônico do posicionamento, e as remissões de
@@ -231,8 +286,10 @@ Bloqueiam o depósito:
 
   Os rótulos dos Apêndices A e B (`apend:fontes`, `apend:recuperacao`, `sec:disponibilidade`)
   não colidem com nenhum rótulo do corpo, e o Apêndice B só remete a rótulos que existem.
-  **Apêndice C:** substituído pela §7.5; destino a decidir pelo autor — aposentar, ou
-  reaproveitar como detalhamento por instância, sem a figura.
+  **Apêndice C:** aposentado em 2026-10-11; `pos/apend_III.tex` foi removido da árvore de
+  trabalho e o histórico do git preserva a última versão. A declaração de disponibilidade de
+  dados segue oculta com o Apêndice B, de modo que o repositório público e o DOI de conceito
+  ficam sem menção no corpo do texto — consequência aceita pelo autor nesta data.
 
 Não bloqueiam o depósito, mas têm prazo próprio:
 

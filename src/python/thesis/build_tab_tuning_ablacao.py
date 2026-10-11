@@ -113,7 +113,7 @@ def build_tuning() -> str | None:
         return None
     note = (
         "Vitórias/empates/derrotas (V/E/D) da configuração da linha contra o comparador, nas "
-        f"{n_problems} configurações problema--objetivo do subconjunto de calibração. "
+        f"{n_problems} instâncias do subconjunto de calibração. "
         f"A configuração promovida tem {n_promoted} execuções por problema e a melhor da fase A, "
         f"{n_phase_a}, sob 50.000 avaliações; o comparador histórico não ajustado tem "
         f"{n_historical} execuções por problema. O orçamento desse braço não consta do "
@@ -205,7 +205,7 @@ def build_ablation() -> str | None:
         f"{n_combinations} combinações da fase fatorial, que não se distinguiram entre si "
         f"(Friedman, $p = {fmt.decimal(friedman_p).strip('$')}$). Limites do desenho: a ablação "
         f"foi executada na configuração inicial não ajustada ({ABLATION_CONFIG}), e não na "
-        "configuração promovida avaliada no Capítulo~\\ref{sec:results}; o comparador sem as "
+        "configuração promovida avaliada na Seção~\\ref{sec:results}; o comparador sem as "
         "duas decisões corresponde às execuções 1--60 da formulação anterior presentes na base "
         "consolidada, produzidas em outra campanha. Evidência de justificativa da "
         "implementação, não da comparação principal."

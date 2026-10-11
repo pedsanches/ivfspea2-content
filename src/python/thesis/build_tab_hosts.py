@@ -230,9 +230,10 @@ def build_wtl(sensitivity: dict[str, dict]) -> str | None:
         "Vitórias/empates/derrotas (V/E/D) de cada acoplamento IVF contra o seu próprio "
         "hospedeiro, nas 51 instâncias sintéticas. Teste de Wilcoxon de postos "
         "sinalizados com correção de Benjamini--Hochberg por acoplamento e métrica, "
-        "$\\alpha = 0{,}05$, 30 execuções por configuração, orçamento de 100.000 "
-        f"avaliações. {_pairing_note_totals(sensitivity)} A comparação é entre pipelines e "
-        "não isola o efeito do hospedeiro; as execuções 3001--3030 e 1--30 do par IVF/SPEA2 "
+        "$\\alpha = 0{,}05$, 30 execuções por algoritmo e instância, orçamento de 100.000 "
+        f"avaliações. {_pairing_note_totals(sensitivity)} A comparação é entre acoplamentos, "
+        "tal como implementados e configurados, e não isola o efeito do hospedeiro; as "
+        "execuções 3001--3030 e 1--30 do par IVF/SPEA2 "
         "são um subconjunto da coorte da comparação principal e não constituem replicação "
         "independente."
     )

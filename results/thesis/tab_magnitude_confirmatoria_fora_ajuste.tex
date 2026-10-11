@@ -6,13 +6,13 @@
     \centering
     \small
     \setlength{\tabcolsep}{4pt}
-    \caption{Magnitude fora do ajuste entre IVF/SPEA2 e SPEA2, por desfecho corrigido na comparação principal.}
+    \caption{Magnitude fora do ajuste entre IVF/SPEA2 e SPEA2, por resultado corrigido do teste na comparação principal.}
     \label{tab:magnitude_confirmatoria_fora_ajuste}
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllcrrrr@{}}
         \toprule
         \multicolumn{4}{@{}c}{} & \multicolumn{1}{c}{\textbf{$A_{12}$}} & \multicolumn{3}{c@{}}{\textbf{$\Delta$ (\%)}} \\
         \cmidrule(l){6-8}
-        \textbf{Métrica} & \textbf{$M$} & \textbf{Desfecho (Holm)} & \textbf{$n$} & \textbf{Mediano} & \textbf{Mediano} & \textbf{Mínimo} & \textbf{Máximo} \\
+        \textbf{Métrica} & \textbf{$M$} & \textbf{Resultado (Holm)} & \textbf{$n$} & \textbf{Mediano} & \textbf{Mediano} & \textbf{Mínimo} & \textbf{Máximo} \\
         \midrule
         \multirow{8}{*}{IGD} & \multirow{4}{*}{2} & Vitórias & 19 & $0{,}808$ & $+1{,}27$ & $+0{,}28$ & $+10{,}23$ \\
          &  & Empates & 3 & $0{,}502$ & $+0{,}08$ & $-8{,}87$ & $+24{,}07$ \\
@@ -37,6 +37,6 @@
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Apenas as 39 instâncias não usadas no ajuste (24 com $M=2$ e 15 com $M=3$). Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, 60 execuções por algoritmo e instância. O desfecho é o de Mann--Whitney com Holm aplicado à família completa de cada métrica e número de objetivos, antes do recorte fora do ajuste; portanto, esta tabela não reaplica Holm. $A_{12}$ e $\Delta$ seguem as definições da Tabela~\ref{tab:magnitude_confirmatoria}; valores positivos de $\Delta$ favorecem IVF/SPEA2.
+    Apenas as 39 instâncias não usadas no ajuste (24 com $M=2$ e 15 com $M=3$). Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, 60 execuções por algoritmo e instância. O resultado é o do teste de Mann--Whitney com Holm aplicado à família completa de cada métrica e número de objetivos, antes do recorte fora do ajuste; portanto, esta tabela não reaplica Holm. $A_{12}$ e $\Delta$ seguem as definições da Tabela~\ref{tab:magnitude_confirmatoria}; valores positivos de $\Delta$ favorecem IVF/SPEA2.
     }
 \end{table}

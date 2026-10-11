@@ -166,7 +166,7 @@ def _render_magnitude_fora_ajuste(tabela: pd.DataFrame) -> str:
             [
                 "Métrica",
                 "$M$",
-                "Desfecho (Holm)",
+                "Resultado (Holm)",
                 "$n$",
                 "Mediano",
                 "Mediano",
@@ -178,8 +178,8 @@ def _render_magnitude_fora_ajuste(tabela: pd.DataFrame) -> str:
         colspec="lllcrrrr",
         tabcolsep="4pt",
         caption=(
-            "Magnitude fora do ajuste entre IVF/SPEA2 e SPEA2, por desfecho "
-            "corrigido na comparação principal."
+            "Magnitude fora do ajuste entre IVF/SPEA2 e SPEA2, por resultado "
+            "corrigido do teste na comparação principal."
         ),
         label="tab:magnitude_confirmatoria_fora_ajuste",
         producer=__file__,
@@ -187,7 +187,7 @@ def _render_magnitude_fora_ajuste(tabela: pd.DataFrame) -> str:
         note=(
             "Apenas as 39 instâncias não usadas no ajuste (24 com $M=2$ e 15 com $M=3$). "
             "Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, "
-            "60 execuções por algoritmo e instância. O desfecho é o de Mann--Whitney com "
+            "60 execuções por algoritmo e instância. O resultado é o do teste de Mann--Whitney com "
             "Holm aplicado à família completa de cada métrica e número de objetivos, antes "
             "do recorte fora do ajuste; portanto, esta tabela não reaplica Holm. "
             "$A_{12}$ e $\\Delta$ seguem as definições da "
@@ -314,9 +314,9 @@ def main() -> int:
         "Coorte da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas "
         "execuções "
         f"1--60, {n_execucoes} execuções por algoritmo e instância, orçamento de 100.000 "
-        "avaliações. Desfecho pelo teste de Mann--Whitney com correção de Holm por número de "
+        "avaliações. Resultado do teste de Mann--Whitney com correção de Holm por número de "
         "objetivos e por métrica, como na Tabela~\\ref{tab:confirmatorio_wtl}; $n$: número de "
-        "instâncias com o desfecho. $A_{12}$ orientado: fração dos pares de execuções em que o "
+        "instâncias com esse resultado. $A_{12}$ orientado: fração dos pares de execuções em que o "
         "IVF/SPEA2 obtém o melhor valor, com empates contando meio par. O corte "
         f"$A_{{12}} \\geq {fmt.decimal(CORTE_A12, places=2).strip('$')}$ "
         "é descritivo, não outro teste de hipótese. $\\Delta$: diferença entre "
@@ -329,7 +329,7 @@ def main() -> int:
             [lt.Span("", 3), lt.Span("$A_{12}$", 2), lt.Span("$\\Delta$ (\\%)", 3)],
             [
                 "Métrica",
-                "Desfecho (Holm)",
+                "Resultado (Holm)",
                 "$n$",
                 "Mediano",
                 "$A_{12}\\geq 0{,}71$",
@@ -342,8 +342,8 @@ def main() -> int:
         colspec="llcccrrr",
         tabcolsep="5pt",
         caption=(
-            "Magnitude da diferença entre o IVF/SPEA2 e o SPEA2 canônico, por desfecho "
-            "corrigido: frequência com que uma execução supera a outra e deslocamento "
+            "Magnitude da diferença entre o IVF/SPEA2 e o SPEA2 canônico, por resultado "
+            "corrigido do teste: frequência com que uma execução supera a outra e deslocamento "
             "relativo da mediana."
         ),
         label="tab:magnitude_confirmatoria",

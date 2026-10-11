@@ -51,7 +51,7 @@ cientificamente.
 - Força calibrada pela skill `scientific-argumentation` (escala de força); nunca subir um degrau
   para melhorar o fluxo.
 - Preserve `\label`, `\ref`, `\cite`, comandos, termos canônicos e a regra de resposta única das
-  QPs (Cap. 8).
+  QPs (Cap. 7 desde a R19).
 - Edite só o trecho pedido; nada de "melhorias" fora do escopo.
 
 # Depois de escrever

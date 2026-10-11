@@ -244,10 +244,11 @@ def build() -> str:
         "transformação Yeo--Johnson é ajustada somente na resposta de treino e a predição é "
         "invertida para essa escala antes de calcular $r_s$ sobre todas as predições fora da "
         "amostra. Portanto, não se agregam postos calculados separadamente nas dobras. A "
-        "validação deixa-uma-família agrupa DTLZ e MaF, mantendo MaF7 e DTLZ7 (M=2 e M=3) "
+        "validação deixa-uma-família (LOFO, de \\textit{leave-one-family-out}), que retém "
+        "uma suíte por vez, agrupa DTLZ e MaF, mantendo MaF7 e DTLZ7 (M=2 e M=3) "
         "do mesmo lado retido. Para a regra dinâmica, o observável e a janela de 20\\% das "
         "gerações foram escolhidos na análise de origem e permanecem fixos nesta reanálise; "
-        "em cada dobra, só o limiar e sua direção são ajustados nas famílias de treino. "
+        "em cada dobra, só o limiar e sua direção são ajustados nas suítes de treino. "
         "BA: acurácia balanceada; MCC: coeficiente de Matthews. A última coluna é a "
         "coincidência entre a decisão da regra e a partição WFG desligada/demais ligadas. "
         "As linhas da suíte aplicam essa partição, sem nenhum parâmetro ajustado, aos mesmos "
@@ -263,7 +264,7 @@ def build() -> str:
         header=["Evidência", "Medida", "Protocolo", "Valor", "Partição WFG"],
         rows=rows,
         colspec="llLcc",
-        caption="Robustez descritiva da evidência de ativação sob retenção por família.",
+        caption="Robustez descritiva da evidência de ativação sob retenção por suíte.",
         label="tab:ativacao_robustez",
         producer=__file__,
         sources=[STATIC, DYNAMIC],

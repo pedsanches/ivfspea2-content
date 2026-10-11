@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Figuras de resultados do Capítulo VI (Resultados) da dissertação.
+"""Figuras de resultados da Seção 5.3 (Capítulo 5, Experimentação) da dissertação.
 
 Lê artefatos versionados e escreve três figuras. Duas pertencem à família
 da comparação principal (``CONF``: IVF/SPEA2 na janela de submissão 3001–3060 contra o
 SPEA2 canônico na janela 1–60, 51 instâncias sintéticas, 60 execuções por
-configuração) e uma pertence ao Apêndice C (posto médio contra os demais
-comparadores, descritivo, sem teste de hipótese):
+algoritmo e instância) e uma pertence à Seção 6.5 (posto médio contra os sete
+algoritmos comparados, descritivo, sem teste de hipótese):
 
   fig_dist_igd.pdf
       Distribuição de IGD por instância, IVF/SPEA2 contra SPEA2 canônico, em
@@ -20,12 +20,12 @@ comparadores, descritivo, sem teste de hipótese):
       exclusivamente através de ``filter_submission_synthetic_cohort``.
 
   fig_dtlz4_bimodal.pdf
-      Os dois regimes de convergência do IVF/SPEA2 em DTLZ4 (M=3): a fronteira
-      obtida na execução mais próxima do primeiro quartil de IGD e a mais
-      próxima do terceiro quartil com IGD > 0,1, entre as 60 execuções da
-      instância. Fonte: ``data/processed/fronts/DTLZ4_M3_*.csv``. É uma
-      figura de mecanismo (fronteiras obtidas ao final de cada execução), não
-      de trajetória de convergência por geração.
+      Duas execuções do IVF/SPEA2 em DTLZ4 (M=3): a fronteira obtida na
+      execução mais próxima do primeiro quartil de IGD e a mais próxima do
+      terceiro quartil com IGD > 0,1, entre as 60 execuções da instância.
+      Fonte: ``data/processed/fronts/DTLZ4_M3_*.csv``. Mostra soluções finais;
+      não permite inferir mecanismo nem trajetória de convergência por geração,
+      e os títulos dos painéis descrevem só o critério de escolha da execução.
 
   fig_posto_medio.pdf
       Posto médio exploratório dos nove algoritmos avaliados, por M, a partir
@@ -317,16 +317,18 @@ def make_fig_dtlz4_bimodal() -> None:
         good["f1"], good["f2"], good["f3"], s=14, c=IVF_COLOR, alpha=0.85,
         edgecolors="none", label="IVF/SPEA2",
     )
+    # As duas execuções são do IVF/SPEA2 e usam a cor da legenda; uma cor
+    # diferente no painel (b) sugeria um segundo algoritmo sem entrada na legenda.
     ax2.scatter(
-        bad["f1"], bad["f2"], bad["f3"], s=14, c=SPEA2_COLOR, alpha=0.85,
+        bad["f1"], bad["f2"], bad["f3"], s=14, c=IVF_COLOR, alpha=0.85,
         edgecolors="none", label="IVF/SPEA2",
     )
 
-    title_good = "(a) Regime de convergência (próximo de Q1)"
+    title_good = "(a) Execução próxima do primeiro quartil de IGD"
     if "good_q1" in selection_info:
         title_good = f"{title_good}\n{selection_info['good_q1']}"
 
-    title_bad = "(b) Regime de estagnação (Q3, IGD > 0,1)"
+    title_bad = "(b) Execução próxima do terceiro quartil (IGD > 0,1)"
     if "bad_q3_gt_0p1" in selection_info:
         title_bad = f"{title_bad}\n{selection_info['bad_q3_gt_0p1']}"
 

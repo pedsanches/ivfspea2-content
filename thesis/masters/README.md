@@ -6,8 +6,11 @@ The source snapshot in `Downloads` was not modified or deleted.
 
 ## Current status
 
-The dissertation is synchronized with the repository's current evidence through
-revision round R12: ten chapters and three appendices, with every table and
+The dissertation is synchronized with the repository's current evidence. Since
+revision round R19 (2026-10-10) it has nine chapters (the former "Experimentos"
+and "Resultados" chapters were merged into Chapter 5, "Experimentação": the
+research questions and evidence families open it in `tex/cap_V.tex`, and
+`tex/cap_VI.tex` is its Section 5.3) and three hidden appendices, with every table and
 every results figure generated from versioned artifacts by `src/python/thesis/`
 and guarded by `make thesis-tables-check` (the flowcharts and schematic
 illustrations in `fig/` are static drawings; TikZ sources, where they exist, are
@@ -15,7 +18,7 @@ in `fig/src/`). The canonical implementation is `IVFSPEA2V2`, IGD
 and HV are both mandatory, and claims must follow
 `docs/IVFSPEA2_EVIDENCE_MODEL.md`. `REWRITE_SPEC.md` holds the claim ledger and
 the open questions (`OQ-*`); `REVISION_PLAN.md` holds the decisions still
-pending before deposit.
+pending before deposit; `RELATORIO_INTERVENCAO_ALTINO.md` traces the R19 round.
 
 See `REVISION_PLAN.md` before changing results or conclusions.
 

@@ -49,7 +49,7 @@ palavras):
    o que cada símbolo significa e por que importa.
 6. **Enumeração quando a estrutura é enumerável.** Objetivos, contribuições e QPs em lista;
    argumento em prosa.
-7. **Remissão em vez de repetição.** Cada QP é respondida só no Cap. 8 (`REVISION_PLAN.md` §2);
+7. **Remissão em vez de repetição.** Cada QP é respondida só no Cap. 7 (`REVISION_PLAN.md` §2);
    ressalvas têm lugar canônico e os outros capítulos remetem a ele.
 8. **Divergência declarada no ponto em que ocorre.** Quando o artefato contradiz um manuscrito,
    o texto segue o artefato e diz isso ali, com o identificador (`OQ-*` fica fora do texto).
