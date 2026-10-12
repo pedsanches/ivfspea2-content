@@ -1681,3 +1681,38 @@ ou informação que amplie indevidamente a exposição de material inédito.
   com nota "Aceito; em processo de publicação"; a §7.8 passou de "submetida" a "aceita para
   publicação". Os valores 0,374 e 0,380 citados na §7.8 conferem na versão final
   (`main.tex:337--346`). O achado S7 fica como está, por decisão do autor.
+
+### 2026-10-11 — Pré-textuais: dedicatória, agradecimentos, epígrafe, autorização e folha de aprovação
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp; modelo `anthropic/claude-opus-5-5`.
+  Um subagente somente leitura (auditoria quantitativa dos Caps. 8 e 9, sem edição).
+- **Fase:** redação a partir de conteúdo ditado pelo autor; sugestão de epígrafe; preenchimento
+  de dados institucionais.
+- **Finalidade:** compor as folhas pré-textuais pessoais e as que dependiam da data e da banca.
+- **Decisões tomadas pelo autor:** conteúdo da dedicatória (pai e mãe) e dos agradecimentos
+  (Celso como orientador desde o início e hoje coorientador; Ronaldo, que assumiu a orientação;
+  núcleo i4soft, Eduardo Faria de Souza e Altino Dantas; valores pessoais; o desejo de lhes dar
+  orgulho); ordem cronológica dos agradecimentos; fecho "Quem inspira tanto merece se orgulhar de
+  quem inspirou", escolhido entre duas versões; ausência de bolsa; data (27/10/2026, 14h30) e
+  banca, transcritas da solicitação de nomeação no SEI.
+- **Arquivos afetados:** `pre/pre_dedicatoria.tex`, `pre/pre_agradecimentos.tex`,
+  `pre/pre_epigrafe.tex`, `pre/pre_aprovacao.tex`, `main.tex` (`\publica` e os quatro `\input`
+  ativados), `inf-ufg-tectonic.cls:652` ("Programa … da Instituto" → "do Instituto"),
+  `REVISION_PLAN.md` §5 e §7, e esta entrada.
+- **Texto alterado:** a IA ajustou a redação ditada pelo autor (quebra de linhas, paralelismo,
+  ordem das frases, troca de "estrondosas" por formulação explícita da inspiração) sem
+  acrescentar fato não informado por ele; os papéis "orientador" e "coorientador" vêm de
+  `main.tex`. A epígrafe (Guimarães Rosa, *Grande Sertão: Veredas*: "Digo: o real não está na
+  saída nem na chegada: ele se dispõe para a gente é no meio da travessia.") foi sugerida pela
+  IA entre quatro candidatas e aceita pelo autor. Nenhum texto científico mudou.
+- **Entradas inspecionadas:** `inf-ufg-tectonic.cls` (ambientes `dedicatoria`, `agradecimentos`,
+  `aprovacao`, `\epigrafe`, `\publica`); `bib/modelo-tese.bib` e os manuscritos do PPSN e do CLEI
+  (nomes completos de Eduardo e Altino); externas, só metadados: buscas pela origem das quatro
+  epígrafes candidatas e pela unidade da professora Karla Tereza Figueiredo Leite na UERJ.
+- **Verificação:** `make` sem *overfull* (115 páginas); páginas de autorização, aprovação,
+  dedicatória, agradecimentos e epígrafe conferidas por extração de texto e, as quatro últimas,
+  por renderização.
+- **Limitações:** a epígrafe foi conferida só em fontes secundárias concordantes (Rosa, 1994,
+  Nova Aguilar, p. 86), e não no exemplar; o nome por extenso da unidade "DC" da UERJ não foi
+  confirmado; a banca está solicitada, não nomeada; a grafia "i4soft" é a do autor.
+- **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.
