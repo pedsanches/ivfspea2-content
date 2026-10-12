@@ -31,8 +31,8 @@ identifiers:
     value: "10.5281/zenodo.19071254"
     description: "Version v1.0.1 (2026-03-17) — Springer Nature submission snapshot"
 repository-code: "https://github.com/pedsanches/ivfspea2-content"
-version: "ppsn2026"
-date-released: 2026-06-12
+version: "dissertacao2026-defesa"
+date-released: 2026-10-11
 keywords:
   - multi-objective optimization
   - memetic computing
