@@ -220,9 +220,9 @@ Algoritmos evolutivos são estocásticos: uma única execução não permite con
 
 \subsection{Testes de hipótese não paramétricos}
 
-Distribuições de indicadores como a IGD costumam ser assimétricas e não satisfazem a suposição de normalidade, o que recomenda testes não paramétricos. Para amostras independentes, isto é, execuções de dois algoritmos que não compartilham semente, usa-se o teste de soma de postos de Wilcoxon~\cite{wilcoxon1945}, também chamado de Mann--Whitney~U~\cite{mann1947test}, que avalia se os valores de uma das amostras tendem a ser maiores que os da outra. Quando as execuções são pareadas por semente, o teste apropriado é o de postos sinalizados de Wilcoxon, que explora o pareamento e tem maior poder.
+Distribuições de indicadores como a IGD costumam ser assimétricas e não satisfazem a suposição de normalidade, o que recomenda testes não paramétricos. Para amostras independentes, isto é, execuções de dois algoritmos que não compartilham semente, usa-se o teste de soma de postos de Wilcoxon~\cite{wilcoxon1945}, também chamado de Mann--Whitney~U~\cite{mann1947test}, que avalia se os valores de uma das amostras tendem a ser maiores que os da outra. Quando as execuções são pareadas por semente, o teste apropriado é o de postos sinalizados de Wilcoxon, que explora o pareamento.
 
-A escolha entre os dois decorre da estrutura das amostras: aplicar um teste pareado a amostras que não têm chave de pareamento defensável inventa uma correspondência que os dados não sustentam. Esta dissertação declara, para cada família de evidência, se as execuções são pareadas e por qual chave.
+A escolha entre os dois decorre da estrutura das amostras: aplicar um teste pareado a amostras que não têm chave de pareamento defensável inventa uma correspondência que os dados não sustentam. Esta dissertação declara, para cada família de evidência, se as execuções são pareadas e por qual chave. A exceção é o par IVF/SPEA2 da família de hospedeiros: os dois algoritmos têm o mesmo número de execuções, alinhadas por ordem, e o teste de Mann--Whitney, sem pareamento, serve de verificação de robustez (Seção~\ref{sec:hospedeiros}).
 
 \subsection{Magnitude de efeito}
 
@@ -241,7 +241,7 @@ Dois procedimentos aparecem nesta dissertação, e eles controlam quantidades di
 \item o procedimento de Benjamini e Hochberg~\cite{benjamini1995controlling} controla a \textbf{taxa de falsas descobertas}, isto é, a proporção esperada de rejeições falsas entre as rejeições feitas. Admite mais rejeições e é apropriado quando o objetivo é triagem, e não decisão individual.
 \end{itemize}
 
-Cada família de evidência desta dissertação conserva o procedimento de correção da análise em que foi originalmente relatada (os manuscritos de origem estão listados na Seção~\ref{sec:publicacoes}), porque reaplicar outra correção mudaria as contagens sem que os dados tivessem mudado. O Capítulo~\ref{sec:Experiments} declara qual procedimento se aplica a cada família de evidência.
+Cada família de evidência desta dissertação mantém o procedimento de correção com que foi analisada, porque reaplicar outra correção mudaria as contagens sem que os dados tivessem mudado. A Seção~\ref{sec:estatistica} declara o procedimento da comparação principal, e as seções do Capítulo~\ref{sec:complementares}, o das demais famílias de evidência.
 
 Duas leituras incorretas precisam ser evitadas. Um valor-$p$ acima do limiar não estabelece equivalência: ele indica que a evidência disponível não distingue as amostras, o que pode decorrer de ausência de efeito ou de variabilidade alta. E significância estatística não é importância prática: a magnitude do efeito e o contexto de aplicação é que a determinam.
 

@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Figuras de resultados da Seção 5.3 (Capítulo 5, Experimentação) da dissertação.
+"""Figuras de resultados da Seção 5.3 (Capítulo 5, Experimentação) e da Seção 6.5
+(Capítulo 6, QP5) da dissertação.
 
-Lê artefatos versionados e escreve três figuras. Duas pertencem à família
-da comparação principal (``CONF``: IVF/SPEA2 na janela de submissão 3001–3060 contra o
-SPEA2 canônico na janela 1–60, 51 instâncias sintéticas, 60 execuções por
-algoritmo e instância) e uma pertence à Seção 6.5 (posto médio contra os sete
-algoritmos comparados, descritivo, sem teste de hipótese):
+Lê artefatos versionados e escreve cinco figuras. Duas pertencem à família da
+comparação principal (``CONF``: IVF/SPEA2 na janela de submissão 3001–3060
+contra o SPEA2 canônico na janela 1–60, 51 instâncias sintéticas, 60
+execuções por algoritmo e instância) e três pertencem à Seção 6.5
+(posicionamento contra os sete algoritmos comparados, mesmo protocolo da
+Tabela~\\ref{tab:posicionamento}: Mann--Whitney bicaudal por instância,
+α = 0,05, Holm por algoritmo comparado, por M e por métrica):
 
   fig_dist_igd.pdf
       Distribuição de IGD por instância, IVF/SPEA2 contra SPEA2 canônico, em
@@ -28,13 +31,26 @@ algoritmos comparados, descritivo, sem teste de hipótese):
       e os títulos dos painéis descrevem só o critério de escolha da execução.
 
   fig_posto_medio.pdf
-      Posto médio exploratório dos nove algoritmos avaliados, por M, a partir
-      da mediana de IGD por instância. Mesma fonte e mesmo filtro de coorte de
+      Posto médio descritivo dos nove algoritmos avaliados (sem teste de
+      hipótese), em quatro painéis: IGD e HV (linhas) por M=2 e M=3
+      (colunas), a partir da mediana de cada métrica por instância. Posto 1
+      é sempre o melhor. Mesma fonte e mesmo filtro de coorte de
       ``fig_dist_igd``.
 
-A lógica de cálculo (extração por instância, matriz de postos de Friedman)
-reaproveita a dos scripts de figuras dos manuscritos-fonte
-(``src/python/analysis/generate_paper_figures.py``,
+  fig_posicionamento_a12_igd.pdf, fig_posicionamento_a12_hv.pdf
+      Mapas de calor do tamanho de efeito $A_{12}$ de Vargha--Delaney
+      orientado (acima de 0,5 favorece o IVF/SPEA2), instância por algoritmo
+      comparado, um arquivo por métrica, cada um com dois painéis lado a
+      lado ($M=2$ e $M=3$). Desenhadas no tamanho final de impressão
+      (largura ≈ \\textwidth), para que nenhuma fonte fique abaixo de 7 pt.
+      As células com diferença significativa após Holm (mesma correção da
+      Tabela~\\ref{tab:posicionamento}) recebem um símbolo; o cálculo do
+      contraste e a correção reaproveitam ``build_tab_posicionamento.py``
+      (``_contraste``, ``_a12``, ``FAMILIAS``), importado sem alteração.
+
+A lógica de cálculo das duas primeiras figuras (extração por instância,
+matriz de postos) reaproveita a dos scripts de figuras dos
+manuscritos-fonte (``src/python/analysis/generate_paper_figures.py``,
 ``src/python/analysis/plot_dtlz4_bimodal.py``,
 ``src/python/analysis/plot_friedman_avg_rank.py``), reimplementada aqui para
 que este módulo permaneça autocontido e grave apenas nos diretórios de saída
@@ -52,6 +68,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import rankdata
 
+import build_tab_posicionamento as postab
 import ptbr_format as fmt
 from ivfspea2.cohorts import filter_submission_synthetic_cohort
 from ivfspea2.figio import save_figure
@@ -59,6 +76,7 @@ from ivfspea2.figstyle import apply_paper_style
 from ivfspea2.paths import DATA_PROCESSED, RESULTS_TABLES, RESULTS_THESIS, THESIS_GENERATED, ensure_dir
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import TwoSlopeNorm
 from matplotlib.patches import Patch
 
 DATA_CSV = DATA_PROCESSED / "todas_metricas_consolidado_with_modern.csv"
@@ -355,18 +373,25 @@ def make_fig_dtlz4_bimodal() -> None:
 # =====================================================================
 # fig_posto_medio
 # =====================================================================
-def _rank_matrix(df_m: pd.DataFrame) -> pd.DataFrame:
-    """Postos por instância (linhas) e algoritmo (colunas), IGD menor = melhor posto."""
+def _rank_matrix(df_m: pd.DataFrame, metric: str, maior_melhor: bool) -> pd.DataFrame:
+    """Postos por instância (linhas) e algoritmo (colunas); posto 1 é sempre o melhor.
+
+    Para IGD (``maior_melhor=False``) a mediana menor vale posto 1; para HV
+    (``maior_melhor=True``) a mediana maior vale posto 1 --- o posto é sempre
+    orientado a "menor é melhor", só a mediana de origem muda de sentido.
+    """
     problems = sorted(df_m["Problema"].unique())
+    pior = -np.inf if maior_melhor else np.inf
     rows = []
     for prob in problems:
         block = df_m[df_m["Problema"] == prob]
         med = {}
         for algo in ALGORITHMS:
-            vals = block[block["Algoritmo"] == algo]["IGD"].dropna().values
-            med[algo] = float(np.median(vals)) if len(vals) > 0 else np.inf
+            vals = block[block["Algoritmo"] == algo][metric].dropna().values
+            med[algo] = float(np.median(vals)) if len(vals) > 0 else pior
         med_vec = np.array([med[a] for a in ALGORITHMS], dtype=float)
-        ranks = rankdata(med_vec, method="average")
+        orientado = -med_vec if maior_melhor else med_vec
+        ranks = rankdata(orientado, method="average")
         rows.append({"Problema": prob, **{a: float(r) for a, r in zip(ALGORITHMS, ranks)}})
     return pd.DataFrame(rows).set_index("Problema")
 
@@ -387,10 +412,10 @@ def _panel_avg_rank(ax: plt.Axes, rank_df: pd.DataFrame, title: str) -> None:
         error_kw={"elinewidth": 1.0, "capsize": 2.5, "ecolor": "black"},
     )
     ax.set_yticks(np.arange(len(order)))
-    ax.set_yticklabels(labels, fontsize=15)
+    ax.set_yticklabels(labels, fontsize=13)
     ax.invert_yaxis()
-    ax.set_title(title, fontsize=15)
-    ax.tick_params(axis="x", labelsize=15)
+    ax.set_title(title, fontsize=13)
+    ax.tick_params(axis="x", labelsize=12)
     ax.grid(axis="x", linestyle=":", alpha=0.4)
     ax.xaxis.set_major_formatter(fmt.axis_formatter())
 
@@ -399,23 +424,139 @@ def _panel_avg_rank(ax: plt.Axes, rank_df: pd.DataFrame, title: str) -> None:
     for bar, v in zip(bars, values):
         ax.text(
             1.02, bar.get_y() + bar.get_height() / 2, fmt.plain(v, 2),
-            transform=ax.get_yaxis_transform(), va="center", ha="left", fontsize=13,
+            transform=ax.get_yaxis_transform(), va="center", ha="left", fontsize=11,
         )
 
 
 def make_fig_posto_medio(df: pd.DataFrame) -> None:
     df_algos = df[df["Algoritmo"].isin(ALGORITHMS)]
-    rank_m2 = _rank_matrix(df_algos[df_algos["M"] == "M2"])
-    rank_m3 = _rank_matrix(df_algos[df_algos["M"] == "M3"])
+    especificacoes = [
+        ("IGD", False, "M2", "IGD, $M=2$"),
+        ("IGD", False, "M3", "IGD, $M=3$"),
+        ("HV", True, "M2", "HV, $M=2$"),
+        ("HV", True, "M3", "HV, $M=3$"),
+    ]
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.6, 4.9), sharex=True)
-    _panel_avg_rank(axes[0], rank_m2, "Posto médio por instância ($M=2$)")
-    _panel_avg_rank(axes[1], rank_m3, "Posto médio por instância ($M=3$)")
-    fig.supxlabel("Posto médio de IGD (menor é melhor)", fontsize=15)
-    axes[0].set_ylabel("Algoritmo", fontsize=15)
+    fig, axes = plt.subplots(2, 2, figsize=(9.6, 9.4), sharex=True)
+    posicoes = [axes[0, 0], axes[0, 1], axes[1, 0], axes[1, 1]]
+    for ax, (metric, maior_melhor, m_label, titulo) in zip(posicoes, especificacoes):
+        rank_df = _rank_matrix(df_algos[df_algos["M"] == m_label], metric, maior_melhor)
+        _panel_avg_rank(ax, rank_df, titulo)
 
-    fig.tight_layout(rect=(0, 0, 1, 1))
+    axes[0, 0].set_ylabel("Algoritmo", fontsize=13)
+    axes[1, 0].set_ylabel("Algoritmo", fontsize=13)
+    for ax in axes[0]:
+        ax.set_xlabel("Posto médio de IGD (menor é melhor)", fontsize=12)
+    for ax in axes[1]:
+        ax.set_xlabel("Posto médio de HV (menor é melhor)", fontsize=12)
+
+    fig.tight_layout(rect=(0, 0, 1, 1), h_pad=2.2)
     save_figure(fig, "fig_posto_medio.pdf", OUT_DIRS)
+    plt.close(fig)
+
+
+# =====================================================================
+# fig_posicionamento_a12
+# =====================================================================
+_ALGOS_POSICIONAMENTO = [chave for _familia, chaves in postab.FAMILIAS for chave in chaves]
+
+
+def _grade_a12(df: pd.DataFrame, metrica: str, m: str, maior_melhor: bool) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Matriz de $A_{12}$ orientado e de veredito, instância (linha) × comparador (coluna).
+
+    Reaproveita ``postab._contraste``: mesmo teste de Mann--Whitney e mesma
+    correção de Holm (sobre a família completa de instâncias do bloco) da
+    Tabela~\\ref{tab:posicionamento}.
+    """
+    instancias = _ordered_instances(m)
+    bloco = df[df["M"] == m]
+    a12 = pd.DataFrame(index=instancias, columns=_ALGOS_POSICIONAMENTO, dtype=float)
+    veredito = pd.DataFrame(index=instancias, columns=_ALGOS_POSICIONAMENTO, dtype=object)
+    for chave in _ALGOS_POSICIONAMENTO:
+        veredito_serie, a12_serie = postab._contraste(bloco, metrica, chave, maior_melhor)
+        faltantes = set(instancias) - set(veredito_serie.index)
+        if faltantes:
+            raise ValueError(
+                f"instâncias sem contraste em {metrica}/{m}/{chave}: {sorted(faltantes)}"
+            )
+        a12[chave] = a12_serie.reindex(instancias)
+        veredito[chave] = veredito_serie.reindex(instancias)
+    return a12, veredito
+
+
+def _cor_marcador(cmap, norm, valor: float) -> str:
+    """Preto sobre células claras e branco sobre escuras, pela luminância da cor.
+
+    Mesma regra de ``_cor_texto`` em ``build_fig_complementares.py``,
+    reimplementada aqui para não criar uma dependência cruzada entre os
+    dois módulos de figuras.
+    """
+    r, g, b, _ = cmap(norm(valor))
+    return "black" if 0.299 * r + 0.587 * g + 0.114 * b > 0.5 else "white"
+
+
+def _panel_heatmap_a12(ax: plt.Axes, a12: pd.DataFrame, veredito: pd.DataFrame, titulo: str):
+    norm = TwoSlopeNorm(vmin=0.0, vcenter=0.5, vmax=1.0)
+    cmap = plt.get_cmap("RdBu")
+    imagem = ax.imshow(a12.to_numpy(dtype=float), aspect="auto", cmap=cmap, norm=norm)
+
+    labels_col = [ALGO_DISPLAY[a] for a in a12.columns]
+    ax.set_xticks(range(len(a12.columns)))
+    ax.set_xticklabels(labels_col, rotation=45, ha="right", fontsize=7)
+    ax.set_yticks(range(len(a12.index)))
+    ax.set_yticklabels(list(a12.index), fontsize=7)
+    ax.set_title(titulo, fontsize=9, fontweight="bold")
+    ax.tick_params(length=0)
+    ax.grid(False)
+
+    for i, instancia in enumerate(a12.index):
+        for j, algo in enumerate(a12.columns):
+            marca = veredito.loc[instancia, algo]
+            if marca not in ("+", "-"):
+                continue
+            cor = _cor_marcador(cmap, norm, float(a12.loc[instancia, algo]))
+            texto = "+" if marca == "+" else "\u2212"
+            ax.text(j, i, texto, ha="center", va="center", fontsize=7, fontweight="bold", color=cor)
+    return imagem
+
+
+def make_fig_posicionamento_a12(df: pd.DataFrame, metrica: str, maior_melhor: bool, nome_arquivo: str) -> None:
+    """Heatmap de $A_{12}$ de uma métrica, dois painéis lado a lado ($M=2$, $M=3$).
+
+    Desenhado no tamanho final de impressão (largura ≈ \\textwidth do
+    manuscrito), para que nenhuma fonte fique abaixo de 7 pt depois do
+    LaTeX escalar a figura.
+    """
+    df_posicionamento = df[df["Algoritmo"].isin([postab.ALVO, *_ALGOS_POSICIONAMENTO])]
+
+    fig, (ax_m2, ax_m3) = plt.subplots(1, 2, figsize=(6.0, 5.6))
+    imagem = None
+    for ax, m_label, titulo in ((ax_m2, "M2", "$M=2$"), (ax_m3, "M3", "$M=3$")):
+        a12, veredito = _grade_a12(df_posicionamento, metrica, m_label, maior_melhor)
+        imagem = _panel_heatmap_a12(ax, a12, veredito, titulo)
+
+    fig.suptitle(metrica, fontsize=10, fontweight="bold")
+
+    # O rodapé (barra de cor + legenda dos símbolos) fica numa faixa reservada
+    # abaixo dos dois painéis, fora da área que o tight_layout ajusta.
+    fig.tight_layout(rect=(0, 0.22, 1, 0.95), w_pad=3.0)
+
+    cbar_ax = fig.add_axes((0.3, 0.155, 0.4, 0.018))
+    cbar = fig.colorbar(imagem, cax=cbar_ax, orientation="horizontal")
+    cbar.set_label(
+        "$A_{12}$ orientado (acima de 0,5 favorece o IVF/SPEA2)", fontsize=7.5,
+    )
+    cbar.ax.tick_params(labelsize=7)
+    cbar.ax.xaxis.set_major_formatter(fmt.axis_formatter())
+
+    fig.text(
+        0.5, 0.035,
+        "+ favorece o IVF/SPEA2 após Holm    \u2212 favorece o comparador após Holm",
+        ha="center", va="bottom", fontsize=7.5,
+        bbox=dict(facecolor="white", alpha=0.85, edgecolor="#888888", pad=3.0),
+    )
+
+    save_figure(fig, nome_arquivo, OUT_DIRS)
     plt.close(fig)
 
 
@@ -433,9 +574,12 @@ def main() -> int:
     make_fig_dist_igd(df)
     make_fig_dtlz4_bimodal()
     make_fig_posto_medio(df)
+    make_fig_posicionamento_a12(df, "IGD", False, "fig_posicionamento_a12_igd.pdf")
+    make_fig_posicionamento_a12(df, "HV", True, "fig_posicionamento_a12_hv.pdf")
 
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

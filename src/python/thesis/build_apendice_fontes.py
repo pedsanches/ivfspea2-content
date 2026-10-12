@@ -80,7 +80,7 @@ SOURCE_PT = {
         "titulo": "Calibração de parâmetros e ablação fatorial",
         "coorte": "Coortes da calibração em três fases e da ablação fatorial, mantidas separadas da comparação principal.",
         "bruto": "Os artefatos processados estão congelados; a disponibilidade do bruto varia por fase.",
-        "lacunas": "As instâncias de calibração pertencem à suíte de 51, mas são excluídas das contagens fora do ajuste.",
+        "lacunas": "As instâncias de calibração pertencem à suíte de 51, mas são excluídas das contagens fora do ajuste. O braço sem as duas decisões da ablação corresponde a execuções de outra campanha, cuja configuração e cujo orçamento não estão registrados nos artefatos.",
     },
     "memetic-computing-engineering": {
         "titulo": "Transferência para problemas de engenharia",
@@ -104,7 +104,7 @@ SOURCE_PT = {
         "titulo": "Compatibilidade entre o operador e o hospedeiro",
         "coorte": "51 instâncias sintéticas com 30 execuções por configuração; a situação de pareamento difere conforme o hospedeiro.",
         "bruto": "Os processados de desfecho estão presentes; as saídas brutas não são versionadas.",
-        "lacunas": "A comparação avalia pipelines publicados e não isola causalmente a escolha do hospedeiro das diferenças de implementação e de configuração que a acompanham; só o IVF/SPEA2 tem calibração documentada nesta suíte, e os pipelines NSGA usam configurações fixas sem registro de ajuste equivalente.",
+        "lacunas": "A comparação avalia acoplamentos tal como implementados e configurados e não isola causalmente a escolha do hospedeiro das diferenças de implementação e de configuração que a acompanham; cada acoplamento usa a configuração padrão da sua implementação, e só a do IVF/SPEA2 foi escolhida com instâncias desta suíte.",
     },
     "thesis-derived-tables": {
         "titulo": "Tabelas desta dissertação",
@@ -116,7 +116,7 @@ SOURCE_PT = {
         "titulo": "Comparação com variantes do SPEA2, métodos canônicos e abordagens modernas",
         "coorte": "Idêntica à da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra cada comparador nas execuções 1--60, 51 instâncias sintéticas, 60 execuções por algoritmo e instância, orçamento de 100.000 avaliações; sem linhas de RWMOP.",
         "bruto": "Não se aplica: a única entrada é o consolidado por execução, lido pelo filtro de coorte.",
-        "lacunas": "A comparação com os sete algoritmos comparados não é afirmação de superioridade, e o posto médio é descritivo. Os sete pertencem a três famílias complementares: variantes do SPEA2, métodos canônicos e abordagens modernas de adaptação de geometria e de pontos de referência. A coluna do IVF/SPEA2 usa a configuração promovida pela calibração e os comparadores usam as configurações publicadas padrão. Reaproveitar a coorte da comparação principal significa que estas contagens não são replicação independente da família da QP1. Os arquivos pairwise_ivf_vs_all.csv e afins são proibidos como entrada: foram calculados sobre o rótulo misto do IVF/SPEA2 e sem correção de multiplicidade.",
+        "lacunas": "A comparação com os sete algoritmos comparados não é afirmação de superioridade, e o posto médio é descritivo. Os sete pertencem a três famílias complementares: variantes do SPEA2, métodos canônicos e abordagens modernas de adaptação de geometria e de pontos de referência. Cada algoritmo usa a sua configuração padrão; a do IVF/SPEA2 foi definida pela calibração em 12 das 51 instâncias. Reaproveitar a coorte da comparação principal significa que estas contagens não são replicação independente da família da QP1. Os arquivos pairwise_ivf_vs_all.csv e afins são proibidos como entrada: foram calculados sobre o rótulo misto do IVF/SPEA2 e sem correção de multiplicidade.",
     },
 }
 

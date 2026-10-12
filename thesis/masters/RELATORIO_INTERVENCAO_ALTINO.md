@@ -851,3 +851,52 @@ ausentes do texto).
 - `OQ-02` e `OQ-04` continuam bloqueadas; os manuscritos não serão alterados;
 - revisão das respostas da §8 de `REWRITE_SPEC.md` e das remissões ao Cap. 9 (pendentes desde a R18);
 - decidir se a precisão "observável e janela escolhidos antes das dobras" entra no resumo e no abstract (o autor optou, nesta sessão, só pela ressalva S11).
+
+## M. Ajustes pós-R19 — cinco imprecisões locais, 2026-10-11
+
+Escopo fixado pela instrução da tarefa; nenhum número, coorte, teste ou conclusão mudou. Diff em
+`.omp/runs/r19-ajustes.diff`.
+
+| Item | Antes | Depois | Evidência | Verificação |
+|---|---|---|---|---|
+| P1 | `cap_VI.tex:63` "correspondem a nove funções"; `cap_V.tex:77` "49 funções distintas"; nota da Tabela 5.8 "nove funções" | "nove pares de função e número de objetivos"; "49 pares distintos de função e número de objetivos"; nota pelo gerador `build_tab_geometria_confirmatoria.py` | `config/hosts_front_geometry.csv`: 51 linhas, 49 pares (função, $M$) após juntar MaF7 e DTLZ7, 9 pares e 7 funções entre as 11 irregulares. Ocorrências WFG ("nove funções" em `cap_VII.tex:86`, `data-sources.toml`, `build_tab_wfg_exploratoria.py`) e "três funções" (`cap_VII.tex:21`) estão corretas e ficaram | `make thesis-tables`: só `tab_geometria_confirmatoria.tex` mudou |
+| P2 | `cap_VII_complementares.tex:135` "A regra e a partição de suítes acertam as mesmas decisões nesse resumo" | "todo acerto da regra é também acerto da partição de suítes, mas a partição acerta ainda o DTLZ6 com $M=2$ e $M=3$, em que a regra erra"; ressalva causal mantida | Recálculo descartável com os limiares de `dynamic_signal_lofo.csv`: 37 acertos da regra (29+8, como tp/tn do artefato), 39 da partição, 0 acertos só da regra, 2 só da partição (DTLZ6, $M=2$ e $3$, "ajuda"); BA 0,7537 e 0,7780; Tabelas 6.10 e 6.11 | `claims.py diff`: números novos só os $M$ já presentes na frase anterior |
+| P3 | `cap_II.tex:223` "que explora o pareamento e tem maior poder"; l.225 sem remissão | Afirmação de poder retirada; l.225 remete ao par IVF/SPEA2 da família de hospedeiros: "os dois algoritmos têm o mesmo número de execuções, alinhadas por ordem", Mann–Whitney como robustez, `sec:hospedeiros` (decisão do autor: não dizer que as faixas não coincidem) | Sem fonte para o poder; a exceção está em `cap_VII_complementares.tex:63` e na nota de `tab_hosts_wtl.tex` | Referência cruzada nova resolvida (Seção 6.3) |
+| P4 | `cap_V.tex:84` "desses 10.000 pontos de referência" | "dos pontos de referência devolvidos por essa chamada" | `UniformPoint.m:4-8` (quantidade aproximada); NBI com $M=3$ devolve 9.870 pontos (recálculo de `nchoosek`); ZDT3, WFG2 e MaF2 filtram pontos | *Underfull* conhecido em cap_V:84 com a mesma badness (1776); sem *overfull* |
+| P5 | `cap_V.tex:63` "o total de avaliações é idêntico para todos" | "o orçamento de avaliações é o mesmo para todos", e a plataforma encerra a execução depois da primeira geração em que o consumo acumulado atinge ou ultrapassa o orçamento | `ALGORITHM.m:101-128` (verificação ao fim da geração); `NSGAIII.m` com `OperatorGA.m` (90 descendentes por geração com $N=91$); `MOEAD.m` (91 por geração). O consumo final da coorte principal não está nos consolidados. Na família de hospedeiros (`results/tables/convergence_summaries.csv`, `fe_max`), o NSGA-III com $M=3$ termina em 100.081 nas 690 execuções, e SPEA2 e IVF/SPEA2 em 100.000. Nenhum valor citado no texto, porque as execuções do NSGA-III e do MOEA/D da comparação principal são outras | `cap_I.tex:35` e o resumo ("mesmo número de avaliações") não foram tocados |
+
+Verificação geral: `make thesis` com 110 páginas e 0 *overfull*; `latex_check.py --compare` sem
+bloqueante novo; `thesis-tables-check`, `verify-release`, `bib_check.py`, `thesis-doctor` e
+`make test` OK; resumo (p.6) e abstract (p.7) em uma página cada.
+
+### M.1 Faixas de identificadores de execução retiradas do texto — decisão do autor
+
+O autor decidiu que o texto informa só a quantidade de execuções; os identificadores ficam no
+repositório (`results/submission_release_manifest.csv`, coluna de coorte, e `data-sources.toml`).
+
+| Local | Antes | Depois |
+|---|---|---|
+| `cap_V.tex:24` | "As execuções são identificadas por faixas numéricas, e a coorte de cada família é a faixa de execuções que ela usa; a Seção … explica as faixas…" | "A coorte de cada família é o conjunto de execuções que ela usa; a Seção … descreve a da avaliação comparativa principal." |
+| `cap_V.tex:38,41` (Tabela 5.1) | "IVF/SPEA2 3001--3060 contra SPEA2 1--60"; "IVF 3001--3030, 4001--4030 e 5001--5030" | "IVF/SPEA2 contra SPEA2"; "Três acoplamentos IVF; 51 instâncias" |
+| `cap_V.tex:48` (nota da Tabela 5.1) | "As execuções 3001--3030 e 1--30…"; "(o IVF/SPEA2 nas execuções 3001--3060 e cada algoritmo comparado nas execuções 1--60)" | "As execuções do par IVF/SPEA2…"; parêntese retirado |
+| `cap_V.tex:91` | "…por algoritmo e instância: o IVF/SPEA2 nas execuções 3001 a 3060 e o SPEA2 e cada algoritmo comparado nas execuções 1 a 60, com orçamento…" | "…por algoritmo e instância, com orçamento…" |
+| `cap_VI.tex:46` | "execuções 3001 a 3060 do IVF/SPEA2 e 1 a 60 do SPEA2, com $n = 60$ por instância e algoritmo" | "com $n = 60$ execuções por instância e algoritmo" |
+| `cap_VII_complementares.tex:63` | "as execuções 3001--3030 e 1--30 do par IVF/SPEA2…, e só as execuções 4001--4030 e 5001--5030 acrescentam…"; "gerou as execuções 5001--5030"; "os pares NSGA compartilham a faixa de execuções… no par IVF/SPEA2, as faixas não coincidem e as execuções são alinhadas por ordem" | "as execuções do par IVF/SPEA2…, e só as dos pares IVF/NSGA-II e IVF/NSGA-III acrescentam…"; "gerou as execuções do IVF/NSGA-III"; "nos pares NSGA, acoplamento e hospedeiro compartilham os identificadores de execução… no par IVF/SPEA2, os dois algoritmos têm o mesmo número de execuções, alinhadas por ordem" |
+| `cap_VII_complementares.tex:150` | "(o IVF/SPEA2 nas execuções 3001--3060 e cada algoritmo comparado nas execuções 1--60, 60 execuções por instância e algoritmo)" | ", com 60 execuções por instância e algoritmo," |
+| Notas geradas: `build_tab_confirmatorio.py`, `build_tab_magnitude_confirmatoria.py` (3 notas), `build_tab_posicionamento.py`, `build_tab_hosts.py` (2 trechos), `build_tab_tuning_ablacao.py` | "execuções 3001--3060 contra 1--60" e variantes; "as faixas não coincidem (3001--3030 e 1--30)"; "execuções 1--60 da formulação anterior" | quantidade ("60 execuções por algoritmo e instância"); "os dois algoritmos têm o mesmo número de execuções, alinhadas por ordem"; "às 60 execuções da formulação anterior" |
+
+Mantidos: `cap_V.tex:91` "execuções de faixas históricas distintas" (justifica a filtragem, sem
+identificadores); `cap_VI.tex:37` ("faixas de IGD", outro sentido); o Apêndice A oculto
+(`build_apendice_fontes.py`, fora do PDF); docstrings dos geradores; as execuções 3019 e 3049 do
+DTLZ4 (`cap_VI.tex:67,73` e rótulos da Figura 5.2), que são identificadores individuais e aguardam
+decisão do autor.
+
+Efeito no manifesto: `results/thesis/tab_posicionamento.tex` é linha do manifesto e só a nota
+mudou; `make write-checksums` regravou o hash dela (e o do próprio manifesto). A coluna de coorte do
+manifesto continua com as faixas, que é onde o leitor as encontra.
+
+Verificação: `make thesis-tables` (8 tabelas mudaram, só nas notas), `thesis-tables-check` OK,
+`verify-release` OK após `write-checksums`, `make thesis` com 110 páginas e 0 *overfull*,
+`latex_check.py --compare` sem bloqueante novo, `claims.py diff` (números removidos são só faixas;
+acrescentados: "51" e "três" na Tabela 5.1, "60" na nota da ablação, conferidos em
+`tab_hosts_wtl.tex`, `cap_VII_complementares.tex:61` e na faixa original 1–60).

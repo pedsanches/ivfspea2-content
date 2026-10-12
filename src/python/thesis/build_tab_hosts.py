@@ -6,17 +6,18 @@ the geometry stratification, and stratifies the same counts by problem suite
 (DTLZ, MaF, WFG, ZDT).
 
 The counts are pipeline-level: each coupling is a host paired with that host's
-own published IVF realisation, so the comparison does not isolate the host from
-the implementation differences that come with it.
+own IVF realisation, so the comparison does not isolate the host from the
+implementation differences that come with it. That, the cohort overlap and the
+run-order alignment of the IVF/SPEA2 pair are stated in the dissertation's text
+and threats chapter; the notes keep only what is needed to read the counts.
 
 Pairing differs by pipeline. The two NSGA couplings share run IDs with their
 hosts and are paired run by run. IVF/SPEA2 (runs 3001-3030) and SPEA2 (runs
 1-30) share none, so the per-instance statistics align them by run order, as
-the hosts paper declares. The notes state this, and the builder recomputes the
-unpaired alternative with the paper's own sensitivity procedure
-(``compute_hosts_pairing_robustness.build_rows``) instead of re-implementing it.
-It fails if that recomputation no longer reproduces the statistics the tables
-count, so the notes cannot drift from the data.
+the hosts paper declares. Before counting, the builder recomputes those
+statistics with the paper's own procedure
+(``compute_hosts_pairing_robustness.build_rows``) instead of re-implementing it,
+and fails if the recomputation no longer reproduces the statistics it counts.
 
 Writes: results/thesis/tab_hosts_wtl.tex
         results/thesis/tab_hosts_geometria.tex
@@ -50,7 +51,6 @@ PAIRING_PROCEDURE = (
 # Stats-file stem -> comparison label used by the pairing procedure.
 PAIRED_BY_RUN = {"ivfnsgaii": "IVFNSGAII_vs_NSGAII", "ivfnsgaiii": "IVFNSGAIII_vs_NSGAIII"}
 ORDER_ALIGNED = ("ivfspea2", "IVFSPEA2_vs_SPEA2")
-SIGN_WORD = {"+": "vitória", "=": "empate", "-": "derrota"}
 
 # Order matches the group labels already used in the per-instance stats CSVs.
 SUITES = ["DTLZ", "MaF", "WFG", "ZDT"]
@@ -76,127 +76,45 @@ def _counts(stats: pd.DataFrame, objectives: int) -> tuple[int, int, int]:
     )
 
 
-def _instances(n: int) -> str:
-    return {1: "uma instância", 2: "duas instâncias"}.get(n, f"{n} instâncias")
+def _verify_stats() -> bool:
+    """True when the per-instance statistics reproduce from the endpoint data.
 
-
-def _pairing_sensitivity() -> dict[str, dict] | None:
-    """Per metric: IVF/SPEA2 counts without pairing, and the instances that change.
-
-    Returns ``{"igd": {"counts": (w, t, l), "flips": [(problem, m, suite, aligned,
-    unpaired), ...]}, "hv": {...}}``, or None after printing ERRO.
+    The NSGA pairs must match the run-paired analysis and the IVF/SPEA2 pair the
+    run-order-aligned one, both recomputed by the hosts paper's procedure.
     """
     for path in (HOSTS_ENDPOINT, PAIRING_PROCEDURE):
         if not path.exists():
             print(f"ERRO: artefato ausente: {path}", file=sys.stderr)
-            return None
+            return False
     procedure = runpy.run_path(str(PAIRING_PROCEDURE), run_name="thesis_builder")
     rows = procedure["build_rows"](pd.read_csv(HOSTS_ENDPOINT))
 
-    def _modes(stem: str, comparison: str, mode: str, metric: str) -> pd.DataFrame | None:
-        stats = pd.read_csv(RESULTS_TABLES / f"hosts_{stem}_{metric}_stats.csv")
-        recomputed = rows[
-            (rows["analysis_mode"] == mode)
-            & (rows["comparison"] == comparison)
-            & (rows["metric"] == metric.upper())
-        ]
-        merged = stats[["problem", "M", "group", "sign"]].merge(
-            recomputed[["problem", "M", "sign"]],
-            on=["problem", "M"],
-            suffixes=("", "_recomputed"),
-        )
-        if len(merged) != len(stats) or not (merged["sign"] == merged["sign_recomputed"]).all():
-            print(
-                f"ERRO: a análise '{mode}' recomputada de {HOSTS_ENDPOINT.name} não "
-                f"reproduz hosts_{stem}_{metric}_stats.csv; a nota sobre o pareamento "
-                "deixaria de descrever a tabela",
-                file=sys.stderr,
-            )
-            return None
-        return merged
-
-    for stem, comparison in PAIRED_BY_RUN.items():
+    checks = [(stem, comparison, "primary_paired") for stem, comparison in PAIRED_BY_RUN.items()]
+    checks.append((*ORDER_ALIGNED, "sensitivity_order_aligned"))
+    for stem, comparison, mode in checks:
         for metric in ("igd", "hv"):
-            if _modes(stem, comparison, "primary_paired", metric) is None:
-                return None
-
-    stem, comparison = ORDER_ALIGNED
-    result: dict[str, dict] = {}
-    for metric in ("igd", "hv"):
-        aligned = _modes(stem, comparison, "sensitivity_order_aligned", metric)
-        if aligned is None:
-            return None
-        unpaired = rows[
-            (rows["analysis_mode"] == "primary_unpaired")
-            & (rows["comparison"] == comparison)
-            & (rows["metric"] == metric.upper())
-        ]
-        both = aligned.merge(
-            unpaired[["problem", "M", "sign"]], on=["problem", "M"], suffixes=("", "_unpaired")
-        )
-        signs = both["sign_unpaired"].astype(str)
-        flips = [
-            (row.problem, int(row.M), row.group, row.sign, row.sign_unpaired)
-            for row in both.sort_values(["M", "problem"]).itertuples()
-            if row.sign != row.sign_unpaired
-        ]
-        result[metric] = {
-            "counts": (
-                int((signs == "+").sum()),
-                int((signs == "=").sum()),
-                int((signs == "-").sum()),
-            ),
-            "flips": flips,
-        }
-    return result
+            stats = pd.read_csv(RESULTS_TABLES / f"hosts_{stem}_{metric}_stats.csv")
+            recomputed = rows[
+                (rows["analysis_mode"] == mode)
+                & (rows["comparison"] == comparison)
+                & (rows["metric"] == metric.upper())
+            ]
+            merged = stats[["problem", "M", "sign"]].merge(
+                recomputed[["problem", "M", "sign"]],
+                on=["problem", "M"],
+                suffixes=("", "_recomputed"),
+            )
+            if len(merged) != len(stats) or not (merged["sign"] == merged["sign_recomputed"]).all():
+                print(
+                    f"ERRO: a análise '{mode}' recomputada de {HOSTS_ENDPOINT.name} não "
+                    f"reproduz hosts_{stem}_{metric}_stats.csv",
+                    file=sys.stderr,
+                )
+                return False
+    return True
 
 
-def _flip_list(flips: list[tuple]) -> str:
-    return "; ".join(
-        f"{problem} com $M={m}$, de {SIGN_WORD[aligned]} para {SIGN_WORD[unpaired]}"
-        for problem, m, _suite, aligned, unpaired in flips
-    )
-
-
-def _pairing_note_totals(sensitivity: dict[str, dict]) -> str:
-    parts = []
-    for metric in ("igd", "hv"):
-        flips = sensitivity[metric]["flips"]
-        if not flips:
-            parts.append(f"não mudam em {metric.upper()}")
-            continue
-        wins, ties, losses = sensitivity[metric]["counts"]
-        parts.append(
-            f"mudam em {_instances(len(flips))} em {metric.upper()} "
-            f"({_flip_list(flips)}), para {fmt.wtl(wins, ties, losses)}"
-        )
-    return (
-        "Os pares IVF/NSGA-II e IVF/NSGA-III compartilham a faixa de execuções com o "
-        "hospedeiro e são pareados por execução. No par IVF/SPEA2, as faixas não "
-        "coincidem (3001--3030 e 1--30), e as execuções são alinhadas por ordem, como no "
-        "artigo de origem~\\cite{zambrano2026hosts}; sem pareamento, com o teste de "
-        "Mann--Whitney, as contagens "
-        f"do IVF/SPEA2 {parts[0]} e {parts[1]}."
-    )
-
-
-def _pairing_note_suites(sensitivity: dict[str, dict]) -> str:
-    flips = [
-        (metric, flip) for metric in ("igd", "hv") for flip in sensitivity[metric]["flips"]
-    ]
-    if not flips:
-        return "Sem pareamento, as contagens do IVF/SPEA2 por suíte não mudam."
-    changed = sorted({flip[2] for _, flip in flips})
-    detail = "; ".join(
-        f"{metric.upper()}, {_flip_list([flip])}" for metric, flip in flips
-    )
-    wfg = "" if "WFG" in changed else ", e as da WFG não mudam"
-    return (
-        "Sem pareamento, com o teste de Mann--Whitney, as contagens do IVF/SPEA2 por "
-        f"suíte mudam apenas na {' e na '.join(changed)} ({detail}){wfg}."
-    )
-
-def build_wtl(sensitivity: dict[str, dict]) -> str | None:
+def build_wtl() -> str | None:
     # One row per coupling, one column group per metric: the ordering of the
     # couplings reads down the two Total columns. The host is the name after
     # the slash in the coupling's label, so it needs no column of its own.
@@ -223,19 +141,13 @@ def build_wtl(sensitivity: dict[str, dict]) -> str | None:
             cells.append(fmt.wtl(total_w, total_t, total_l))
         rows.append(cells)
 
-    # The overlap and the pipeline-level unit of comparison are stated in the
-    # paragraph before the table; the note keeps them in one sentence, so the
-    # table still carries its own scope.
+    # Reading instructions only. The unit of comparison, the cohort overlap and
+    # the run-order alignment of the IVF/SPEA2 pair are stated in the text.
     note = (
-        "Vitórias/empates/derrotas (V/E/D) de cada acoplamento IVF contra o seu próprio "
-        "hospedeiro, nas 51 instâncias sintéticas. Teste de Wilcoxon de postos "
-        "sinalizados com correção de Benjamini--Hochberg por acoplamento e métrica, "
-        "$\\alpha = 0{,}05$, 30 execuções por algoritmo e instância, orçamento de 100.000 "
-        f"avaliações. {_pairing_note_totals(sensitivity)} A comparação é entre acoplamentos, "
-        "tal como implementados e configurados, e não isola o efeito do hospedeiro; as "
-        "execuções 3001--3030 e 1--30 do par IVF/SPEA2 "
-        "são um subconjunto da coorte da comparação principal e não constituem replicação "
-        "independente."
+        "V/E/D: vitórias/empates/derrotas de cada acoplamento IVF contra o seu hospedeiro, "
+        "nas 51 instâncias. Teste de postos sinalizados de Wilcoxon, $\\alpha = 0{,}05$, com "
+        "correção de Benjamini--Hochberg por acoplamento e métrica; 30 execuções por algoritmo "
+        "e instância, com 100.000 avaliações cada."
     )
 
     return lt.render(
@@ -246,8 +158,8 @@ def build_wtl(sensitivity: dict[str, dict]) -> str | None:
         rows=rows,
         colspec="lcccccc",
         caption=(
-            "Compatibilidade entre o operador IVF e três hospedeiros: contagens de "
-            "vitórias, empates e derrotas de cada acoplamento contra o seu hospedeiro."
+            "Contagens de cada acoplamento IVF contra o seu hospedeiro, por métrica e número "
+            "de objetivos."
         ),
         label="tab:hosts_wtl",
         producer=__file__,
@@ -298,14 +210,10 @@ def build_geometry() -> str | None:
     n_irregular = int(grouped[grouped["geometry"] == "irregular"]["n_instances"].iloc[0])
 
     note = (
-        "Vitórias/empates/derrotas (V/E/D) de cada acoplamento contra o seu hospedeiro, com o "
-        "mesmo teste, a mesma correção e o mesmo pareamento da Tabela~\\ref{tab:hosts_wtl}, "
-        "estratificadas pela geometria da fronteira de Pareto: regular (convexa, côncava ou "
-        "linear) e irregular (desconectada ou degenerada), conforme "
-        "\\texttt{config/hosts\\_front\\_geometry.csv}. $A_{12}$ é a mediana do tamanho "
-        "de efeito de Vargha--Delaney orientado a favor do acoplamento IVF; valores "
-        "acima de $0{,}5$ favorecem o IVF. Os testes de interação entre hospedeiro e "
-        "geometria não atingiram significância, de modo que a estratificação é descritiva."
+        "V/E/D como na Tabela~\\ref{tab:hosts_wtl}, separadas pela geometria da fronteira de "
+        "Pareto: regular (convexa, côncava ou linear) ou irregular (desconectada ou "
+        "degenerada). $A_{12}$: mediana, entre as instâncias, do $A_{12}$ orientado, em que "
+        "valores acima de $0{,}5$ favorecem o acoplamento IVF."
     )
 
     return lt.render(
@@ -340,7 +248,7 @@ def _suite_counts(stats: pd.DataFrame, suite: str) -> tuple[int, int, int]:
     )
 
 
-def build_suite(sensitivity: dict[str, dict]) -> str | None:
+def build_suite() -> str | None:
     if not FRONT_GEOMETRY.exists():
         print(f"ERRO: artefato ausente: {FRONT_GEOMETRY}", file=sys.stderr)
         return None
@@ -450,17 +358,10 @@ def build_suite(sensitivity: dict[str, dict]) -> str | None:
     ]
     denominators = "; ".join(f"{suite}, {n_by_suite[suite]}" for suite in SUITES)
 
-    # Unit of comparison and cohort overlap are those of Table 7.4, which the
-    # note cites instead of repeating them.
     note = (
-        "Vitórias/empates/derrotas (V/E/D) de cada acoplamento contra o seu hospedeiro, "
-        "estratificadas por suíte de problemas de teste, com o mesmo teste, a mesma correção, "
-        "o mesmo pareamento e as mesmas ressalvas de comparação e de sobreposição de coortes "
-        f"da Tabela~\\ref{{tab:hosts_wtl}}. Instâncias por suíte: {denominators}. "
-        f"{_pairing_note_suites(sensitivity)} $A_{{12}}$ é a mediana do tamanho de efeito de "
-        "Vargha--Delaney orientada a favor do IVF (valores acima de $0{,}5$ favorecem o IVF), "
-        "separada entre as instâncias WFG e as demais. A estratificação por suíte é descritiva: "
-        "nenhum teste de interação entre acoplamento e suíte foi conduzido."
+        f"V/E/D como na Tabela~\\ref{{tab:hosts_wtl}}, por suíte (instâncias: {denominators}). "
+        "$A_{12}$ mediano como na Tabela~\\ref{tab:hosts_geometria}, separado entre as "
+        "instâncias WFG e as demais."
     )
 
     return lt.render(
@@ -485,13 +386,12 @@ def build_suite(sensitivity: dict[str, dict]) -> str | None:
 
 def main() -> int:
     failed = False
-    sensitivity = _pairing_sensitivity()
-    if sensitivity is None:
+    if not _verify_stats():
         return 1
     targets = (
-        (build_wtl(sensitivity), OUT_WTL),
+        (build_wtl(), OUT_WTL),
         (build_geometry(), OUT_GEOMETRY),
-        (build_suite(sensitivity), OUT_SUITE),
+        (build_suite(), OUT_SUITE),
     )
     for content, path in targets:
         if content is None:

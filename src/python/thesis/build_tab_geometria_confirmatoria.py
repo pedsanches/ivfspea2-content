@@ -180,13 +180,6 @@ def main() -> int:
         )
         return 1
     valores_m = " e ".join(f"$M = {m[-1]}$" for m in sorted(derrotas_irr["M"]))
-    # MaF7 é implementado como o DTLZ7: cada M em que ambos são irregulares
-    # conta uma função a menos.
-    repeticoes = sum(
-        1
-        for m in irregulares["M"].unique()
-        if {"DTLZ7", "MaF7"} <= set(irregulares.loc[irregulares["M"] == m, "Problema"])
-    )
 
     # A leitura das duas famílias lado a lado (a taxa de vitória satura com 60
     # execuções e cai com 30) está no texto que cita a tabela; a nota fica com
@@ -204,10 +197,7 @@ def main() -> int:
         "estratificação é descritiva nas duas. Na família da comparação principal, as "
         f"{_POR_EXTENSO.get(len(derrotas_irr), str(len(derrotas_irr)))} derrotas irregulares "
         f"são um único problema, {problemas_irr[0]}, "
-        f"com {valores_m}, e as {len(irregulares)} instâncias irregulares correspondem a "
-        f"{_POR_EXTENSO.get(len(irregulares) - repeticoes, str(len(irregulares) - repeticoes))} "
-        "funções, porque o MaF7 repete o DTLZ7 "
-        "(Seção~\\ref{sec:suites})."
+        f"com {valores_m}."
     )
 
     content = lt.render(

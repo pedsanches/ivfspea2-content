@@ -247,22 +247,16 @@ def main() -> int:
         )
         return 1
 
-    # Where the thresholds bind, suite by suite, is Table 7.10; why HV is the
-    # primary endpoint, and what the counts mean, the text says where it cites
-    # the table. The note defines the controller, the test and the rows.
+    # Reading instructions only. The controller itself, the instance classes and
+    # why HV is the primary metric are stated where the text cites the table.
     note = (
-        "Controlador de aquecimento: ao fim dos primeiros 20\\% do orçamento, o operador é "
-        "desativado de forma irreversível nas execuções cuja renovação média do arquivo fica "
-        "abaixo do limiar. Cada suíte foi controlada com o limiar calibrado sem ela, por "
-        f"validação deixa-uma-família: {applied} (Tabela~\\ref{{tab:dinamica_suite}}). Wilcoxon "
-        "pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente; um "
-        "caso conta como vitória ou derrota do controlador quando o valor-$p$ ajustado fica "
-        "abaixo de $0{,}05$ e o $A_{12}$ sai do intervalo $[0{,}44;\\,0{,}56]$. As linhas "
-        "recuadas decompõem as instâncias em que o operador não ajuda segundo o rótulo de três "
-        "classes da comparação em IGD da coorte da comparação principal, sem correção de "
-        "multiplicidade: "
-        "neutro quando o IVF/SPEA2 não difere do SPEA2, prejudica quando perde para ele. O HV é "
-        "a métrica primária declarada desta avaliação."
+        "V/E/D do controlador contra cada algoritmo, por subconjunto de instâncias; as linhas "
+        "recuadas dividem as instâncias em que o operador não ajuda em neutras e prejudicadas "
+        "(Seção~\\ref{sec:ativacao}). Teste de postos sinalizados de Wilcoxon sobre 30 "
+        "execuções pareadas por semente, com correção de Benjamini--Hochberg; um caso conta "
+        "como vitória ou derrota quando o valor-$p$ ajustado fica abaixo de $0{,}05$ e o "
+        "$A_{12}$ sai do intervalo $[0{,}44;\\,0{,}56]$. Limiares de renovação aplicados: "
+        f"{applied}."
     )
 
     content = lt.render(
@@ -273,8 +267,8 @@ def main() -> int:
         rows=rows,
         colspec="llccc",
         caption=(
-            "Controlador de aquecimento frente ao SPEA2 canônico e ao IVF/SPEA2 sempre "
-            "ativo, por classe de instância segundo o efeito do operador."
+            "Controlador de aquecimento contra o SPEA2 e contra o IVF/SPEA2 sempre ativo, "
+            "por classe de instância."
         ),
         label="tab:controlador_wtl",
         producer=__file__,

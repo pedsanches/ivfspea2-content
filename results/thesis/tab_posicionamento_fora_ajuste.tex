@@ -1,0 +1,35 @@
+% Gerado por src/python/thesis/build_tab_posicionamento.py -- nao editar a mao.
+% Regenerar com: make thesis-tables
+% Fonte: data/processed/todas_metricas_consolidado_with_modern.csv
+% Fonte: results/tables/claims_summary_instance_details.csv
+\begin{table}[!htb]
+    \centering
+    \small
+    \setlength{\tabcolsep}{6pt}
+    \caption{Comparação do IVF/SPEA2 com os sete algoritmos comparados nas instâncias fora do ajuste.}
+    \label{tab:posicionamento_fora_ajuste}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc@{}}
+        \toprule
+         & \multicolumn{2}{c}{\textbf{IGD}} & \multicolumn{2}{c@{}}{\textbf{HV}} \\
+        \cmidrule(lr){2-3}\cmidrule(l){4-5}
+        \textbf{Algoritmo} & \textbf{$M = 2$} & \textbf{$M = 3$} & \textbf{$M = 2$} & \textbf{$M = 3$} \\
+        \midrule
+        \multicolumn{5}{@{}l@{}}{\textit{Variantes do SPEA2}} \\
+        MFO-SPEA2 & 18/4/2 & 12/3/0 & 19/3/2 & 12/3/0 \\
+        SPEA2+SDE & 23/1/0 & 12/2/1 & 19/3/2 & 7/0/8 \\
+        \midrule
+        \multicolumn{5}{@{}l@{}}{\textit{Métodos canônicos}} \\
+        NSGA-II & 22/2/0 & 14/1/0 & 21/1/2 & 14/0/1 \\
+        NSGA-III & 9/1/14 & 12/1/2 & 15/3/6 & 10/0/5 \\
+        MOEA/D & 15/1/8 & 15/0/0 & 20/2/2 & 13/1/1 \\
+        \midrule
+        \multicolumn{5}{@{}l@{}}{\textit{Abordagens modernas}} \\
+        AGE-MOEA-II & 21/1/2 & 7/3/5 & 18/2/4 & 5/0/10 \\
+        AR-MOEA & 9/4/11 & 12/1/2 & 15/4/5 & 10/0/5 \\
+        \bottomrule
+    \end{tabular*}
+    \par\smallskip
+    \parbox{\textwidth}{\footnotesize
+    V/E/D nas 24 instâncias com $M = 2$ e nas 15 com $M = 3$ que não participaram da calibração (Seção~\ref{sec:calibracao}); decisões da Tabela~\ref{tab:posicionamento}, com a correção de Holm calculada na família completa, antes do recorte.
+    }
+\end{table}

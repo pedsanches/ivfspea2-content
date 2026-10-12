@@ -17,14 +17,39 @@
 
 \begin{document}
 
-\title{Early Population Dynamics Provide Stronger Switching Signals than Static Landscape Features for Warmup-Based Operator Switching}
+\title{Static Landscape Features or Early Population Dynamics? Deciding When to Keep an Intensification Operator in SPEA2}
 
-\author{\IEEEauthorblockN{Pedro Sanches Zambrano,
-Eduardo Faria de Souza,
-and Celso G. Camilo-Junior}
-\IEEEauthorblockA{Institute of Informatics, Federal University of Goi\'as\\
-Goi\^ania, GO, Brazil\\
-pedrosanches@discente.ufg.br}}
+\author{%
+\IEEEauthorblockN{Pedro Sanches Zambrano}
+\IEEEauthorblockA{\textit{Institute of Informatics} \\
+\textit{Federal University of Goi\'as}\\
+Goi\^ania, GO, Brazil \\
+pedrosanches@discente.ufg.br}
+\and
+\IEEEauthorblockN{Eduardo Faria de Souza}
+\IEEEauthorblockA{\textit{Institute of Informatics} \\
+\textit{Federal University of Goi\'as}\\
+Goi\^ania, GO, Brazil \\
+eduardodx01@gmail.com}
+\and
+\IEEEauthorblockN{Altino Dantas}
+\IEEEauthorblockA{\textit{Institute of Informatics} \\
+\textit{Federal University of Goi\'as}\\
+Goi\^ania, GO, Brazil \\
+tinodantas@gmail.com}
+\and
+\IEEEauthorblockN{Celso G. Camilo-Junior}
+\IEEEauthorblockA{\textit{Institute of Informatics} \\
+\textit{Federal University of Goi\'as}\\
+Goi\^ania, GO, Brazil \\
+celsocamilo@ufg.br}%
+}
+
+% IEEE copyright notice (all authors employed by neither the US government,
+% a Crown government, nor the European Union): "For all other papers".
+\IEEEoverridecommandlockouts
+\IEEEpubid{\makebox[\columnwidth]{979-8-3195-1348-9/26/\$31.00~\copyright2026 IEEE\hfill}%
+\hspace{\columnsep}\makebox[\columnwidth]{}}
 
 \maketitle
 
@@ -36,7 +61,7 @@ after a short warmup may suffice. We investigate whether static
 fitness-landscape features or early population dynamics better inform
 such a decision for an IVF-inspired intensification operator inside
 SPEA2. On 51 continuous multi-objective benchmark instances, a
-14-feature landscape feature set provides moderate signal for ranking
+14-feature landscape feature set provides a moderate signal for ranking
 expected IGD gain (Random Forest leave-one-out $r_s = 0.374$), but
 binary classification does not generalize reliably across benchmark families.
 In contrast, mean archive turnover during the first 20\% of generations
@@ -114,19 +139,24 @@ Our contributions are:
 
 \subsection{Relationship to companion work}
 The IVF operator and its empirical validation on this benchmark suite are
-presented in a companion preprint~\cite{zambrano2026ivfspea2}, which addresses
-the design, ablation, and tuning of the memetic hybrid. The companion preprint
-evaluates whether the operator improves SPEA2; it does not study adaptive
-control or landscape features. The present paper asks a different
-question---whether static landscape features or early population dynamics
-can inform a one-shot keep/drop decision for the operator---and contributes
-all landscape analysis, dynamics experiments, threshold calibration, and
-controller evaluation reported here. These reused IGD outcomes serve only to
-define fixed external labels; no landscape feature extraction, trajectory
-logging, threshold calibration, controller execution, or HV-based controller
-evaluation is reused from the companion preprint. The two papers share a
-benchmark suite and a host
-algorithm, but address distinct research questions with distinct evidence. This paper should not be read as another performance evaluation of IVF/SPEA2, but as an operator-control study using IVF/SPEA2 as a fixed case study.
+presented in a companion preprint~\cite{zambrano2026ivfspea2}, which covers the
+design, ablation, and tuning of the memetic hybrid and asks whether the operator
+improves SPEA2. The present paper instead asks whether static landscape features
+or early population dynamics can inform a one-shot keep/drop decision for the
+operator, and contributes all landscape analysis, dynamics experiments, threshold
+calibration, and controller evaluation reported here. Only the companion
+preprint's IGD outcomes are reused, and solely to define fixed external labels;
+no feature extraction, trajectory logging, threshold calibration, controller
+execution, or HV-based evaluation is carried over.
+
+The remainder of this paper is organized as follows.
+Section~\ref{sec:background} reviews SPEA2, the IVF-inspired operator, and
+multi-objective landscape analysis. Section~\ref{sec:fla} tests whether static
+landscape features predict operator benefit. Section~\ref{sec:dynamics} examines
+early population dynamics as within-run switching signals.
+Section~\ref{sec:controller} evaluates a warmup-based controller built on the
+strongest signal, and Section~\ref{sec:conclusion} discusses implications and
+limitations.
 
 %% ===================================================================
 \section{Background}
@@ -140,8 +170,7 @@ algorithm that maintains a population and an external archive of fixed size
 $\bar{N}$. Fitness assignment combines a strength-based raw fitness with a
 $k$-nearest-neighbor density estimate; environmental selection retains all
 individuals with fitness below~1, applying distance-based truncation when the
-non-dominated set exceeds $\bar{N}$. The full formulation appears
-in~\cite{zitzler2001spea2}.
+non-dominated set exceeds $\bar{N}$.
 
 \subsection{The IVF-Inspired Crossover Operator}
 \label{sec:ivf}
@@ -151,7 +180,7 @@ The intensification operator studied here derives from a family of
 single-objective search and later extended to multi-objective
 settings~\cite{camilo-junior2011,sampaio2017ivf,sampaio2019ivf,Sampaio2024}.
 The operator introduces two mechanisms:
-\textbf{(H1)~Dissimilar father selection} selects a fraction $C$ of the
+\textbf{(H1)~Dissimilar father selection} chooses a fraction $C$ of the
 population as ``mothers'' and pairs each mother with a father chosen for high
 objective-space distance (top-3 candidates, binary tournament on fitness).
 \textbf{(H2)~Collective acceptance criterion} applies IVF cycles
@@ -204,10 +233,9 @@ and acceptance mechanisms to SPEA2's fitness assignment.
 \subsection{Fitness Landscape Analysis for Multi-Objective Optimization}
 \label{sec:fla_background}
 
-Fitness landscape analysis characterizes optimization problems through
-computable numerical features~\cite{mersmann2011exploratory}. For
-single-objective problems, ELA features have supported effective algorithm
-selection~\cite{kerschke2019automated}. The multi-objective setting is harder
+For single-objective problems, Exploratory Landscape Analysis (ELA) features
+have supported effective algorithm selection~\cite{kerschke2019automated}.
+The multi-objective setting is harder
 because the landscape is vector-valued and must capture dominance structure,
 Pareto front geometry, and objective correlation.
 
@@ -215,7 +243,7 @@ Liefooghe et al.~\cite{liefooghe2018landscape} proposed landscape features
 for multi-objective optimization based on random walks and sample-based
 probes, capturing distributional properties of objective values, dominance
 relationships, and fitness-distance correlations. Whether such features carry
-useful signal for operator-level decisions---rather than full algorithm
+a useful signal for operator-level decisions---rather than full algorithm
 selection---has received little attention.
 
 
@@ -223,7 +251,7 @@ selection---has received little attention.
 \section{Can Static Features Predict Operator Benefit?}
 \label{sec:fla}
 
-\subsection{Experimental Setup}
+\subsection{Benchmark Suite and Operator-Benefit Labels}
 \label{sec:fla_setup}
 
 We evaluate IVF-SPEA2 and standard SPEA2 on 51 synthetic benchmark instances
@@ -271,7 +299,7 @@ $\hat{A}_{12}$ is oriented so that values above~0.5 favor IVF-SPEA2, i.e.,
 indicate lower IGD than SPEA2. All
 remaining instances are labeled \textsc{Not helpful}. This yields
 41~\textsc{Helpful} and 10~\textsc{Not helpful} in the binary view (the 10
-comprise 6~neutral and 4~hurts cases). These labels are analysis categories
+comprise 6~neutral and 4~harmful cases). These labels are analysis categories
 for this benchmark cohort, not family-wise corrected claims of universal
 per-instance truth.
 
@@ -378,7 +406,7 @@ validation; classification is weak in both cases.
 The static FLA result should be read narrowly. The retained descriptors
 contain useful prior information about gain magnitude, but the stronger LOOCV
 classification signal disappears in family-held-out tests.
-Other multi-objective landscape feature frameworks, such as PLON or Deep-ELA,
+Other multi-objective landscape feature frameworks, such as Pareto local optima networks (PLON) or Deep-ELA,
 remain untested and could change this picture.
 
 Ranking expected gain, however, is not sufficient for an in-run keep/drop
@@ -406,7 +434,7 @@ that the stronger LOOCV signal does not generalize.
 	\caption{Static versus dynamic signals for binary operator switching.
 		Cross-family (LFO-CV) performance of static-landscape classifiers and
 		the early-turnover rule. Static methods collapse below random
-		(BA~=~0.5, dashed), while early turnover provides actionable signal
+		(BA~=~0.5, dashed), while early turnover provides an actionable signal
 		(BA~=~0.754, MCC~=~0.413).}
 	\label{fig:classifier}
 \end{figure}
@@ -421,7 +449,7 @@ turn from ex ante descriptors to warmup summaries from paired trajectories.
 The goal is to identify a signal observable during a run that
 separates \textsc{Helpful} from \textsc{Not helpful} cases.
 
-\subsection{Experimental Design}
+\subsection{Paired-Seed Trajectory Protocol}
 \label{sec:dynamics_setup}
 
 For the dynamic analysis, we execute 30 paired-seed runs on the same 51
@@ -434,8 +462,7 @@ and IVF cycle count$(t)$. This yields $51 \times 30 \times 2 = 3{,}060$
 synthetic trajectory runs. The operator-benefit labels used throughout this
 section and the next are those derived from the independent-run cohort
 (60~runs per algorithm, Section~\ref{sec:fla_setup}); they are applied
-unchanged to this paired-seed cohort. One additional engineering case was
-logged in the broader batch but is excluded from the label-based tests.
+unchanged to this paired-seed cohort.
 
 \subsection{Trajectory Patterns and Self-Regulation}
 \label{sec:trajectories}
@@ -455,7 +482,8 @@ benefit can emerge at different phases of the run.
 		divergence; (c)~WFG8 near-neutral; (d)~WFG2 harmful case.
 		The vertical dashed line at 20\% of generations marks the
 		warmup horizon used by the controller. Trajectories reveal that
-		IVF benefit can emerge immediately or after a crossover.}
+		IVF benefit can emerge immediately or after a crossover; y-axis limits
+		are instance-specific because IGD scales differ across benchmarks.}
 	\label{fig:trajectories}
 \end{figure*}
 
@@ -696,9 +724,9 @@ always-on IVF (41/51 \textsc{Helpful}), raw label frequency alone is not the
 right target. We thus read the controller as a risk-management mechanism:
 it avoids hypervolume losses against always-on IVF on all 10 instances where
 IVF is unhelpful, at the cost of forfeiting some gains on 9 of 41 beneficial
-instances---all concentrated in WFG. The controller should therefore be
-interpreted as a risk-management mechanism relative to always-on IVF, not as a
-guarantee of recovery to canonical SPEA2 performance.
+instances---all concentrated in WFG. It should therefore be read as downside
+protection against always-on IVF, not as a guarantee of recovery to canonical
+SPEA2 performance.
 Table~\ref{tab:ctrl_wtl} summarizes the controller performance under
 family-wise out-of-sample thresholds; Fig.~\ref{fig:wfg_failure} details
 the concentration of losses in that family.
@@ -728,7 +756,7 @@ more suitable for the actual keep/drop decision.
 
 \subsection{Limitations}
 Our FLA analysis uses ELA-style features; more specialized descriptors such as
-Pareto local optima networks~\cite{ochoa2024funnels} or learned features
+PLON~\cite{ochoa2024funnels} or learned features
 (Deep-ELA~\cite{seiler2024deep}) remain untested. The sample size
 ($n = 51$) is modest and class-imbalanced (41:10), which makes threshold
 calibration uncertain. The controller uses a single feature with family-wise

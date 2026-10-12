@@ -175,7 +175,11 @@ Identidade canônica:
 
 - implementação principal: `IVFSPEA2V2`;
 - rótulo de apresentação: IVF/SPEA2;
-- configuração promovida: C26;
+- configuração padrão do IVF/SPEA2: C26 (decisão do autor, 2026-10-11; até então
+  "configuração promovida"). O termo é apresentado na §6.2, onde a calibração a fixa, e
+  vale em todo o texto; as demais configurações chamam-se configuração inicial
+  ($c=0{,}11$, $r=0{,}10$, $m=0$, $v=0$, $\ell=3$), melhor configuração da fase A e,
+  para o braço da ablação sem as duas decisões, acoplamento sem as duas decisões;
 - parâmetros, por identificador de implementação: `C=0.12`, `R=0.225`, `M=0.3`,
   `V=0.1`, `Cycles=2`;
 - parâmetros, por símbolo no texto: $c=0{,}12$, $r=0{,}225$, $\ell=2$, $m=0{,}3$,
@@ -253,8 +257,8 @@ confirmação principal. "Principal" descreve o papel da avaliação; não afirm
 pré-especificação, cuja anterioridade não está verificada (`OQ-26`), nem cria categoria
 nova de força estatística.
 
-Pergunta: sob orçamento fixo, o IVF/SPEA2 melhora o SPEA2 canônico na suíte
-sintética declarada?
+Pergunta: com a mesma quantidade de avaliações das funções objetivo, o IVF/SPEA2
+melhora o SPEA2 canônico na suíte sintética declarada?
 
 - comparação principal: IVF/SPEA2 × SPEA2;
 - 60 execuções por algoritmo;
@@ -315,8 +319,8 @@ Cada afirmação comparativa deve conter ou tornar recuperáveis:
 
 Formulações compatíveis:
 
-- “No escopo sintético avaliado e sob o mesmo orçamento, o IVF/SPEA2
-  apresentou melhora delimitada em relação ao SPEA2.”
+- “No escopo sintético avaliado e com a mesma quantidade de avaliações das funções
+  objetivo, o IVF/SPEA2 apresentou melhora delimitada em relação ao SPEA2.”
 - “O HV fornece suporte secundário ao padrão observado no IGD.”
 - “A comparação com os demais baselines tem caráter exploratório.”
 - “A transferência para problemas de engenharia produziu resultados mistos.”
@@ -366,6 +370,20 @@ Decisão do autor (2026-10-03). A legenda de figura ou tabela é concisa e traz 
 o necessário para identificar o que o objeto mostra. A leitura dos painéis, as
 definições, a interpretação e as ressalvas ficam no parágrafo que cita o objeto. O
 que a legenda interna da figura já explica não se repete na legenda.
+
+**Notas de tabela** (decisão do autor, 2026-10-11). A nota sob a tabela é instrução de
+leitura: o que cada número é, unidade e número de instâncias, execuções e avaliações, teste,
+correção e $\alpha$, e as siglas da própria tabela, em cerca de 50 palavras. Interpretação vai
+para o parágrafo que cita a tabela; limite de desenho do estudo, para uma frase de alcance na
+seção; ressalva que vale para várias famílias, para o Cap. 8, uma vez; detalhe que só responde
+"como exatamente", para as respostas prontas da banca (`REVISION_PLAN.md` §8). Caminho de
+arquivo não entra em nota. Nada sai sem destino registrado.
+
+**Texto autocontido** (decisão do autor, 2026-10-11). O texto descreve o próprio trabalho sem
+"manuscrito de origem", "estudo original" ou "reanálise"; as publicações derivadas aparecem na
+§7.8, e trabalho de outros autores é citado pelo nome. Pendente de decisão do autor: onde
+declarar as divergências de leitura com os artigos derivados que hoje ficam no ponto em que
+ocorrem (gatilho, nota de rodapé da §4.1; geometria, §7.1 e §5.3.3), regra que `voz.md` §8 fixa.
 
 ## 10. Citações e absorção dos artigos
 

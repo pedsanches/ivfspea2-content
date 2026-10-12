@@ -1459,3 +1459,225 @@ ou informação que amplie indevidamente a exposição de material inédito.
   tiveram, em parte, só os metadados conferidos. A declaração de uso de IA é rascunho para
   revisão do autor e do orientador.
 - **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.
+
+### 2026-10-11 — ajustes pós-R19: cinco imprecisões locais (P1–P5)
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp; o ambiente reporta o modelo
+  `anthropic/claude-opus-5-5`, a confirmar antes de uma declaração formal. Sem subagentes.
+- **Fase:** revisão (edição de linha) depois de auditoria pós-R19.
+- **Finalidade:** corrigir cinco imprecisões apontadas pela auditoria, sem mudar número, coorte,
+  teste ou conclusão: unidade "funções" × "pares de função e número de objetivos" (P1); relação
+  entre os acertos da regra de renovação e da partição de suítes (P2); afirmação de poder do teste
+  pareado e remissão à exceção do par IVF/SPEA2 (P3); cardinalidade do conjunto de referência
+  (P4); "total de avaliações idêntico" (P5).
+- **Decisões tomadas pelo autor:** o escopo e as formas preferidas vieram da instrução da tarefa;
+  as escolhas de redação dentro dela estão em `RELATORIO_INTERVENCAO_ALTINO.md` §M.
+- **Arquivos afetados:** `tex/cap_II.tex` (l.223, 225), `tex/cap_V.tex` (l.63, 77, 84),
+  `tex/cap_VI.tex` (l.63), `tex/cap_VII_complementares.tex` (l.135);
+  `src/python/thesis/build_tab_geometria_confirmatoria.py` (nota e comentário) e, regenerada,
+  `results/thesis/tab_geometria_confirmatoria.tex`; `RELATORIO_INTERVENCAO_ALTINO.md` §M e esta
+  entrada.
+- **Texto científico alterado:** cinco trechos, reescritos no mesmo degrau de força ou abaixo;
+  nenhum número de resultado, citação ou rótulo mudou. Saíram "10.000 pontos" (cap_V:84) e "tem
+  maior poder" (cap_II:223); entrou uma remissão a `sec:hospedeiros` (cap_II:225).
+- **Entradas inspecionadas:** `config/hosts_front_geometry.csv`; `data/processed/dynamic_signal_test.csv`
+  e `results/tables/dynamic_signal_lofo.csv` (recálculo descartável dos acertos por instância);
+  `results/thesis/tab_dinamica_suite.tex`, `tab_ativacao_robustez.tex`, `tab_hosts_wtl.tex`;
+  código da PlatEMO (`ALGORITHM.m`, `PROBLEM.m`, `UniformPoint.m`, `OperatorGA.m`, `NSGAIII.m`,
+  `MOEAD.m` e os `GetOptimum` de ZDT, DTLZ, WFG e MaF); `results/tables/convergence_summaries.csv`
+  e `artifact/ppsn2026-ivf-hosts-rev1/tables/hosts_fe_audit.tex` (consumo final na família de
+  hospedeiros). Nenhuma consulta externa.
+- **Verificação:** `make thesis-tables` (só `tab_geometria_confirmatoria.tex` mudou),
+  `thesis-tables-check`, `verify-release`, `make thesis` (110 páginas, 0 *overfull*),
+  `latex_check.py --compare` (0 bloqueantes novos; os quatro *underfull* da linha de base, com a
+  mesma badness), `claims.py diff`, `bib_check.py` (ok=53), `thesis-doctor`, `make test` (58
+  passed), `ruff` (três achados preexistentes, idênticos aos da cópia pré-edição), grep do perfil
+  §4.1, inspeção das p.6, 7, 31, 52, 53, 62, 63, 80 e 81.
+- **Segunda etapa (mesma sessão, decisão do autor):** retiradas do texto visível as faixas de
+  identificadores de execução (3001–3060, 1–60, 3001–3030, 1–30, 4001–4030, 5001–5030), trocadas
+  pela quantidade de execuções, em `tex/cap_II.tex:225`, `cap_V.tex:24,38,41,48,91`,
+  `cap_VI.tex:46`, `cap_VII_complementares.tex:63,150` e nas notas geradas por
+  `build_tab_confirmatorio.py`, `build_tab_magnitude_confirmatoria.py`,
+  `build_tab_posicionamento.py`, `build_tab_hosts.py` e `build_tab_tuning_ablacao.py` (8 tabelas
+  regeneradas). `make write-checksums` regravou o hash de `tab_posicionamento.tex`, linha do
+  manifesto. Detalhe em `RELATORIO_INTERVENCAO_ALTINO.md` §M.1; mesmas verificações, com
+  inspeção das p.31, 51, 73 e 74.
+- **Limitações:** o consumo final de avaliações da coorte da comparação principal não está nos
+  consolidados; P5 se apoia no código e não cita valor. Revisão independente pendente.
+- **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.
+
+### 2026-10-11 — Cap. 5: §5.2 condensada, posição de tabelas e figuras da §5.3 e ressalva MaF7/DTLZ7 no Cap. 8
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp; o ambiente reporta o modelo
+  `anthropic/claude-opus-5-5`, a confirmar antes de uma declaração formal. Sem subagentes.
+- **Fase:** reescrita (edição substantiva pedida pelo autor) e revisão.
+- **Finalidade:** executar as decisões do autor de 2026-10-11 (D1 "variantes do SPEA2"; D2
+  versão 24.2.0.2923080 da PlatEMO; D3 repetição MaF7/DTLZ7 só no Cap. 8; D4 saída do parágrafo
+  do teste omnibus) e as alterações A–H do prompt da tarefa
+  (`.omp/runs/cap5_2026-10-11/PROMPT.md`): condensar a §5.2, unificar o protocolo estatístico
+  das comparações com o SPEA2 e com os sete algoritmos comparados e reordenar tabelas e figuras
+  da §5.3.3.
+- **Decisões tomadas pelo autor:** D1–D4 e o conteúdo de cada alteração vieram do prompt. As
+  escolhas de redação dentro dele, o desvio em `tex/cap_VII.tex:9` (menção ao MaF7 fora da lista
+  do prompt, retirada por D3) e os resíduos de posição dos *floats* estão em
+  `.omp/runs/cap5_2026-10-11/RELATORIO.md`.
+- **Arquivos afetados:** `tex/cap_V.tex` (§5.2.1–§5.2.5), `tex/cap_VI.tex` (l.17, 63 e ordem da
+  §5.3.3, com `\FloatBarrier` antes dela), `tex/cap_VIII.tex` (rótulo `sec:validade_interna` e
+  item "Função repetida na suíte"), `tex/cap_III.tex` (rótulo `sec:rw_variantes`),
+  `tex/cap_VII.tex:9`, `tex/cap_VII_complementares.tex:84,107`, `tex/cap_IX.tex:15`,
+  `pre/pre_resumo.tex`, `pre/pre_abstract.tex`; notas de `build_tab_confirmatorio.py`,
+  `build_tab_geometria_confirmatoria.py` (e a variável `repeticoes`, sem uso),
+  `build_tab_ativacao_robustez.py` e `build_tab_fla_dinamica.py`, com as quatro tabelas
+  regeneradas em `results/thesis/`; `REVISION_PLAN.md` (`OQ-15`, `OQ-21` e duas respostas da §8);
+  esta entrada.
+- **Texto científico alterado:** §5.2 reescrita por condensação e reorganização (sete algoritmos
+  em lista por família; definições de IGD e HV substituídas por remissão à Seção 2.4; conjunto de
+  referência descrito sem `GetOptimum` e com tamanho nominal; coorte, ressalva das 60 execuções,
+  teste e Holm valendo para os oito comparadores; magnitude e recorte restritos à comparação com o
+  SPEA2). Saíram: a frase do README (4.6), "como no manuscrito de origem", a justificativa da
+  configuração padrão, a segunda declaração de igualdade de avaliações, o parágrafo do teste
+  omnibus (as chaves `friedman1937use` e `derrac2011practical` continuam citadas nos Caps. 2 e 6)
+  e o parágrafo próprio da QP5. A repetição MaF7/DTLZ7 saiu de oito trechos do corpo, do resumo,
+  do abstract e das notas de quatro tabelas e passou a um item do Cap. 8 composto só de fatos que
+  já estavam no texto. Nenhum número de resultado, coorte, teste ou valor mudou; nenhuma célula
+  de tabela mudou.
+- **Entradas inspecionadas:** `paper/springer-nature/src/sn-article.tex:285,346`;
+  `thesis/masters/bib/modelo-tese.bib` (entrada `ivfspea2github`);
+  `src/python/thesis/build_tab_posicionamento.py` (filtro de coorte e verificação de cobertura de
+  60 contra 60 para os sete algoritmos); docstring de `build_tab_ativacao_robustez.py`;
+  `RELATORIO_INTERVENCAO_ALTINO.md:865`; `REVISION_PLAN.md` §4 e §8. Nenhuma consulta externa.
+- **Verificação:** `make thesis-tables` (só as notas das quatro tabelas mudaram),
+  `thesis-tables-check`, `make thesis` (110 páginas), `latex_check.py --compare` (0 bloqueantes
+  novos; um *underfull* a menos), `claims.py diff`, `bib_check.py` (ok=53), `prose_audit.py`
+  (mesmas 27 advertências nos arquivos tocados antes e depois), `make test` (58 passed),
+  `verify-release`, `floats_cap5.py` e inspeção das p.6, 7, 50–54, 58, 60, 62, 63 e 98.
+- **Limitações:** o critério (iii) de posição não foi cumprido para as Tabelas 5.5, 5.6, 5.8 e
+  5.9 (Δ de 2 a 3 páginas); a causa e o ajuste testado e descartado estão no relatório. Revisão
+  independente pendente.
+- **Complemento (2026-10-11, auditoria):** em `tex/cap_VII_complementares.tex:150`, a remissão
+  do protocolo da QP5 passou de `sec:estatistica` para `sec:metricas` e `sec:estatistica`,
+  porque "o HV como secundária obrigatória" ficou na §5.2.3 depois da reescrita da §5.2.
+  Só mudou a remissão. Verificação: `make thesis` (110 páginas), `latex_check.py --compare`
+  (0 bloqueantes novos) e o texto renderizado ("nas Seções 5.2.3 e 5.2.4").
+- **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.
+
+### 2026-10-11 — Cap. 7: hierarquia das respostas, redundância, força inferencial e referências (candidato)
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp; modelo `anthropic/claude-fable-5-1`
+  (identificador fixado pelo autor em 2026-10-11). Na fase de parecer,
+  três subagentes somente leitura (auditoria quantitativa, verificação de evidência externa e
+  revisão científica); a edição foi feita sem subagentes.
+- **Fase:** revisão crítica (parecer), plano revisto pelo autor e edição substantiva pedida por
+  ele.
+- **Finalidade:** aplicar o plano A/B/C revisto pelo autor nesta data: resposta de cada QP antes
+  das ressalvas; menos repetição de resultados e de limites (critério: o limite fica junto da
+  afirmação quando a sua retirada permitiria leitura errada, e o detalhamento fica no lugar
+  canônico, com remissão); distinção entre observação, interpretação e hipótese; Conclusões
+  encerradas pela contribuição principal; atribuições bibliográficas e continuidade com a
+  Introdução, o resumo e o abstract.
+- **Decisões tomadas pelo autor:** o plano e as condições da tarefa (abertura da QP2 com a
+  configuração inicial explícita; título da §7.5 com os sete algoritmos comparados e a variação
+  com o número de objetivos; ano 2027 na entrada do PPSN; CLEI sem afirmar aceite nem envio
+  final; cortes C9 e C10; menção à análise de retenção mantida; nenhuma análise nova). As
+  escolhas de redação dentro do plano são da assistência e aguardam a revisão do autor; esta
+  entrada não registra aprovação científica do texto.
+- **Arquivos afetados:** `tex/cap_VII.tex` (abertura e §7.1–§7.8), `tex/cap_I.tex` (roteiro),
+  `pre/pre_resumo.tex`, `pre/pre_abstract.tex`, `bib/modelo-tese.bib` (`zambrano2026hosts`),
+  `REVISION_PLAN.md` (linhas da QP1 e da QP4 na §2, notas da síntese e da hipótese, §3 e três
+  respostas da §8), `.omp/skills/scientific-writing-ptbr/references/terminologia.md` (título da
+  §7.5; "saldo desfavorável") e esta entrada.
+- **Texto científico alterado:** o controlador passou de "não superou" a "saldo desfavorável em
+  HV diante do IVF/SPEA2 sempre ativo" (Cap. 7, resumo; no abstract, *recorded more losses than
+  wins*); o abstract passou de *weakly associated* a *limited predictive performance*; a hipótese
+  da §7.6 passou a pós-hoc direcional (não separabilidade, em interação com o número de
+  objetivos e com os parâmetros de posição, como redutora do benefício do IVF/SPEA2 diante do
+  SPEA2), sem identificação nem exclusividade; a §7.6 deixou de usar o orçamento da calibração
+  para julgar as duas derrotas em instâncias calibradas; a §7.1 perdeu o posto médio da QP5, a
+  frase sobre a melhora "estreita" e o parágrafo que repetia a nota da tabela de geometria; a
+  §7.8 separa 0,374 (deixa-uma-instância) de 0,380 (deixa-uma-família) e nomeia a transformação
+  de Yeo--Johnson; o PPSN passou a "publicada nos anais". Nenhum resultado novo: o único número
+  acrescentado ao capítulo é 24 (= 28 − 4 contrastes favoráveis), nas Conclusões; os demais
+  números saíram ou mudaram de lugar. Nenhuma célula de tabela, figura, gerador ou dado mudou.
+- **Entradas inspecionadas:** Caps. 1, 5, 6, 8 e 9; `REVISION_PLAN.md`, `REWRITE_SPEC.md`,
+  perfil e `terminologia.md`; tabelas geradas citadas no capítulo;
+  `src/python/thesis/build_tab_fla_dinamica.py` (Yeo--Johnson ajustada no treino);
+  `src/python/fla/test_dynamic_signal.py` (`fit_best_threshold` maximiza a acurácia balanceada);
+  `paper/clei2026/` (*tag* `clei2026`, `HEAD` e versão no índice do Git),
+  `artifact/clei2026-release-notes.md` e `docs/RELEASE_IDENTITY.md`. Externas, só metadados
+  bibliográficos: Crossref (`10.1007/978-3-032-36223-0_18`, `10.1093/biomet/87.4.954`) e a página
+  do capítulo no editor; na fase de parecer, Crossref, arXiv, HAL, Springer e o PDF público da
+  tese de Sampaio (2024) para conferir as 11 citações do capítulo.
+- **Verificação:** `claims.py snapshot` e `diff` nos quatro arquivos de prosa; `prose_audit.py`
+  (14 advertências antes, 10 depois, nos arquivos tocados); grep de versionamento (só o falso
+  positivo preexistente em `tex/cap_V.tex:34`, "versão 24.2…"); `bib_check.py` sem rede (ok=54)
+  e com rede (`zambrano2026hosts`: ano 2027 da citação do editor contra 2026 da publicação
+  on-line no Crossref, divergência esperada); `make thesis` (110 páginas) e
+  `latex_check.py --compare` (0 bloqueantes novos; os 3 *underfull* da linha de base);
+  `make thesis-render` e inspeção das p. 6, 7, 9, 85–96 e 109; *hashes* de `data/processed`,
+  `results/`, `artifact/`, geradores e `paper/` idênticos antes e depois (438 arquivos).
+  Linha de base, diff exclusivo e relatório em `.omp/runs/cap7_intervencao/`.
+- **Limitações:** situação editorial do CLEI não verificável no repositório (entrada e
+  "submetida" preservadas; pendência do autor); Yeo--Johnson nomeada sem citação (candidata:
+  Yeo e Johnson, 2000, *Biometrika* 87(4):954–959, DOI `10.1093/biomet/87.4.954`, cujo registro
+  Crossref lista só o primeiro autor; inclusão é decisão do autor); D1 continua pendente;
+  revisão independente pendente; nada foi commitado.
+- **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.
+
+### 2026-10-11 — Cap. 7: revisão independente do candidato e seis correções aceitas pelo autor
+
+- **Ferramenta:** Claude Code, da Anthropic, em ambiente omp; modelo `anthropic/claude-fable-5-1`
+  (identificador fixado pelo autor em 2026-10-11). Dois subagentes somente leitura (revisão
+  científica e verificação de evidência externa); a edição foi feita sem subagentes.
+- **Fase:** revisão adversarial do candidato da entrada anterior, seguida de edição de linha
+  nos pontos que o autor aceitou.
+- **Finalidade:** parecer independente sobre força inferencial, números, referências e
+  continuidade; aplicação das correções decididas pelo autor.
+- **Decisões tomadas pelo autor:** descartou os achados sobre a ressalva do braço da ablação
+  (§7.2) e sobre a assimetria de ajuste na QP5 (§7.5); manteve a hipótese direcional da §7.6;
+  mandou repor um marcador de heterogeneidade na síntese da QP5 e o contraponto em $A_{12}$
+  nas Conclusões; aceitou as demais correções.
+- **Arquivos afetados:** `tex/cap_VII.tex` (linhas 43, 80, 89, 95, 97 e 102) e esta entrada.
+- **Texto científico alterado:** l. 97, o sujeito da repartição passou do IVF/SPEA2 para o
+  módulo IVF diante do hospedeiro ("as $N$ avaliações de cada geração", `cap_IV.tex`); l. 80,
+  o argumento sobre as duas derrotas em instâncias da calibração passou a apoiar-se no critério
+  de escolha (posto médio combinado de IGD e HV nas 12 instâncias, e não resultado por instância
+  contra o SPEA2); l. 89, reposto o contraponto da linha de base ("a mediana do seu $A_{12}$ fica
+  mais perto de $0{,}5$ que a das vitórias"); l. 95, acrescentado "O saldo não é uniforme: 25 dos
+  28 contrastes registram ao menos uma derrota por instância" (conferido em
+  `tab_posicionamento.tex`: só SPEA2+SDE em IGD com $M=2$ e NSGA-II em IGD com $M=2$ e $M=3$ não
+  têm derrota); l. 43, "a realização do módulo" entrou na lista do que difere entre a tese de
+  2024 e esta comparação; l. 102, o nome "Yeo--Johnson" saiu, porque a §6.4 e a nota da tabela
+  não o nomeiam e não há citação verificada. Nenhum número novo além de 25 e 28 (contagem de
+  contrastes já presente na §7.5); nenhuma chave `\cite` nem `\label` mudou.
+- **Entradas inspecionadas:** `.omp/runs/cap7_intervencao/` (diff aplicado às cópias da linha
+  de base e conferido byte a byte; 438 *hashes* protegidos idênticos à árvore atual);
+  `claims_summary_audit.csv`, `tab_magnitude_confirmatoria.tex`, `tab_posicionamento.tex`,
+  `tab_ablacao.tex`, `tab_controlador_wtl.tex`, `tab_wfg_exploratoria.tex`;
+  `test_dynamic_signal.py` (`fit_best_threshold` ajusta limiar e direção e maximiza a BA);
+  `cap_VII_complementares.tex`, `cap_VIII.tex`, `cap_IX.tex`, `cap_V.tex`; externas, só
+  metadados: Crossref e Springer para `10.1007/978-3-032-36223-0_18`.
+- **Verificação:** `claims.py snapshot` e `diff`; `prose_audit.py` (0 alta, 0 média; frases
+  longas introduzidas foram divididas); `make -B -C thesis/masters all` (110 páginas) e
+  `latex_check.py --compare` (0 bloqueantes novos; os 3 *underfull* da linha de base).
+- **Limitações:** achado preexistente não tratado, a critério do autor: a partição fora do
+  ajuste separa instâncias, e 10 das 39 compartilham a função com instâncias calibradas sob o
+  outro $M$ (12 contando o MaF7); pendências da entrada anterior (CLEI, D1) continuam; nada foi
+  commitado.
+- **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.
+- **Complemento (2026-10-11, D1):** por decisão do autor, as divergências de leitura com os
+  manuscritos passaram a ser declaradas só na §7.8. Edição de linha em `tex/cap_III.tex:34`
+  (citação do CLEI trocada por remissão à §6.4), `tex/cap_IV.tex:29` (rodapé removido),
+  `tex/cap_VI.tex:67` (oração final cortada), `tex/cap_VII.tex:21` (abertura pela observação) e
+  `tex/cap_VII.tex:102` (duas frases novas, gatilho e geometria, com o conteúdo do rodapé e da
+  abertura removidos; sem número novo além de "três pontos" e "quatro derrotas"). Verificação:
+  `claims.py diff` nos quatro arquivos (só as citações movidas), `prose_audit.py` (0 alta, 0 média),
+  `bib_check.py` (ok=54; as três chaves continuam citadas), `make -B` (110 páginas) e
+  `latex_check.py --compare` (0 bloqueantes novos). Cópias anteriores em
+  `.omp/runs/cap7_intervencao/d1_antes/`.
+- **Complemento (2026-10-11, CLEI):** o autor informou aceite e publicação em curso.
+  `zambrano2026clei` passou a `@inproceedings` com o título, os quatro autores e o veículo da
+  versão final de edição (`paper/clei2026/main.tex` no índice do Git; `paper/clei2026/README.md`:
+  52nd Latin American Computing Conference, Intelligent Systems Track, IEEE), sem DOI nem páginas,
+  com nota "Aceito; em processo de publicação"; a §7.8 passou de "submetida" a "aceita para
+  publicação". Os valores 0,374 e 0,380 citados na §7.8 conferem na versão final
+  (`main.tex:337--346`). O achado S7 fica como está, por decisão do autor.

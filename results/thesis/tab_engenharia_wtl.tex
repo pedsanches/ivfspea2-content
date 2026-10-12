@@ -25,6 +25,6 @@
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Contra o SPEA2: $\Delta$ é a diferença relativa entre as medianas, orientada de modo que valores positivos favoreçam o IVF/SPEA2, e $p$ é o do teste de soma de postos de Wilcoxon bicaudal sobre 60 execuções de cada algoritmo, sem correção e com $\alpha = 0{,}05$, como no processamento da família. Com correção de Holm entre os três problemas de cada métrica, nenhuma decisão muda; os valores-$p$ ajustados das diferenças significativas são: RWMOP9 em IGD, $0{,}0053$; RWMOP9 em HV, $0{,}0105$. Contra todos: vitórias/empates/derrotas (V/E/D) do IVF/SPEA2 frente a cada um dos 8 algoritmos restantes, incluído o SPEA2, sob o mesmo teste. No RWMOP8, a cobertura de execuções válidas é heterogênea (SPEA2+SDE tem 18 de 60; MOEA/D, nenhuma), e a contagem soma 7 comparadores. As contagens não se somam às da suíte sintética.
+    Contra o SPEA2: $\Delta$ é a diferença relativa entre as medianas, positiva quando favorece o IVF/SPEA2, e $p$ vem do teste de soma de postos de Wilcoxon bicaudal sobre 60 execuções de cada algoritmo, com $\alpha = 0{,}05$; com correção de Holm entre os três problemas de cada métrica, nenhuma decisão muda. Contra todos: V/E/D do IVF/SPEA2 frente a cada um dos 8 algoritmos restantes, incluído o SPEA2, pelo mesmo teste. No RWMOP8, a cobertura de execuções válidas é heterogênea (SPEA2+SDE tem 18 de 60; MOEA/D, nenhuma), e a contagem soma 7 comparadores.
     }
 \end{table}

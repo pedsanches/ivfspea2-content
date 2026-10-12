@@ -1,5 +1,6 @@
 % Gerado por src/python/thesis/build_tab_fla_dinamica.py -- nao editar a mao.
 % Regenerar com: make thesis-tables
+% Fonte: data/processed/fla_dataset.csv
 % Fonte: results/tables/fla_model_comparison.csv
 \begin{table}[!htb]
     \centering
@@ -10,8 +11,7 @@
         \toprule
         \textbf{Modelo} & \textbf{Medida} & \textbf{Deixa-uma-instância} & \textbf{Deixa-uma-família} \\
         \midrule
-        \multirow{2}{*}{Floresta aleatória (regressão)} & $r_s$ & $0{,}374$ & $0{,}380$ \\
-         & $R^2$ & $0{,}160$ & --- \\
+        Floresta aleatória (regressão) & $r_s$ & $0{,}286$ & $0{,}150$ \\
         \midrule
         \multirow{2}{*}{Floresta aleatória (classificação)} & BA & $0{,}527$ & $0{,}488$ \\
          & MCC & $0{,}059$ & $-0{,}070$ \\
@@ -28,6 +28,6 @@
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Modelos treinados sobre 14 descritores estáticos de paisagem nas 51 instâncias rotuladas. $r_s$ é a correlação de Spearman entre ganho previsto e observado, e $R^2$, o coeficiente de determinação da regressão; BA é a acurácia balanceada e MCC o coeficiente de correlação de Matthews da classificação em ajuda e não ajuda. A validação deixa-uma-família retira uma suíte inteira do treino, mas a regressão original calculou os postos da resposta nas 51 instâncias antes das dobras; MaF7 e DTLZ7 também têm implementação funcional coincidente e podem cruzar dobras por suíte. As correlações da regressão nesta tabela são históricas e exploratórias; a Tabela~\ref{tab:ativacao_robustez} reestima a regressão com pré-processamento da resposta dentro da dobra e retém DTLZ e MaF juntos. ---: valor não registrado no artefato.
+    Modelos treinados sobre 14 descritores estáticos de paisagem nas 51 instâncias rotuladas. $r_s$: correlação de Spearman entre o ganho previsto e o observado, a diferença entre as medianas de IGD; BA: acurácia balanceada; MCC: coeficiente de correlação de Matthews, na classificação em ajuda e não ajuda. Na regressão, a transformação da resposta é ajustada só no treino de cada dobra, e a validação deixa-uma-família retém DTLZ e MaF juntas; nos classificadores, retém uma suíte por vez.
     }
 \end{table}

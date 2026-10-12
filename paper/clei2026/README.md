@@ -12,6 +12,18 @@ make view     # compile and open PDF
 make clean    # remove build artifacts
 ```
 
+## Camera-ready snapshot
+
+`main.tex` and the seven PDFs in `figures/` were restored from the CLEI
+snapshot `4b10a61f91769054ab6b836a7f490db70bd1f5e4`. The build was checked
+against `2026365578.pdf`: identical extracted text and identical rasterized
+content on all nine pages at a 1600-pixel maximum dimension. IEEE PDF eXpress
+certification metadata is not reproduced by the local build.
+
+`figures/` is a local directory, not a symlink to the PPSN figure set. This
+keeps CLEI restoration and subsequent figure changes isolated from the other
+manuscripts and the dissertation.
+
 ## Template
 
 - `IEEEtran.cls` — IEEE conference document class

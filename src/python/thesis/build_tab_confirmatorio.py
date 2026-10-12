@@ -87,11 +87,10 @@ def main() -> int:
         "V/E/D: vitórias/empates/derrotas do IVF/SPEA2 contra o SPEA2 canônico; $n$: número "
         "de instâncias do escopo. Teste bicaudal de Mann--Whitney, $\\alpha = 0{,}05$; a "
         "correção de Holm é aplicada separadamente por número de objetivos e por métrica. "
-        "IGD: menor é melhor; HV: maior é melhor. Coorte: execuções 3001--3060 contra 1--60, "
-        "60 execuções por algoritmo e instância, orçamento de 100.000 avaliações. O recorte fora do "
+        "IGD: menor é melhor; HV: maior é melhor. Coorte: 60 execuções por algoritmo e "
+        "instância, orçamento de 100.000 avaliações. O recorte fora do "
         "ajuste exclui as 12 instâncias usadas na calibração e é obtido após a correção da "
-        "família completa; ele inclui o MaF7 com $M = 3$, mesma função do DTLZ7 com $M = 3$, "
-        "usado na calibração (Seção~\\ref{sec:suites})."
+        "família completa."
     )
 
     corrections = [label for _, label in CORRECTIONS]

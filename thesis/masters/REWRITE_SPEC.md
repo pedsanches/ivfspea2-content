@@ -833,6 +833,26 @@ correspondência está em `REVISION_PLAN.md`, logo após o título.
   (variantes do SPEA2: MFO-SPEA2, SPEA2+SDE; métodos canônicos: NSGA-II, NSGA-III, MOEA/D;
   abordagens modernas: AGE-MOEA-II, AR-MOEA). O enquadramento intermediário como "estado da
   arte" (§J) foi substituído na §K. A QP5 vigente está na §1.5 e na §5.1 do texto.
+- **R20 (2026-10-11) — Cap. 6 autocontido e enxuto, a partir das anotações do autor.**
+  Texto do próprio trabalho, sem "manuscrito de origem", "estudo original" nem "reanálise"
+  (§6.1, §6.4; Caps. 2 e 8); notas de tabela reduzidas a instrução de leitura (perfil §9),
+  com as ressalvas movidas para o texto ou para o Cap. 8. §6.2 passou a "Ablação e
+  calibração", na ordem dos estudos, e introduz "configuração padrão" para a C26 (terminologia
+  propagada aos Caps. 4, 5, 7, 8 e 9); `tab:tuning_c26` fundida em `tab:ablacao`, sem os
+  contrastes contra a configuração inicial (D2), e o braço sem as duas decisões declarado sem
+  configuração nem orçamento registrados (`OQ-14`). §6.3: implementações descritas pela
+  conferência contra as publicações (IVF/NSGA-III proposto no CEC 2023, `sampaio2023ivf`,
+  metadados conferidos no Crossref; critério de substituição do artigo; coleta local única),
+  sem as frases de fidelidade não verificada e de histórico do repositório (decisão do autor);
+  pareamento do par IVF/SPEA2 no Cap. 8 (`OQ-20`); configurações NSGA como padrão das
+  implementações (`OQ-25` continua no Cap. 8 e na §7.3). §6.4: um protocolo, com DTLZ e MaF
+  retidas juntas; o gerador confere que os limiares e as decisões coincidem com os do artefato
+  por suíte; regressão estrita na Tabela 6.6 (D6), valores do CLEI na §7.8; tabela de robustez
+  e `build_tab_ativacao_robustez.py` aposentados. §6.5: matriz V/E/D com $A_{12}$ mediano,
+  tabela fora do ajuste, mapas de $A_{12}$ por instância (IGD e HV) e posto médio de HV,
+  análises fixadas antes de calculadas (D7) e declaradas na §5.2.4; §7.5 e Conclusões
+  incorporam o recorte fora do ajuste. Nenhum número das famílias existentes mudou.
+  Pendente: D1 (divergências de leitura com os artigos no rodapé da §4.1, na §5.3.3 e na §7.1).
 
 Portões por rodada: `make thesis-doctor` → `make thesis` → `make thesis-render` quando
 houver mudança de layout. Por perfil §11: invocar `$write-scientific-manuscripts` antes

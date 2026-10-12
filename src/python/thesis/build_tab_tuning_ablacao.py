@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
-"""Configuration and ablation tables.
+"""Ablation and calibration comparisons, in one table.
 
-Both evidence blocks compare against the earlier formulation of the operator.
+The two studies are presented in the order in which they fixed the coupling:
+the ablation chose which coupling decisions stay, then the calibration fixed
+the parameters, and the configuration it produced became the default
+configuration of the IVF/SPEA2 (``configuração padrão``). Each study is a
+group of rows headed by the arm it evaluates; each row names one comparator.
+
 Per the author's decision recorded in ``thesis/masters/REWRITE_SPEC.md`` §1.3,
-the dissertation never labels that comparison by version number. It is named by
-what actually differs:
+the dissertation never labels a comparison by version number. Arms are named
+by what differs: the ablation compares the coupling *with* both decisions
+(dissimilar primary-donor selection and collective cycle continuation) to the
+coupling *without* them; the calibration compares the default configuration
+(``C26``) to the best configuration of phase A (``A43``).
 
-  * the tuning baseline is the *configuração inicial não ajustada* inherited
-    from the IVF literature, not "the previous version";
-  * the ablation contrast is the variant *without dissimilar-father selection
-    and without collective cycle continuation*, which is what the factorial
-    harness actually removed.
+The calibration artifact also carries contrasts against an earlier arm with
+60 runs whose budget and configuration are not recorded (``IVFSPEA2v1`` in
+the JSON). By the author's decision of 2026-10-11 those contrasts left the
+dissertation; this generator reads only the ``C26_vs_A43`` pair.
 
-The artifacts still carry the old identifier internally (``IVFSPEA2v1`` in the
-tuning JSON, ``IVFSPEA2`` in the ablation JSON); the mapping to prose labels is
-declared in ``BASELINE_LABEL`` below and applied on the way out.
-
-Writes: results/thesis/tab_tuning_c26.tex
-        results/thesis/tab_ablacao.tex
+Writes: results/thesis/tab_ablacao.tex
 """
 
 from __future__ import annotations
@@ -34,118 +36,29 @@ TUNING = RESULTS / "tuning_ivfspea2v2" / "head_to_head_c26_a43_v1_summary.json"
 ABLATION = RESULTS / "ablation_v2" / "phase3" / "phase3_summary.json"
 FACTORIAL = RESULTS / "ablation_v2" / "phase2" / "phase2_summary.json"
 
-OUT_TUNING = RESULTS_THESIS / "tab_tuning_c26.tex"
-OUT_ABLATION = RESULTS_THESIS / "tab_ablacao.tex"
+OUT = RESULTS_THESIS / "tab_ablacao.tex"
 
-# Artifact identifier -> how the dissertation names it. Never a version number.
-BASELINE_LABEL = {
-    "IVFSPEA2v1": "Configuração inicial não ajustada",
-    "IVFSPEA2": "Sem doador primário dissimilar e sem continuação coletiva",
-    "SPEA2": "SPEA2 canônico",
+# Artifact identifier -> how the dissertation names the comparator.
+ABLATION_COMPARATORS = {
+    "SPEA2": "SPEA2",
+    "IVFSPEA2": "Acoplamento sem as duas decisões",
 }
+TUNING_PAIR = "C26_vs_A43"
+TUNING_COMPARATOR = "Melhor configuração da fase A"
 
-PAIR_LABEL = {
-    "C26_vs_A43": ("Configuração promovida", "Melhor configuração da fase A"),
-    "C26_vs_IVFSPEA2v1": ("Configuração promovida", BASELINE_LABEL["IVFSPEA2v1"]),
-    "A43_vs_IVFSPEA2v1": ("Melhor configuração da fase A", BASELINE_LABEL["IVFSPEA2v1"]),
-}
-
-# Configuration the final ablation phase ran at, from its batch script
-# (scripts/experiments/run_ablation_v2_phase3_batch_common.m, lines 81 and 94-98).
-# The artifact does not record it, and it is *not* the promoted configuration
-# evaluated in the primary-comparison chapter, so the note must say so.
+# Runs and budgets from the batch scripts, which the summaries do not record:
+# scripts/experiments/run_ablation_v2_phase3_batch_common.m (lines 81-82 and
+# 94-98) and scripts/experiments/run_ivfspea2v2_tuning.m (lines 60-61).
 ABLATION_RUNS = 60
-ABLATION_CONFIG = (
-    "$c = 0{,}11$, $r = 0{,}10$, $m = 0$, $v = 0$, $\\ell = 3$"
-)
+ABLATION_BUDGET = 100_000
+TUNING_BUDGET = 50_000
+INITIAL_CONFIG = "$c = 0{,}11$, $r = 0{,}10$, $m = 0$, $v = 0$, $\\ell = 3$"
+
+METRICS = (("IGD", "igd"), ("HV", "hv"))
+NCOLS = 5
 
 
-METRICS = ("igd", "hv")
-
-
-def build_tuning() -> str | None:
-    if not TUNING.exists():
-        print(f"ERRO: artefato ausente: {TUNING}", file=sys.stderr)
-        return None
-    summary = json.loads(TUNING.read_text(encoding="utf-8"))
-
-    # One row per compared pair, one column per metric: the reader compares
-    # IGD and HV of the same pair side by side.
-    counts: dict[str, dict[str, str]] = {}
-    for metric_key in METRICS:
-        for entry in summary[metric_key]:
-            pair = entry["pair"]
-            if pair not in PAIR_LABEL:
-                print(f"AVISO: par desconhecido no artefato: {pair}", file=sys.stderr)
-                continue
-            counts.setdefault(pair, {})[metric_key] = fmt.wtl(
-                entry["wins"], entry["ties"], entry["losses"]
-            )
-
-    rows: list[list[str] | object] = []
-    for pair, (left, right) in PAIR_LABEL.items():
-        missing = [m for m in METRICS if m not in counts.get(pair, {})]
-        if missing:
-            print(f"ERRO: par {pair} sem {', '.join(missing)} no artefato", file=sys.stderr)
-            return None
-        rows.append([left, right, *(counts[pair][m] for m in METRICS)])
-
-    n_problems = len(summary["problems"])
-    coverage = summary["coverage"]
-    n_promoted = coverage["C26"]["min_runs_per_problem"]
-    n_phase_a = coverage["A43"]["min_runs_per_problem"]
-    n_historical = coverage["IVFSPEA2v1"]["min_runs_per_problem"]
-    if any(
-        coverage[key]["max_runs_per_problem"] != n
-        for key, n in (("C26", n_promoted), ("A43", n_phase_a), ("IVFSPEA2v1", n_historical))
-    ):
-        print("ERRO: cobertura desigual entre problemas na calibração", file=sys.stderr)
-        return None
-    # The note says the historical arm is the earlier formulation, so it must be:
-    # the calibrated configurations ran IVFSPEA2V2
-    # (scripts/experiments/run_ivfspea2v2_tuning.m), the baseline is IVFSPEA2.
-    baseline_algorithm = summary.get("inputs", {}).get("baseline_algorithm")
-    if baseline_algorithm != "IVFSPEA2":
-        print(
-            f"ERRO: braço histórico da calibração é {baseline_algorithm!r}, não IVFSPEA2",
-            file=sys.stderr,
-        )
-        return None
-    note = (
-        "Vitórias/empates/derrotas (V/E/D) da configuração da linha contra o comparador, nas "
-        f"{n_problems} instâncias do subconjunto de calibração. "
-        f"A configuração promovida tem {n_promoted} execuções por problema e a melhor da fase A, "
-        f"{n_phase_a}, sob 50.000 avaliações; o comparador histórico não ajustado tem "
-        f"{n_historical} execuções por problema. O orçamento desse braço não consta do "
-        "artefato desta comparação. Teste de Mann--Whitney com correção de Holm, "
-        "$\\alpha = 0{,}05$. Fase A: a primeira das três fases da calibração "
-        "(Seção~\\ref{sec:calibracao}). O comparador histórico é a formulação anterior "
-        "do operador, sem as duas decisões de acoplamento, na configuração inicial não "
-        "ajustada: o contraste com ele muda ao mesmo tempo formulação, parâmetros e "
-        "número de execuções e não isola o efeito de nenhum desses fatores."
-    )
-
-    return lt.render(
-        # "V/E/D" once, over both metrics: with it in each header the metric
-        # columns grew wide enough to break the configuration names in two.
-        header=[
-            [lt.Span("", 2), lt.Span("V/E/D", 2)],
-            ["Configuração", "Comparador", "IGD", "HV"],
-        ],
-        rows=rows,
-        colspec="llcc",
-        caption=(
-            "Calibração de parâmetros: a configuração promovida frente à melhor "
-            "configuração da fase inicial e à configuração inicial não ajustada."
-        ),
-        label="tab:tuning_c26",
-        producer=__file__,
-        sources=[TUNING],
-        note=note,
-    )
-
-
-def build_ablation() -> str | None:
+def _ablation_rows() -> list[list[str]] | None:
     missing = [path for path in (ABLATION, FACTORIAL) if not path.exists()]
     if missing:
         for path in missing:
@@ -154,8 +67,8 @@ def build_ablation() -> str | None:
     summary = json.loads(ABLATION.read_text(encoding="utf-8"))
     factorial = json.loads(FACTORIAL.read_text(encoding="utf-8"))
 
-    # The final phase must carry the factorial winner: the note describes that
-    # variant as the one with both coupling decisions and no other factor.
+    # The final phase must carry the factorial winner: the table names that
+    # variant as the coupling with both decisions and no other factor.
     winner = factorial["winner"]
     expected_flags = {"H1": 1, "H2": 1, "H3": 0, "H4": 0}
     if not summary["winner"].endswith(winner["config_id"]) or any(
@@ -167,19 +80,15 @@ def build_ablation() -> str | None:
             file=sys.stderr,
         )
         return None
-    n_combinations = len(factorial["ranking"])
-    friedman_p = float(factorial["friedman"]["p_value"])
-
-    # SPEA2 first, as in the caption and in the text that reads the table.
-    baselines = ["SPEA2", "IVFSPEA2"]
-    if sorted(summary["baselines"]) != sorted(baselines):
+    if sorted(summary["baselines"]) != sorted(ABLATION_COMPARATORS):
         print(f"ERRO: comparadores inesperados: {summary['baselines']!r}", file=sys.stderr)
         return None
 
-    rows: list[list[str] | object] = []
-    for baseline in baselines:
-        cells = [BASELINE_LABEL[baseline]]
-        for metric in ("IGD", "HV"):
+    n_instances = int(summary["n_instances"])
+    rows: list[list[str]] = []
+    for baseline, label in ABLATION_COMPARATORS.items():
+        cells = [label, str(n_instances), str(ABLATION_RUNS)]
+        for metric, _key in METRICS:
             stats = summary.get(metric, {}).get(baseline)
             if stats is None:
                 print(f"ERRO: {metric}/{baseline} ausente do artefato", file=sys.stderr)
@@ -194,50 +103,84 @@ def build_ablation() -> str | None:
                 return None
             cells.append(fmt.wtl(stats["wins"], stats["ties"], stats["losses"]))
         rows.append(cells)
+    return rows
 
-    n_instances = int(summary["n_instances"])
-    alpha = fmt.decimal(float(summary["alpha"]), places=2)
+
+def _tuning_row() -> list[str] | None:
+    if not TUNING.exists():
+        print(f"ERRO: artefato ausente: {TUNING}", file=sys.stderr)
+        return None
+    summary = json.loads(TUNING.read_text(encoding="utf-8"))
+
+    coverage = summary["coverage"]
+    runs = {key: coverage[key]["min_runs_per_problem"] for key in ("C26", "A43")}
+    if any(coverage[key]["max_runs_per_problem"] != n for key, n in runs.items()):
+        print("ERRO: cobertura desigual entre problemas na calibração", file=sys.stderr)
+        return None
+    if runs["C26"] != runs["A43"]:
+        print(f"ERRO: execuções diferentes entre C26 e A43: {runs!r}", file=sys.stderr)
+        return None
+
+    cells = [TUNING_COMPARATOR, str(len(summary["problems"])), str(runs["C26"])]
+    for _metric, key in METRICS:
+        entry = next((e for e in summary[key] if e["pair"] == TUNING_PAIR), None)
+        if entry is None:
+            print(f"ERRO: par {TUNING_PAIR} sem {key} no artefato", file=sys.stderr)
+            return None
+        cells.append(fmt.wtl(entry["wins"], entry["ties"], entry["losses"]))
+    return cells
+
+
+def build() -> str | None:
+    ablation = _ablation_rows()
+    tuning = _tuning_row()
+    if ablation is None or tuning is None:
+        return None
+
+    rows: list[list[str | lt.Span] | object] = [
+        [
+            lt.Span(
+                "\\textit{Ablação (avaliado: acoplamento com as duas decisões, na "
+                "configuração inicial)}",
+                NCOLS,
+                "l",
+            )
+        ],
+        *ablation,
+        lt.Gap,
+        [lt.Span("\\textit{Calibração (avaliada: configuração padrão)}", NCOLS, "l")],
+        tuning,
+    ]
+
     note = (
-        "Fase final da ablação fatorial: vitórias/empates/derrotas (V/E/D) da variante com as "
-        f"duas decisões de acoplamento contra cada comparador, nas {n_instances} instâncias "
-        f"sintéticas, {ABLATION_RUNS} execuções, teste de Mann--Whitney com correção de Holm, "
-        f"$\\alpha = {alpha.strip('$')}$. A variante foi a de melhor posto médio entre as "
-        f"{n_combinations} combinações da fase fatorial, que não se distinguiram entre si "
-        f"(Friedman, $p = {fmt.decimal(friedman_p).strip('$')}$). Limites do desenho: a ablação "
-        f"foi executada na configuração inicial não ajustada ({ABLATION_CONFIG}), e não na "
-        "configuração promovida avaliada na Seção~\\ref{sec:results}; o comparador sem as "
-        "duas decisões corresponde às execuções 1--60 da formulação anterior presentes na base "
-        "consolidada, produzidas em outra campanha. Evidência de justificativa da "
-        "implementação, não da comparação principal."
+        "V/E/D: vitórias/empates/derrotas do braço avaliado contra cada comparador; "
+        "$n$: número de instâncias. Teste de Mann--Whitney bicaudal, $\\alpha = 0{,}05$, "
+        f"com correção de Holm. Avaliações por execução: {fmt.integer(ABLATION_BUDGET)} "
+        "na ablação, no braço avaliado e no SPEA2, e "
+        f"{fmt.integer(TUNING_BUDGET)} na calibração. Configuração inicial: {INITIAL_CONFIG}."
     )
 
     return lt.render(
         header=[
-            [lt.Span("", 1), lt.Span("V/E/D", 2)],
-            ["Comparador", "IGD", "HV"],
+            [lt.Span("", 3), lt.Span("V/E/D", 2)],
+            ["Comparador", "$n$", "Execuções", "IGD", "HV"],
         ],
         rows=rows,
-        colspec="lcc",
-        caption=(
-            "Ablação na configuração inicial não ajustada: a variante com seleção de doador "
-            "primário dissimilar e continuação coletiva frente ao SPEA2 canônico e à "
-            "formulação sem as duas decisões."
-        ),
+        colspec="lcccc",
+        caption="Comparações par a par da ablação e da calibração.",
         label="tab:ablacao",
         producer=__file__,
-        sources=[ABLATION, FACTORIAL],
+        sources=[ABLATION, FACTORIAL, TUNING],
         note=note,
     )
 
 
 def main() -> int:
-    failed = False
-    for content, path in ((build_tuning(), OUT_TUNING), (build_ablation(), OUT_ABLATION)):
-        if content is None:
-            failed = True
-            continue
-        lt.write(path, content)
-    return 1 if failed else 0
+    content = build()
+    if content is None:
+        return 1
+    lt.write(OUT, content)
+    return 0
 
 
 if __name__ == "__main__":

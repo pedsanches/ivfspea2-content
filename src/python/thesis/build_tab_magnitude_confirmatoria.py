@@ -186,7 +186,7 @@ def _render_magnitude_fora_ajuste(tabela: pd.DataFrame) -> str:
         sources=[DETALHES, CONSOLIDADO],
         note=(
             "Apenas as 39 instâncias não usadas no ajuste (24 com $M=2$ e 15 com $M=3$). "
-            "Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, "
+            "Coorte: IVF/SPEA2 contra SPEA2, "
             "60 execuções por algoritmo e instância. O resultado é o do teste de Mann--Whitney com "
             "Holm aplicado à família completa de cada métrica e número de objetivos, antes "
             "do recorte fora do ajuste; portanto, esta tabela não reaplica Holm. "
@@ -245,7 +245,7 @@ def _render_sensibilidade(coorte: pd.DataFrame) -> str:
         producer=__file__,
         sources=[CONSOLIDADO],
         note=(
-            "Coorte: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas execuções 1--60, "
+            "Coorte: IVF/SPEA2 contra SPEA2, "
             "60 execuções independentes por algoritmo e instância. $\\Delta$ é a diferença "
             "entre medianas em porcentagem da mediana do SPEA2; valores positivos favorecem "
             "IVF/SPEA2. O IC percentil de 95\\% resulta de 10.000 reamostragens independentes "
@@ -311,9 +311,8 @@ def main() -> int:
         else f" Em {sem_delta} instâncias a mediana do SPEA2 é nula e $\\Delta$ não é definido."
     )
     note = (
-        "Coorte da comparação principal: IVF/SPEA2 nas execuções 3001--3060 contra SPEA2 nas "
-        "execuções "
-        f"1--60, {n_execucoes} execuções por algoritmo e instância, orçamento de 100.000 "
+        "Coorte da comparação principal: IVF/SPEA2 contra SPEA2, "
+        f"{n_execucoes} execuções por algoritmo e instância, orçamento de 100.000 "
         "avaliações. Resultado do teste de Mann--Whitney com correção de Holm por número de "
         "objetivos e por métrica, como na Tabela~\\ref{tab:confirmatorio_wtl}; $n$: número de "
         "instâncias com esse resultado. $A_{12}$ orientado: fração dos pares de execuções em que o "

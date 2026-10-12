@@ -88,9 +88,10 @@ cd paper && make view               # Open compiled PDF (view-ppsn2026, view-cle
 The root `Makefile` now delegates all four: `make paper`, `paper-ppsn`,
 `paper-hosts`, `paper-clei`, `paper-all`.
 
-`paper/clei2026/figures` is a **symlink** to `../ppsn2026/figures` — the two
-manuscripts share one figure set and only the symlink is tracked, so the CLEI
-directory is not self-contained on its own.
+`paper/clei2026/figures` is a **local directory** holding the seven camera-ready
+PDFs restored from the CLEI snapshot (see `paper/clei2026/README.md`); it used to
+be a symlink to `../ppsn2026/figures`, but the CLEI set is now frozen apart from
+the PPSN figures so later figure changes cannot alter the accepted manuscript.
 
 **`ppsn2026-ivf-hosts` regenerates its own evidence.** Its `assets` target runs a
 fixed sequence of `src/python/analysis/` scripts (hosts CSV → tables → geometry →

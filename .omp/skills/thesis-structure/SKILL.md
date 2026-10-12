@@ -13,7 +13,7 @@ description: Função de cada capítulo da dissertação IVF/SPEA2, continuidade
 | 2 | `tex/cap_II.tex` | SPEA2, hibridização, IVF original, indicadores (IGD, HV), estatística, paisagem e dinâmica. |
 | 3 | `tex/cap_III.tex` | Posicionamento: linhagem IVF, memética, variantes do SPEA2, FLA, controle de operadores. |
 | 4 | `tex/cap_IV.tex` | Proposta: acoplamento, gatilho e repartição das avaliações, doador primário dissimilar, critério coletivo, parâmetros. |
-| 5 | `tex/cap_V.tex` + `tex/cap_VI.tex` | Experimentação: §5.1 QP1–QP5 e famílias de evidência; §5.2 desenho e protocolos (plataforma, suítes, métricas, estatística, partição 12 × 39); §5.3 (`cap_VI.tex`, sem `\chapter`) resultados da avaliação comparativa principal. |
+| 5 | `tex/cap_V.tex` + `tex/cap_VI.tex` | Experimentação: §5.1 QP1–QP5 e as duas regras de leitura entre famílias de evidência (a antiga §5.1.1, com tabela de protocolos e mapa das execuções, está oculta em `tex/cap_V_familias.tex` desde 2026-10-11); §5.2 desenho e protocolos (plataforma, suítes, métricas, estatística com a ressalva das 60 execuções, partição 12 × 39); §5.3 (`cap_VI.tex`, sem `\chapter`) resultados da avaliação comparativa principal. |
 | 6 | `tex/cap_VII_complementares.tex` | Famílias de apoio: engenharia, calibração/ablação, hospedeiros, ativação, comparação com sete algoritmos (QP5). |
 | 7 | `tex/cap_VII.tex` | Discussão e conclusões: **único lugar** que responde QP1–QP5; §7.8 publicações derivadas. |
 | 8 | `tex/cap_VIII.tex` | Ameaças à validade (lugar canônico das ressalvas). |

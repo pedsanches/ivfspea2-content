@@ -7,7 +7,7 @@
 \begin{table}[!htb]
     \centering
     \small
-    \caption{Controlador de aquecimento frente ao SPEA2 canônico e ao IVF/SPEA2 sempre ativo, por classe de instância segundo o efeito do operador.}
+    \caption{Controlador de aquecimento contra o SPEA2 e contra o IVF/SPEA2 sempre ativo, por classe de instância.}
     \label{tab:controlador_wtl}
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llccc@{}}
         \toprule
@@ -30,6 +30,6 @@
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Controlador de aquecimento: ao fim dos primeiros 20\% do orçamento, o operador é desativado de forma irreversível nas execuções cuja renovação média do arquivo fica abaixo do limiar. Cada suíte foi controlada com o limiar calibrado sem ela, por validação deixa-uma-família: $0{,}216$ em DTLZ, MaF e ZDT, e $0{,}248$ em WFG (Tabela~\ref{tab:dinamica_suite}). Wilcoxon pareado com correção de Benjamini--Hochberg sobre 30 execuções pareadas por semente; um caso conta como vitória ou derrota do controlador quando o valor-$p$ ajustado fica abaixo de $0{,}05$ e o $A_{12}$ sai do intervalo $[0{,}44;\,0{,}56]$. As linhas recuadas decompõem as instâncias em que o operador não ajuda segundo o rótulo de três classes da comparação em IGD da coorte da comparação principal, sem correção de multiplicidade: neutro quando o IVF/SPEA2 não difere do SPEA2, prejudica quando perde para ele. O HV é a métrica primária declarada desta avaliação.
+    V/E/D do controlador contra cada algoritmo, por subconjunto de instâncias; as linhas recuadas dividem as instâncias em que o operador não ajuda em neutras e prejudicadas (Seção~\ref{sec:ativacao}). Teste de postos sinalizados de Wilcoxon sobre 30 execuções pareadas por semente, com correção de Benjamini--Hochberg; um caso conta como vitória ou derrota quando o valor-$p$ ajustado fica abaixo de $0{,}05$ e o $A_{12}$ sai do intervalo $[0{,}44;\,0{,}56]$. Limiares de renovação aplicados: $0{,}216$ em DTLZ, MaF e ZDT, e $0{,}248$ em WFG.
     }
 \end{table}

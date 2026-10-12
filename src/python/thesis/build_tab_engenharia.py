@@ -42,8 +42,8 @@ OUT = RESULTS_THESIS / "tab_engenharia_wtl.tex"
 # the two problems selected by the locked screening protocol.
 PROBLEM_ORDER = ["RWMOP9", "RWMOP21", "RWMOP8"]
 ALPHA = 0.05
-# Four decimals: the note prints Holm-adjusted values of the same p-values,
-# and with three a reader could not follow the adjustment (0,003 x 3 != 0,010).
+# Four decimals: with three, the smallest p-values (below 0,005) would lose the
+# digit that places them against the Holm thresholds the note reports.
 P_PLACES = 4
 
 # metric -> (median column, p-value column, symbol column, higher is better)
@@ -164,18 +164,6 @@ def main() -> int:
         for (problem, metric), comparison in host.items()
         if (float(comparison["p"]) < ALPHA) != (float(comparison["p_holm"]) < ALPHA)
     )
-    significant = [
-        (problem, metric)
-        for (problem, metric), comparison in host.items()
-        if float(comparison["p_holm"]) < ALPHA
-    ]
-    holm_detail = "; ".join(
-        f"{problem} em {metric}, "
-        f"{fmt.pvalue(float(host[(problem, metric)]['p_holm']), places=P_PLACES)}"
-        for problem, metric in sorted(
-            significant, key=lambda k: (PROBLEM_ORDER.index(k[0]), k[1] != "IGD")
-        )
-    )
     holm_sentence = (
         "nenhuma decisão muda"
         if not changed
@@ -212,20 +200,16 @@ def main() -> int:
             f"({'; '.join(described)}), e a contagem soma {n_counted} comparadores."
         )
 
-    # Why the positioning answers a different question, and how strong the
-    # family is, the text says where it cites the table; the note keeps the
-    # definitions, the tests and the coverage that change how a cell reads.
+    # Reading instructions only: definitions, the tests and the coverage that
+    # change how a cell reads. What each reading answers, the text says.
     note = (
-        "Contra o SPEA2: $\\Delta$ é a diferença relativa entre as medianas, orientada de modo "
-        "que valores positivos favoreçam o IVF/SPEA2, e $p$ é o do teste de soma de postos de "
-        f"Wilcoxon bicaudal sobre {host_n}, sem correção e com $\\alpha = 0{{,}}05$, como no "
-        "processamento da família. Com correção de Holm entre os três problemas de cada "
-        f"métrica, {holm_sentence}; os valores-$p$ ajustados das diferenças significativas "
-        f"são: {holm_detail}. Contra todos: vitórias/empates/derrotas (V/E/D) do "
-        f"IVF/SPEA2 frente a cada um dos {n_comparators} algoritmos restantes, incluído o "
-        f"SPEA2, sob o mesmo teste. {' '.join(coverage_sentences)} As contagens não se somam "
-        "às da suíte sintética."
-    )
+        "Contra o SPEA2: $\\Delta$ é a diferença relativa entre as medianas, positiva quando "
+        "favorece o IVF/SPEA2, e $p$ vem do teste de soma de postos de Wilcoxon bicaudal sobre "
+        f"{host_n}, com $\\alpha = 0{{,}}05$; com correção de Holm entre os três problemas de "
+        f"cada métrica, {holm_sentence}. Contra todos: V/E/D do IVF/SPEA2 frente a cada um dos "
+        f"{n_comparators} algoritmos restantes, incluído o SPEA2, pelo mesmo teste. "
+        f"{' '.join(coverage_sentences)}"
+    ).rstrip()
 
     content = lt.render(
         header=[

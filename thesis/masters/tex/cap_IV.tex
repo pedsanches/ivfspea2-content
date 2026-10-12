@@ -26,9 +26,9 @@ FE_{\text{IVF}} \leq r \cdot FE,
 \end{equation}
 em que $FE_{\text{IVF}}$ e $FE$ são os consumos acumulados definidos acima. O SPEA2 então gera os $N - n_{\text{ivf}}$ descendentes restantes com seus operadores padrão; no caso limite em que o módulo consome a cota inteira, $n_{\text{ivf}} = N$ e o hospedeiro não gera descendente algum naquela geração. Se o módulo não é ativado, ou termina antes de consumir qualquer avaliação, $n_{\text{ivf}} = 0$ e o hospedeiro gera os $N$ descendentes da geração. Em toda geração, antes do torneio de reprodução, a aptidão é recalculada sobre a população corrente (Algoritmo~\ref{alg:ivf_spea2}). O SPEA2 da plataforma não faz esse recálculo: usa no torneio a aptidão calculada na seleção ambiental anterior, sobre a união da população com os descendentes. Essa diferença, externa ao módulo, acompanha todas as comparações entre o IVF/SPEA2 e o SPEA2 (Capítulo~\ref{sec:threats}).
 
-A Equação~\ref{eq:gatilho_ivf} limita a fração acumulada das avaliações consumidas pelo módulo, e não a fase da execução em que ele age. Numa geração sem ativação, $FE$ cresce e $FE_{\text{IVF}}$ não, o que torna a condição mais fácil de satisfazer na geração seguinte; ao fim de cada geração, $FE_{\text{IVF}}$ nunca excede $r \cdot FE$ em mais do que o consumo de uma ativação. A condição não é, portanto, um teto rígido: $r$ é o limiar que decide se o módulo pode ser ativado, e a fração efetivamente consumida pode superá-lo temporariamente pelo consumo de uma ativação. O parâmetro $r$ controla, assim, a parcela do consumo acumulado destinada ao módulo, sem exigir intervenção por instância.\footnote{O manuscrito de origem~\cite{zambrano2026ivfspea2} descreve o gatilho como uma condição que se torna mais difícil de satisfazer ao longo da execução; esta dissertação segue a regra implementada, descrita acima.}
+A Equação~\ref{eq:gatilho_ivf} limita a fração acumulada das avaliações consumidas pelo módulo, e não a fase da execução em que ele age. Numa geração sem ativação, $FE$ cresce e $FE_{\text{IVF}}$ não, o que torna a condição mais fácil de satisfazer na geração seguinte; ao fim de cada geração, $FE_{\text{IVF}}$ nunca excede $r \cdot FE$ em mais do que o consumo de uma ativação. A condição não é, portanto, um teto rígido: $r$ é o limiar que decide se o módulo pode ser ativado, e a fração efetivamente consumida pode superá-lo temporariamente pelo consumo de uma ativação. O parâmetro $r$ controla, assim, a parcela do consumo acumulado destinada ao módulo, sem exigir intervenção por instância.
 
-A cota de avaliações de cada geração é preservada exatamente. Cada ciclo do módulo gera um descendente por doador secundário coletado e consome, assim, $n_p$ avaliações, em que $n_p$ é o número de doadores secundários (Algoritmo~\ref{alg:ivf_spea2}); o hospedeiro gera os $N - n_{\text{ivf}}$ descendentes restantes, e o total da geração permanece em $N$ avaliações. A comparação desta dissertação é, por isso, normalizada por avaliações, e não por tempo de execução: o IVF/SPEA2 executa operações internas adicionais, cuja ordem de custo a Seção~\ref{sec:custo} analisa, e o efeito líquido sobre o tempo de relógio não foi medido. A Seção~\ref{sec:parametros} instancia essas quantidades na configuração adotada.
+A cota de avaliações de cada geração é preservada exatamente. Cada ciclo do módulo gera um descendente por doador secundário coletado e consome, assim, $n_p$ avaliações, em que $n_p$ é o número de doadores secundários (Algoritmo~\ref{alg:ivf_spea2}); o hospedeiro gera os $N - n_{\text{ivf}}$ descendentes restantes, e o total da geração permanece em $N$ avaliações. A comparação desta dissertação é, por isso, normalizada por avaliações, e não por tempo de execução: o IVF/SPEA2 executa operações internas adicionais, cuja ordem de custo a Seção~\ref{sec:custo} analisa, e o efeito líquido sobre o tempo de relógio não foi medido. A Seção~\ref{sec:parametros} instancia essas quantidades na configuração padrão.
 
 \section{Adaptações ao SPEA2}
 \label{sec:adaptacoes}
@@ -84,7 +84,7 @@ O EAR-PA aplica mutação polinomial~\cite{deb2014analysing}, com $\eta_m = 20$,
 O Algoritmo~\ref{alg:ivf_spea2} reúne o gatilho de ativação, a coleta, as duas decisões de acoplamento e a devolução da cota restante ao hospedeiro.
 
 \begin{algorithm}[!htbp]
-\caption[Pseudocódigo do IVF/SPEA2]{IVF/SPEA2 com o mesmo orçamento de avaliações do hospedeiro}
+\caption[Pseudocódigo do IVF/SPEA2]{IVF/SPEA2 com a mesma quantidade de avaliações das funções objetivo que o hospedeiro}
 \label{alg:ivf_spea2}
 \small
 \begin{algorithmic}[1]
@@ -132,12 +132,12 @@ O Algoritmo~\ref{alg:ivf_spea2} reúne o gatilho de ativação, a coleta, as dua
 \section{Parâmetros}
 \label{sec:parametros}
 
-O módulo IVF é governado por cinco parâmetros. A Tabela~\ref{tab:parametros_ivf} apresenta os símbolos usados nesta dissertação, os identificadores correspondentes na implementação e os valores adotados, que resultam do procedimento de calibração em três fases descrito na Seção~\ref{sec:calibracao}.
+O módulo IVF é governado por cinco parâmetros. A Tabela~\ref{tab:parametros_ivf} apresenta os símbolos usados nesta dissertação, os identificadores correspondentes na implementação e os valores da configuração padrão do IVF/SPEA2, que resultam do procedimento de calibração em três fases descrito na Seção~\ref{sec:calibracao} e cujo resultado a Seção~\ref{sec:calibracao_ablacao} apresenta.
 
 \begin{table}[!htb]
     \centering
     \small
-    \caption{Parâmetros do módulo IVF: símbolo no texto, identificador na implementação e valor adotado.}
+    \caption{Parâmetros do módulo IVF: símbolo no texto, identificador na implementação e valor na configuração padrão.}
     \label{tab:parametros_ivf}
     \begin{tabularx}{\textwidth}{@{}clLc@{}}
         \toprule
@@ -155,7 +155,7 @@ O módulo IVF é governado por cinco parâmetros. A Tabela~\ref{tab:parametros_i
     Os símbolos em minúscula são usados no texto e nas equações; os identificadores em fonte monoespaçada são os nomes dos parâmetros na implementação. A distinção evita colisão com $M$, reservado nesta dissertação para o número de objetivos. O perfil EAR-PA fixa $\eta_m = 20$ para a mutação dos doadores secundários e $\eta_c = 20$, $p_c = 1$ para o SBX; o tamanho do conjunto arquivo é $\overline{N} = N$.}
 \end{table}
 
-Na configuração adotada, com $N = 100$, o módulo coleta $n_p = \operatorname{round}(0{,}12 \cdot 100) = 12$ doadores secundários, valor que supera o mínimo $M_{\text{obj}} + 1$ com dois ou três objetivos, e forma um conjunto de $\operatorname{round}(N/2) = 50$ candidatos a doador primário; o EAR-PA muta $\operatorname{round}(0{,}3 \cdot 12) = 4$ dos doadores secundários. Uma ativação consome 12 ou 24 avaliações, conforme execute um ou dois ciclos, e o hospedeiro gera os 88 ou 76 descendentes restantes da geração. A margem do gatilho cresce $r \cdot N = 22{,}5$ avaliações por geração. Com um ciclo por ativação, o módulo nunca é suspenso. No limite em que toda ativação executa os dois ciclos, ele é suspenso em uma de cada 16 gerações, distribuídas ao longo da execução, porque 15 ativações de 24 avaliações esgotam a margem de 16 gerações, $16 \times 22{,}5 = 360$ avaliações.
+Na configuração padrão, com $N = 100$, o módulo coleta $n_p = \operatorname{round}(0{,}12 \cdot 100) = 12$ doadores secundários, valor que supera o mínimo $M_{\text{obj}} + 1$ com dois ou três objetivos, e forma um conjunto de $\operatorname{round}(N/2) = 50$ candidatos a doador primário; o EAR-PA muta $\operatorname{round}(0{,}3 \cdot 12) = 4$ dos doadores secundários. Uma ativação consome 12 ou 24 avaliações, conforme execute um ou dois ciclos, e o hospedeiro gera os 88 ou 76 descendentes restantes da geração. A margem do gatilho cresce $r \cdot N = 22{,}5$ avaliações por geração. Com um ciclo por ativação, o módulo nunca é suspenso. No limite em que toda ativação executa os dois ciclos, ele é suspenso em uma de cada 16 gerações, distribuídas ao longo da execução, porque 15 ativações de 24 avaliações esgotam a margem de 16 gerações, $16 \times 22{,}5 = 360$ avaliações.
 
 \section{Custo computacional}
 \label{sec:custo}

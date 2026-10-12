@@ -2,21 +2,24 @@
 % Regenerar com: make thesis-tables
 % Fonte: results/tables/dynamic_signal_loocv.csv
 % Fonte: results/tables/dynamic_signal_lofo.csv
+% Fonte: data/processed/dynamic_signal_test.csv
 \begin{table}[!htb]
     \centering
     \small
-    \caption{Regra de limiar sobre a renovação do arquivo na fase inicial, como critério binário de ativação do operador.}
+    \caption{Regra de limiar sobre a renovação inicial do arquivo e partição por suíte, como critérios binários de ativação do operador.}
     \label{tab:dinamica_limiar}
     \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
         \toprule
-        \textbf{Validação} & \textbf{BA} & \textbf{MCC} & \textbf{Sensibilidade} & \textbf{Especificidade} & \textbf{Limiar} \\
+        \textbf{Critério} & \textbf{BA} & \textbf{MCC} & \textbf{Sensibilidade} & \textbf{Especificidade} & \textbf{Limiar} \\
         \midrule
-        Deixa-uma-instância & $0{,}691$ & $0{,}311$ & $0{,}683$ & $0{,}700$ & $0{,}223$ \\
-        Deixa-uma-família & $0{,}754$ & $0{,}413$ & $0{,}707$ & $0{,}800$ & $0{,}216$ \\
+        Regra, deixa-uma-instância & $0{,}691$ & $0{,}311$ & $0{,}683$ & $0{,}700$ & $0{,}223$ \\
+        Regra, deixa-uma-família & $0{,}754$ & $0{,}413$ & $0{,}707$ & $0{,}800$ & $0{,}216$ \\
+        \midrule
+        Partição WFG/demais & $0{,}778$ & $0{,}462$ & $0{,}756$ & $0{,}800$ & --- \\
         \bottomrule
     \end{tabular*}
     \par\smallskip
     \parbox{\textwidth}{\footnotesize
-    Regra de limiar único sobre a renovação média do arquivo nos primeiros 20\% das gerações: o operador fica ligado quando a renovação atinge o limiar. O limiar é buscado exaustivamente entre os pontos médios de valores adjacentes, maximizando a acurácia balanceada (BA), e é sempre ajustado sem o que se avalia: sem a instância retida, na validação deixa-uma-instância, e sem a suíte inteira, na deixa-uma-família. MCC: coeficiente de correlação de Matthews; sensibilidade: fração das instâncias em que o operador ajuda que a regra mantém ligado; especificidade: fração das demais que ela desliga. A coluna Limiar exibe a mediana dos limiares de cada validação; na deixa-uma-família, os limiares ajustados foram $0{,}216$ ao reter DTLZ, MaF ou ZDT e $0{,}248$ ao reter WFG.
+    Regra: o operador fica ligado quando a renovação média do arquivo nos primeiros 20\% das gerações atinge o limiar, ajustado sem a instância retida (deixa-uma-instância) ou sem a suíte retida, com DTLZ e MaF retidas juntas (deixa-uma-família); a coluna Limiar mostra a mediana dos limiares das dobras, que na deixa-uma-família foram $0{,}216$ ao reter DTLZ e MaF ou ZDT e $0{,}248$ ao reter WFG. Partição: o operador é desligado nas instâncias WFG e só nelas, sem ajuste. BA e MCC como na Tabela~\ref{tab:fla_modelos}; sensibilidade: fração das instâncias em que o operador ajuda que o critério mantém ligado; especificidade: fração das demais que ele desliga.
     }
 \end{table}
