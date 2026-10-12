@@ -485,8 +485,10 @@ Confirmar com o orientador e a secretaria do PPGCC:
 - [ ] Declaração do formato monográfico, exigida pela Resolução INF nº 02/2023/PPGCC.
 - [ ] Referência ao projeto de pesquisa cadastrado na UFG ao qual a dissertação se
   vincula (art. 40, §1º, da 1622/2018).
-- [ ] Agradecimento a financiamento ou bolsa, se houver (os agradecimentos estão
-  desativados em `main.tex`).
+- [x] Agradecimento a financiamento ou bolsa: não houve bolsa (informação do autor,
+  2026-10-11); dedicatória, agradecimentos e epígrafe ativados em `main.tex`.
+- [ ] Conferir a epígrafe (Guimarães Rosa, *Grande Sertão: Veredas*) no exemplar: o texto foi
+  conferido só em fontes secundárias concordantes (Rosa, 1994, Nova Aguilar, p. 86).
 - [ ] Declaração de uso de IA exigida pela UFG e, se aplicável, pela Portaria CNPq nº
   2.664/2026, redigida a partir de `AI_ASSISTANCE_LOG.md`.
 - [ ] O TECA assinado em 08/09/2026 traz o título atual; mudar o título exige novo termo.
