@@ -22,6 +22,9 @@ identifiers:
     value: "10.5281/zenodo.19071253"
     description: "Concept DOI — all versions"
   - type: doi
+    value: "10.5281/zenodo.23307916"
+    description: "Version dissertacao2026-defesa (2026-10-12) — superseded by dissertacao2026-defesa-r1: its CITATION.cff did not match the release manifest"
+  - type: doi
     value: "10.5281/zenodo.20672828"
     description: "Version ppsn2026 (2026-06-12) — artifact for the accepted PPSN 2026 paper"
   - type: doi
@@ -31,8 +34,8 @@ identifiers:
     value: "10.5281/zenodo.19071254"
     description: "Version v1.0.1 (2026-03-17) — Springer Nature submission snapshot"
 repository-code: "https://github.com/pedsanches/ivfspea2-content"
-version: "dissertacao2026-defesa"
-date-released: 2026-10-11
+version: "dissertacao2026-defesa-r1"
+date-released: 2026-10-12
 keywords:
   - multi-objective optimization
   - memetic computing

@@ -9,15 +9,24 @@ DOI, the one a citation should normally use — appeared nowhere at all.
 
 ## The Zenodo record
 
-There is **one** Zenodo record, titled *IVF-SPEA2*, with three published
-versions. They are not separate deposits.
+There is **one** Zenodo record, titled *IVF-SPEA2*, with six published
+versions, one per GitHub release (the GitHub–Zenodo integration archives each
+release). They are not separate deposits.
 
 | DOI | Version label | Published | Corresponding git tag |
 |---|---|---|---|
 | **`10.5281/zenodo.19071253`** | — **concept** — | resolves to latest | — |
 | `10.5281/zenodo.19071254` | `v1.0.1` | 2026-03-17 | `v1.0.0` |
+| `10.5281/zenodo.19071388` | `v1.0.0` | 2026-03-17 | `v1.0.0` |
 | `10.5281/zenodo.19637623` | `v1.0.2` | 2026-04-18 | `v1.0.2` |
+| `10.5281/zenodo.19800600` | `clei2026` | 2026-04-26 | `clei2026` |
 | `10.5281/zenodo.20672828` | `ppsn2026` | 2026-06-12 | `ppsn2026` |
+| `10.5281/zenodo.23307916` | `dissertacao2026-defesa` | 2026-10-12 | `dissertacao2026-defesa` |
+
+Versions checked against the live record
+(`https://zenodo.org/api/records?q=conceptrecid:19071253&all_versions=true`) on
+2026-10-12. The `v1.0.1` version links to a `tree/v1.0.1` tag that no longer
+exists on the remote; its mapping to `v1.0.0` is kept from the earlier record.
 
 All five authors (Zambrano, Souza, Dantas, Sampaio, Camilo-Junior) are on every
 version.
@@ -36,6 +45,11 @@ version label alongside the DOI, so a reader knows which snapshot is meant:
   version contains the artifact for the accepted PPSN paper.
 - `paper/springer-nature/` cites `19071254` (`v1.0.1`). Correct for that
   manuscript's submission snapshot; the bib entry now records the version label.
+- `thesis/masters/bib/modelo-tese.bib` (`ivfspea2github`) and the hidden Appendix B
+  cite `23307916` (`dissertacao2026-defesa`), the snapshot sent to the defense
+  committee. Author's decision on 2026-10-11, replacing the earlier choice of the
+  concept DOI. The tag holds the bytes behind the numbers; the commit that writes
+  this DOI into the bib necessarily comes after the tag.
 
 ### Superseded references
 
@@ -58,16 +72,17 @@ was already correct.
 
 ## Git tags
 
-Five tags exist and **none may be moved or deleted** — three are archived by
-Zenodo versions:
+Five tags exist on the remote, all archived by Zenodo versions, and **none may be
+moved or deleted**. `backup-main-preconsolidacao` is a local safety point only:
 
 | Tag | Date | Status |
 |---|---|---|
-| `v1.0.0` | 2026-03-17 | archived as Zenodo `v1.0.1` |
+| `v1.0.0` | 2026-03-17 | archived as Zenodo `v1.0.0` and `v1.0.1` |
 | `backup-main-preconsolidacao` | 2026-03-20 | local safety point |
 | `v1.0.2` | 2026-04-17 | archived as Zenodo `v1.0.2` |
-| `clei2026` | 2026-04-26 | CLEI submission snapshot |
+| `clei2026` | 2026-04-26 | archived as Zenodo `clei2026`; CLEI submission snapshot |
 | `ppsn2026` | 2026-06-12 | archived as Zenodo `ppsn2026`; camera-ready |
+| `dissertacao2026-defesa` | 2026-10-11 | archived as Zenodo `dissertacao2026-defesa`; dissertation sent to the committee |
 
 The tag `submission-snapshot-2026-03`, referenced by an older `README.md`, was
 never created. The README now cites `v1.0.0`. Minting a tag after the fact to

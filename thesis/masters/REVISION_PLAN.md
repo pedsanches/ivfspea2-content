@@ -327,10 +327,11 @@ Bloqueiam o depósito:
 
 - [x] **`OQ-10` — autoria e reúso (decidido em 2026-10-11).** Decisão do autor: a declaração de
   contribuição e as permissões não são necessárias; a §7.8 mantém só a lista das publicações.
-- [x] **`OQ-09` — identidade de release (decidido em 2026-10-11).** Decisão do autor: a
-  dissertação cita o DOI de conceito (`10.5281/zenodo.19071253`), conforme
-  `docs/RELEASE_IDENTITY.md`; não haverá release próprio da dissertação. Risco aceito: o DOI de
-  conceito passa a apontar para versões posteriores à dissertação.
+- [x] **`OQ-09` — identidade de release (decidido em 2026-10-11, revisto no mesmo dia).**
+  Primeira decisão: citar o DOI de conceito, sem release próprio. Revista pelo autor ao congelar
+  a versão da defesa: tag `dissertacao2026-defesa`, release no GitHub e versão Zenodo
+  `10.5281/zenodo.23307916` (publicada em 2026-10-12, conferida na API do Zenodo), citada em
+  `ivfspea2github` e no Apêndice B. O DOI de conceito continua na nota da entrada.
 - [x] **Apêndices A, B e C (decidido em 2026-10-11).** Decisão do autor: os Apêndices A e B
   permanecem fora do PDF; o Apêndice C foi aposentado. Registro em
   `RELATORIO_INTERVENCAO_ALTINO.md` §L. `pos/apend_III.tex` foi removido da árvore de trabalho
@@ -523,7 +524,7 @@ páginas e a ausência de fontes Type 3 (`pdffonts build/main.pdf`).
 | Quando | Data | Entrega |
 |---|---|---|
 | D − 5 semanas | 22/09/2026 (passada) | Leitura do orientador; decisões da §4, em especial `OQ-15`; correções da leitura; itens institucionais da §5 |
-| D − 4 semanas | 29/09/2026 (passada) | Congelamento: tag e release Zenodo; processo SEI com a versão digital; envio à banca. A tag `dissertacao-R20` foi criada em 2026-10-11, 12 dias depois desta data; os demais itens dependem de secretaria e orientador |
+| D − 4 semanas | 29/09/2026 (passada) | Congelamento: tag e release Zenodo; processo SEI com a versão digital; envio à banca. Feito em 2026-10-11/12, 12 dias depois desta data: tag `dissertacao2026-defesa`, versão Zenodo `10.5281/zenodo.23307916`. Processo SEI e envio à banca dependem de secretaria e orientador |
 | D − 3 a D − 1 semana | 06/10 a 20/10/2026 | Apresentação em quatro blocos, um por QP; dois ensaios |
 | D + 30 dias | 26/11/2026 | Versão final com as correções da banca e depósito na BDTD, se vale a CEPEC 1622/2018 |
 | D + 60 dias | 26/12/2026 | Idem, se vale a CEPEC 1983/2026 |

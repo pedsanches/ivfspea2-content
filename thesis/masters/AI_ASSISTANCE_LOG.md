@@ -1716,3 +1716,9 @@ ou informação que amplie indevidamente a exposição de material inédito.
   Nova Aguilar, p. 86), e não no exemplar; o nome por extenso da unidade "DC" da UERJ não foi
   confirmado; a banca está solicitada, não nomeada; a grafia "i4soft" é a do autor.
 - **Declaração:** destino a definir com o orientador, a partir deste log e do rascunho.
+- **Complemento (2026-10-12, congelamento):** a pedido do autor, a IA criou a tag
+  `dissertacao2026-defesa` e o release no GitHub, que o Zenodo arquivou como versão
+  `10.5281/zenodo.23307916` (DOI obtido da API do Zenodo após a publicação e conferido em
+  doi.org, não estimado). A IA reescreveu a entrada `ivfspea2github` e a frase do DOI no
+  Apêndice B (oculto) para citar essa versão, e atualizou `CITATION.cff` e
+  `docs/RELEASE_IDENTITY.md`. Nenhum texto científico mudou.
