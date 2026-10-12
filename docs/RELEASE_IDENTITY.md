@@ -9,7 +9,7 @@ DOI, the one a citation should normally use — appeared nowhere at all.
 
 ## The Zenodo record
 
-There is **one** Zenodo record, titled *IVF-SPEA2*, with six published
+There is **one** Zenodo record, titled *IVF-SPEA2*, with seven published
 versions, one per GitHub release (the GitHub–Zenodo integration archives each
 release). They are not separate deposits.
 
@@ -21,7 +21,8 @@ release). They are not separate deposits.
 | `10.5281/zenodo.19637623` | `v1.0.2` | 2026-04-18 | `v1.0.2` |
 | `10.5281/zenodo.19800600` | `clei2026` | 2026-04-26 | `clei2026` |
 | `10.5281/zenodo.20672828` | `ppsn2026` | 2026-06-12 | `ppsn2026` |
-| `10.5281/zenodo.23307916` | `dissertacao2026-defesa` | 2026-10-12 | `dissertacao2026-defesa` |
+| `10.5281/zenodo.23307916` | `dissertacao2026-defesa` | 2026-10-12 | `dissertacao2026-defesa` (superseded) |
+| `10.5281/zenodo.23307942` | `dissertacao2026-defesa-r1` | 2026-10-12 | `dissertacao2026-defesa-r1` |
 
 Versions checked against the live record
 (`https://zenodo.org/api/records?q=conceptrecid:19071253&all_versions=true`) on
@@ -46,10 +47,11 @@ version label alongside the DOI, so a reader knows which snapshot is meant:
 - `paper/springer-nature/` cites `19071254` (`v1.0.1`). Correct for that
   manuscript's submission snapshot; the bib entry now records the version label.
 - `thesis/masters/bib/modelo-tese.bib` (`ivfspea2github`) and the hidden Appendix B
-  cite `23307916` (`dissertacao2026-defesa`), the snapshot sent to the defense
+  cite `23307942` (`dissertacao2026-defesa-r1`), the snapshot sent to the defense
   committee. Author's decision on 2026-10-11, replacing the earlier choice of the
   concept DOI. The tag holds the bytes behind the numbers; the commit that writes
-  this DOI into the bib necessarily comes after the tag.
+  this DOI into the bib necessarily comes after the tag. The bib's `note` repeats
+  the DOI because `inf-ufg.bst` does not print the `doi` field.
 
 ### Superseded references
 
@@ -57,6 +59,11 @@ version label alongside the DOI, so a reader knows which snapshot is meant:
 it is not wrong, only older. It appears inside `artifact/ppsn2026-ivf-hosts-rev1/`
 because those files are the **deposited bytes** of that version. They are not
 edited; a banner in the release notes points forward to `ppsn2026` instead.
+
+`10.5281/zenodo.23307916` (`dissertacao2026-defesa`) is also permanently valid,
+but `make verify-release` fails inside it: `CITATION.cff` was edited after the
+check ran, so the manifest hash for that file is stale. No evidence file differs
+from `dissertacao2026-defesa-r1`, which supersedes it. Do not cite it.
 
 ## Non-Zenodo identifiers
 
@@ -72,7 +79,7 @@ was already correct.
 
 ## Git tags
 
-Five tags exist on the remote, all archived by Zenodo versions, and **none may be
+Six tags exist on the remote, all archived by Zenodo versions, and **none may be
 moved or deleted**. `backup-main-preconsolidacao` is a local safety point only:
 
 | Tag | Date | Status |
@@ -82,7 +89,8 @@ moved or deleted**. `backup-main-preconsolidacao` is a local safety point only:
 | `v1.0.2` | 2026-04-17 | archived as Zenodo `v1.0.2` |
 | `clei2026` | 2026-04-26 | archived as Zenodo `clei2026`; CLEI submission snapshot |
 | `ppsn2026` | 2026-06-12 | archived as Zenodo `ppsn2026`; camera-ready |
-| `dissertacao2026-defesa` | 2026-10-11 | archived as Zenodo `dissertacao2026-defesa`; dissertation sent to the committee |
+| `dissertacao2026-defesa` | 2026-10-11 | archived as Zenodo `dissertacao2026-defesa`; superseded (stale `CITATION.cff` hash) |
+| `dissertacao2026-defesa-r1` | 2026-10-11 | archived as Zenodo `dissertacao2026-defesa-r1`; dissertation sent to the committee |
 
 The tag `submission-snapshot-2026-03`, referenced by an older `README.md`, was
 never created. The README now cites `v1.0.0`. Minting a tag after the fact to

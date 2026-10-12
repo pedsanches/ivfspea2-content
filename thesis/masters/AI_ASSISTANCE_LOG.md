@@ -1722,3 +1722,8 @@ ou informação que amplie indevidamente a exposição de material inédito.
   doi.org, não estimado). A IA reescreveu a entrada `ivfspea2github` e a frase do DOI no
   Apêndice B (oculto) para citar essa versão, e atualizou `CITATION.cff` e
   `docs/RELEASE_IDENTITY.md`. Nenhum texto científico mudou.
+  Na mesma sessão, a IA detectou um erro seu: editou `CITATION.cff` depois de rodar
+  `make verify-release`, e o snapshot `dissertacao2026-defesa` ficou com hash desatualizado no
+  manifesto. Corrigiu os checksums e publicou `dissertacao2026-defesa-r1`, versão Zenodo
+  `10.5281/zenodo.23307942`, que passou a ser a citada; como `inf-ufg.bst` não imprime o campo
+  `doi`, o DOI da versão foi repetido no `note` da entrada.

@@ -22,6 +22,9 @@ identifiers:
     value: "10.5281/zenodo.19071253"
     description: "Concept DOI — all versions"
   - type: doi
+    value: "10.5281/zenodo.23307942"
+    description: "Version dissertacao2026-defesa-r1 (2026-10-12) — snapshot behind the master's dissertation numbers"
+  - type: doi
     value: "10.5281/zenodo.23307916"
     description: "Version dissertacao2026-defesa (2026-10-12) — superseded by dissertacao2026-defesa-r1: its CITATION.cff did not match the release manifest"
   - type: doi
