@@ -471,7 +471,9 @@ Não bloqueiam o depósito, mas têm prazo próprio:
 
 Confirmar com o orientador e a secretaria do PPGCC:
 
-- [ ] **Data de defesa.** A provisória, 08/11/2026 (`main.tex:77-79`), cai num domingo.
+- [x] **Data de defesa.** 27/10/2026, terça-feira (`main.tex:99-101`), definida pelo autor em
+  2026-10-11. Substitui a provisória de 08/11/2026, que caía num domingo. `\publica` passou a
+  ser gerada com essa data; a folha de aprovação continua desativada até a banca.
 - [ ] **Regulamento aplicável.** CEPEC 1622/2018 (30 dias para a versão final) ou
   1983/2026 (60 dias), conforme o ingresso.
 - [ ] **Prazo entre depósito e defesa.** Não consta do regulamento 1622/2018 nem do FAQ
@@ -479,7 +481,7 @@ Confirmar com o orientador e a secretaria do PPGCC:
 - [ ] **Banca** (art. 46 da 1622/2018): três examinadores doutores, ao menos um externo ao
   programa ou à UFG; suplentes interno e externo; aprovação da CPG. O coorientador, se
   participar, não conta para o mínimo.
-- [ ] Folha de aprovação (`pre/pre_aprovacao.tex`) e `\publica`, depois de fixada a data.
+- [ ] Folha de aprovação (`pre/pre_aprovacao.tex`), depois de confirmada a banca.
 - [ ] Declaração do formato monográfico, exigida pela Resolução INF nº 02/2023/PPGCC.
 - [ ] Referência ao projeto de pesquisa cadastrado na UFG ao qual a dissertação se
   vincula (art. 40, §1º, da 1622/2018).
@@ -508,15 +510,15 @@ bytes do PDF binário `pre/teca.pdf`; restrinja o grep a `*.tex`).
 Antes do envio, conferir ainda citações e referências, metadados do PDF, a numeração das
 páginas e a ausência de fontes Type 3 (`pdffonts build/main.pdf`).
 
-## 7. Cronograma relativo à data de defesa (D)
+## 7. Cronograma relativo à data de defesa (D = 27/10/2026)
 
-| Quando | Entrega |
-|---|---|
-| Agora | Leitura do orientador sobre a versão R8; decisões da §4, em especial `OQ-15` |
-| até D − 5 semanas | Correções da leitura; itens institucionais da §5 |
-| até D − 4 semanas | Congelamento: tag e release Zenodo; processo SEI com a versão digital; envio à banca — antecipar se a secretaria exigir prazo maior |
-| D − 3 a D − 1 semana | Apresentação em quatro blocos, um por QP; dois ensaios |
-| D + 30 ou 60 dias | Versão final com as correções da banca e depósito na BDTD, conforme o regulamento aplicável |
+| Quando | Data | Entrega |
+|---|---|---|
+| D − 5 semanas | 22/09/2026 (passada) | Leitura do orientador; decisões da §4, em especial `OQ-15`; correções da leitura; itens institucionais da §5 |
+| D − 4 semanas | 29/09/2026 (passada) | Congelamento: tag e release Zenodo; processo SEI com a versão digital; envio à banca. A tag `dissertacao-R20` foi criada em 2026-10-11, 12 dias depois desta data; os demais itens dependem de secretaria e orientador |
+| D − 3 a D − 1 semana | 06/10 a 20/10/2026 | Apresentação em quatro blocos, um por QP; dois ensaios |
+| D + 30 dias | 26/11/2026 | Versão final com as correções da banca e depósito na BDTD, se vale a CEPEC 1622/2018 |
+| D + 60 dias | 26/12/2026 | Idem, se vale a CEPEC 1983/2026 |
 
 ## 8. Perguntas previsíveis da banca
 
