@@ -471,17 +471,23 @@ Não bloqueiam o depósito, mas têm prazo próprio:
 
 Confirmar com o orientador e a secretaria do PPGCC:
 
-- [x] **Data de defesa.** 27/10/2026, terça-feira (`main.tex:99-101`), definida pelo autor em
-  2026-10-11. Substitui a provisória de 08/11/2026, que caía num domingo. `\publica` passou a
-  ser gerada com essa data; a folha de aprovação continua desativada até a banca.
+- [x] **Data de defesa.** 27/10/2026, terça-feira, 14h30, no INF, com participação remota
+  dos membros externos (`main.tex:99-101`), definida pelo autor em 2026-10-11. Substitui a
+  provisória de 08/11/2026, que caía num domingo. `\publica` é gerada com essa data.
 - [ ] **Regulamento aplicável.** CEPEC 1622/2018 (30 dias para a versão final) ou
   1983/2026 (60 dias), conforme o ingresso.
 - [ ] **Prazo entre depósito e defesa.** Não consta do regulamento 1622/2018 nem do FAQ
   do programa; confirmar com a secretaria.
 - [ ] **Banca** (art. 46 da 1622/2018): três examinadores doutores, ao menos um externo ao
   programa ou à UFG; suplentes interno e externo; aprovação da CPG. O coorientador, se
-  participar, não conta para o mínimo.
-- [ ] Folha de aprovação (`pre/pre_aprovacao.tex`), depois de confirmada a banca.
+  participar, não conta para o mínimo. **Solicitada em 2026-10-11** (formulário de
+  nomeação, a assinar no SEI pelo orientador e pelo estudante): titulares Ronaldo Martins da
+  Costa (presidente, INF/UFG, interno), Hugo Alexandre Dantas do Nascimento (INF/UFG,
+  interno) e Karla Tereza Figueiredo Leite (DC/UERJ, externa); suplentes Thierson Couto
+  Rosa (INF/UFG) e Maria Bernardes Rebuzzi Vellasco (PUC-Rio); coorientador Celso Gonçalves
+  Camilo Junior (INF/UFG) como membro. Falta a nomeação formal.
+- [x] Folha de aprovação (`pre/pre_aprovacao.tex`) ativada com essa banca. Falta confirmar o
+  nome por extenso da unidade "DC" da UERJ.
 - [ ] Declaração do formato monográfico, exigida pela Resolução INF nº 02/2023/PPGCC.
 - [ ] Referência ao projeto de pesquisa cadastrado na UFG ao qual a dissertação se
   vincula (art. 40, §1º, da 1622/2018).

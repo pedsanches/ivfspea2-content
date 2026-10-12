@@ -649,7 +649,7 @@
     \@dia\ de\@mesP\ de \@ano, pela Banca Examinadora constitu\'{i}da pelos professores:}{%
   \ifthenelse{\boolean{diss}}%
    {Disserta\c{c}\~{a}o defendida no Programa de P\'os--Gradua\c c\~ao %
-    da \@unidade\ da \@universidade\ como requisito parcial %
+    do \@unidade\ da \@universidade\ como requisito parcial %
     para obten\c c\~ao do t\'itulo de Mestre em \@programa, aprovada em %
     \@dia\ de\@mesP\ de \@ano, pela Banca Examinadora constitu\'{i}da pelos professores:}{%
   \ifthenelse{\boolean{mngr}}%
